@@ -31,6 +31,6 @@
 *.out
 *.app
 
+bin/*
 .venv
-bin/
 .sconsign.dblite
