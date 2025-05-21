@@ -1,0 +1,58 @@
+[gd_scene load_steps=2 format=3 uid="uid://bc0dnn6u0ff81"]
+
+[ext_resource type="Texture2D" uid="uid://ciqvoh3b5su3d" path="res://icon.svg" id="1_fqi46"]
+
+[node name="AchievementView" type="MarginContainer"]
+custom_minimum_size = Vector2(0, 150)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 2
+color = Color(0.197937, 0.197937, 0.197937, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="Background"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Background/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Title" type="Label" parent="Background/MarginContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(50, 25)
+layout_mode = 2
+text = "Big Title"
+autowrap_mode = 2
+
+[node name="Description" type="Label" parent="Background/MarginContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(50, 25)
+layout_mode = 2
+text = "Very long description that can span over multiple lines!"
+autowrap_mode = 2
+
+[node name="Control" type="Control" parent="Background/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Track" type="CheckButton" parent="Background/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Track in overlay"
+
+[node name="TextureRect" type="TextureRect" parent="Background/MarginContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("1_fqi46")
+expand_mode = 3
+stretch_mode = 5
