@@ -1,0 +1,15 @@
+﻿cmake_minimum_required (VERSION 3.20)
+
+project ("D2MXL_Enhanced")
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR})
+
+set(D2E_INSTALL_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
+set(D2E_INSTALL_BIN_DIR ${PROJECT_SOURCE_DIR}/bin)
+set(D2E_INSTALL_LIB_DIR ${PROJECT_SOURCE_DIR}/lib)
+
+add_subdirectory(src)
+

@@ -1,0 +1,117 @@
+[gd_scene load_steps=3 format=3 uid="uid://dyreym3cio3mc"]
+
+[ext_resource type="PackedScene" uid="uid://bc0dnn6u0ff81" path="res://achievement_view.tscn" id="1_gu68l"]
+[ext_resource type="PackedScene" uid="uid://b02vaqvpalgd" path="res://achievement_detail.tscn" id="2_aiu0r"]
+
+[node name="AchievementScreen" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 2
+color = Color(0.496849, 0.223699, 0.403813, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background"]
+layout_mode = 2
+offset_right = 1152.0
+offset_bottom = 648.0
+
+[node name="TMP" type="MarginContainer" parent="Background/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Background/VBoxContainer/TMP"]
+layout_mode = 2
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/VBoxContainer/TMP/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Background/VBoxContainer/TMP/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "View"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Background/VBoxContainer/TMP/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="Background/VBoxContainer/TMP/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "All"
+
+[node name="Button2" type="Button" parent="Background/VBoxContainer/TMP/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Completed"
+
+[node name="Button3" type="Button" parent="Background/VBoxContainer/TMP/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Active"
+
+[node name="Button4" type="Button" parent="Background/VBoxContainer/TMP/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Inactive"
+
+[node name="Button5" type="Button" parent="Background/VBoxContainer/TMP/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Failed"
+
+[node name="MarginContainer" type="MarginContainer" parent="Background/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.9
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Background/VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Categories" type="ScrollContainer" parent="Background/VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/VBoxContainer/MarginContainer/HBoxContainer/Categories"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Button" type="Button" parent="Background/VBoxContainer/MarginContainer/HBoxContainer/Categories/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+text = "Category 1"
+
+[node name="Button2" type="Button" parent="Background/VBoxContainer/MarginContainer/HBoxContainer/Categories/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Category 1"
+
+[node name="Button3" type="Button" parent="Background/VBoxContainer/MarginContainer/HBoxContainer/Categories/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Category 1"
+
+[node name="AchiView" type="ScrollContainer" parent="Background/VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/VBoxContainer/MarginContainer/HBoxContainer/AchiView"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="AchievementView" parent="Background/VBoxContainer/MarginContainer/HBoxContainer/AchiView/VBoxContainer" instance=ExtResource("1_gu68l")]
+layout_mode = 2
+
+[node name="AchiDetail" type="ScrollContainer" parent="Background/VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.4
+
+[node name="AchievementDetail" parent="Background/VBoxContainer/MarginContainer/HBoxContainer/AchiDetail" instance=ExtResource("2_aiu0r")]
+layout_mode = 2
