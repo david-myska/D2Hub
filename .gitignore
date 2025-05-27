@@ -32,5 +32,8 @@
 *.app
 
 bin/*
-.venv
-.sconsign.dblite
+lib/
+out/
+
+# Visual Studio files
+.vs/

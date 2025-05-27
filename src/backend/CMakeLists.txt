@@ -15,6 +15,7 @@ set(SOURCE_FILES
 
 add_library(libgdexample SHARED ${SOURCE_FILES})
 
+target_include_directories(libgdexample PUBLIC ${godot-cpp_SOURCE_DIR}/include)
 target_link_libraries(libgdexample PUBLIC godot-cpp)
 
 install(TARGETS libgdexample DESTINATION ${D2E_INSTALL_LIB_DIR})
