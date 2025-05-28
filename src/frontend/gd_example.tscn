@@ -1,7 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://cw1rq46cs703j"]
+[gd_scene load_steps=2 format=3 uid="uid://b0oirirlayow8"]
 
-[ext_resource type="Texture2D" uid="uid://ciqvoh3b5su3d" path="res://icon.svg" id="1_yp3w7"]
+[ext_resource type="Script" uid="uid://k6vdeir85f3i" path="res://gd_example.gd" id="1_yp3w7"]
 
 [node name="GDExample" type="GDExample"]
-texture = ExtResource("1_yp3w7")
-centered = false
+script = ExtResource("1_yp3w7")

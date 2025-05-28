@@ -4,32 +4,36 @@
 #include <godot_cpp/classes/node.hpp>
 #include <godot_cpp/variant/string.hpp>
 
-namespace godot {
+namespace godot
+{
 
-    class AchievementMetadata : public Object {
-        GDCLASS(AchievementMetadata, Object)
+    class AchievementMetadata : public RefCounted
+    {
+        GDCLASS(AchievementMetadata, RefCounted)
+
+        String m_name;
+        String m_description;
+
     protected:
         static void _bind_methods();
 
     public:
-        AchievementMetadata() = default;
+        String get_name() const;
+        void set_name(const String& name);
 
-        String m_name;
-        String m_description;
-        //const String* get_name() const;
-        //void set_name(const String& name);
-
-        //const String* get_description() const;
-        //void set_description(const String& name);
+        const String& get_description() const;
+        void set_description(const String& name);
     };
 
-    class GDExample : public Node {
+    class GDExample : public Node
+    {
         GDCLASS(GDExample, Node)
 
-            AchievementMetadata m_achiMetadata;
+        Ref<AchievementMetadata> m_achiMetadata;
 
     protected:
         static void _bind_methods();
+
     public:
         GDExample();
         ~GDExample();
