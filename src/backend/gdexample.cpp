@@ -3,22 +3,33 @@
 
 using namespace godot;
 
-void GDExample::_bind_methods() {
+void AchievementMetadata::_bind_methods()
+{
 }
 
-GDExample::GDExample() {
-	// Initialize any variables here.
-	time_passed = 0.0;
+void GDExample::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("get_achievement_metadata"), &GDExample::get_achievement_metadata);
+    ClassDB::bind_method(D_METHOD("set_achievement_metadata", "p_achievement_metadata"), &GDExample::set_achievement_metadata);
+
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "achievement_metadata"), "set_achievement_metadata", "get_achievement_metadata");
+}
+
+GDExample::GDExample()
+{
+    m_achiMetadata.m_name = "TestName";
+    m_achiMetadata.m_description = "TestDescription";
 }
 
 GDExample::~GDExample() {
-	// Add your cleanup here.
 }
 
 void GDExample::_process(double delta) {
-	time_passed += delta;
+}
 
-	Vector2 new_position = Vector2(10.0 + (10.0 * sin(time_passed * 2.0)), 10.0 + (10.0 * cos(time_passed * 1.5)));
-
-	set_position(new_position);
+Ref<AchievementMetadata> GDExample::get_achievement_metadata() const {
+    return Ref(&m_achiMetadata);
+}
+void GDExample::set_achievement_metadata(const Ref<AchievementMetadata> achievement_metadata) {
+    m_achiMetadata.m_name = achievement_metadata->m_name;
+    m_achiMetadata.m_description = achievement_metadata->m_description;
 }

@@ -1,25 +1,44 @@
 #ifndef GDEXAMPLE_H
 #define GDEXAMPLE_H
 
-#include <godot_cpp/classes/sprite2d.hpp>
+#include <godot_cpp/classes/node.hpp>
+#include <godot_cpp/variant/string.hpp>
 
 namespace godot {
 
-class GDExample : public Sprite2D {
-	GDCLASS(GDExample, Sprite2D)
+    class AchievementMetadata : public Object {
+        GDCLASS(AchievementMetadata, Object)
+    protected:
+        static void _bind_methods();
 
-private:
-	double time_passed;
+    public:
+        AchievementMetadata() = default;
 
-protected:
-	static void _bind_methods();
+        String m_name;
+        String m_description;
+        //const String* get_name() const;
+        //void set_name(const String& name);
 
-public:
-	GDExample();
-	~GDExample();
+        //const String* get_description() const;
+        //void set_description(const String& name);
+    };
 
-	void _process(double delta) override;
-};
+    class GDExample : public Node {
+        GDCLASS(GDExample, Node)
+
+            AchievementMetadata m_achiMetadata;
+
+    protected:
+        static void _bind_methods();
+    public:
+        GDExample();
+        ~GDExample();
+
+        void _process(double delta) override;
+
+        Ref<AchievementMetadata> get_achievement_metadata() const;
+        void set_achievement_metadata(const Ref<AchievementMetadata> achievement_metadata);
+    };
 
 }
 
