@@ -1,5 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://bc0dnn6u0ff81"]
+[gd_scene load_steps=3 format=3 uid="uid://bc0dnn6u0ff81"]
 
+[ext_resource type="Script" uid="uid://cuxr7wjwjeqle" path="res://achievement_view.gd" id="1_fcsdv"]
 [ext_resource type="Texture2D" uid="uid://ciqvoh3b5su3d" path="res://icon.svg" id="1_fqi46"]
 
 [node name="AchievementView" type="MarginContainer"]
@@ -10,9 +11,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
+mouse_filter = 0
+script = ExtResource("1_fcsdv")
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 2
+mouse_filter = 1
 color = Color(0.197937, 0.197937, 0.197937, 1)
 
 [node name="MarginContainer" type="MarginContainer" parent="Background"]
@@ -31,20 +35,25 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Title" type="Label" parent="Background/MarginContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(50, 25)
 layout_mode = 2
+mouse_filter = 1
 text = "Big Title"
 autowrap_mode = 2
 
 [node name="Description" type="Label" parent="Background/MarginContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(50, 25)
 layout_mode = 2
+mouse_filter = 1
 text = "Very long description that can span over multiple lines!"
 autowrap_mode = 2
 
 [node name="Control" type="Control" parent="Background/MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 1
 
 [node name="Track" type="CheckButton" parent="Background/MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -56,3 +65,5 @@ layout_mode = 2
 texture = ExtResource("1_fqi46")
 expand_mode = 3
 stretch_mode = 5
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]

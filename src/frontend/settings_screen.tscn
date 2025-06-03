@@ -1,0 +1,79 @@
+[gd_scene load_steps=3 format=3 uid="uid://bxbty8fetvnll"]
+
+[ext_resource type="Script" uid="uid://cxsy6b6jkajwi" path="res://settings_screen.gd" id="1_00yke"]
+[ext_resource type="PackedScene" uid="uid://b5n3xe1wk02u1" path="res://donate.tscn" id="2_pfwel"]
+
+[node name="SettingsScreen" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_00yke")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="General" type="PanelContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/General"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/General/VBoxContainer"]
+layout_mode = 2
+text = "General"
+
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/VBoxContainer/General/VBoxContainer"]
+layout_mode = 2
+
+[node name="CheckButton" type="CheckButton" parent="HBoxContainer/VBoxContainer/General/VBoxContainer"]
+layout_mode = 2
+text = "Auto-Attach"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Control" type="Control" parent="HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="About" type="PanelContainer" parent="HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer2/About"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer2/About/VBoxContainer"]
+layout_mode = 2
+text = "About"
+
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/VBoxContainer2/About/VBoxContainer"]
+layout_mode = 2
+
+[node name="AboutLabel" type="RichTextLabel" parent="HBoxContainer/VBoxContainer2/About/VBoxContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "Utility app extending game's capability in non-intrusive way.
+
+
+
+Versions: TODO get them dynamically
+
+[url=https://github.com/david-myska/D2MXL-Enhanced]D2MXL-Enhanced[/url]: v0.3
+[url=https://github.com/david-myska/GameEnhancer]GameExtenderLib[/url]: v0.8
+[url=https://github.com/david-myska/ProcessMemoryAccess]ProcessMemoryAccessLib[/url]: v0.5"
+fit_content = true
+
+[node name="HSeparator2" type="HSeparator" parent="HBoxContainer/VBoxContainer2/About/VBoxContainer"]
+layout_mode = 2
+
+[node name="Donate" parent="HBoxContainer/VBoxContainer2/About/VBoxContainer" instance=ExtResource("2_pfwel")]
+layout_mode = 2
+
+[connection signal="meta_clicked" from="HBoxContainer/VBoxContainer2/About/VBoxContainer/AboutLabel" to="." method="_on_about_label_meta_clicked"]

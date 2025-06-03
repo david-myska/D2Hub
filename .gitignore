@@ -33,7 +33,8 @@
 
 bin/*
 lib/
-out/
+build/
+include/
 
 # Visual Studio files
 .vs/

@@ -1,0 +1,131 @@
+[gd_scene load_steps=6 format=3 uid="uid://c5ca2tajwu10l"]
+
+[ext_resource type="PackedScene" uid="uid://dyreym3cio3mc" path="res://achievement_screen.tscn" id="1_0f027"]
+[ext_resource type="Script" uid="uid://b8mcr6oqu1aqb" path="res://main_scene.gd" id="1_gyfs4"]
+[ext_resource type="PackedScene" uid="uid://b5n3xe1wk02u1" path="res://donate.tscn" id="3_8mm7a"]
+[ext_resource type="PackedScene" uid="uid://b0oirirlayow8" path="res://gd_example.tscn" id="3_d5x1h"]
+[ext_resource type="PackedScene" uid="uid://bxbty8fetvnll" path="res://settings_screen.tscn" id="3_hq1ik"]
+
+[node name="MainScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_gyfs4")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Header" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Header/PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="DiscoverBtn" type="Button" parent="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Discover"
+
+[node name="AttachBtn" type="Button" parent="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Attach"
+
+[node name="Body" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LeftStuff" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Body"]
+layout_mode = 2
+
+[node name="MainPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TabContainer" type="TabContainer" parent="MarginContainer/VBoxContainer/Body/MainPanel"]
+layout_mode = 2
+current_tab = 0
+
+[node name="Achievements" parent="MarginContainer/VBoxContainer/Body/MainPanel/TabContainer" instance=ExtResource("1_0f027")]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Challenges" type="CenterContainer" parent="MarginContainer/VBoxContainer/Body/MainPanel/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Body/MainPanel/TabContainer/Challenges"]
+layout_mode = 2
+text = "Here will be Challenges."
+
+[node name="Perks" type="CenterContainer" parent="MarginContainer/VBoxContainer/Body/MainPanel/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Body/MainPanel/TabContainer/Perks"]
+layout_mode = 2
+text = "Here will be Perks."
+
+[node name="LootFilter" type="CenterContainer" parent="MarginContainer/VBoxContainer/Body/MainPanel/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 3
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Body/MainPanel/TabContainer/LootFilter"]
+layout_mode = 2
+text = "Here will be LootFilter."
+
+[node name="Settings" parent="MarginContainer/VBoxContainer/Body/MainPanel/TabContainer" instance=ExtResource("3_hq1ik")]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 4
+
+[node name="Footer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/Footer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Footer/PanelContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="Donate" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/HBoxContainer" instance=ExtResource("3_8mm7a")]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+text = "Report Bug"
+
+[node name="GDExample" parent="." instance=ExtResource("3_d5x1h")]
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/VBoxContainer/DiscoverBtn" to="." method="_on_discover_btn_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/VBoxContainer/AttachBtn" to="." method="_on_attach_btn_pressed"]
