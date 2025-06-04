@@ -58,14 +58,14 @@ Ref<AchievementConditions> AchievementConditions::FromAchievement(const D2::D2Ac
     for (int i = 0; i < static_cast<int>(GE::ConditionType::All); ++i)
     {
         auto c = static_cast<GE::ConditionType>(i);
-        const auto& names = aAchi->GetConditionNames(c);
-        const auto& results = aAchi->GetConditionResults(c);
+        const auto& progressTrackers = aAchi->GetProgress(c);
         Dictionary dict = (instance->m_conditions[GE::to_string(c).c_str()] = Dictionary());
-        for (size_t i = 0; i < names.size(); ++i)
+        Array texts;
+        for (const auto* pt : progressTrackers)
         {
-            dict["names"] = String(names[i].c_str());
-            dict["results"] = results[i];
+            texts.push_back(String(pt->GetMessage().c_str()));
         }
+        dict["texts"] = texts;
     }
     return instance;
 }

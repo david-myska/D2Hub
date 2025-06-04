@@ -17,7 +17,7 @@ FetchContent_MakeAvailable(godot-cpp)
 FetchContent_Declare(
   game_enhancer
   GIT_REPOSITORY https://github.com/david-myska/GameEnhancer.git
-  GIT_TAG        master
+  GIT_TAG        eventBasedAchievements
 )
 FetchContent_MakeAvailable(game_enhancer)
 
