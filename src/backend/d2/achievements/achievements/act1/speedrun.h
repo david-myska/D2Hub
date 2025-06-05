@@ -4,8 +4,18 @@
 
 namespace D2::Achi::Act1Speedrun
 {
-    struct CD
+    struct PD : public GE::BaseProgressData
     {
+        GE::ProgressTrackerBool m_newChar = {this, "Leave town on level 1", true};
+        GE::ProgressTrackerBool m_killBloodRaven = {this, "Kill Blood Raven", true};
+        GE::ProgressTrackerBool m_killGriswold = {this, "Kill Griswold", true};
+        GE::ProgressTrackerBool m_killCountess = {this, "Kill The Countess", true};
+        GE::ProgressTrackerBool m_killSmith = {this, "Kill The Smith", true};
+        GE::ProgressTrackerBool m_killLeoric = {this, "Kill Leoric the Skeleton King", true};
+        GE::ProgressTrackerBool m_killAndariel = {this, "Kill Andariel", true};
+
+        GE::ProgressTrackerBool m_timeout = {this, "Timed out", true};
+
         Data::GUID m_bloodRavenId = 0;
         Data::GUID m_griswoldId = 0;
         Data::GUID m_countessId = 0;
@@ -18,99 +28,102 @@ namespace D2::Achi::Act1Speedrun
 
     auto Create()
     {
-        return BLD<CD>({"Speedrun Act 1", "Desc"})
-            .Add(GE::ConditionType::Activator, "Leave town on level 1",
-                 [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, CD& aC) {
-                     return aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_BloodMoor &&
-                            aDataAccess.GetMisc(1).GetZone() == Data::Zone::Act1_RogueEncampment &&
-                            *aDataAccess.GetPlayers().GetLocal()->m_stats.GetValue(Data::StatType::CharLevel);
-                 })
-            .OnPass(GE::ConditionType::Activator,
-                    [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, CD& aC) {
-                        aC.timer = 0;  // TODO
+        return BLD<PD>(
+                   {
+                       "Speedrun Act 1", "Finish Act1 in 20 minutes"
+        },
+                   {{GE::ConditionType::Activator, {&PD::m_newChar}},
+                    {GE::ConditionType::Completer,
+                     {
+                         &PD::m_killBloodRaven,
+                         &PD::m_killGriswold,
+                         &PD::m_killCountess,
+                         &PD::m_killSmith,
+                         &PD::m_killLeoric,
+                         &PD::m_killAndariel,
+                     }},
+                    {GE::ConditionType::Failer, {&PD::m_timeout}}})
+            .Update(GE::Status::Inactive,
+                    [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
+                        aPD.m_newChar = aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_BloodMoor &&
+                                        aDataAccess.GetMisc(1).GetZone() == Data::Zone::Act1_RogueEncampment &&
+                                        *aDataAccess.GetPlayers().GetLocal()->m_stats.GetValue(Data::StatType::CharLevel) == 1;
                     })
-            .Add(
-                GE::ConditionType::Completer, "Kill Blood Raven",
-                [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, CD& aC) {
-                    if (aC.m_bloodRavenId == 0)
-                    {
-                        if (!MonsterNearby("BLOOD RAVEN", aDataAccess, aC.m_bloodRavenId))
+            .OnPass(GE::ConditionType::Activator,
+                    [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
+                        aPD.timer = 0;  // TODO
+                    })
+            .Update(GE::Status::Active,
+                    [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
+                        if (aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_BurialGrounds)
                         {
-                            return false;
+                            if (aPD.m_bloodRavenId == 0)
+                            {
+                                MonsterNearby("BLOOD RAVEN", aDataAccess, aPD.m_bloodRavenId);
+                            }
+                            else
+                            {
+                                aPD.m_killBloodRaven = aS.GetDeadMonsters().contains(aPD.m_bloodRavenId);
+                            }
                         }
-                    }
-                    return aS.GetDeadMonsters().contains(aC.m_bloodRavenId);
-                },
-                true)
-            .Add(
-                GE::ConditionType::Completer, "Kill Griswold",
-                [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, CD& aC) {
-                    if (aC.m_griswoldId == 0)
-                    {
-                        if (!MonsterNearby("GRISWOLD", aDataAccess, aC.m_griswoldId))
+                        if (aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_Tristram)
                         {
-                            return false;
+                            if (aPD.m_griswoldId == 0)
+                            {
+                                MonsterNearby("GRISWOLD", aDataAccess, aPD.m_griswoldId);
+                            }
+                            else
+                            {
+                                aPD.m_killGriswold = aS.GetDeadMonsters().contains(aPD.m_griswoldId);
+                            }
                         }
-                    }
-                    return aS.GetDeadMonsters().contains(aC.m_griswoldId);
-                },
-                true)
-            .Add(
-                GE::ConditionType::Completer, "Kill The Countess",
-                [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, CD& aC) {
-                    if (aC.m_countessId == 0)
-                    {
-                        if (!MonsterNearby("THE COUNTESS", aDataAccess, aC.m_countessId))
+                        if (aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_Bloodthrone)
                         {
-                            return false;
+                            if (aPD.m_countessId == 0)
+                            {
+                                MonsterNearby("THE COUNTESS", aDataAccess, aPD.m_countessId);
+                            }
+                            else
+                            {
+                                aPD.m_killCountess = aS.GetDeadMonsters().contains(aPD.m_countessId);
+                            }
                         }
-                    }
-                    return aS.GetDeadMonsters().contains(aC.m_countessId);
-                },
-                true)
-            .Add(
-                GE::ConditionType::Completer, "Kill The Smith",
-                [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, CD& aC) {
-                    if (aC.m_smithId == 0)
-                    {
-                        if (!MonsterNearby("THE SMITH", aDataAccess, aC.m_smithId))
+                        if (aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_Barracks)
                         {
-                            return false;
+                            if (aPD.m_smithId == 0)
+                            {
+                                MonsterNearby("THE SMITH", aDataAccess, aPD.m_smithId);
+                            }
+                            else
+                            {
+                                aPD.m_killSmith = aS.GetDeadMonsters().contains(aPD.m_smithId);
+                            }
                         }
-                    }
-                    return aS.GetDeadMonsters().contains(aC.m_smithId);
-                },
-                true)
-            .Add(
-                GE::ConditionType::Completer, "Kill Leoric the Skeleton King",
-                [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, CD& aC) {
-                    if (aC.m_leoricId == 0)
-                    {
-                        if (!MonsterNearby("LEORIC THE SKELETON KING", aDataAccess, aC.m_leoricId))
+                        if (aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_InnerCloister ||
+                            aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_Cathedral)
                         {
-                            return false;
+                            if (aPD.m_leoricId == 0)
+                            {
+                                MonsterNearby("LEORIC THE SKELETON KING", aDataAccess, aPD.m_leoricId);
+                            }
+                            else
+                            {
+                                aPD.m_killLeoric = aS.GetDeadMonsters().contains(aPD.m_leoricId);
+                            }
                         }
-                    }
-                    return aS.GetDeadMonsters().contains(aC.m_leoricId);
-                },
-                true)
-            .Add(
-                GE::ConditionType::Completer, "Kill Andariel",
-                [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, CD& aC) {
-                    if (aC.m_andarielId == 0)
-                    {
-                        if (!MonsterNearby("ANDARIEL", aDataAccess, aC.m_andarielId))
+                        if (aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_CatacombsLevel4)
                         {
-                            return false;
+                            if (aPD.m_andarielId == 0)
+                            {
+                                MonsterNearby("ANDARIEL", aDataAccess, aPD.m_andarielId);
+                            }
+                            else
+                            {
+                                aPD.m_killAndariel = aS.GetDeadMonsters().contains(aPD.m_andarielId);
+                            }
                         }
-                    }
-                    return aS.GetDeadMonsters().contains(aC.m_andarielId);
-                },
-                true)
-            .Add(GE::ConditionType::Failer, "Timed",
-                 [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, CD& aC) {
-                     return false;  // TODO
-                 })
+                        // TODO timer
+                    })
             .Build();
     }
 }

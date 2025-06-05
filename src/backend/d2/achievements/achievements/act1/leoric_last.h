@@ -4,36 +4,43 @@
 
 namespace D2::Achi::LeoricLast
 {
-    struct CD
+    struct PD : public GE::BaseProgressData
     {
         Data::GUID m_leoricId = 0;
-        uint32_t m_killedNearLeoric = 0;
+
+        GE::ProgressTrackerBool m_inLocation = {this, "In Cathedral", true};
+        GE::ProgressTrackerBool m_leoricMet = {this, "Meet Leoric the Skeleton King", true};
+        GE::ProgressTrackerBool m_leoricKilled = {this, "Kill Leoric the Skeleton King", true};
+        GE::ProgressTrackerInt m_killedNearLeoric = {this, "Servants killed in front of Leoric's eyes", 50};
     };
 
     auto Create()
     {
-        return BLD<CD>({"He likes to watch", "Desc"})
-            .Add(GE::ConditionType::Precondition, "In Cathedral",
-                 [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, CD& aC) {
-                     return aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_InnerCloister ||
-                            aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_Cathedral;
-                 })
-            .Add(GE::ConditionType::Activator, "Meet Leoric the Skeleton King",
-                 [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, CD& aC) {
-                     return MonsterNearby("LEORIC THE SKELETON KING", aDataAccess, aC.m_leoricId);
-                 })
-            .Add(GE::ConditionType::Completer, "Kill Leoric the Skeleton King",
-                 [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, CD& aC) {
-                     return aS.GetDeadMonsters().contains(aC.m_leoricId);
-                 })
-            .Add(GE::ConditionType::Validator, "Servants killed in front of Leoric's eyes",
-                 [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, CD& aC) {
-                     if (aDataAccess.GetMonsters().GetAlive().contains(aC.m_leoricId))
-                     {
-                         aC.m_killedNearLeoric += aS.GetDeadMonsters().size();
-                     }
-                     return aC.m_killedNearLeoric >= 50;
-                 })
+        return BLD<PD>(
+                   {
+                       "He likes to watch", "Kill Leoric's servants in from of him"
+        },
+                   {{GE::ConditionType::Precondition, {&PD::m_inLocation}},
+                    {GE::ConditionType::Activator, {&PD::m_leoricMet}},
+                    {GE::ConditionType::Completer, {&PD::m_leoricKilled}},
+                    {GE::ConditionType::Validator, {&PD::m_killedNearLeoric}}})
+            .Update(GE::Status::All,
+                    [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
+                        aPD.m_inLocation = aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_InnerCloister ||
+                                           aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_Cathedral;
+                    })
+            .Update(GE::Status::Inactive,
+                    [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
+                        aPD.m_leoricMet = MonsterNearby("LEORIC THE SKELETON KING", aDataAccess, aPD.m_leoricId);
+                    })
+            .Update(GE::Status::Active,
+                    [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
+                        aPD.m_leoricKilled = aS.GetDeadMonsters().contains(aPD.m_leoricId);
+                        if (aDataAccess.GetMonsters().GetAlive().contains(aPD.m_leoricId))
+                        {
+                            aPD.m_killedNearLeoric += aS.GetDeadMonsters().size();
+                        }
+                    })
             .Build();
     }
 }
