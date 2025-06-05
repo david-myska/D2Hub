@@ -4,43 +4,48 @@
 
 namespace D2::Achi::TristramClear
 {
-    struct CD
+    struct PD : public GE::BaseProgressData
     {
-        std::map<Data::GUID, const Data::Monster*> m_monsters;
-        uint32_t m_deadMonsters = 0;
         Data::Position m_initialPos = {0, 0};
-        bool m_riverVisited = false;
-        bool m_wirtVisited = false;
-        bool m_tombVisited = false;
+        GE::ProgressTrackerBool m_inLocation = {this, "Enter Tristram", true};
+        GE::ProgressTrackerInt m_killed = {this, "Kill all monsters in Tristram", -1};  // -1 to compensate for 1 missing monster
+        GE::ProgressTrackerBool m_visitBlacksmith = {this, "Visit Griswold", true};
+        GE::ProgressTrackerBool m_visitOgden = {this, "Visit Ogden", true};
+        GE::ProgressTrackerBool m_visitWell = {this, "Visit Deckard Cain", true};
+        GE::ProgressTrackerBool m_visitWirt = {this, "Visit Wirt", true};
+        GE::ProgressTrackerBool m_visitPortal = {this, "Visit portal", true};
+        GE::ProgressTrackerBool m_visitPepin = {this, "Visit Pepin", true};
+        GE::ProgressTrackerBool m_visitFarnham = {this, "Visit Farnham", true};
+        GE::ProgressTrackerBool m_visitGillian = {this, "Visit Gillian", true};
+        GE::ProgressTrackerBool m_visitCrypt = {this, "Visit crypt", true};
     };
 
     auto Create()
     {
-        return BLD<CD>({"ClearTristram", "Desc"})
-            .Add(GE::ConditionType::Precondition, "In Tristram",
-                 [](const Data::DataAccess& aDataAccess, const Data::SharedData& aShared, CD& aCustom) {
-                     return aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_Tristram;
-                 })
-            .Add(GE::ConditionType::Activator, "Enter Tristram",
-                 [](const Data::DataAccess& aDataAccess, const Data::SharedData& aShared, CD& aCustom) {
-                     return true;
-                 })
-            .OnPass(GE::ConditionType::Activator,
-                    [](const Data::DataAccess& aDataAccess, const Data::SharedData&, CD& aCustom) {
-                        aCustom.m_initialPos = aDataAccess.GetPlayers().GetLocal()->m_pos;
+        return BLD<PD>(
+                   {
+                       "Tristram visit",
+                       "Reminiscence about the good old days and while at it, clear Tristram of those pesky monsters."
+        },
+                   {{GE::ConditionType::Activator, {&PD::m_inLocation}},
+                    {GE::ConditionType::Completer,
+                     {&PD::m_killed, &PD::m_visitBlacksmith, &PD::m_visitOgden, &PD::m_visitWell, &PD::m_visitWirt,
+                      &PD::m_visitPortal, &PD::m_visitPepin, &PD::m_visitFarnham, &PD::m_visitGillian, &PD::m_visitCrypt}}})
+            .Update(GE::Status::Inactive,
+                    [](const Data::DataAccess& aDataAccess, const Data::SharedData& aShared, PD& aPD) {
+                        aPD.m_inLocation = aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_Tristram;
                     })
-            .Add(GE::ConditionType::Completer, "Kill all monsters in Tristram",
-                 [](const Data::DataAccess& aDataAccess, const Data::SharedData& aShared, CD& aCustom) {
-                     aCustom.m_monsters = aCustom.m_monsters + aShared.GetNewMonsters();
-                     aCustom.m_deadMonsters += aShared.GetDeadMonsters().size();
-                     auto pos = aDataAccess.GetPlayers().GetLocal()->m_pos;
-                     aCustom.m_riverVisited = aCustom.m_riverVisited || pos.x < aCustom.m_initialPos.x - 80;
-                     aCustom.m_tombVisited = aCustom.m_tombVisited || pos.y > aCustom.m_initialPos.y + 40;
-                     aCustom.m_wirtVisited = aCustom.m_wirtVisited ||
-                                             (pos.x < aCustom.m_initialPos.x - 80 && pos.y > aCustom.m_initialPos.y + 40);
-                     return aCustom.m_riverVisited && aCustom.m_tombVisited && aCustom.m_wirtVisited &&
-                            aCustom.m_monsters.size() == aCustom.m_deadMonsters + 1;  // 1 is always missing
-                 })
+            .OnPass(GE::ConditionType::Activator,
+                    [](const Data::DataAccess& aDataAccess, const Data::SharedData&, PD& aPD) {
+                        aPD.m_initialPos = aDataAccess.GetPlayers().GetLocal()->m_pos;
+                    })
+            .Update(GE::Status::Active,
+                    [](const Data::DataAccess& aDataAccess, const Data::SharedData& aShared, PD& aPD) {
+                        aPD.m_killed.SetTarget(aPD.m_killed.GetTarget() + aShared.GetNewMonsters().size());
+                        aPD.m_killed += aShared.GetDeadMonsters().size();
+                        // auto pos = aDataAccess.GetPlayers().GetLocal()->m_pos;
+                        //  TODO all the visits
+                    })
             .Build();
     }
 }
