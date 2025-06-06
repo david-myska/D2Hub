@@ -3,6 +3,18 @@ extends MarginContainer
 @onready var m_achis: VBoxContainer = $VBoxContainer/MarginContainer/HBoxContainer/AchiView/VBoxContainer
 @onready var m_details: MarginContainer = $VBoxContainer/MarginContainer/HBoxContainer/AchiDetail/AchievementDetail
 
+func status_to_str(s : Achievement.Status) -> String:
+	match s:
+		Achievement.Status.DISABLED: return "Disabled"
+		Achievement.Status.INACTIVE: return "Disabled"
+		Achievement.Status.ACTIVE: return "Disabled"
+		Achievement.Status.COMPLETED: return "Disabled"
+		Achievement.Status.FAILED: return "Disabled"
+	return "Unknown"
+
+func report_status(status : Achievement.Status, achi : Achievement):
+	print("%s - Changed status to -> %s" % [achi.get_metadata().name, status_to_str(status)])
+
 func fill_achievements(achis : Array) -> void:
 	for c in m_achis.get_children():
 		c.queue_free()
@@ -11,3 +23,4 @@ func fill_achievements(achis : Array) -> void:
 		achi_view.from_achievement(a)
 		m_achis.add_child(achi_view)
 		achi_view.clicked.connect(m_details.from_achievement.bind(a))
+		a.status_changed.connect(report_status.bind(a))

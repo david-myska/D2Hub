@@ -35,7 +35,8 @@ namespace godot
     {
         GDCLASS(AchievementConditions, RefCounted)
 
-        Dictionary m_conditions;
+        Dictionary m_conditionsByIds;
+        Dictionary m_conditionsByCategories;
 
     protected:
         static void _bind_methods();
@@ -43,7 +44,8 @@ namespace godot
     public:
         static Ref<AchievementConditions> FromAchievement(const D2::D2Achi& aAchi);
 
-        Dictionary get_conditions() const;
+        Dictionary get_conditions_by_ids() const;
+        Dictionary get_conditions_by_categories() const;
     };
 
     class Achievement : public RefCounted
@@ -63,6 +65,23 @@ namespace godot
         Ref<AchievementConditions> get_conditions() const;
     };
 
+    class DeveloperControl : public RefCounted
+    {
+        GDCLASS(DeveloperControl, RefCounted)
+
+        std::shared_ptr<D2::Data::DataAccess> m_data;
+        std::shared_ptr<D2::Data::SharedData> m_shared;
+
+    protected:
+        static void _bind_methods();
+
+    public:
+        static Ref<DeveloperControl> Create();
+        void Initialize(std::shared_ptr<D2::Data::DataAccess> aData, std::shared_ptr<D2::Data::SharedData> aShared);
+
+        Vector2i get_player_position() const;
+    };
+
     class GDExample : public Node
     {
         GDCLASS(GDExample, Node)
@@ -80,6 +99,8 @@ namespace godot
 
         Array m_achievements;
 
+        Ref<DeveloperControl> m_developerControl;
+
         bool CanUpdate() const;
         void Update();
 
@@ -93,10 +114,13 @@ namespace godot
         void _process(double delta) override;
 
         Array get_achievements();
+        Ref<DeveloperControl> get_developer_control();
 
         void initialize_backend(const String& path_to_modules);
         void discover_target_process();
         void attach_to_target_process(bool attach);
+        void start_memory_processor();
+        void stop_memory_processor();
     };
 
 }

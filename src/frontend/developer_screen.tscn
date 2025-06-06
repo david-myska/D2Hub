@@ -1,0 +1,46 @@
+[gd_scene load_steps=2 format=3 uid="uid://dqc3266nl801d"]
+
+[ext_resource type="Script" uid="uid://ckc474almfocf" path="res://developer_screen.gd" id="1_xh1pa"]
+
+[node name="DeveloperScreen" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xh1pa")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="HBoxContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="LockPosBtn" type="Button" parent="HBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Lock position"
+
+[node name="LockedPos" type="Label" parent="HBoxContainer/GridContainer"]
+layout_mode = 2
+text = "(??, ??)"
+
+[node name="RelativePosBtn" type="Button" parent="HBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Relative to ^"
+
+[node name="RelativePos" type="Label" parent="HBoxContainer/GridContainer"]
+layout_mode = 2
+text = "(??, ??)"
+
+[node name="RelativePosBtn2" type="Button" parent="HBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Relative to ^"
+
+[node name="RelativePos2" type="Label" parent="HBoxContainer/GridContainer"]
+layout_mode = 2
+text = "(??, ??)"
+
+[connection signal="pressed" from="HBoxContainer/GridContainer/LockPosBtn" to="." method="_on_lock_pos_btn_pressed"]
+[connection signal="pressed" from="HBoxContainer/GridContainer/RelativePosBtn" to="." method="_on_relative_pos_btn_pressed"]
+[connection signal="pressed" from="HBoxContainer/GridContainer/RelativePosBtn2" to="." method="_on_relative_pos_btn_2_pressed"]

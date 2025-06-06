@@ -5,6 +5,7 @@ extends Control
 @onready var attach_btn: Button = $MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/VBoxContainer/AttachBtn
 
 func _ready() -> void:
+	$MarginContainer/VBoxContainer/Body/MainPanel/TabContainer/Developer.m_dev = gd_example.get_developer_control()
 	gd_example.target_process_exists.connect(func(exists : bool):
 		print("Process exists: ", exists)
 		discover_btn.disabled = exists
@@ -26,3 +27,11 @@ func _on_discover_btn_pressed() -> void:
 
 func _on_attach_btn_pressed() -> void:
 	gd_example.attach_to_target_process(attach_btn.text == "Attach")
+
+
+func _on_start_btn_pressed() -> void:
+	gd_example.start_memory_processor()
+
+
+func _on_stop_btn_pressed() -> void:
+	gd_example.stop_memory_processor()

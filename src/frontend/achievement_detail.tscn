@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://b02vaqvpalgd"]
+[gd_scene load_steps=5 format=3 uid="uid://b02vaqvpalgd"]
 
 [ext_resource type="PackedScene" uid="uid://bc0dnn6u0ff81" path="res://achievement_view.tscn" id="1_1f3y6"]
 [ext_resource type="Script" uid="uid://dbr57foxcaytm" path="res://achievement_detail.gd" id="1_edha3"]
+[ext_resource type="PackedScene" uid="uid://d3dcj0s3vinc7" path="res://conditions_view.tscn" id="3_p1d3s"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_edha3"]
 color = Color(1, 1, 1, 1)
@@ -14,30 +15,17 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
-size_flags_vertical = 3
 script = ExtResource("1_edha3")
 
-[node name="Background" type="ColorRect" parent="."]
-layout_mode = 2
-color = Color(0.194349, 0.194349, 0.194349, 1)
-
-[node name="MarginContainer" type="MarginContainer" parent="Background"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Background/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="AchievementView" parent="Background/MarginContainer/VBoxContainer" instance=ExtResource("1_1f3y6")]
+[node name="AchievementView" parent="VBoxContainer" instance=ExtResource("1_1f3y6")]
 layout_mode = 2
 
-[node name="HSeparator" type="HSeparator" parent="Background/MarginContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_edha3")
 
-[node name="GridContainer2" type="GridContainer" parent="Background/MarginContainer/VBoxContainer"]
+[node name="ConditionsView" parent="VBoxContainer" instance=ExtResource("3_p1d3s")]
 layout_mode = 2

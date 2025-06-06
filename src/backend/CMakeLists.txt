@@ -35,3 +35,4 @@ target_include_directories(libgdexample PUBLIC ${CMAKE_CURRENT_LIST_DIR} ${godot
 target_link_libraries(libgdexample PUBLIC godot-cpp PUBLIC game_enhancer)
 
 install(TARGETS libgdexample DESTINATION ${D2E_INSTALL_LIB_DIR})
+install(FILES $<TARGET_FILE:libgdexample> DESTINATION ${D2E_FRONTEND_REQ_DIR})

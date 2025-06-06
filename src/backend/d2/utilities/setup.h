@@ -110,8 +110,9 @@ namespace D2
         aMemoryProcessor.RegisterLayout("GameUtils", std::move(gameUtilsLayout));
     }
 
-    void SetupCallbacks(GE::MemoryProcessor& aMemoryProcessor, std::shared_ptr<D2::Data::DataAccess>& aDataAccess,
-                        std::shared_ptr<D2::Data::SharedData>& aSharedData)
+    void SetupCallbacks(GE::MemoryProcessor& aMemoryProcessor,
+                        std::function<void(std::shared_ptr<GE::DataAccessor> aDataAccessor)> aInGameReady,
+                        std::function<void()> aInGameDisabled)
     {
         GE::MainLayoutCallbacks baseCallbacks;
         baseCallbacks.m_baseLocator = [](PMA::MemoryAccessPtr aMemoryAccess, const std::optional<PMA::MemoryAddress>&) {
@@ -149,13 +150,11 @@ namespace D2
             aMemoryAccess->Read("D2Client.dll", 0x12236C, PMA::mem_cast(address), sizeof(size_t));
             return address;
         };
-        inGameCallbacks.m_onReady = [&](std::shared_ptr<GE::DataAccessor> aDataAccessor) {
-            aDataAccess = std::make_shared<Data::DataAccess>(aDataAccessor);
-            aSharedData = std::make_shared<Data::SharedData>(aDataAccess);
+        inGameCallbacks.m_onReady = [aInGameReady](std::shared_ptr<GE::DataAccessor> aDataAccessor) {
+            aInGameReady(aDataAccessor);
         };
-        inGameCallbacks.m_onDisabled = [&](const GE::DataAccessor&) {
-            aDataAccess.reset();
-            aSharedData.reset();
+        inGameCallbacks.m_onDisabled = [aInGameDisabled](const GE::DataAccessor&) {
+            aInGameDisabled();
         };
 
         aMemoryProcessor.AddMainLayout("Base", baseCallbacks);
