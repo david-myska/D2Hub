@@ -6,10 +6,10 @@ extends MarginContainer
 func status_to_str(s : Achievement.Status) -> String:
 	match s:
 		Achievement.Status.DISABLED: return "Disabled"
-		Achievement.Status.INACTIVE: return "Disabled"
-		Achievement.Status.ACTIVE: return "Disabled"
-		Achievement.Status.COMPLETED: return "Disabled"
-		Achievement.Status.FAILED: return "Disabled"
+		Achievement.Status.INACTIVE: return "Inactive"
+		Achievement.Status.ACTIVE: return "Active"
+		Achievement.Status.COMPLETED: return "Completed"
+		Achievement.Status.FAILED: return "Failed"
 	return "Unknown"
 
 func report_status(status : Achievement.Status, achi : Achievement):

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bxbty8fetvnll"]
 
-[ext_resource type="Script" uid="uid://cxsy6b6jkajwi" path="res://settings_screen.gd" id="1_00yke"]
+[ext_resource type="Script" uid="uid://cxsy6b6jkajwi" path="res://settings/settings_screen.gd" id="1_00yke"]
 [ext_resource type="PackedScene" uid="uid://b5n3xe1wk02u1" path="res://donate.tscn" id="2_pfwel"]
 
 [node name="SettingsScreen" type="MarginContainer"]
@@ -31,8 +31,10 @@ text = "General"
 [node name="HSeparator" type="HSeparator" parent="HBoxContainer/VBoxContainer/General/VBoxContainer"]
 layout_mode = 2
 
-[node name="CheckButton" type="CheckButton" parent="HBoxContainer/VBoxContainer/General/VBoxContainer"]
+[node name="AutoAttach" type="CheckButton" parent="HBoxContainer/VBoxContainer/General/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
+tooltip_text = "Automatically tries to detect and attach to the Diablo II game instance"
 text = "Auto-Attach"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
@@ -76,4 +78,5 @@ layout_mode = 2
 [node name="Donate" parent="HBoxContainer/VBoxContainer2/About/VBoxContainer" instance=ExtResource("2_pfwel")]
 layout_mode = 2
 
+[connection signal="toggled" from="HBoxContainer/VBoxContainer/General/VBoxContainer/AutoAttach" to="." method="_on_auto_attach_toggled"]
 [connection signal="meta_clicked" from="HBoxContainer/VBoxContainer2/About/VBoxContainer/AboutLabel" to="." method="_on_about_label_meta_clicked"]

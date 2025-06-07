@@ -10,10 +10,15 @@ config_version=5
 
 [application]
 
-config/name="D2MXL-Enhanced-GUI"
+config/name="D2Hub"
 run/main_scene="uid://c5ca2tajwu10l"
+config/custom_user_dir_name="D2Hub"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+App="*res://globals/app.gd"
 
 [display]
 
