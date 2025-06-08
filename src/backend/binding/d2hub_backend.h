@@ -1,5 +1,4 @@
-#ifndef GDEXAMPLE_H
-#define GDEXAMPLE_H
+#pragma once
 
 #include "d2/achievements/base.h"
 #include "game_enhancer/achis/achievement_manager.h"
@@ -82,9 +81,9 @@ namespace godot
         Vector2i get_player_position() const;
     };
 
-    class GDExample : public Node
+    class D2HubBackend : public Node
     {
-        GDCLASS(GDExample, Node)
+        GDCLASS(D2HubBackend, Node)
 
         PMA::TargetProcessPtr m_targetProcess;
         GE::MemoryProcessorPtr m_memoryProcessor;
@@ -103,19 +102,22 @@ namespace godot
 
         bool CanUpdate() const;
         void Update();
+        void Clear();
+        bool IsMxlDirValid(const std::filesystem::path& path) const;
 
     protected:
         static void _bind_methods();
 
     public:
-        GDExample();
-        ~GDExample();
+        D2HubBackend();
+        ~D2HubBackend();
 
         void _process(double delta) override;
 
         Array get_achievements();
         Ref<DeveloperControl> get_developer_control();
 
+        bool is_mxl_dir_valid(const String& path) const;
         void initialize_backend(const String& path_to_modules);
         void discover_target_process();
         void attach_to_target_process(bool attach);
@@ -124,5 +126,3 @@ namespace godot
     };
 
 }
-
-#endif

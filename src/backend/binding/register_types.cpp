@@ -2,14 +2,14 @@
 
 #include <gdextension_interface.h>
 
-#include "gdexample.h"
+#include "d2hub_backend.h"
 
 #include <godot_cpp/core/defs.hpp>
 #include <godot_cpp/godot.hpp>
 
 using namespace godot;
 
-void initialize_example_module(ModuleInitializationLevel p_level)
+void initialize_backend_module(ModuleInitializationLevel p_level)
 {
     if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE)
     {
@@ -20,10 +20,10 @@ void initialize_example_module(ModuleInitializationLevel p_level)
     GDREGISTER_RUNTIME_CLASS(AchievementConditions);
     GDREGISTER_RUNTIME_CLASS(Achievement);
     GDREGISTER_RUNTIME_CLASS(DeveloperControl);
-    GDREGISTER_RUNTIME_CLASS(GDExample);
+    GDREGISTER_RUNTIME_CLASS(D2HubBackend);
 }
 
-void uninitialize_example_module(ModuleInitializationLevel p_level)
+void uninitialize_backend_module(ModuleInitializationLevel p_level)
 {
     if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE)
     {
@@ -33,14 +33,14 @@ void uninitialize_example_module(ModuleInitializationLevel p_level)
 
 extern "C" {
 // Initialization.
-GDExtensionBool GDE_EXPORT example_library_init(GDExtensionInterfaceGetProcAddress p_get_proc_address,
+GDExtensionBool GDE_EXPORT backend_library_init(GDExtensionInterfaceGetProcAddress p_get_proc_address,
                                                 const GDExtensionClassLibraryPtr p_library,
                                                 GDExtensionInitialization* r_initialization)
 {
     godot::GDExtensionBinding::InitObject init_obj(p_get_proc_address, p_library, r_initialization);
 
-    init_obj.register_initializer(initialize_example_module);
-    init_obj.register_terminator(uninitialize_example_module);
+    init_obj.register_initializer(initialize_backend_module);
+    init_obj.register_terminator(uninitialize_backend_module);
     init_obj.set_minimum_library_initialization_level(MODULE_INITIALIZATION_LEVEL_SCENE);
 
     return init_obj.init();

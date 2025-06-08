@@ -1,37 +1,45 @@
 extends Control
 
-@onready var gd_example: GDExample = $GDExample
 @onready var discover_btn: Button = $MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/VBoxContainer/DiscoverBtn
 @onready var attach_btn: Button = $MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/VBoxContainer/AttachBtn
 
+@onready var discover_timer := $DiscoverTimer
+
 func _ready() -> void:
-	$MarginContainer/VBoxContainer/Body/MainPanel/TabContainer/Developer.m_dev = gd_example.get_developer_control()
-	gd_example.target_process_exists.connect(func(exists : bool):
-		print("Process exists: ", exists)
-		discover_btn.disabled = exists
-	)
-	gd_example.target_process_attached.connect(func(attached : bool):
-		print("Process attached: ", attached)
-		if attached:
-			attach_btn.text = "Detach"
-		else:
-			attach_btn.text = "Attach"
-	)
+	var cmd_args := OS.get_cmdline_args()
+	if "--developer" in cmd_args:
+		var dev_screen = preload("res://developer_screen.tscn").instantiate()
+		$MarginContainer/VBoxContainer/Body/MainPanel/TabContainer.add_child(dev_screen)
+		# TODO disable achievements when in developer mode
 	
-	$MarginContainer/VBoxContainer/Body/MainPanel/TabContainer/Achievements.fill_achievements(gd_example.get_achievements())
+	Backend.target_process_exists.connect(func(exists : bool):
+		%D2Discovered.text = "ON" if exists else "OFF"
+		%D2Discovered.modulate = Color.GREEN if exists else Color.RED
+		discover_timer.stop() if exists else discover_timer.start()
+	)
+	Backend.target_process_attached.connect(func(attached : bool):
+		%Attached.text = "ON" if attached else "OFF"
+		%Attached.modulate = Color.GREEN if attached else Color.RED
+	)
+	Backend.target_memory_processing.connect(func(processing : bool):
+		%Processing.text = "ON" if processing else "OFF"
+		%Processing.modulate = Color.GREEN if processing else Color.RED
+	)
+	var mxl_dir : String = App.Config.get_value(Cfg.sec_global, Cfg.key_mxl_dir)
+	if Backend.is_mxl_dir_valid(mxl_dir):
+		Backend.initialize_backend(App.Config.get_value(Cfg.sec_global, Cfg.key_mxl_dir))
+	else:
+		pass # TODO show some error in header status
+	
+	var auto_attach : bool = App.Config.get_value(Cfg.sec_global, Cfg.key_auto_attach)
+	if auto_attach:
+		%ManualStart.hide()
+		Backend.start_memory_processor()
 
-func _on_discover_btn_pressed() -> void:
-	gd_example.initialize_backend(r"C:\games\median-xl")
-	gd_example.discover_target_process()
+
+func _on_discover_timer_timeout() -> void:
+	Backend.discover_target_process()
 
 
-func _on_attach_btn_pressed() -> void:
-	gd_example.attach_to_target_process(attach_btn.text == "Attach")
-
-
-func _on_start_btn_pressed() -> void:
-	gd_example.start_memory_processor()
-
-
-func _on_stop_btn_pressed() -> void:
-	gd_example.stop_memory_processor()
+func _on_manual_start_pressed() -> void:
+	Backend.start_memory_processor()

@@ -3,6 +3,9 @@ extends MarginContainer
 @onready var m_achis: VBoxContainer = $VBoxContainer/MarginContainer/HBoxContainer/AchiView/VBoxContainer
 @onready var m_details: MarginContainer = $VBoxContainer/MarginContainer/HBoxContainer/AchiDetail/AchievementDetail
 
+func _ready() -> void:
+	fill_achievements(Backend.get_achievements())
+
 func status_to_str(s : Achievement.Status) -> String:
 	match s:
 		Achievement.Status.DISABLED: return "Disabled"

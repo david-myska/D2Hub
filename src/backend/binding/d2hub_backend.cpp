@@ -1,4 +1,4 @@
-#include "gdexample.h"
+#include "d2hub_backend.h"
 
 #include "d2/achievements/achievements.h"
 #include "d2/utilities/setup.h"
@@ -88,33 +88,56 @@ Dictionary AchievementConditions::get_conditions_by_categories() const
     return m_conditionsByCategories;
 }
 
-bool GDExample::CanUpdate() const
+bool D2HubBackend::CanUpdate() const
 {
     return m_dataAccess && m_sharedData;
 }
 
-void GDExample::Update()
+void D2HubBackend::Update()
 {
     m_dataAccess->AdvanceFrame();
     m_sharedData->Update();
     m_achievementManager->Update(*m_dataAccess, *m_sharedData);
 }
 
-void GDExample::_bind_methods()
+void D2HubBackend::Clear()
 {
-    ClassDB::bind_method(D_METHOD("get_achievements"), &GDExample::get_achievements);
-    ClassDB::bind_method(D_METHOD("get_developer_control"), &GDExample::get_developer_control);
-    ClassDB::bind_method(D_METHOD("initialize_backend", "p_path_to_modules"), &GDExample::initialize_backend);
-    ClassDB::bind_method(D_METHOD("discover_target_process"), &GDExample::discover_target_process);
-    ClassDB::bind_method(D_METHOD("attach_to_target_process", "p_attach"), &GDExample::attach_to_target_process);
-    ClassDB::bind_method(D_METHOD("start_memory_processor"), &GDExample::start_memory_processor);
-    ClassDB::bind_method(D_METHOD("stop_memory_processor"), &GDExample::stop_memory_processor);
-
-    ADD_SIGNAL(MethodInfo("target_process_exists", PropertyInfo(Variant::BOOL, "exists")));
-    ADD_SIGNAL(MethodInfo("target_process_attached", PropertyInfo(Variant::BOOL, "attached")));
+    m_dataAccess.reset();
+    m_sharedData.reset();
+    m_memoryProcessor.reset();
+    m_targetProcess.reset();
+    m_targetProcessAttachmentToken.reset();
+    m_targetProcessExistenceToken.reset();
 }
 
-GDExample::GDExample()
+bool D2HubBackend::IsMxlDirValid(const std::filesystem::path& path) const
+{
+    if (!path.is_absolute() || !std::filesystem::is_directory(path))
+    {
+        return false;
+    }
+    // cont
+    return true;
+}
+
+void D2HubBackend::_bind_methods()
+{
+    ClassDB::bind_method(D_METHOD("is_mxl_dir_valid", "p_path"), &D2HubBackend::is_mxl_dir_valid);
+    ClassDB::bind_method(D_METHOD("get_achievements"), &D2HubBackend::get_achievements);
+    ClassDB::bind_method(D_METHOD("get_developer_control"), &D2HubBackend::get_developer_control);
+    ClassDB::bind_method(D_METHOD("initialize_backend", "p_path_to_modules"), &D2HubBackend::initialize_backend);
+    ClassDB::bind_method(D_METHOD("discover_target_process"), &D2HubBackend::discover_target_process);
+    ClassDB::bind_method(D_METHOD("attach_to_target_process", "p_attach"), &D2HubBackend::attach_to_target_process);
+    ClassDB::bind_method(D_METHOD("start_memory_processor"), &D2HubBackend::start_memory_processor);
+    ClassDB::bind_method(D_METHOD("stop_memory_processor"), &D2HubBackend::stop_memory_processor);
+
+    ADD_SIGNAL(MethodInfo("backend_initialized", PropertyInfo(Variant::BOOL, "initialized")));
+    ADD_SIGNAL(MethodInfo("target_process_exists", PropertyInfo(Variant::BOOL, "exists")));
+    ADD_SIGNAL(MethodInfo("target_process_attached", PropertyInfo(Variant::BOOL, "attached")));
+    ADD_SIGNAL(MethodInfo("target_memory_processing", PropertyInfo(Variant::BOOL, "processing")));
+}
+
+D2HubBackend::D2HubBackend()
     : m_achievementManager(std::make_unique<decltype(m_achievementManager)::element_type>(D2::CreateAchievements))
     , m_developerControl(DeveloperControl::Create())
 {
@@ -145,16 +168,16 @@ GDExample::GDExample()
     }
 }
 
-GDExample::~GDExample() {}
+D2HubBackend::~D2HubBackend() {}
 
-void GDExample::_process(double delta) {}
+void D2HubBackend::_process(double delta) {}
 
-Array GDExample::get_achievements()
+Array D2HubBackend::get_achievements()
 {
     return m_achievements;
 }
 
-Ref<DeveloperControl> godot::GDExample::get_developer_control()
+Ref<DeveloperControl> godot::D2HubBackend::get_developer_control()
 {
     return m_developerControl;
 }
@@ -164,16 +187,21 @@ struct GodotLogger : public PMA::ILogger
     void Log(PMA::LogLevel, const std::string& msg) const override { UtilityFunctions::print(msg.c_str()); }
 };
 
-void GDExample::initialize_backend(const String& path_to_modules)
+bool D2HubBackend::is_mxl_dir_valid(const String& path) const
 {
-    PMA::Setup::InjectLogger(std::make_unique<GodotLogger>(), PMA::LogLevel::Info);
-    m_memoryProcessor.reset();
-    m_targetProcess.reset();
-    if (!path_to_modules.is_absolute_path())
+    return IsMxlDirValid(std::filesystem::path(reinterpret_cast<const char8_t*>(path.utf8().get_data())));
+}
+
+void D2HubBackend::initialize_backend(const String& path_to_modules)
+{
+    auto path = std::filesystem::path(reinterpret_cast<const char8_t*>(path_to_modules.utf8().get_data()));
+    if (!IsMxlDirValid(path))
     {
         return;
     }
-    auto targetProcessConfig = D2::CreateTargetProcessConfig(reinterpret_cast<const char8_t*>(path_to_modules.utf8().get_data()));
+    PMA::Setup::InjectLogger(std::make_unique<GodotLogger>(), PMA::LogLevel::Info);
+    Clear();
+    auto targetProcessConfig = D2::CreateTargetProcessConfig(path);
 
     m_targetProcess = PMA::TargetProcess::Create(targetProcessConfig);
     m_targetProcessExistenceToken = m_targetProcess->OnExistenceChanged([this](bool aTargetProcessExists) {
@@ -205,15 +233,24 @@ void GDExample::initialize_backend(const String& path_to_modules)
         }
         Update();
     });
+    call_deferred("emit_signal", "backend_initialized", true);
 }
 
-void GDExample::discover_target_process()
+void D2HubBackend::discover_target_process()
 {
+    if (!m_targetProcess)
+    {
+        return;
+    }
     m_targetProcess->Discover();
 }
 
-void GDExample::attach_to_target_process(bool attach)
+void D2HubBackend::attach_to_target_process(bool attach)
 {
+    if (!m_targetProcess)
+    {
+        return;
+    }
     if (attach)
     {
         m_targetProcess->Attach();
@@ -224,13 +261,28 @@ void GDExample::attach_to_target_process(bool attach)
     }
 }
 
-void GDExample::start_memory_processor()
+void D2HubBackend::start_memory_processor()
 {
-    m_memoryProcessor->RequestStart();
+    if (!m_memoryProcessor)
+    {
+        return;
+    }
+    try
+    {
+        m_memoryProcessor->RequestStart();
+    }
+    catch (const std::exception& e)
+    {
+        // TODO log
+    }
 }
 
-void GDExample::stop_memory_processor()
+void D2HubBackend::stop_memory_processor()
 {
+    if (!m_memoryProcessor)
+    {
+        return;
+    }
     m_memoryProcessor->RequestStop();
 }
 

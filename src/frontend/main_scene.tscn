@@ -1,11 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://c5ca2tajwu10l"]
+[gd_scene load_steps=5 format=3 uid="uid://c5ca2tajwu10l"]
 
 [ext_resource type="PackedScene" uid="uid://dyreym3cio3mc" path="res://achievement_screen.tscn" id="1_0f027"]
 [ext_resource type="Script" uid="uid://b8mcr6oqu1aqb" path="res://main_scene.gd" id="1_gyfs4"]
 [ext_resource type="PackedScene" uid="uid://b5n3xe1wk02u1" path="res://donate.tscn" id="3_8mm7a"]
-[ext_resource type="PackedScene" uid="uid://b0oirirlayow8" path="res://gd_example.tscn" id="3_d5x1h"]
 [ext_resource type="PackedScene" uid="uid://bxbty8fetvnll" path="res://settings/settings_screen.tscn" id="3_hq1ik"]
-[ext_resource type="PackedScene" uid="uid://dqc3266nl801d" path="res://developer_screen.tscn" id="4_hq1ik"]
 
 [node name="MainScene" type="Control"]
 layout_mode = 3
@@ -44,32 +42,78 @@ size_flags_horizontal = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Header/PanelContainer"]
 layout_mode = 2
+theme_override_constants/separation = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer"]
+[node name="Spacer" type="Control" parent="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(50, 2.08189e-12)
 layout_mode = 2
 
-[node name="DiscoverBtn" type="Button" parent="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/VBoxContainer"]
+[node name="D2Status" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer"]
 layout_mode = 2
-text = "Discover"
+tooltip_text = "Detects running Diablo II instance"
+alignment = 1
 
-[node name="AttachBtn" type="Button" parent="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/D2Status"]
 layout_mode = 2
-text = "Attach"
+text = "Diablo 2"
+horizontal_alignment = 1
 
-[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer"]
-custom_minimum_size = Vector2(150, 2.08189e-12)
-layout_mode = 2
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/D2Status"]
 layout_mode = 2
 
-[node name="StartBtn" type="Button" parent="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/VBoxContainer2"]
+[node name="D2Discovered" type="Label" parent="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/D2Status"]
+unique_name_in_owner = true
+modulate = Color(1, 0, 0, 1)
 layout_mode = 2
+text = "OFF"
+horizontal_alignment = 1
+
+[node name="AttachedStatus" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer"]
+layout_mode = 2
+tooltip_text = "Signals whether the D2Hub is attached to the running Diablo II"
+alignment = 1
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/AttachedStatus"]
+layout_mode = 2
+text = "Attached"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/AttachedStatus"]
+layout_mode = 2
+
+[node name="Attached" type="Label" parent="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/AttachedStatus"]
+unique_name_in_owner = true
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+text = "OFF"
+horizontal_alignment = 1
+
+[node name="ProcessingStatus" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer"]
+layout_mode = 2
+tooltip_text = "Signals whether game's memory is being processed"
+alignment = 1
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/ProcessingStatus"]
+layout_mode = 2
+text = "Processing"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/ProcessingStatus"]
+layout_mode = 2
+
+[node name="Processing" type="Label" parent="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/ProcessingStatus"]
+unique_name_in_owner = true
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+text = "OFF"
+horizontal_alignment = 1
+
+[node name="ManualStart" type="Button" parent="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 2.08189e-12)
+layout_mode = 2
+size_flags_vertical = 0
 text = "Start"
-
-[node name="StopBtn" type="Button" parent="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/VBoxContainer2"]
-layout_mode = 2
-text = "Stop"
 
 [node name="Body" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 clip_contents = true
@@ -123,11 +167,6 @@ visible = false
 layout_mode = 2
 metadata/_tab_index = 4
 
-[node name="Developer" parent="MarginContainer/VBoxContainer/Body/MainPanel/TabContainer" instance=ExtResource("4_hq1ik")]
-visible = false
-layout_mode = 2
-metadata/_tab_index = 5
-
 [node name="Footer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 
@@ -146,9 +185,8 @@ layout_mode = 2
 layout_mode = 2
 text = "Report Bug"
 
-[node name="GDExample" parent="." instance=ExtResource("3_d5x1h")]
+[node name="DiscoverTimer" type="Timer" parent="."]
+autostart = true
 
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/VBoxContainer/DiscoverBtn" to="." method="_on_discover_btn_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/VBoxContainer/AttachBtn" to="." method="_on_attach_btn_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/VBoxContainer2/StartBtn" to="." method="_on_start_btn_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/VBoxContainer2/StopBtn" to="." method="_on_stop_btn_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/ManualStart" to="." method="_on_manual_start_pressed"]
+[connection signal="timeout" from="DiscoverTimer" to="." method="_on_discover_timer_timeout"]

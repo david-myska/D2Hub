@@ -23,16 +23,16 @@ FetchContent_MakeAvailable(game_enhancer)
 
 
 set(SOURCE_FILES
-				"binding/gdexample.cpp"
+				"binding/d2hub_backend.cpp"
 				"binding/register_types.cpp"
 				"d2/achievements/achievements.cpp"
 				"d2/utilities/utilities.cpp"
 )
 
-add_library(libgdexample SHARED ${SOURCE_FILES})
+add_library(d2hub_backend SHARED ${SOURCE_FILES})
 
-target_include_directories(libgdexample PUBLIC ${CMAKE_CURRENT_LIST_DIR} ${godot-cpp_SOURCE_DIR}/include PUBLIC ${game_enhancer_SOURCE_DIR}/include)
-target_link_libraries(libgdexample PUBLIC godot-cpp PUBLIC game_enhancer)
+target_include_directories(d2hub_backend PUBLIC ${CMAKE_CURRENT_LIST_DIR} ${godot-cpp_SOURCE_DIR}/include PUBLIC ${game_enhancer_SOURCE_DIR}/include)
+target_link_libraries(d2hub_backend PUBLIC godot-cpp PUBLIC game_enhancer)
 
-install(TARGETS libgdexample DESTINATION ${D2E_INSTALL_LIB_DIR})
-install(FILES $<TARGET_FILE:libgdexample> DESTINATION ${D2E_FRONTEND_REQ_DIR})
+install(TARGETS d2hub_backend DESTINATION ${D2E_INSTALL_LIB_DIR})
+install(FILES $<TARGET_FILE:d2hub_backend> DESTINATION ${D2E_FRONTEND_REQ_DIR})

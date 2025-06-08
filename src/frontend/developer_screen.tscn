@@ -41,6 +41,53 @@ text = "Relative to ^"
 layout_mode = 2
 text = "(??, ??)"
 
+[node name="Sep" type="Control" parent="HBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(2.08189e-12, 50)
+layout_mode = 2
+
+[node name="Sep2" type="Control" parent="HBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="DiscoverBtn" type="Button" parent="HBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Discover"
+
+[node name="Discovered" type="Label" parent="HBoxContainer/GridContainer"]
+layout_mode = 2
+text = "??"
+
+[node name="AttachBtn" type="Button" parent="HBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Attach"
+
+[node name="Attached" type="Label" parent="HBoxContainer/GridContainer"]
+layout_mode = 2
+text = "??"
+
+[node name="DetachBtn" type="Button" parent="HBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Detach"
+
+[node name="Detached" type="Label" parent="HBoxContainer/GridContainer"]
+layout_mode = 2
+text = "??"
+
+[node name="StartBtn" type="Button" parent="HBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Start"
+
+[node name="Started" type="Label" parent="HBoxContainer/GridContainer"]
+layout_mode = 2
+text = "??"
+
+[node name="StopBtn" type="Button" parent="HBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Stop"
+
+[node name="Stopped" type="Label" parent="HBoxContainer/GridContainer"]
+layout_mode = 2
+text = "??"
+
 [connection signal="pressed" from="HBoxContainer/GridContainer/LockPosBtn" to="." method="_on_lock_pos_btn_pressed"]
 [connection signal="pressed" from="HBoxContainer/GridContainer/RelativePosBtn" to="." method="_on_relative_pos_btn_pressed"]
 [connection signal="pressed" from="HBoxContainer/GridContainer/RelativePosBtn2" to="." method="_on_relative_pos_btn_2_pressed"]

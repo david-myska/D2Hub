@@ -7,4 +7,5 @@ const file_path := "user://config.cfg"
 const sec_global := "global"
 
 # Keys
+const key_mxl_dir := "mxl_directory"
 const key_auto_attach := "auto_attach"
