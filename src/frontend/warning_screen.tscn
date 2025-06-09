@@ -1,0 +1,136 @@
+[gd_scene load_steps=2 format=3 uid="uid://br2kwgm06t6s1"]
+
+[ext_resource type="Script" uid="uid://cfn5e1duiildw" path="res://warning_screen.gd" id="1_noypl"]
+
+[node name="WarningScreen" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 250
+theme_override_constants/margin_right = 250
+script = ExtResource("1_noypl")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 25
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer/PanelContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[center][b][color=#FF5555]⚠️ WARNING ⚠️[/color][/b][/center]
+[b]D2Hub may be detected as cheating software.[/b]
+
+D2Hub reads game memory, which can trigger anti-cheat systems.  
+If you connect to multiplayer servers, [color=#FF4444][b]Median XL will almost certainly BAN you[/b][/color] for suspected cheating.
+
+[b]To avoid account bans or other issues, please follow these guidelines:[/b]
+
+• [color=#FFA500]❌ Do NOT enable \"Skip to Multiplayer\" in the Median XL Launcher[/color]  
+  [color=#BBBBBB]You might get in trouble when used together with D2Hub option \"Auto-Connect\"[/color]
+
+• [color=#88CC88]✅ Use D2Hub ONLY for Singleplayer (or LAN)[/color]  
+  [color=#BBBBBB]Singleplayer is the main focus. LAN was not tested properly.[/color]
+
+• [color=#66BFFF]🔄 ALWAYS restart Diablo II after closing D2Hub before going online[/color]  
+  [color=#BBBBBB]Even after closing D2Hub, there might be some artifacts left in the game's process[/color]
+
+Stay safe and enjoy the enhanced experience!
+"
+fit_content = true
+
+[node name="PanelContainer2" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/PanelContainer2"]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer/PanelContainer2/VBoxContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[b]Initial Settings[/b]  
+Here are some starting settings you might want to check.  
+The default values are more on the safer side to help you avoid problems such as accidentally auto-connecting to Diablo II while in multiplayer.
+
+You can change any of these later in the [i]Settings[/i] tab."
+fit_content = true
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/PanelContainer2/VBoxContainer"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer/PanelContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 25
+columns = 2
+
+[node name="AutoConnect" type="CheckButton" parent="VBoxContainer/PanelContainer2/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Auto-Connect"
+
+[node name="AutoConnectLabel" type="Label" parent="VBoxContainer/PanelContainer2/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(200, 2.08189e-12)
+layout_mode = 2
+text = "Automatically connect to Diablo II whenever both D2Hub and the game are running—no matter which one starts first."
+autowrap_mode = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/PanelContainer2/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/PanelContainer2/VBoxContainer/GridContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.66
+text = "Median XL directory"
+
+[node name="MXLDirLineEdit" type="LineEdit" parent="VBoxContainer/PanelContainer2/VBoxContainer/GridContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+editable = false
+
+[node name="OpenDirDialogBtn" type="Button" parent="VBoxContainer/PanelContainer2/VBoxContainer/GridContainer/HBoxContainer"]
+layout_mode = 2
+text = "Find"
+
+[node name="MXLDirLabel" type="Label" parent="VBoxContainer/PanelContainer2/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(200, 2.08189e-12)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Point D2Hub to your Median XL folder—the one with Diablo II’s .exe and .dll files inside."
+autowrap_mode = 3
+
+[node name="SkipThis" type="CheckButton" parent="VBoxContainer/PanelContainer2/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Skip this screen next time"
+
+[node name="Empty" type="Control" parent="VBoxContainer/PanelContainer2/VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer/PanelContainer2/VBoxContainer"]
+layout_mode = 2
+
+[node name="OpenD2Hub" type="Button" parent="VBoxContainer/PanelContainer2/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Open D2Hub"
+
+[node name="DirDialog" type="FileDialog" parent="."]
+auto_translate_mode = 1
+title = "Open a Directory"
+ok_button_text = "Select Current Folder"
+file_mode = 2
+access = 2
+
+[connection signal="toggled" from="VBoxContainer/PanelContainer2/VBoxContainer/GridContainer/AutoConnect" to="." method="_on_auto_connect_toggled"]
+[connection signal="pressed" from="VBoxContainer/PanelContainer2/VBoxContainer/GridContainer/HBoxContainer/OpenDirDialogBtn" to="." method="_on_open_dir_dialog_btn_pressed"]
+[connection signal="toggled" from="VBoxContainer/PanelContainer2/VBoxContainer/GridContainer/SkipThis" to="." method="_on_skip_this_toggled"]
+[connection signal="pressed" from="VBoxContainer/PanelContainer2/VBoxContainer/OpenD2Hub" to="." method="_on_open_d2hub_pressed"]

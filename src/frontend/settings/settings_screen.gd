@@ -2,12 +2,10 @@ extends MarginContainer
 
 signal auto_attach_changed(on : bool)
 
-@onready var m_dir_dialog: FileDialog = $DirDialog
-@onready var m_auto_attach: CheckButton = %AutoAttach
 @onready var m_mxl_dir: LineEdit = %MXLDirLineEdit
 
 func _ready() -> void:
-	m_dir_dialog.dir_selected.connect(func(dir_path):
+	$DirDialog.dir_selected.connect(func(dir_path):
 		m_mxl_dir.text = dir_path
 		m_mxl_dir.text_changed.emit(dir_path)
 	)
@@ -18,7 +16,8 @@ func _ready() -> void:
 		App.Config.set_value(Cfg.sec_global, Cfg.key_mxl_dir, new_text)
 	)
 	m_mxl_dir.text = App.Config.get_value(Cfg.sec_global, Cfg.key_mxl_dir)
-	m_auto_attach.button_pressed = App.Config.get_value(Cfg.sec_global, Cfg.key_auto_attach)
+	%AutoAttach.button_pressed = App.Config.get_value(Cfg.sec_global, Cfg.key_auto_attach)
+	%SkipWarning.button_pressed = App.Config.get_value(Cfg.sec_global, Cfg.key_skip_warning)
 
 func _on_about_label_meta_clicked(meta: Variant) -> void:
 	OS.shell_open(str(meta))
@@ -30,4 +29,8 @@ func _on_auto_attach_toggled(toggled_on: bool) -> void:
 
 
 func _on_open_dir_dialog_btn_pressed() -> void:
-	m_dir_dialog.popup_centered()
+	$DirDialog.popup_centered()
+
+
+func _on_skip_warning_toggled(toggled_on: bool) -> void:
+	App.Config.set_value(Cfg.sec_global, Cfg.key_skip_warning, toggled_on)

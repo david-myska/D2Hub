@@ -1,8 +1,5 @@
 extends Control
 
-@onready var discover_btn: Button = $MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/VBoxContainer/DiscoverBtn
-@onready var attach_btn: Button = $MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/VBoxContainer/AttachBtn
-
 @onready var discover_timer := $DiscoverTimer
 
 func _ready() -> void:
@@ -15,7 +12,10 @@ func _ready() -> void:
 	Backend.target_process_exists.connect(func(exists : bool):
 		%D2Discovered.text = "ON" if exists else "OFF"
 		%D2Discovered.modulate = Color.GREEN if exists else Color.RED
-		discover_timer.stop() if exists else discover_timer.start()
+		if exists:
+			discover_timer.stop()
+		else:
+			discover_timer.start()
 	)
 	Backend.target_process_attached.connect(func(attached : bool):
 		%Attached.text = "ON" if attached else "OFF"
