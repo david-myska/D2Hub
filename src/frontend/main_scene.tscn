@@ -181,12 +181,17 @@ alignment = 2
 [node name="Donate" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/HBoxContainer" instance=ExtResource("3_8mm7a")]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/HBoxContainer"]
+[node name="ReportBug" type="Button" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/HBoxContainer"]
 layout_mode = 2
 text = "Report Bug"
+
+[node name="ShowLogs" type="Button" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+text = "Show Logs"
 
 [node name="DiscoverTimer" type="Timer" parent="."]
 autostart = true
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/ManualStart" to="." method="_on_manual_start_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Footer/PanelContainer/HBoxContainer/ShowLogs" to="." method="_on_show_logs_pressed"]
 [connection signal="timeout" from="DiscoverTimer" to="." method="_on_discover_timer_timeout"]

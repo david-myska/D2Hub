@@ -43,3 +43,7 @@ func _on_discover_timer_timeout() -> void:
 
 func _on_manual_start_pressed() -> void:
 	Backend.start_memory_processor()
+
+
+func _on_show_logs_pressed() -> void:
+	OS.shell_open(ProjectSettings.globalize_path("user://logs"))

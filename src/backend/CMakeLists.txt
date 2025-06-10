@@ -15,6 +15,13 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(godot-cpp)
 
 FetchContent_Declare(
+  spdlog
+  GIT_REPOSITORY https://github.com/gabime/spdlog.git
+  GIT_TAG        v1.15.3
+)
+FetchContent_MakeAvailable(spdlog)
+
+FetchContent_Declare(
   game_enhancer
   GIT_REPOSITORY https://github.com/david-myska/GameEnhancer.git
   GIT_TAG        eventBasedAchievements
@@ -31,8 +38,8 @@ set(SOURCE_FILES
 
 add_library(d2hub_backend SHARED ${SOURCE_FILES})
 
-target_include_directories(d2hub_backend PUBLIC ${CMAKE_CURRENT_LIST_DIR} ${godot-cpp_SOURCE_DIR}/include PUBLIC ${game_enhancer_SOURCE_DIR}/include)
-target_link_libraries(d2hub_backend PUBLIC godot-cpp PUBLIC game_enhancer)
+target_include_directories(d2hub_backend PUBLIC ${CMAKE_CURRENT_LIST_DIR} ${godot-cpp_SOURCE_DIR}/include PUBLIC ${spdlog_SOURCE_DIR}/include PUBLIC ${game_enhancer_SOURCE_DIR}/include)
+target_link_libraries(d2hub_backend PUBLIC godot-cpp game_enhancer spdlog::spdlog)
 
 install(TARGETS d2hub_backend DESTINATION ${D2E_INSTALL_LIB_DIR})
 install(FILES $<TARGET_FILE:d2hub_backend> DESTINATION ${D2E_FRONTEND_REQ_DIR})

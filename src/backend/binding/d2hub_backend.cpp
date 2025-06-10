@@ -2,8 +2,11 @@
 
 #include "d2/achievements/achievements.h"
 #include "d2/utilities/setup.h"
-#include "pma/logging/console_logger.h"
+#include "spdlog/sinks/daily_file_sink.h"
 
+#include <godot_cpp/classes/dir_access.hpp>
+#include <godot_cpp/classes/os.hpp>
+#include <godot_cpp/classes/project_settings.hpp>
 #include <godot_cpp/core/class_db.hpp>
 
 using namespace godot;
@@ -110,14 +113,21 @@ void D2HubBackend::Clear()
     m_targetProcessExistenceToken.reset();
 }
 
-bool D2HubBackend::IsMxlDirValid(const std::filesystem::path& path) const
+bool D2HubBackend::IsMxlDirValid(const std::filesystem::path& aPath) const
 {
-    if (!path.is_absolute() || !std::filesystem::is_directory(path))
+    if (!aPath.is_absolute() || !std::filesystem::is_directory(aPath))
     {
         return false;
     }
     // cont
     return true;
+}
+
+std::shared_ptr<spdlog::logger> godot::D2HubBackend::MakeLogger(const std::string& aName) const
+{
+    auto logger = std::make_shared<spdlog::logger>(aName, m_commonFileSink);
+    logger->set_level(m_logLevel);
+    return logger;
 }
 
 void D2HubBackend::_bind_methods()
@@ -138,9 +148,20 @@ void D2HubBackend::_bind_methods()
 }
 
 D2HubBackend::D2HubBackend()
-    : m_achievementManager(std::make_unique<decltype(m_achievementManager)::element_type>(D2::CreateAchievements))
-    , m_developerControl(DeveloperControl::Create())
+    : m_developerControl(DeveloperControl::Create())
 {
+    if (OS::get_singleton()->get_cmdline_args().has("--debug"))
+    {
+        m_logLevel = spdlog::level::debug;
+    }
+    std::string logs_dir = godot::ProjectSettings::get_singleton()->globalize_path("user://logs").utf8().get_data();
+    std::string log_file = logs_dir + "/d2hub.log";
+    m_commonFileSink = std::make_shared<spdlog::sinks::daily_file_sink_mt>(log_file, 3, 33, false, 5);
+    m_logger = MakeLogger("d2hub_backend");
+
+    m_achievementManager = std::make_unique<decltype(m_achievementManager)::element_type>(D2::CreateAchievements,
+                                                                                          MakeLogger("achievement_manager"));
+
     // TODO tmp -> this just creates default achievements, no loading from file
     std::istringstream invalid;
     invalid.setstate(std::ios::failbit);
@@ -182,11 +203,6 @@ Ref<DeveloperControl> godot::D2HubBackend::get_developer_control()
     return m_developerControl;
 }
 
-struct GodotLogger : public PMA::ILogger
-{
-    void Log(PMA::LogLevel, const std::string& msg) const override { UtilityFunctions::print(msg.c_str()); }
-};
-
 bool D2HubBackend::is_mxl_dir_valid(const String& path) const
 {
     return IsMxlDirValid(std::filesystem::path(reinterpret_cast<const char8_t*>(path.utf8().get_data())));
@@ -199,18 +215,17 @@ void D2HubBackend::initialize_backend(const String& path_to_modules)
     {
         return;
     }
-    PMA::Setup::InjectLogger(std::make_unique<GodotLogger>(), PMA::LogLevel::Info);
     Clear();
     auto targetProcessConfig = D2::CreateTargetProcessConfig(path);
 
-    m_targetProcess = PMA::TargetProcess::Create(targetProcessConfig);
+    m_targetProcess = PMA::TargetProcess::Create(targetProcessConfig, MakeLogger("target_process"));
     m_targetProcessExistenceToken = m_targetProcess->OnExistenceChanged([this](bool aTargetProcessExists) {
         call_deferred("emit_signal", "target_process_exists", aTargetProcessExists);
     });
     m_targetProcessAttachmentToken = m_targetProcess->OnAttachmentChanged([this](bool aTargetProcessAttached) {
         call_deferred("emit_signal", "target_process_attached", aTargetProcessAttached);
     });
-    m_memoryProcessor = GE::MemoryProcessor::Create(m_targetProcess);
+    m_memoryProcessor = GE::MemoryProcessor::Create(m_targetProcess, MakeLogger("memory_processor"));
 
     D2::RegisterLayouts(*m_memoryProcessor);
     D2::SetupCallbacks(

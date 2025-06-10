@@ -3,6 +3,7 @@
 #include "d2/achievements/base.h"
 #include "game_enhancer/achis/achievement_manager.h"
 #include "game_enhancer/memory_processor.h"
+#include "spdlog/spdlog.h"
 
 #include <godot_cpp/classes/node.hpp>
 #include <godot_cpp/variant/string.hpp>
@@ -85,6 +86,10 @@ namespace godot
     {
         GDCLASS(D2HubBackend, Node)
 
+        std::shared_ptr<spdlog::sinks::sink> m_commonFileSink;
+        std::shared_ptr<spdlog::logger> m_logger;
+        spdlog::level::level_enum m_logLevel = spdlog::level::info;
+
         PMA::TargetProcessPtr m_targetProcess;
         GE::MemoryProcessorPtr m_memoryProcessor;
 
@@ -103,7 +108,8 @@ namespace godot
         bool CanUpdate() const;
         void Update();
         void Clear();
-        bool IsMxlDirValid(const std::filesystem::path& path) const;
+        bool IsMxlDirValid(const std::filesystem::path& aPath) const;
+        std::shared_ptr<spdlog::logger> MakeLogger(const std::string& aName) const;
 
     protected:
         static void _bind_methods();
