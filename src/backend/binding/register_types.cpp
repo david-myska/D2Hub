@@ -2,7 +2,9 @@
 
 #include <gdextension_interface.h>
 
+#include "achievement.h"
 #include "d2hub_backend.h"
+#include "developer_control.h"
 
 #include <godot_cpp/core/defs.hpp>
 #include <godot_cpp/godot.hpp>

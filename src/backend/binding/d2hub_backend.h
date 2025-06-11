@@ -1,5 +1,8 @@
 #pragma once
 
+#include "achievement.h"
+#include "developer_control.h"
+
 #include "d2/achievements/base.h"
 #include "game_enhancer/achis/achievement_manager.h"
 #include "game_enhancer/memory_processor.h"
@@ -10,78 +13,6 @@
 
 namespace godot
 {
-
-    class AchievementMetadata : public RefCounted
-    {
-        GDCLASS(AchievementMetadata, RefCounted)
-
-        String m_name;
-        String m_description;
-
-    protected:
-        static void _bind_methods();
-
-    public:
-        static Ref<AchievementMetadata> FromAchievement(const D2::D2Achi& aAchi);
-
-        String get_name() const;
-        void set_name(const String& name);
-
-        const String& get_description() const;
-        void set_description(const String& name);
-    };
-
-    class AchievementConditions : public RefCounted
-    {
-        GDCLASS(AchievementConditions, RefCounted)
-
-        Dictionary m_conditionsByIds;
-        Dictionary m_conditionsByCategories;
-
-    protected:
-        static void _bind_methods();
-
-    public:
-        static Ref<AchievementConditions> FromAchievement(const D2::D2Achi& aAchi);
-
-        Dictionary get_conditions_by_ids() const;
-        Dictionary get_conditions_by_categories() const;
-    };
-
-    class Achievement : public RefCounted
-    {
-        GDCLASS(Achievement, RefCounted)
-
-        Ref<AchievementMetadata> m_metadata;
-        Ref<AchievementConditions> m_conditions;
-
-    protected:
-        static void _bind_methods();
-
-    public:
-        static Ref<Achievement> FromAchievement(const D2::D2Achi& aAchi);
-
-        Ref<AchievementMetadata> get_metadata() const;
-        Ref<AchievementConditions> get_conditions() const;
-    };
-
-    class DeveloperControl : public RefCounted
-    {
-        GDCLASS(DeveloperControl, RefCounted)
-
-        std::shared_ptr<D2::Data::DataAccess> m_data;
-        std::shared_ptr<D2::Data::SharedData> m_shared;
-
-    protected:
-        static void _bind_methods();
-
-    public:
-        static Ref<DeveloperControl> Create();
-        void Initialize(std::shared_ptr<D2::Data::DataAccess> aData, std::shared_ptr<D2::Data::SharedData> aShared);
-
-        Vector2i get_player_position() const;
-    };
-
     class D2HubBackend : public Node
     {
         GDCLASS(D2HubBackend, Node)
