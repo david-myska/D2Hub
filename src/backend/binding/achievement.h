@@ -51,6 +51,9 @@ namespace godot
         Ref<AchievementMetadata> m_metadata;
         Ref<AchievementConditions> m_conditions;
 
+        PMA::ScopedTokenPtr m_onStatusChangedToken;
+        PMA::ScopedTokenPtr m_onProgressMadeToken;
+
     protected:
         static void _bind_methods();
 

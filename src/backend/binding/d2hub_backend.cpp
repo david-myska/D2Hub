@@ -64,7 +64,7 @@ void D2HubBackend::_bind_methods()
     ADD_SIGNAL(MethodInfo("backend_initialized", PropertyInfo(Variant::BOOL, "initialized")));
     ADD_SIGNAL(MethodInfo("target_process_exists", PropertyInfo(Variant::BOOL, "exists")));
     ADD_SIGNAL(MethodInfo("target_process_attached", PropertyInfo(Variant::BOOL, "attached")));
-    ADD_SIGNAL(MethodInfo("target_memory_processing", PropertyInfo(Variant::BOOL, "processing")));
+    ADD_SIGNAL(MethodInfo("memory_processor_running", PropertyInfo(Variant::BOOL, "processing")));
 }
 
 D2HubBackend::D2HubBackend()
@@ -88,24 +88,7 @@ D2HubBackend::D2HubBackend()
     m_achievementManager->LoadAndActivate(invalid);
     for (const auto& [_, achi] : m_achievementManager->GetActiveAchievements())
     {
-        auto godotAchi = Achievement::FromAchievement(achi);
-        achi->OnStatusChanged([godotAchi](GE::Status aStatus) {
-            godotAchi->call_deferred("emit_signal", "status_changed", static_cast<int>(aStatus));
-        });
-        achi->OnProgressMade([godotAchi](const std::unordered_set<GE::ProgressTracker*>& aProgress) {
-            auto conditionsByIds = godotAchi->get_conditions()->get_conditions_by_ids();
-            Array ids;
-            for (const auto* pt : aProgress)
-            {
-                // Ref<Dictionary> data = conditionsByIds[pt->GetId()];
-                // data->set("text", String(pt->GetMessage().c_str()));
-                Dictionary data = conditionsByIds[pt->GetId()];
-                data["text"] = String(pt->GetMessage().c_str());
-                ids.push_back(pt->GetId());
-            }
-            godotAchi->call_deferred("emit_signal", "progress_made", ids);
-        });
-        m_achievements.push_back(std::move(godotAchi));
+        m_achievements.push_back(Achievement::FromAchievement(achi));
     }
 }
 
@@ -146,6 +129,9 @@ void D2HubBackend::initialize_backend(const String& path_to_modules)
         call_deferred("emit_signal", "target_process_attached", aTargetProcessAttached);
     });
     m_memoryProcessor = GE::MemoryProcessor::Create(m_targetProcess, MakeLogger("memory_processor"));
+    m_memoryProcessorRunningToken = m_memoryProcessor->OnRunningChanged([this](bool aRunning) {
+        call_deferred("emit_signal", "memory_processor_running", aRunning);
+    });
 
     D2::RegisterLayouts(*m_memoryProcessor);
     D2::SetupCallbacks(

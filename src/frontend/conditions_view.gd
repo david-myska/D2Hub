@@ -9,11 +9,13 @@ func add_name(cond_name : String) -> void:
 	var l := HSeparator.new()
 	l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	hbox.add_child(l)
-	var lbl := RichTextLabel.new()
-	lbl.bbcode_enabled = true
-	lbl.fit_content = true
-	lbl.text = "[center]%s[/center]" % cond_name
-	lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var lbl := Label.new()
+	lbl.text = cond_name
+	#var lbl := RichTextLabel.new()
+	#lbl.bbcode_enabled = true
+	#lbl.fit_content = true
+	#lbl.text = "[center]%s[/center]" % cond_name
+	#lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	hbox.add_child(lbl)
 	var r := HSeparator.new()
 	r.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -25,10 +27,12 @@ func add_texts(cond_data : Array) -> void:
 	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	grid.columns = m_columns
 	for d in cond_data:
-		var lbl := RichTextLabel.new()
-		lbl.fit_content = true
+		var lbl := Label.new()
 		lbl.text = d["text"]
-		lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		#var lbl := RichTextLabel.new()
+		#lbl.fit_content = true
+		#lbl.text = d["text"]
+		#lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		grid.add_child(lbl)
 		d["label"] = lbl
 	$VBoxContainer.add_child(grid)
@@ -41,3 +45,5 @@ func wtf(ids : Array, achi : Achievement):
 	var by_ids = achi.get_conditions().get_conditions_by_ids()
 	for id in ids:
 		by_ids[id]["label"].text = by_ids[id]["text"]
+		if by_ids[id]["completed"]:
+			by_ids[id]["label"].modulate = Color.GREEN 

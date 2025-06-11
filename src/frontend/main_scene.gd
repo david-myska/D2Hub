@@ -21,9 +21,9 @@ func _ready() -> void:
 		%Attached.text = "ON" if attached else "OFF"
 		%Attached.modulate = Color.GREEN if attached else Color.RED
 	)
-	Backend.target_memory_processing.connect(func(processing : bool):
-		%Processing.text = "ON" if processing else "OFF"
-		%Processing.modulate = Color.GREEN if processing else Color.RED
+	Backend.memory_processor_running.connect(func(running : bool):
+		%Processing.text = "ON" if running else "OFF"
+		%Processing.modulate = Color.GREEN if running else Color.RED
 	)
 	var mxl_dir : String = App.Config.get_value(Cfg.sec_global, Cfg.key_mxl_dir)
 	if Backend.is_mxl_dir_valid(mxl_dir):

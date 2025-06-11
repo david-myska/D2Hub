@@ -68,6 +68,7 @@ Ref<AchievementConditions> AchievementConditions::FromAchievement(const D2::D2Ac
             // relatedData->set("text", String(pt->GetMessage().c_str()));
             Dictionary relatedData;
             relatedData["text"] = String(pt->GetMessage().c_str());
+            relatedData["completed"] = pt->IsCompleted();
             category[pt->GetId()] = relatedData;
             instance->m_conditionsByIds[pt->GetId()] = relatedData;
         }
@@ -112,10 +113,29 @@ void Achievement::_bind_methods()
 
 Ref<Achievement> Achievement::FromAchievement(const D2::D2Achi& aAchi)
 {
-    auto achievement = memnew(Achievement);
-    achievement->m_metadata = AchievementMetadata::FromAchievement(aAchi);
-    achievement->m_conditions = AchievementConditions::FromAchievement(aAchi);
-    return achievement;
+    auto godotAchi = memnew(Achievement);
+    godotAchi->m_metadata = AchievementMetadata::FromAchievement(aAchi);
+    godotAchi->m_conditions = AchievementConditions::FromAchievement(aAchi);
+    godotAchi->m_onStatusChangedToken = aAchi->OnStatusChanged([godotAchi](GE::Status aStatus) {
+        godotAchi->call_deferred("emit_signal", "status_changed", static_cast<int>(aStatus));
+    });
+    godotAchi->m_onProgressMadeToken = aAchi->OnProgressMade(
+        [godotAchi](const std::unordered_set<GE::ProgressTracker*>& aProgress) {
+            auto conditionsByIds = godotAchi->get_conditions()->get_conditions_by_ids();
+            Array ids;
+            for (const auto* pt : aProgress)
+            {
+                // Ref<Dictionary> data = conditionsByIds[pt->GetId()];
+                // data->set("text", String(pt->GetMessage().c_str()));
+                Dictionary data = conditionsByIds[pt->GetId()];
+                data["text"] = String(pt->GetMessage().c_str());
+                data["completed"] = pt->IsCompleted();
+                ids.push_back(pt->GetId());
+            }
+            godotAchi->call_deferred("emit_signal", "progress_made", ids);
+        });
+
+    return godotAchi;
 }
 
 Ref<AchievementMetadata> Achievement::get_metadata() const

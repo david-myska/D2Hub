@@ -26,6 +26,7 @@ namespace godot
 
         PMA::ScopedTokenPtr m_targetProcessExistenceToken;
         PMA::ScopedTokenPtr m_targetProcessAttachmentToken;
+        PMA::ScopedTokenPtr m_memoryProcessorRunningToken;
 
         std::shared_ptr<D2::Data::DataAccess> m_dataAccess;
         std::shared_ptr<D2::Data::SharedData> m_sharedData;
