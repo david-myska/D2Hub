@@ -41,9 +41,16 @@ func clear():
 	for c in $VBoxContainer.get_children():
 		c.queue_free()
 
-func wtf(ids : Array, achi : Achievement):
+func _update_condition(d : Dictionary) -> void:
+	d["label"].text = d["text"]
+	var color := Color.WHITE
+	if d["completed"]:
+		color = Color.GREEN
+		if d["type"] == Achievement.Condition.FAILER:
+			color = Color.RED
+	d["label"].modulate = color
+
+func update_conditions(ids : Array, achi : Achievement):
 	var by_ids = achi.get_conditions().get_conditions_by_ids()
 	for id in ids:
-		by_ids[id]["label"].text = by_ids[id]["text"]
-		if by_ids[id]["completed"]:
-			by_ids[id]["label"].modulate = Color.GREEN 
+		_update_condition(by_ids[id]) 

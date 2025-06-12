@@ -26,7 +26,7 @@ func fill_conditions(achievement : Achievement):
 			continue
 		m_conditions.add_name(to_str(c))
 		m_conditions.add_texts(by_category[c].values())
-	achievement.progress_made.connect(m_conditions.wtf.bind(achievement))
+	achievement.progress_made.connect(m_conditions.update_conditions.bind(achievement))
 	achievement.status_changed.connect(func(s : Achievement.Status):
 		print("new status: %s" % s)
 	)

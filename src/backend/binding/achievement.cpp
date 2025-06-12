@@ -63,12 +63,10 @@ Ref<AchievementConditions> AchievementConditions::FromAchievement(const D2::D2Ac
         for (const auto* pt : progressTrackers)
         {
             // Frontend stores some additional data in the relatedData dictionary on initialization
-            // Ref to make only 1 instance that gets synchronized
-            // Ref<Dictionary> relatedData = memnew(Dictionary);
-            // relatedData->set("text", String(pt->GetMessage().c_str()));
             Dictionary relatedData;
             relatedData["text"] = String(pt->GetMessage().c_str());
             relatedData["completed"] = pt->IsCompleted();
+            relatedData["type"] = i;
             category[pt->GetId()] = relatedData;
             instance->m_conditionsByIds[pt->GetId()] = relatedData;
         }
@@ -125,8 +123,6 @@ Ref<Achievement> Achievement::FromAchievement(const D2::D2Achi& aAchi)
             Array ids;
             for (const auto* pt : aProgress)
             {
-                // Ref<Dictionary> data = conditionsByIds[pt->GetId()];
-                // data->set("text", String(pt->GetMessage().c_str()));
                 Dictionary data = conditionsByIds[pt->GetId()];
                 data["text"] = String(pt->GetMessage().c_str());
                 data["completed"] = pt->IsCompleted();
