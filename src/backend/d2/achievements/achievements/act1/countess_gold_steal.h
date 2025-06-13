@@ -13,29 +13,40 @@ namespace D2::Achi::CountessGoldSteal
         GE::ProgressTrackerBool m_inLocation = {this, "Enter Bloodthrone", true};
         GE::ProgressTrackerBool m_notInLocation = {this, "Stay in Bloodthrone", true};
         GE::ProgressTrackerBool m_countessKilled = {this, "Kill The Countess", true};
-        GE::ProgressTrackerInt m_goldCollected = {this, "Collect Gold", 1000};
+        GE::ProgressTrackerInt<> m_goldCollected = {this, "Collect Gold", 1000};
+        GE::ProgressTrackerTimer m_timer = {this, 30};
     };
 
     auto Create()
     {
-        return BLD<PD>(
-                   {
-                       "Fort Boyard", "Kill The Countess in 60s after entering the Bloodthrone while looting 1000 gold"
-        },
-                   {{GE::ConditionType::Activator, {&PD::m_inLocation}},
-                    {GE::ConditionType::Completer, {&PD::m_countessKilled}},
-                    {GE::ConditionType::Validator, {&PD::m_goldCollected}},
-                    {GE::ConditionType::Failer, {&PD::m_notInLocation}}})
+        return BLD<PD>({"Fort Boyard", "Kill The Countess in 30s after entering the Bloodthrone while looting 1000 gold"},
+                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
+                           aTrackers[GE::ConditionType::Activator].insert(&aPD.m_inLocation);
+                           aTrackers[GE::ConditionType::Completer].insert(&aPD.m_countessKilled);
+                           aTrackers[GE::ConditionType::Validator].insert(&aPD.m_goldCollected);
+                           aTrackers[GE::ConditionType::Failer].insert(&aPD.m_notInLocation);
+                           aTrackers[GE::ConditionType::Failer].insert(&aPD.m_timer);
+                       })
             .Update(GE::Status::Inactive,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
                         aPD.m_inLocation = aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_Bloodthrone;
                     })
-            .OnPass(GE::ConditionType::Activator,
-                    [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
-                        aPD.m_initialGold = *aDataAccess.GetPlayers().GetLocal()->m_stats.GetValue(Data::StatType::Gold);
-                    })
+            .OnEntering(GE::Status::Active,
+                        [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
+                            aPD.m_initialGold = *aDataAccess.GetPlayers().GetLocal()->m_stats.GetValue(Data::StatType::Gold);
+                            aPD.m_timer.Start();
+                        })
+            .OnEntering(GE::Status::Paused,
+                        [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
+                            aPD.m_timer.Pause(true);
+                        })
+            .OnLeaving(GE::Status::Paused,
+                       [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
+                           aPD.m_timer.Pause(false);
+                       })
             .Update(GE::Status::Active,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
+                        aPD.m_timer.Update();
                         if (!aPD.m_countessId)
                         {
                             Data::GUID countessId = 0;
@@ -43,7 +54,6 @@ namespace D2::Achi::CountessGoldSteal
                             {
                                 aPD.m_countessId = countessId;
                             }
-                            return false;
                         }
                         if (aPD.m_countessId)
                         {

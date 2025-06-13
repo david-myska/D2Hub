@@ -27,10 +27,11 @@ func fill_conditions(achievement : Achievement):
 		m_conditions.add_name(to_str(c))
 		m_conditions.add_texts(by_category[c].values())
 	achievement.progress_made.connect(m_conditions.update_conditions.bind(achievement))
-	achievement.status_changed.connect(func(s : Achievement.Status):
-		print("new status: %s" % s)
-	)
 
 func from_achievement(achievement : Achievement):
-	$VBoxContainer/AchievementView.from_achievement(achievement)
+	$VBoxContainer.remove_child($VBoxContainer.get_child(0))
+	var achi_view = preload("res://screens/achievements/achievement_view.tscn").instantiate()
+	achi_view.from_achievement(achievement)
+	$VBoxContainer.add_child(achi_view)
+	$VBoxContainer.move_child(achi_view, 0)
 	fill_conditions(achievement)

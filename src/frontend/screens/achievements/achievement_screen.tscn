@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://dyreym3cio3mc"]
 
-[ext_resource type="Script" uid="uid://dj3kf2vuj18s1" path="res://achievement_screen.gd" id="1_aiu0r"]
-[ext_resource type="PackedScene" uid="uid://bc0dnn6u0ff81" path="res://achievement_view.tscn" id="1_gu68l"]
-[ext_resource type="PackedScene" uid="uid://b02vaqvpalgd" path="res://achievement_detail.tscn" id="2_aiu0r"]
+[ext_resource type="Script" uid="uid://dj3kf2vuj18s1" path="res://screens/achievements/achievement_screen.gd" id="1_aiu0r"]
+[ext_resource type="PackedScene" uid="uid://bc0dnn6u0ff81" path="res://screens/achievements/achievement_view.tscn" id="1_gu68l"]
+[ext_resource type="PackedScene" uid="uid://b02vaqvpalgd" path="res://screens/achievements/achievement_detail.tscn" id="2_aiu0r"]
 
 [node name="AchievementScreen" type="MarginContainer"]
 anchors_preset = 15

@@ -16,14 +16,13 @@ namespace D2::Achi::AndarielNoHit
 
     auto Create()
     {
-        return BLD<PD>(
-                   {
-                       "Andariel no hit", "Kill Andariel without losing any life"
-        },
-                   {{GE::ConditionType::Precondition, {&PD::m_inLocation}},
-                    {GE::ConditionType::Activator, {&PD::m_andarielMet}},
-                    {GE::ConditionType::Completer, {&PD::m_andarielKilled}},
-                    {GE::ConditionType::Failer, {&PD::m_gotHit}}})
+        return BLD<PD>({"Andariel no hit", "Kill Andariel without losing any life"},
+                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
+                           aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inLocation);
+                           aTrackers[GE::ConditionType::Activator].insert(&aPD.m_andarielMet);
+                           aTrackers[GE::ConditionType::Completer].insert(&aPD.m_andarielKilled);
+                           aTrackers[GE::ConditionType::Failer].insert(&aPD.m_gotHit);
+                       })
             .Update(GE::Status::All,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
                         aPD.m_inLocation = aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_CatacombsLevel4;

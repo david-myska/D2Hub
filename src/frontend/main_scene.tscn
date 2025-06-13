@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://c5ca2tajwu10l"]
+[gd_scene load_steps=6 format=3 uid="uid://c5ca2tajwu10l"]
 
-[ext_resource type="PackedScene" uid="uid://dyreym3cio3mc" path="res://achievement_screen.tscn" id="1_0f027"]
+[ext_resource type="PackedScene" uid="uid://dyreym3cio3mc" path="res://screens/achievements/achievement_screen.tscn" id="1_0f027"]
 [ext_resource type="Script" uid="uid://b8mcr6oqu1aqb" path="res://main_scene.gd" id="1_gyfs4"]
-[ext_resource type="PackedScene" uid="uid://b5n3xe1wk02u1" path="res://donate.tscn" id="3_8mm7a"]
-[ext_resource type="PackedScene" uid="uid://bxbty8fetvnll" path="res://settings/settings_screen.tscn" id="3_hq1ik"]
+[ext_resource type="PackedScene" uid="uid://b5n3xe1wk02u1" path="res://utils/donate.tscn" id="3_8mm7a"]
+[ext_resource type="PackedScene" uid="uid://bxbty8fetvnll" path="res://screens/settings/settings_screen.tscn" id="3_hq1ik"]
+[ext_resource type="PackedScene" uid="uid://bfdeawjihi7xe" path="res://screens/perks/perks_screen.tscn" id="3_nfk4m"]
 
 [node name="MainScene" type="Control"]
 layout_mode = 3
@@ -144,14 +145,10 @@ metadata/_tab_index = 1
 layout_mode = 2
 text = "Here will be Challenges."
 
-[node name="Perks" type="CenterContainer" parent="MarginContainer/VBoxContainer/Body/MainPanel/TabContainer"]
+[node name="Perks" parent="MarginContainer/VBoxContainer/Body/MainPanel/TabContainer" instance=ExtResource("3_nfk4m")]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 2
-
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Body/MainPanel/TabContainer/Perks"]
-layout_mode = 2
-text = "Here will be Perks."
 
 [node name="LootFilter" type="CenterContainer" parent="MarginContainer/VBoxContainer/Body/MainPanel/TabContainer"]
 visible = false

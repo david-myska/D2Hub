@@ -1,0 +1,190 @@
+[gd_scene format=3 uid="uid://bfdeawjihi7xe"]
+
+[node name="PerksScreen" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "A little sample of what’s cooking"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 150
+alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Select perk you want to activate
+(Finish specific challenges in dungeons/rifts to unlock their perks)"
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/HBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CheckButton" type="CheckButton" parent="VBoxContainer/HBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Increase drop bias in Kurast 3000 BA"
+
+[node name="CheckButton2" type="CheckButton" parent="VBoxContainer/HBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Increase drop bias in Fauztinville"
+
+[node name="PanelContainer2" type="PanelContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/PanelContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer2"]
+layout_mode = 2
+text = "Here you can spend your achievement/challenge points"
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer2"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Bonus Magic Find"
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+text = "10AP"
+
+[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer2"]
+custom_minimum_size = Vector2(2.08189e-12, 150)
+layout_mode = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer2/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Respec"
+
+[node name="SpinBox" type="Button" parent="VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer2/HBoxContainer3"]
+layout_mode = 2
+text = "Buy"
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer2/HBoxContainer3"]
+custom_minimum_size = Vector2(50, 2.08189e-12)
+layout_mode = 2
+text = "250AP"
+
+[node name="HBoxContainer7" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer2/HBoxContainer7"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Reroll stat on item"
+
+[node name="SpinBox" type="Button" parent="VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer2/HBoxContainer7"]
+layout_mode = 2
+text = "Buy"
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer2/HBoxContainer7"]
+custom_minimum_size = Vector2(50, 2.08189e-12)
+layout_mode = 2
+text = "200AP"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer2/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Material X"
+
+[node name="SpinBox" type="Button" parent="VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer2/HBoxContainer4"]
+layout_mode = 2
+text = "Buy"
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer2/HBoxContainer4"]
+custom_minimum_size = Vector2(50, 2.08189e-12)
+layout_mode = 2
+text = "50AP"
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer2/HBoxContainer5"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Material Y"
+
+[node name="SpinBox" type="Button" parent="VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer2/HBoxContainer5"]
+layout_mode = 2
+text = "Buy"
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer2/HBoxContainer5"]
+custom_minimum_size = Vector2(50, 2.08189e-12)
+layout_mode = 2
+text = "100AP"
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer2/HBoxContainer6"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Material Z"
+
+[node name="SpinBox" type="Button" parent="VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer2/HBoxContainer6"]
+layout_mode = 2
+text = "Buy"
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer2/VBoxContainer2/HBoxContainer6"]
+custom_minimum_size = Vector2(50, 2.08189e-12)
+layout_mode = 2
+text = "70AP"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 2
+color = Color(0.362829, 0.362829, 0.362829, 0.529412)
+
+[node name="Label" type="Label" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -613.5
+offset_top = -87.5
+offset_right = 613.5
+offset_bottom = 87.5
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.469937
+pivot_offset = Vector2(613.5, 91.5)
+theme_override_font_sizes/font_size = 128
+text = "NOT AVAILABLE YET"
+horizontal_alignment = 1

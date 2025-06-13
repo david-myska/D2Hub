@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dqc3266nl801d"]
 
-[ext_resource type="Script" uid="uid://ckc474almfocf" path="res://developer_screen.gd" id="1_xh1pa"]
+[ext_resource type="Script" uid="uid://ckc474almfocf" path="res://screens/developer/developer_screen.gd" id="1_xh1pa"]
 
 [node name="DeveloperScreen" type="MarginContainer"]
 anchors_preset = 15

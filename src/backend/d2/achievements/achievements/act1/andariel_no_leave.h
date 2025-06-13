@@ -17,14 +17,13 @@ namespace D2::Achi::AndarielNoLeave
 
     auto Create()
     {
-        return BLD<PD>(
-                   {
-                       "Andariel no leave", "Kill Andariel without leaving her room"
-        },
-                   {{GE::ConditionType::Precondition, {&PD::m_inLocation}},
-                    {GE::ConditionType::Activator, {&PD::m_inRoom, &PD::m_andarielMet}},
-                    {GE::ConditionType::Completer, {&PD::m_andarielKilled}},
-                    {GE::ConditionType::Failer, {&PD::m_leftRoom}}})
+        return BLD<PD>({"Andariel no leave", "Kill Andariel without leaving her room"},
+                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
+                           aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inLocation);
+                           aTrackers[GE::ConditionType::Activator].insert(&aPD.m_andarielMet);
+                           aTrackers[GE::ConditionType::Completer].insert(&aPD.m_andarielKilled);
+                           aTrackers[GE::ConditionType::Failer].insert(&aPD.m_leftRoom);
+                       })
             .Update(GE::Status::All,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
                         aPD.m_inLocation = aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_CatacombsLevel4;
@@ -32,15 +31,14 @@ namespace D2::Achi::AndarielNoLeave
             .Update(GE::Status::Inactive,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
                         aPD.m_andarielMet = MonsterNearby("ANDARIEL", aDataAccess, aPD.m_andarielId);
-                     // auto currentPos = aDataAccess.GetPlayers().GetLocal()->m_pos;
-                     // aPD.m_inRoom = IsIn(currentPos, Rectangle(...));
-                     
+                        // auto currentPos = aDataAccess.GetPlayers().GetLocal()->m_pos;
+                        // aPD.m_inRoom = IsIn(currentPos, Rectangle(...));
                     })
             .Update(GE::Status::Active,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
                         aPD.m_andarielKilled = aS.GetDeadMonsters().contains(aPD.m_andarielId);
-                     // auto currentPos = aDataAccess.GetPlayers().GetLocal()->m_pos;
-                     // aPD.m_leftRoom = IsIn(currentPos, Rectangle(...));
+                        // auto currentPos = aDataAccess.GetPlayers().GetLocal()->m_pos;
+                        // aPD.m_leftRoom = IsIn(currentPos, Rectangle(...));
                     })
             .Build();
     }

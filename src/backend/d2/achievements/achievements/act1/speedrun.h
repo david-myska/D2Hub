@@ -14,7 +14,7 @@ namespace D2::Achi::Act1Speedrun
         GE::ProgressTrackerBool m_killLeoric = {this, "Kill Leoric the Skeleton King", true};
         GE::ProgressTrackerBool m_killAndariel = {this, "Kill Andariel", true};
 
-        GE::ProgressTrackerBool m_timeout = {this, "Timed out", true};
+        GE::ProgressTrackerTimer m_timer = {this, 20 * 60};
 
         Data::GUID m_bloodRavenId = 0;
         Data::GUID m_griswoldId = 0;
@@ -22,39 +22,42 @@ namespace D2::Achi::Act1Speedrun
         Data::GUID m_smithId = 0;
         Data::GUID m_leoricId = 0;
         Data::GUID m_andarielId = 0;
-
-        int timer = 0;
     };
 
     auto Create()
     {
-        return BLD<PD>(
-                   {
-                       "Speedrun Act 1", "Finish Act1 in 20 minutes"
-        },
-                   {{GE::ConditionType::Activator, {&PD::m_newChar}},
-                    {GE::ConditionType::Completer,
-                     {
-                         &PD::m_killBloodRaven,
-                         &PD::m_killGriswold,
-                         &PD::m_killCountess,
-                         &PD::m_killSmith,
-                         &PD::m_killLeoric,
-                         &PD::m_killAndariel,
-                     }},
-                    {GE::ConditionType::Failer, {&PD::m_timeout}}})
+        return BLD<PD>({"Speedrun Act 1", "Finish Act1 in 20 minutes"},
+                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
+                           aTrackers[GE::ConditionType::Activator].insert(&aPD.m_newChar);
+                           aTrackers[GE::ConditionType::Completer].insert(&aPD.m_killBloodRaven);
+                           aTrackers[GE::ConditionType::Completer].insert(&aPD.m_killGriswold);
+                           aTrackers[GE::ConditionType::Completer].insert(&aPD.m_killCountess);
+                           aTrackers[GE::ConditionType::Completer].insert(&aPD.m_killSmith);
+                           aTrackers[GE::ConditionType::Completer].insert(&aPD.m_killLeoric);
+                           aTrackers[GE::ConditionType::Completer].insert(&aPD.m_killAndariel);
+                           aTrackers[GE::ConditionType::Failer].insert(&aPD.m_timer);
+                       })
             .Update(GE::Status::Inactive,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
                         aPD.m_newChar = aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_BloodMoor &&
                                         aDataAccess.GetMisc(1).GetZone() == Data::Zone::Act1_RogueEncampment &&
                                         *aDataAccess.GetPlayers().GetLocal()->m_stats.GetValue(Data::StatType::CharLevel) == 1;
                     })
-            .OnPass(GE::ConditionType::Activator,
-                    [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
-                        aPD.timer = 0;  // TODO
-                    })
+            .OnEntering(GE::Status::Active,
+                        [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
+                            aPD.m_timer.Start();
+                        })
+            .OnEntering(GE::Status::Paused,
+                        [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
+                            aPD.m_timer.Pause(true);
+                        })
+            .OnLeaving(GE::Status::Paused,
+                       [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
+                           aPD.m_timer.Pause(false);
+                       })
             .Update(GE::Status::Active,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
+                        aPD.m_timer.Update();
                         if (aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_BurialGrounds)
                         {
                             if (aPD.m_bloodRavenId == 0)

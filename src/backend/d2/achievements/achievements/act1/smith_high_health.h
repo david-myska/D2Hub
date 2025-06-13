@@ -15,13 +15,12 @@ namespace D2::Achi::SmithHighHealth
 
     auto Create()
     {
-        return BLD<PD>(
-                   {
-                       "Smith High Health", "Kill Smith while staying above 80% life"
-        },
-                   {{GE::ConditionType::Precondition, {&PD::m_inLocation}},
-                    {GE::ConditionType::Activator, {&PD::m_smithMet}},
-                    {GE::ConditionType::Completer, {&PD::m_smithKilled}}})
+        return BLD<PD>({"Smith High Health", "Kill Smith while staying above 80% life"},
+                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
+                           aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inLocation);
+                           aTrackers[GE::ConditionType::Activator].insert(&aPD.m_smithMet);
+                           aTrackers[GE::ConditionType::Completer].insert(&aPD.m_smithKilled);
+                       })
             .Update(GE::Status::All,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
                         // aPD.m_inLocation = aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_CatacombsLevel4;

@@ -114,8 +114,8 @@ Ref<Achievement> Achievement::FromAchievement(const D2::D2Achi& aAchi)
     auto godotAchi = memnew(Achievement);
     godotAchi->m_metadata = AchievementMetadata::FromAchievement(aAchi);
     godotAchi->m_conditions = AchievementConditions::FromAchievement(aAchi);
-    godotAchi->m_onStatusChangedToken = aAchi->OnStatusChanged([godotAchi](GE::Status aStatus) {
-        godotAchi->call_deferred("emit_signal", "status_changed", static_cast<int>(aStatus));
+    godotAchi->m_onStatusChangedToken = aAchi->OnStatusChanged([godotAchi](GE::Status aNew, GE::Status) {
+        godotAchi->call_deferred("emit_signal", "status_changed", static_cast<int>(aNew));
     });
     godotAchi->m_onProgressMadeToken = aAchi->OnProgressMade(
         [godotAchi](const std::unordered_set<GE::ProgressTracker*>& aProgress) {

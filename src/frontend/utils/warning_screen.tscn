@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://br2kwgm06t6s1"]
 
-[ext_resource type="Script" uid="uid://cfn5e1duiildw" path="res://warning_screen.gd" id="1_noypl"]
+[ext_resource type="Script" uid="uid://cfn5e1duiildw" path="res://utils/warning_screen.gd" id="1_noypl"]
 
 [node name="WarningScreen" type="MarginContainer"]
 anchors_preset = 15

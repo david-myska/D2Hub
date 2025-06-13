@@ -5,7 +5,7 @@ extends Control
 func _ready() -> void:
 	var cmd_args := OS.get_cmdline_args()
 	if "--developer" in cmd_args:
-		var dev_screen = preload("res://developer_screen.tscn").instantiate()
+		var dev_screen = preload("res://screens/developer/developer_screen.tscn").instantiate()
 		$MarginContainer/VBoxContainer/Body/MainPanel/TabContainer.add_child(dev_screen)
 		# TODO disable achievements when in developer mode
 	

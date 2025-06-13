@@ -11,19 +11,19 @@ namespace D2::Achi::BloodRavenWalkDistance
         GE::ProgressTrackerBool m_inLocation = {this, "In Burial Grounds", true};
         GE::ProgressTrackerBool m_bloodRavenMet = {this, "Meet Blood Raven", true};
         GE::ProgressTrackerBool m_bloodRavenKilled = {this, "Kill Blood Raven", true};
-        GE::ProgressTrackerInt m_lessSteps = {this, "Less steps than Blood Raven", 0};
+        GE::ProgressTrackerInt<std::less_equal<>> m_lessSteps = {this, "Less steps than Blood Raven", 0, 0,
+                                                                 &GE::UnboundDynamicMessage<int>};
     };
 
     auto Create()
     {
-        return BLD<PD>(
-                   {
-                       "Blood Raven walk distance", "Kill Blood Raven making less steps than her"
-        },
-                   {{GE::ConditionType::Precondition, {&PD::m_inLocation}},
-                    {GE::ConditionType::Activator, {&PD::m_bloodRavenMet}},
-                    {GE::ConditionType::Completer, {&PD::m_bloodRavenKilled}},
-                    {GE::ConditionType::Validator, {&PD::m_lessSteps}}})
+        return BLD<PD>({"Blood Raven walk distance", "Kill Blood Raven making less steps than her"},
+                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
+                           aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inLocation);
+                           aTrackers[GE::ConditionType::Activator].insert(&aPD.m_bloodRavenMet);
+                           aTrackers[GE::ConditionType::Completer].insert(&aPD.m_bloodRavenKilled);
+                           aTrackers[GE::ConditionType::Validator].insert(&aPD.m_lessSteps);
+                       })
             .Update(GE::Status::All,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
                         aPD.m_inLocation = aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_BurialGrounds;

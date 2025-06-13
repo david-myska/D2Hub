@@ -24,7 +24,7 @@ FetchContent_MakeAvailable(spdlog)
 FetchContent_Declare(
   game_enhancer
   GIT_REPOSITORY https://github.com/david-myska/GameEnhancer.git
-  GIT_TAG        eventBasedAchievements
+  GIT_TAG        master
 )
 FetchContent_MakeAvailable(game_enhancer)
 
