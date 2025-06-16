@@ -9,13 +9,11 @@ namespace D2::Achi::TestPersistance
         GE::ProgressTrackerBool m_activate = {this, "Activate", true};
         GE::ProgressTrackerInt<> m_killed = {this, "Killed", 200};
 
-        void Serialize(std::ostream& aOut) const override { aOut << m_killed.GetCurrent(); }
+        void Serialize(GE::BinWriter aOut) const override { aOut.Write(m_killed.GetCurrent()); }
 
-        void Deserialize(std::istream& aIn) override
+        void Deserialize(GE::BinReader aIn) override
         {
-            int32_t tmp = 0;
-            aIn >> tmp;
-            m_killed.SetCurrent(tmp);
+            m_killed.SetCurrent(aIn.Read<int>());
         }
     };
 

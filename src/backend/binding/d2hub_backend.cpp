@@ -86,18 +86,15 @@ D2HubBackend::D2HubBackend()
     {
         m_logLevel = spdlog::level::debug;
     }
-    std::string logs_dir = godot::ProjectSettings::get_singleton()->globalize_path("user://logs").utf8().get_data();
-    std::string log_file = logs_dir + "/d2hub.log";
+    std::string user_dir = godot::ProjectSettings::get_singleton()->globalize_path("user://").utf8().get_data();
+    std::string log_file = user_dir + "/logs/d2hub.log";
     m_commonFileSink = std::make_shared<spdlog::sinks::daily_file_sink_mt>(log_file, 3, 33, false, 5);
     m_logger = MakeLogger("d2hub_backend");
 
-    m_achievementManager = std::make_unique<decltype(m_achievementManager)::element_type>(D2::CreateAchievements,
-                                                                                          MakeLogger("achievement_manager"));
+    m_achievementManager = std::make_unique<decltype(m_achievementManager)::element_type>(
+        D2::CreateAchievements, user_dir + "/achievements", MakeLogger("achievement_manager"));
 
-    // TODO tmp -> this just creates default achievements, no loading from file
-    std::istringstream invalid;
-    invalid.setstate(std::ios::failbit);
-    m_achievementManager->LoadAndActivate(invalid);
+    m_achievementManager->LoadAndActivate({});
     for (const auto& [_, achi] : m_achievementManager->GetActiveAchievements())
     {
         m_achievements.push_back(Achievement::FromAchievement(achi));
@@ -150,13 +147,14 @@ void D2HubBackend::initialize_backend(const String& path_to_modules)
         *m_memoryProcessor,
         [this](std::shared_ptr<GE::DataAccessor> aDataAccessor) {
             AutoBackup();
-            // TODO reset achis
             m_dataAccess = std::make_shared<D2::Data::DataAccess>(aDataAccessor);
             m_sharedData = std::make_shared<D2::Data::SharedData>(m_dataAccess);
             m_developerControl->Initialize(m_dataAccess, m_sharedData);
+            // TODO here I need to do some checks and not try loading non existing achievements for new characters
+            m_achievementManager->LoadAndActivate(m_dataAccess->GetLocalPlayerName());
         },
         [this]() {
-            // TODO save achis... on purpose like this to avoid some inconsistencies
+            m_achievementManager->Save(m_dataAccess->GetLocalPlayerName());
             m_dataAccess.reset();
             m_sharedData.reset();
         });

@@ -540,6 +540,8 @@ namespace D2::Data
             : m_dataAccess(std::move(aDataAccess))
             , m_difficulty(static_cast<Difficulty>(m_dataAccess->Get<Raw::Game>("Game")->m_difficultyLevel))
             , m_gameType(GameType{})  // TODO
+            , m_localPlayerName(reinterpret_cast<const char*>(
+                  m_dataAccess->Get<Raw::ClientUnits>("ClientUnits")->m_pPlayerList[1]->m_pUnitData->m_name))
         {
             const size_t frames = m_dataAccess->GetNumberOfFrames();
             for (size_t i = 1; i <= frames; ++i)
@@ -564,6 +566,8 @@ namespace D2::Data
 
         GameType GetGameType() const { return m_gameType; }
 
+        const std::string& GetLocalPlayerName() const { return m_localPlayerName; }
+
         // Frame dependent
         uint32_t GetCurrentGameFrame() const { return m_dataAccess->Get<Raw::Game>("Game")->m_gameFrame; }
 
@@ -580,6 +584,7 @@ namespace D2::Data
 
         const Difficulty m_difficulty;
         const GameType m_gameType;
+        const std::string m_localPlayerName;
 
         struct FrameData
         {
