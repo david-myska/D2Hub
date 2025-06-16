@@ -5,6 +5,7 @@
 
 #include "d2/achievements/base.h"
 #include "game_enhancer/achis/achievement_manager.h"
+#include "game_enhancer/backup/backup_engine.h"
 #include "game_enhancer/memory_processor.h"
 #include "spdlog/spdlog.h"
 
@@ -32,6 +33,8 @@ namespace godot
         std::shared_ptr<D2::Data::SharedData> m_sharedData;
 
         std::unique_ptr<GE::AchievementManager<D2::D2Achi::element_type>> m_achievementManager;
+        GE::BackupEnginePtr m_savesBackup;
+        bool m_autoBackupEnabled = false;
 
         Array m_achievements;
 
@@ -41,6 +44,7 @@ namespace godot
         void Update();
         void Clear();
         bool IsMxlDirValid(const std::filesystem::path& aPath) const;
+        void AutoBackup() const;
         std::shared_ptr<spdlog::logger> MakeLogger(const std::string& aName) const;
 
     protected:
@@ -61,6 +65,11 @@ namespace godot
         void attach_to_target_process(bool attach);
         void start_memory_processor();
         void stop_memory_processor();
+
+        void initialize_saves_backup(const String& target_dir);
+        void enable_auto_backup(bool enable = true);
+        void manual_backup(const String& backup_name = "") const;
+        void recover_from_backup(const String& backup_name) const;
     };
 
 }

@@ -43,6 +43,14 @@ bool D2HubBackend::IsMxlDirValid(const std::filesystem::path& aPath) const
     return true;
 }
 
+void D2HubBackend::AutoBackup() const
+{
+    if (m_autoBackupEnabled)
+    {
+        manual_backup();
+    }
+}
+
 std::shared_ptr<spdlog::logger> godot::D2HubBackend::MakeLogger(const std::string& aName) const
 {
     auto logger = std::make_shared<spdlog::logger>(aName, m_commonFileSink);
@@ -60,6 +68,10 @@ void D2HubBackend::_bind_methods()
     ClassDB::bind_method(D_METHOD("attach_to_target_process", "p_attach"), &D2HubBackend::attach_to_target_process);
     ClassDB::bind_method(D_METHOD("start_memory_processor"), &D2HubBackend::start_memory_processor);
     ClassDB::bind_method(D_METHOD("stop_memory_processor"), &D2HubBackend::stop_memory_processor);
+    ClassDB::bind_method(D_METHOD("initialize_saves_backup", "p_target_dir"), &D2HubBackend::initialize_saves_backup);
+    ClassDB::bind_method(D_METHOD("enable_auto_backup", "p_enable"), &D2HubBackend::enable_auto_backup);
+    ClassDB::bind_method(D_METHOD("manual_backup", "p_backup_name"), &D2HubBackend::manual_backup);
+    ClassDB::bind_method(D_METHOD("recover_from_backup", "p_backup_name"), &D2HubBackend::recover_from_backup);
 
     ADD_SIGNAL(MethodInfo("backend_initialized", PropertyInfo(Variant::BOOL, "initialized")));
     ADD_SIGNAL(MethodInfo("target_process_exists", PropertyInfo(Variant::BOOL, "exists")));
@@ -137,12 +149,14 @@ void D2HubBackend::initialize_backend(const String& path_to_modules)
     D2::SetupCallbacks(
         *m_memoryProcessor,
         [this](std::shared_ptr<GE::DataAccessor> aDataAccessor) {
+            AutoBackup();
+            // TODO reset achis
             m_dataAccess = std::make_shared<D2::Data::DataAccess>(aDataAccessor);
             m_sharedData = std::make_shared<D2::Data::SharedData>(m_dataAccess);
             m_developerControl->Initialize(m_dataAccess, m_sharedData);
-            UtilityFunctions::print("In-game data is ready.");
         },
         [this]() {
+            // TODO save achis... on purpose like this to avoid some inconsistencies
             m_dataAccess.reset();
             m_sharedData.reset();
         });
@@ -205,4 +219,67 @@ void D2HubBackend::stop_memory_processor()
         return;
     }
     m_memoryProcessor->RequestStop();
+}
+
+void D2HubBackend::initialize_saves_backup(const String& target_dir)
+{
+    try
+    {
+        auto savesDir = godot::ProjectSettings::get_singleton()->globalize_path("user://backup").utf8().get_data();
+        m_savesBackup = GE::BackupEngine::Create(target_dir.utf8().get_data(), savesDir, MakeLogger("saves_backup"));
+    }
+    catch (const std::exception& e)
+    {
+        m_logger->warn("Failed to initialize saves backup: {}", e.what());
+        m_savesBackup.reset();
+        return;
+    }
+}
+
+void D2HubBackend::enable_auto_backup(bool enable)
+{
+    m_autoBackupEnabled = enable;
+}
+
+void D2HubBackend::manual_backup(const String& backup_name) const
+{
+    if (!m_savesBackup)
+    {
+        // TODO send error signal
+        return;
+    }
+    std::optional<std::string> name;
+    if (!backup_name.is_empty())
+    {
+        name = backup_name.utf8().get_data();
+    }
+    try
+    {
+        m_savesBackup->Backup(name);
+    }
+    catch (const std::exception& e)
+    {
+        m_logger->warn("Failed to create backup: {}", e.what());
+        // TODO send error signal
+        return;
+    }
+}
+
+void D2HubBackend::recover_from_backup(const String& backup_name) const
+{
+    if (!m_savesBackup)
+    {
+        // TODO send error signal
+        return;
+    }
+    try
+    {
+        m_savesBackup->Restore(backup_name.utf8().get_data());
+    }
+    catch (const std::exception& e)
+    {
+        m_logger->warn("Failed to recover from backup: {}", e.what());
+        // TODO send error signal
+        return;
+    }
 }
