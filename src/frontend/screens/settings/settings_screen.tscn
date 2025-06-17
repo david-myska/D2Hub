@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bxbty8fetvnll"]
 
-[ext_resource type="Script" uid="uid://cxsy6b6jkajwi" path="res://screens/settings/settings_screen.gd" id="1_00yke"]
+[ext_resource type="Script" uid="uid://btvyc6atxfjwm" path="res://screens/settings/settings_screen.gd" id="1_00yke"]
 [ext_resource type="PackedScene" uid="uid://b5n3xe1wk02u1" path="res://utils/donate.tscn" id="2_pfwel"]
 
 [node name="SettingsScreen" type="MarginContainer"]
@@ -17,6 +17,7 @@ layout_mode = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 25
 
 [node name="General" type="PanelContainer" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -59,6 +60,41 @@ text = "Auto-Attach"
 unique_name_in_owner = true
 layout_mode = 2
 text = "Skip warning on startup"
+
+[node name="Backup" type="PanelContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/Backup"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/Backup/VBoxContainer"]
+layout_mode = 2
+text = "Backup"
+
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/VBoxContainer/Backup/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/Backup/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/Backup/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.66
+text = "Save files directory"
+
+[node name="SaveDirLineEdit" type="LineEdit" parent="HBoxContainer/VBoxContainer/Backup/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="OpenDirDialogBtn" type="Button" parent="HBoxContainer/VBoxContainer/Backup/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Find"
+
+[node name="AutoAttach" type="CheckButton" parent="HBoxContainer/VBoxContainer/Backup/VBoxContainer"]
+layout_mode = 2
+tooltip_text = "Automatically tries to detect and attach to the Diablo II game instance"
+text = "Auto-Backup"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2

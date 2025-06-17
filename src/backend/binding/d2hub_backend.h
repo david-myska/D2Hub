@@ -70,6 +70,7 @@ namespace godot
         void enable_auto_backup(bool enable = true);
         void manual_backup(const String& backup_name = "") const;
         void recover_from_backup(const String& backup_name) const;
+        Array get_available_backups() const;
     };
 
 }

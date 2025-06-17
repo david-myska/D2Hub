@@ -72,6 +72,7 @@ void D2HubBackend::_bind_methods()
     ClassDB::bind_method(D_METHOD("enable_auto_backup", "p_enable"), &D2HubBackend::enable_auto_backup);
     ClassDB::bind_method(D_METHOD("manual_backup", "p_backup_name"), &D2HubBackend::manual_backup);
     ClassDB::bind_method(D_METHOD("recover_from_backup", "p_backup_name"), &D2HubBackend::recover_from_backup);
+    ClassDB::bind_method(D_METHOD("get_available_backups"), &D2HubBackend::get_available_backups);
 
     ADD_SIGNAL(MethodInfo("backend_initialized", PropertyInfo(Variant::BOOL, "initialized")));
     ADD_SIGNAL(MethodInfo("target_process_exists", PropertyInfo(Variant::BOOL, "exists")));
@@ -150,7 +151,6 @@ void D2HubBackend::initialize_backend(const String& path_to_modules)
             m_dataAccess = std::make_shared<D2::Data::DataAccess>(aDataAccessor);
             m_sharedData = std::make_shared<D2::Data::SharedData>(m_dataAccess);
             m_developerControl->Initialize(m_dataAccess, m_sharedData);
-            // TODO here I need to do some checks and not try loading non existing achievements for new characters
             m_achievementManager->LoadAndActivate(m_dataAccess->GetLocalPlayerName());
         },
         [this]() {
@@ -280,4 +280,14 @@ void D2HubBackend::recover_from_backup(const String& backup_name) const
         // TODO send error signal
         return;
     }
+}
+
+Array D2HubBackend::get_available_backups() const
+{
+    Array backups;
+    for (const auto& backup : m_savesBackup->GetAvailableBackups())
+    {
+        backups.push_back(String(backup.c_str()));
+    }
+    return backups;
 }
