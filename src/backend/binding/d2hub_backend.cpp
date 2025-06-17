@@ -51,6 +51,17 @@ void D2HubBackend::AutoBackup() const
     }
 }
 
+void D2HubBackend::LoadAchievements(std::optional<std::string> aId)
+{
+    m_achievements.clear();
+    m_achievementManager->LoadAndActivate(std::move(aId));
+    for (const auto& [_, achi] : m_achievementManager->GetActiveAchievements())
+    {
+        m_achievements.push_back(Achievement::FromAchievement(achi));
+    }
+    call_deferred("emit_signal", "new_achievements_loaded");
+}
+
 std::shared_ptr<spdlog::logger> godot::D2HubBackend::MakeLogger(const std::string& aName) const
 {
     auto logger = std::make_shared<spdlog::logger>(aName, m_commonFileSink);
@@ -78,6 +89,7 @@ void D2HubBackend::_bind_methods()
     ADD_SIGNAL(MethodInfo("target_process_exists", PropertyInfo(Variant::BOOL, "exists")));
     ADD_SIGNAL(MethodInfo("target_process_attached", PropertyInfo(Variant::BOOL, "attached")));
     ADD_SIGNAL(MethodInfo("memory_processor_running", PropertyInfo(Variant::BOOL, "processing")));
+    ADD_SIGNAL(MethodInfo("new_achievements_loaded"));
 }
 
 D2HubBackend::D2HubBackend()
@@ -95,11 +107,7 @@ D2HubBackend::D2HubBackend()
     m_achievementManager = std::make_unique<decltype(m_achievementManager)::element_type>(
         D2::CreateAchievements, user_dir + "/achievements", MakeLogger("achievement_manager"));
 
-    m_achievementManager->LoadAndActivate({});
-    for (const auto& [_, achi] : m_achievementManager->GetActiveAchievements())
-    {
-        m_achievements.push_back(Achievement::FromAchievement(achi));
-    }
+    LoadAchievements({});
 }
 
 D2HubBackend::~D2HubBackend() {}
@@ -151,7 +159,7 @@ void D2HubBackend::initialize_backend(const String& path_to_modules)
             m_dataAccess = std::make_shared<D2::Data::DataAccess>(aDataAccessor);
             m_sharedData = std::make_shared<D2::Data::SharedData>(m_dataAccess);
             m_developerControl->Initialize(m_dataAccess, m_sharedData);
-            m_achievementManager->LoadAndActivate(m_dataAccess->GetLocalPlayerName());
+            LoadAchievements(m_dataAccess->GetLocalPlayerName());
         },
         [this]() {
             m_achievementManager->Save(m_dataAccess->GetLocalPlayerName());

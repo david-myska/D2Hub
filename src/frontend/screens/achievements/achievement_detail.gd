@@ -1,6 +1,8 @@
 extends MarginContainer
 
-@onready var m_conditions: MarginContainer = $VBoxContainer/ConditionsView
+@onready var m_conditions: MarginContainer = null
+
+var tmp_for_disconnect: Callable
 
 func to_str(c : Achievement.Condition) -> String:
 	match c:
@@ -19,7 +21,10 @@ func to_str(c : Achievement.Condition) -> String:
 	return "Invalid condition"
 
 func fill_conditions(achievement : Achievement):
-	m_conditions.clear()
+	if m_conditions:
+		m_conditions.queue_free()
+	m_conditions = preload("res://screens/achievements/conditions_view.tscn").instantiate()
+	$VBoxContainer.add_child(m_conditions)
 	var by_category := achievement.get_conditions().get_conditions_by_categories()
 	for c in range(Achievement.ALL_CONDITIONS):
 		if by_category[c].is_empty():

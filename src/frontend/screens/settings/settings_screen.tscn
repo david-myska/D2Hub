@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bxbty8fetvnll"]
 
-[ext_resource type="Script" uid="uid://btvyc6atxfjwm" path="res://screens/settings/settings_screen.gd" id="1_00yke"]
+[ext_resource type="Script" uid="uid://cxsy6b6jkajwi" path="res://screens/settings/settings_screen.gd" id="1_00yke"]
 [ext_resource type="PackedScene" uid="uid://b5n3xe1wk02u1" path="res://utils/donate.tscn" id="2_pfwel"]
 
 [node name="SettingsScreen" type="MarginContainer"]

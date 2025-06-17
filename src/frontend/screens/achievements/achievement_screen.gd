@@ -4,7 +4,8 @@ extends MarginContainer
 @onready var m_details: MarginContainer = $VBoxContainer/MarginContainer/HBoxContainer/AchiDetail/AchievementDetail
 
 func _ready() -> void:
-	fill_achievements(Backend.get_achievements())
+	fill_achievements()
+	Backend.new_achievements_loaded.connect(fill_achievements)
 
 func status_to_str(s : Achievement.Status) -> String:
 	match s:
@@ -18,7 +19,8 @@ func status_to_str(s : Achievement.Status) -> String:
 func _report_status(status : Achievement.Status, achi : Achievement):
 	print("%s - Changed status to -> %s" % [achi.get_metadata().name, status_to_str(status)])
 
-func fill_achievements(achis : Array) -> void:
+func fill_achievements() -> void:
+	var achis := Backend.get_achievements()
 	for c in m_achis.get_children():
 		c.queue_free()
 	for a in achis:

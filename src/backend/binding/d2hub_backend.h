@@ -45,6 +45,8 @@ namespace godot
         void Clear();
         bool IsMxlDirValid(const std::filesystem::path& aPath) const;
         void AutoBackup() const;
+
+        void LoadAchievements(std::optional<std::string> aId = {});
         std::shared_ptr<spdlog::logger> MakeLogger(const std::string& aName) const;
 
     protected:
