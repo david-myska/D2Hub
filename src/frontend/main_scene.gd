@@ -16,6 +16,7 @@ func _ready() -> void:
 			discover_timer.stop()
 		else:
 			discover_timer.start()
+		_disable_backup(exists)
 	)
 	Backend.target_process_attached.connect(func(attached : bool):
 		%Attached.text = "ON" if attached else "OFF"
@@ -47,3 +48,20 @@ func _on_manual_start_pressed() -> void:
 
 func _on_show_logs_pressed() -> void:
 	OS.shell_open(ProjectSettings.globalize_path("user://logs"))
+
+func _disable_backup(disable : bool) -> void:
+	$MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/CreateBackup/CreateBackupBtn.disabled = disable
+	$MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/LoadBackup/LoadBackupBtn.disabled = disable
+
+func _on_backup_option_pressed() -> void:
+	%BackupOption.clear()
+	for backup in Backend.get_available_backups():
+		%BackupOption.add_item(backup)
+
+
+func _on_load_backup_btn_pressed() -> void:
+	Backend.recover_from_backup(%BackupOption.get_item_text(%BackupOption.selected))
+
+
+func _on_create_backup_btn_pressed() -> void:
+	Backend.manual_backup(%BackupNameLineEdit.text)

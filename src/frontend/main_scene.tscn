@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://c5ca2tajwu10l"]
 
 [ext_resource type="PackedScene" uid="uid://dyreym3cio3mc" path="res://screens/achievements/achievement_screen.tscn" id="1_0f027"]
-[ext_resource type="Script" uid="uid://b8mcr6oqu1aqb" path="res://main_scene.gd" id="1_gyfs4"]
+[ext_resource type="Script" uid="uid://4bodvwv2o1ym" path="res://main_scene.gd" id="1_gyfs4"]
 [ext_resource type="PackedScene" uid="uid://b5n3xe1wk02u1" path="res://utils/donate.tscn" id="3_8mm7a"]
 [ext_resource type="PackedScene" uid="uid://bxbty8fetvnll" path="res://screens/settings/settings_screen.tscn" id="3_hq1ik"]
 [ext_resource type="PackedScene" uid="uid://bfdeawjihi7xe" path="res://screens/perks/perks_screen.tscn" id="3_nfk4m"]
@@ -121,21 +121,28 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="CreateBackup" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 
 [node name="BackupNameLineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/CreateBackup"]
+unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Leave empty for automatic name in form: YYMMDD_HHMMSS"
 placeholder_text = "Custom Name"
+alignment = 1
+max_length = 16
 
 [node name="CreateBackupBtn" type="Button" parent="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/CreateBackup"]
 layout_mode = 2
-text = " Create Backup "
+tooltip_text = "Manual backups are allowed only when Diablo 2 is OFF"
+text = "Create Backup"
 
 [node name="LoadBackup" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 
 [node name="BackupOption" type="OptionButton" parent="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/LoadBackup"]
+unique_name_in_owner = true
 layout_mode = 2
 item_count = 1
 popup/item_0/text = " "
@@ -143,6 +150,7 @@ popup/item_0/id = 0
 
 [node name="LoadBackupBtn" type="Button" parent="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/LoadBackup"]
 layout_mode = 2
+tooltip_text = "Loading a backup is only possible when Diablo 2 is OFF"
 text = "Load Backup "
 
 [node name="Body" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
@@ -219,5 +227,8 @@ text = "Show Logs"
 autostart = true
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/ManualStart" to="." method="_on_manual_start_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/CreateBackup/CreateBackupBtn" to="." method="_on_create_backup_btn_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/LoadBackup/BackupOption" to="." method="_on_backup_option_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/LoadBackup/LoadBackupBtn" to="." method="_on_load_backup_btn_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Footer/PanelContainer/HBoxContainer/ShowLogs" to="." method="_on_show_logs_pressed"]
 [connection signal="timeout" from="DiscoverTimer" to="." method="_on_discover_timer_timeout"]
