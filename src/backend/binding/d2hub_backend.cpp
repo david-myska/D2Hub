@@ -51,13 +51,17 @@ void D2HubBackend::AutoBackup() const
     }
 }
 
-void D2HubBackend::LoadAchievements(std::optional<std::string> aId)
+void D2HubBackend::LoadAchievements(std::optional<std::string> aId, bool aActivate)
 {
     m_achievements.clear();
-    m_achievementManager->LoadAndActivate(std::move(aId));
+    auto loadedAchievements = m_achievementManager->Load(std::move(aId));
     for (const auto& [_, achi] : m_achievementManager->GetActiveAchievements())
     {
         m_achievements.push_back(Achievement::FromAchievement(achi));
+    }
+    if (aActivate)
+    {
+        m_achievementManager->Activate(std::move(loadedAchievements));
     }
     call_deferred("emit_signal", "new_achievements_loaded");
 }
@@ -107,7 +111,7 @@ D2HubBackend::D2HubBackend()
     m_achievementManager = std::make_unique<decltype(m_achievementManager)::element_type>(
         D2::CreateAchievements, user_dir + "/achievements", MakeLogger("achievement_manager"));
 
-    LoadAchievements({});
+    LoadAchievements({}, false);
 }
 
 D2HubBackend::~D2HubBackend() {}
@@ -159,7 +163,7 @@ void D2HubBackend::initialize_backend(const String& path_to_modules)
             m_dataAccess = std::make_shared<D2::Data::DataAccess>(aDataAccessor);
             m_sharedData = std::make_shared<D2::Data::SharedData>(m_dataAccess);
             m_developerControl->Initialize(m_dataAccess, m_sharedData);
-            LoadAchievements(m_dataAccess->GetLocalPlayerName());
+            LoadAchievements(m_dataAccess->GetLocalPlayerName(), !D2::InvalidStart());
         },
         [this]() {
             m_achievementManager->Save(m_dataAccess->GetLocalPlayerName());
