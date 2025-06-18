@@ -55,7 +55,7 @@ void D2HubBackend::LoadAchievements(std::optional<std::string> aId, bool aActiva
 {
     m_achievements.clear();
     auto loadedAchievements = m_achievementManager->Load(std::move(aId));
-    for (const auto& [_, achi] : m_achievementManager->GetActiveAchievements())
+    for (const auto& [_, achi] : loadedAchievements)
     {
         m_achievements.push_back(Achievement::FromAchievement(achi));
     }

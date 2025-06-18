@@ -1,11 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://b02vaqvpalgd"]
+[gd_scene load_steps=2 format=3 uid="uid://b02vaqvpalgd"]
 
-[ext_resource type="PackedScene" uid="uid://bc0dnn6u0ff81" path="res://screens/achievements/achievement_view.tscn" id="1_1f3y6"]
 [ext_resource type="Script" uid="uid://dbr57foxcaytm" path="res://screens/achievements/achievement_detail.gd" id="1_edha3"]
-
-[sub_resource type="StyleBoxLine" id="StyleBoxLine_edha3"]
-color = Color(1, 1, 1, 1)
-thickness = 3
 
 [node name="AchievementDetail" type="MarginContainer"]
 anchors_preset = 15
@@ -18,10 +13,3 @@ script = ExtResource("1_edha3")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
-
-[node name="AchievementView" parent="VBoxContainer" instance=ExtResource("1_1f3y6")]
-layout_mode = 2
-
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
-layout_mode = 2
-theme_override_styles/separator = SubResource("StyleBoxLine_edha3")

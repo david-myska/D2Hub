@@ -11,18 +11,18 @@ namespace D2::Achi::BloodRavenWalkDistance
         GE::ProgressTrackerBool m_inLocation = {this, "In Burial Grounds", true};
         GE::ProgressTrackerBool m_bloodRavenMet = {this, "Meet Blood Raven", true};
         GE::ProgressTrackerBool m_bloodRavenKilled = {this, "Kill Blood Raven", true};
-        GE::ProgressTrackerInt<std::less_equal<>> m_lessSteps = {this, "Less steps than Blood Raven", 0, 0,
+        GE::ProgressTrackerInt<> m_steps = {this, "More steps than Blood Raven", 0, 0,
                                                                  &GE::UnboundDynamicMessage<int>};
     };
 
     auto Create()
     {
-        return BLD<PD>({"Blood Raven walk distance", "Kill Blood Raven making less steps than her"},
+        return BLD<PD>({"Blood Raven walk distance", "Kill Blood Raven making more steps than her"},
                        [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                            aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inLocation);
                            aTrackers[GE::ConditionType::Activator].insert(&aPD.m_bloodRavenMet);
                            aTrackers[GE::ConditionType::Completer].insert(&aPD.m_bloodRavenKilled);
-                           aTrackers[GE::ConditionType::Validator].insert(&aPD.m_lessSteps);
+                           aTrackers[GE::ConditionType::Validator].insert(&aPD.m_steps);
                        })
             .Update(GE::Status::All,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
@@ -44,7 +44,7 @@ namespace D2::Achi::BloodRavenWalkDistance
                             uint32_t playerStepsChange = static_cast<uint32_t>(std::sqrt(xDist * xDist + yDist * yDist));
                             if (playerStepsChange < 10)  // Player walked, not teleported
                             {
-                                aPD.m_lessSteps += playerStepsChange;
+                                aPD.m_steps += playerStepsChange;
                             }
                         }
                         auto prevRaven = aDataAccess.GetMonsters(1).GetById(aPD.m_bloodRavenId);
@@ -55,7 +55,7 @@ namespace D2::Achi::BloodRavenWalkDistance
                             auto newPos = newRaven->m_pos;
                             auto xDist = newPos.x - previousPos.x;
                             auto yDist = newPos.y - previousPos.y;
-                            aPD.m_lessSteps.SetTarget(aPD.m_lessSteps.GetTarget() +
+                            aPD.m_steps.SetTarget(aPD.m_steps.GetTarget() +
                                                       static_cast<uint32_t>(std::sqrt(xDist * xDist + yDist * yDist)));
                         }
                     })

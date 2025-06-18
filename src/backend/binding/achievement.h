@@ -54,6 +54,8 @@ namespace godot
         PMA::ScopedTokenPtr m_onStatusChangedToken;
         PMA::ScopedTokenPtr m_onProgressMadeToken;
 
+        GE::Status m_status = GE::Status::Disabled;
+
     protected:
         static void _bind_methods();
 
@@ -62,6 +64,7 @@ namespace godot
 
         Ref<AchievementMetadata> get_metadata() const;
         Ref<AchievementConditions> get_conditions() const;
+        int get_status() const;
     };
 
 }

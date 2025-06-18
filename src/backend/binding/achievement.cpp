@@ -87,6 +87,7 @@ Dictionary AchievementConditions::get_conditions_by_categories() const
 
 void Achievement::_bind_methods()
 {
+    ClassDB::bind_method(D_METHOD("get_status"), &Achievement::get_status);
     ClassDB::bind_method(D_METHOD("get_metadata"), &Achievement::get_metadata);
     ClassDB::bind_method(D_METHOD("get_conditions"), &Achievement::get_conditions);
 
@@ -112,9 +113,11 @@ void Achievement::_bind_methods()
 Ref<Achievement> Achievement::FromAchievement(const D2::D2Achi& aAchi)
 {
     auto godotAchi = memnew(Achievement);
+    godotAchi->m_status = aAchi->GetStatus();
     godotAchi->m_metadata = AchievementMetadata::FromAchievement(aAchi);
     godotAchi->m_conditions = AchievementConditions::FromAchievement(aAchi);
     godotAchi->m_onStatusChangedToken = aAchi->OnStatusChanged([godotAchi](GE::Status aNew, GE::Status) {
+        godotAchi->m_status = aNew;
         godotAchi->call_deferred("emit_signal", "status_changed", static_cast<int>(aNew));
     });
     godotAchi->m_onProgressMadeToken = aAchi->OnProgressMade(
@@ -142,4 +145,9 @@ Ref<AchievementMetadata> Achievement::get_metadata() const
 Ref<AchievementConditions> Achievement::get_conditions() const
 {
     return m_conditions;
+}
+
+int Achievement::get_status() const
+{
+    return static_cast<int>(m_status);
 }

@@ -2,6 +2,15 @@ extends MarginContainer
 
 @export var m_columns : int = 3
 
+func from_achievement(achi : Achievement) -> void:
+	var by_category := achi.get_conditions().get_conditions_by_categories()
+	for c in range(Achievement.ALL_CONDITIONS):
+		if by_category[c].is_empty():
+			continue
+		add_name(to_str(c))
+		add_texts(by_category[c].values())
+	achi.progress_made.connect(update_conditions.bind(achi))
+
 func add_name(cond_name : String) -> void:
 	var hbox := HBoxContainer.new()
 	hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -11,11 +20,6 @@ func add_name(cond_name : String) -> void:
 	hbox.add_child(l)
 	var lbl := Label.new()
 	lbl.text = cond_name
-	#var lbl := RichTextLabel.new()
-	#lbl.bbcode_enabled = true
-	#lbl.fit_content = true
-	#lbl.text = "[center]%s[/center]" % cond_name
-	#lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	hbox.add_child(lbl)
 	var r := HSeparator.new()
 	r.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -28,13 +32,9 @@ func add_texts(cond_data : Array) -> void:
 	grid.columns = m_columns
 	for d in cond_data:
 		var lbl := Label.new()
-		lbl.text = d["text"]
-		#var lbl := RichTextLabel.new()
-		#lbl.fit_content = true
-		#lbl.text = d["text"]
-		#lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		grid.add_child(lbl)
 		d["label"] = lbl
+		_update_condition(d)
 	$VBoxContainer.add_child(grid)
 
 func clear():
@@ -54,3 +54,19 @@ func update_conditions(ids : Array, achi : Achievement):
 	var by_ids = achi.get_conditions().get_conditions_by_ids()
 	for id in ids:
 		_update_condition(by_ids[id]) 
+
+func to_str(c : Achievement.Condition) -> String:
+	match c:
+		Achievement.Condition.PRECONDITION:
+			return "Preconditions"
+		Achievement.Condition.ACTIVATOR:
+			return "Activation"
+		Achievement.Condition.COMPLETER:
+			return "Completion"
+		Achievement.Condition.FAILER:
+			return "How to Fail"
+		Achievement.Condition.VALIDATOR:
+			return "Validates on Completion"
+		Achievement.Condition.RESETER:
+			return "Resets & allows Activation again"
+	return "Invalid condition"
