@@ -44,7 +44,7 @@ namespace godot
         void Update();
         void Clear();
         bool IsMxlDirValid(const std::filesystem::path& aPath) const;
-        void AutoBackup() const;
+        void AutoBackup();
 
         void LoadAchievements(std::optional<std::string> aId = {}, bool aActivate = true);
         std::shared_ptr<spdlog::logger> MakeLogger(const std::string& aName) const;
@@ -70,9 +70,9 @@ namespace godot
 
         void initialize_saves_backup(const String& target_dir);
         void enable_auto_backup(bool enable = true);
-        void manual_backup(const String& backup_name = "") const;
-        void recover_from_backup(const String& backup_name) const;
-        Array get_available_backups() const;
+        void manual_backup(const String& backup_name = "");
+        void recover_from_backup(const String& backup_name);
+        Array get_available_backups();
     };
 
 }

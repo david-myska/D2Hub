@@ -43,7 +43,7 @@ bool D2HubBackend::IsMxlDirValid(const std::filesystem::path& aPath) const
     return true;
 }
 
-void D2HubBackend::AutoBackup() const
+void D2HubBackend::AutoBackup()
 {
     if (m_autoBackupEnabled)
     {
@@ -94,6 +94,7 @@ void D2HubBackend::_bind_methods()
     ADD_SIGNAL(MethodInfo("target_process_attached", PropertyInfo(Variant::BOOL, "attached")));
     ADD_SIGNAL(MethodInfo("memory_processor_running", PropertyInfo(Variant::BOOL, "processing")));
     ADD_SIGNAL(MethodInfo("new_achievements_loaded"));
+    ADD_SIGNAL(MethodInfo("show_popup", PropertyInfo(Variant::STRING, "message")));
 }
 
 D2HubBackend::D2HubBackend()
@@ -242,7 +243,6 @@ void D2HubBackend::initialize_saves_backup(const String& target_dir)
     {
         m_logger->warn("Failed to initialize saves backup: {}", e.what());
         m_savesBackup.reset();
-        return;
     }
 }
 
@@ -251,11 +251,11 @@ void D2HubBackend::enable_auto_backup(bool enable)
     m_autoBackupEnabled = enable;
 }
 
-void D2HubBackend::manual_backup(const String& backup_name) const
+void D2HubBackend::manual_backup(const String& backup_name)
 {
     if (!m_savesBackup)
     {
-        // TODO send error signal
+        call_deferred("emit_signal", "show_popup", "Backup component not initialized");
         return;
     }
     std::optional<std::string> name;
@@ -270,16 +270,16 @@ void D2HubBackend::manual_backup(const String& backup_name) const
     catch (const std::exception& e)
     {
         m_logger->warn("Failed to create backup: {}", e.what());
-        // TODO send error signal
+        call_deferred("emit_signal", "show_popup", "Failed to create backup");
         return;
     }
 }
 
-void D2HubBackend::recover_from_backup(const String& backup_name) const
+void D2HubBackend::recover_from_backup(const String& backup_name)
 {
     if (!m_savesBackup)
     {
-        // TODO send error signal
+        call_deferred("emit_signal", "show_popup", "Backup component not initialized");
         return;
     }
     try
@@ -289,13 +289,19 @@ void D2HubBackend::recover_from_backup(const String& backup_name) const
     catch (const std::exception& e)
     {
         m_logger->warn("Failed to recover from backup: {}", e.what());
-        // TODO send error signal
+        call_deferred("emit_signal", "show_popup", "Failed to recover from backup");
         return;
     }
 }
 
-Array D2HubBackend::get_available_backups() const
+Array D2HubBackend::get_available_backups()
 {
+    if (!m_savesBackup)
+    {
+        call_deferred("emit_signal", "show_popup", "Backup component not initialized");
+        return {};
+    }
+
     Array backups;
     for (const auto& backup : m_savesBackup->GetAvailableBackups())
     {

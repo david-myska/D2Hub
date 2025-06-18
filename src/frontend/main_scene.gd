@@ -8,7 +8,7 @@ func _ready() -> void:
 		var dev_screen = preload("res://screens/developer/developer_screen.tscn").instantiate()
 		$MarginContainer/VBoxContainer/Body/MainPanel/TabContainer.add_child(dev_screen)
 		# TODO disable achievements when in developer mode
-	
+	Backend.show_popup.connect($MessagePopup.show_message)
 	Backend.target_process_exists.connect(func(exists : bool):
 		%D2Discovered.text = "ON" if exists else "OFF"
 		%D2Discovered.modulate = Color.GREEN if exists else Color.RED
@@ -26,16 +26,26 @@ func _ready() -> void:
 		%Processing.text = "ON" if running else "OFF"
 		%Processing.modulate = Color.GREEN if running else Color.RED
 	)
-	var mxl_dir : String = App.Config.get_value(Cfg.sec_global, Cfg.key_mxl_dir)
+	var mxl_dir : String = App.Config.Get(Cfg.sec_global, Cfg.key_mxl_dir)
 	if Backend.is_mxl_dir_valid(mxl_dir):
-		Backend.initialize_backend(App.Config.get_value(Cfg.sec_global, Cfg.key_mxl_dir))
+		Backend.initialize_backend(App.Config.Get(Cfg.sec_global, Cfg.key_mxl_dir))
 	else:
-		pass # TODO show some error in header status
+		$MessagePopup.show_message("Median XL directory is not set correctly")
 	
-	var auto_attach : bool = App.Config.get_value(Cfg.sec_global, Cfg.key_auto_attach)
+	var auto_attach : bool = App.Config.Get(Cfg.sec_global, Cfg.key_auto_attach)
 	if auto_attach:
 		%ManualStart.hide()
 		Backend.start_memory_processor()
+	
+	App.Config.changed.connect(func(sec : String, key : String):
+		if sec == Cfg.sec_global and key == Cfg.key_auto_attach:
+			if App.Config.Get(Cfg.sec_global, Cfg.key_auto_attach):
+				%ManualStart.hide()
+				Backend.start_memory_processor()
+			else:
+				%ManualStart.show()
+				Backend.stop_memory_processor()
+	)
 
 
 func _on_discover_timer_timeout() -> void:
