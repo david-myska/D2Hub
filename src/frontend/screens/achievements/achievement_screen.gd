@@ -2,6 +2,8 @@ extends MarginContainer
 
 @onready var m_achis: VBoxContainer = $VBoxContainer/MarginContainer/HBoxContainer/AchiView/VBoxContainer
 @onready var m_details: MarginContainer = $VBoxContainer/MarginContainer/HBoxContainer/AchiDetail/AchievementDetail
+@onready var m_categories: VBoxContainer = $VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Categories
+
 
 func _ready() -> void:
 	fill_achievements()
@@ -18,6 +20,14 @@ func status_to_str(s : Achievement.Status) -> String:
 
 func _report_status(status : Achievement.Status, achi : Achievement):
 	print("%s - Changed status to -> %s" % [achi.get_metadata().name, status_to_str(status)])
+
+func create_categories(achis : Array) -> void:
+	var m_cats : Dictionary = {}
+	for a in achis:
+		var c : String = a.get_metadata().get_category()
+		if not m_cats.has(c):
+			m_cats
+		
 
 func fill_achievements() -> void:
 	var achis := Backend.get_achievements()
