@@ -22,8 +22,10 @@ namespace D2::Achi::TristramClear
 
     auto Create()
     {
-        return BLD<PD>({"Tristram visit",
-                        "Reminiscence about the good old days and while at it, clear Tristram of those pesky monsters."},
+        return BLD<PD>({.m_name = "Tristram visit",
+                        .m_description =
+                            "Reminiscence about the good old days and while at it, clear Tristram of those pesky monsters.",
+                        .m_category = "Act 1"},
                        [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                            aTrackers[GE::ConditionType::Activator].insert(&aPD.m_inLocation);
                            aTrackers[GE::ConditionType::Completer].insert({

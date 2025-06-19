@@ -11,13 +11,14 @@ namespace D2::Achi::BloodRavenWalkDistance
         GE::ProgressTrackerBool m_inLocation = {this, "In Burial Grounds", true};
         GE::ProgressTrackerBool m_bloodRavenMet = {this, "Meet Blood Raven", true};
         GE::ProgressTrackerBool m_bloodRavenKilled = {this, "Kill Blood Raven", true};
-        GE::ProgressTrackerInt<> m_steps = {this, "More steps than Blood Raven", 0, 0,
-                                                                 &GE::UnboundDynamicMessage<int>};
+        GE::ProgressTrackerInt<> m_steps = {this, "More steps than Blood Raven", 0, 0, &GE::UnboundDynamicMessage<int>};
     };
 
     auto Create()
     {
-        return BLD<PD>({"Blood Raven walk distance", "Kill Blood Raven making more steps than her"},
+        return BLD<PD>({.m_name = "Blood Raven walk distance",
+                        .m_description = "Kill Blood Raven making more steps than her",
+                        .m_category = "Act 1"},
                        [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                            aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inLocation);
                            aTrackers[GE::ConditionType::Activator].insert(&aPD.m_bloodRavenMet);
@@ -56,7 +57,7 @@ namespace D2::Achi::BloodRavenWalkDistance
                             auto xDist = newPos.x - previousPos.x;
                             auto yDist = newPos.y - previousPos.y;
                             aPD.m_steps.SetTarget(aPD.m_steps.GetTarget() +
-                                                      static_cast<uint32_t>(std::sqrt(xDist * xDist + yDist * yDist)));
+                                                  static_cast<uint32_t>(std::sqrt(xDist * xDist + yDist * yDist)));
                         }
                     })
             .Build();

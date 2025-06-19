@@ -6,44 +6,14 @@
 
 using namespace godot;
 
-void AchievementMetadata::_bind_methods()
+Dictionary CreateMetadataFromAchievement(const D2::D2Achi& aAchi)
 {
-    ClassDB::bind_method(D_METHOD("get_name"), &AchievementMetadata::get_name);
-    ClassDB::bind_method(D_METHOD("set_name", "name"), &AchievementMetadata::set_name);
-    ClassDB::bind_method(D_METHOD("get_description"), &AchievementMetadata::get_description);
-    ClassDB::bind_method(D_METHOD("set_description", "description"), &AchievementMetadata::set_description);
-
-    ADD_PROPERTY(PropertyInfo(Variant::STRING, "name"), "set_name", "get_name");
-    ADD_PROPERTY(PropertyInfo(Variant::STRING, "description"), "set_description", "get_description");
-}
-
-Ref<AchievementMetadata> AchievementMetadata::FromAchievement(const D2::D2Achi& aAchi)
-{
-    const auto& meta = aAchi->GetMetadata();
-    Ref<AchievementMetadata> instance = memnew(AchievementMetadata);
-    instance->set_name(meta.m_name.c_str());
-    instance->set_description(meta.m_description.c_str());
-    return instance;
-}
-
-String AchievementMetadata::get_name() const
-{
-    return m_name;
-}
-
-void AchievementMetadata::set_name(const String& name)
-{
-    m_name = name;
-}
-
-const String& AchievementMetadata::get_description() const
-{
-    return m_description;
-}
-
-void AchievementMetadata::set_description(const String& description)
-{
-    m_description = description;
+    Dictionary metadata;
+    metadata["name"] = String(aAchi->GetMetadata().m_name.c_str());
+    metadata["description"] = String(aAchi->GetMetadata().m_description.c_str());
+    metadata["icon"] = String(aAchi->GetMetadata().m_icon.c_str());
+    metadata["category"] = String(aAchi->GetMetadata().m_category.c_str());
+    return metadata;
 }
 
 void AchievementConditions::_bind_methods()
@@ -114,7 +84,7 @@ Ref<Achievement> Achievement::FromAchievement(const D2::D2Achi& aAchi)
 {
     auto godotAchi = memnew(Achievement);
     godotAchi->m_status = aAchi->GetStatus();
-    godotAchi->m_metadata = AchievementMetadata::FromAchievement(aAchi);
+    godotAchi->m_metadata = CreateMetadataFromAchievement(aAchi);
     godotAchi->m_conditions = AchievementConditions::FromAchievement(aAchi);
     godotAchi->m_onStatusChangedToken = aAchi->OnStatusChanged([godotAchi](GE::Status aNew, GE::Status) {
         godotAchi->m_status = aNew;
@@ -137,7 +107,7 @@ Ref<Achievement> Achievement::FromAchievement(const D2::D2Achi& aAchi)
     return godotAchi;
 }
 
-Ref<AchievementMetadata> Achievement::get_metadata() const
+Dictionary Achievement::get_metadata() const
 {
     return m_metadata;
 }

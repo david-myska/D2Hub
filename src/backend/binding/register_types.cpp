@@ -18,7 +18,6 @@ void initialize_backend_module(ModuleInitializationLevel p_level)
         return;
     }
 
-    GDREGISTER_RUNTIME_CLASS(AchievementMetadata);
     GDREGISTER_RUNTIME_CLASS(AchievementConditions);
     GDREGISTER_RUNTIME_CLASS(Achievement);
     GDREGISTER_RUNTIME_CLASS(DeveloperControl);

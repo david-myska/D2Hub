@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://dyreym3cio3mc"]
+[gd_scene load_steps=3 format=3 uid="uid://dyreym3cio3mc"]
 
-[ext_resource type="Script" uid="uid://culubu5533udw" path="res://screens/achievements/achievement_screen.gd" id="1_aiu0r"]
-[ext_resource type="PackedScene" uid="uid://bc0dnn6u0ff81" path="res://screens/achievements/achievement_view.tscn" id="1_gu68l"]
+[ext_resource type="Script" uid="uid://dj3kf2vuj18s1" path="res://screens/achievements/achievement_screen.gd" id="1_aiu0r"]
 [ext_resource type="PackedScene" uid="uid://b02vaqvpalgd" path="res://screens/achievements/achievement_detail.tscn" id="2_aiu0r"]
 
 [node name="AchievementScreen" type="MarginContainer"]
@@ -75,12 +74,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="CatAct2" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Categories"]
-layout_mode = 2
-size_flags_horizontal = 3
-toggle_mode = true
-text = "Act 1"
-
 [node name="AchiView" type="ScrollContainer" parent="VBoxContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -90,9 +83,6 @@ size_flags_stretch_ratio = 0.4
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-
-[node name="AchievementView" parent="VBoxContainer/MarginContainer/HBoxContainer/AchiView/VBoxContainer" instance=ExtResource("1_gu68l")]
-layout_mode = 2
 
 [node name="AchiDetail" type="ScrollContainer" parent="VBoxContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2

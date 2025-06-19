@@ -17,7 +17,9 @@ namespace D2::Achi::AndarielNoLeave
 
     auto Create()
     {
-        return BLD<PD>({"Andariel no leave", "Kill Andariel without leaving her room"},
+        return BLD<PD>({.m_name = "Andariel no leave",
+                        .m_description = "Kill Andariel without leaving her room",
+                        .m_category = "Act 1"},
                        [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                            aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inLocation);
                            aTrackers[GE::ConditionType::Activator].insert(&aPD.m_andarielMet);

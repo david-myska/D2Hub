@@ -26,7 +26,7 @@ namespace D2::Achi::Act1Speedrun
 
     auto Create()
     {
-        return BLD<PD>({"Speedrun Act 1", "Finish Act1 in 20 minutes"},
+        return BLD<PD>({.m_name = "Speedrun Act 1", .m_description = "Finish Act1 in 20 minutes", .m_category = "Act 1"},
                        [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                            aTrackers[GE::ConditionType::Activator].insert(&aPD.m_newChar);
                            aTrackers[GE::ConditionType::Completer].insert(&aPD.m_killBloodRaven);

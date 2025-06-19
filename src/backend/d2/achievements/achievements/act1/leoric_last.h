@@ -16,7 +16,9 @@ namespace D2::Achi::LeoricLast
 
     auto Create()
     {
-        return BLD<PD>({"He likes to watch", "Kill Leoric's servants in from of him"},
+        return BLD<PD>({.m_name = "He likes to watch",
+                        .m_description = "Kill Leoric's servants in from of him",
+                        .m_category = "Act 1"},
                        [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                            aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inLocation);
                            aTrackers[GE::ConditionType::Activator].insert(&aPD.m_leoricMet);

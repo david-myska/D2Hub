@@ -29,6 +29,8 @@ namespace D2::Data
     {
         std::string m_name;
         std::string m_description;
+        std::string m_category;
+        std::string m_icon;
     };
 
     enum class Difficulty

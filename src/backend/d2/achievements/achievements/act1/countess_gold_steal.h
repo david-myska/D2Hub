@@ -19,7 +19,9 @@ namespace D2::Achi::CountessGoldSteal
 
     auto Create()
     {
-        return BLD<PD>({"Fort Boyard", "Kill The Countess in 30s after entering the Bloodthrone while looting 1000 gold"},
+        return BLD<PD>({.m_name = "Fort Boyard",
+                        .m_description = "Kill The Countess in 30s after entering the Bloodthrone while looting 1000 gold",
+                        .m_category = "Act 1"},
                        [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                            aTrackers[GE::ConditionType::Activator].insert(&aPD.m_inLocation);
                            aTrackers[GE::ConditionType::Completer].insert(&aPD.m_countessKilled);

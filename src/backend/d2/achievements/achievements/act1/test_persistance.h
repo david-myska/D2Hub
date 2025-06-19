@@ -11,15 +11,12 @@ namespace D2::Achi::TestPersistance
 
         void Serialize(GE::BinWriter aOut) const override { aOut.Write(m_killed.GetCurrent()); }
 
-        void Deserialize(GE::BinReader aIn) override
-        {
-            m_killed.SetCurrent(aIn.Read<int>());
-        }
+        void Deserialize(GE::BinReader aIn) override { m_killed.SetCurrent(aIn.Read<int>()); }
     };
 
     auto Create()
     {
-        return BLD<PD>({"TestPersistance", "Desc"},
+        return BLD<PD>({.m_name = "TestPersistance", .m_description = "Desc", .m_category = "Global"},
                        [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                            aTrackers[GE::ConditionType::Activator].insert(&aPD.m_activate);
                            aTrackers[GE::ConditionType::Completer].insert(&aPD.m_killed);

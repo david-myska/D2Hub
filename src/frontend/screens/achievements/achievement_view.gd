@@ -4,8 +4,8 @@ signal clicked()
 
 func from_achievement(achievement : Achievement):
 	var m = achievement.get_metadata()
-	%Title.text = m.get_name()
-	%Description.text = m.get_description()
+	%Title.text = m["name"]
+	%Description.text = m["description"]
 	achievement.status_changed.connect(_recolor)
 	_recolor(achievement.get_status())# TODO
 

@@ -70,6 +70,8 @@ func _on_backup_option_pressed() -> void:
 
 
 func _on_load_backup_btn_pressed() -> void:
+	if %BackupOption.selected < 0:
+		return
 	Backend.recover_from_backup(%BackupOption.get_item_text(%BackupOption.selected))
 
 

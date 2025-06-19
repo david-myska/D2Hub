@@ -15,7 +15,9 @@ namespace D2::Achi::SmithHighHealth
 
     auto Create()
     {
-        return BLD<PD>({"Smith High Health", "Kill Smith while staying above 80% life"},
+        return BLD<PD>({.m_name = "Smith High Health",
+                        .m_description = "Kill Smith while staying above 80% life",
+                        .m_category = "Act 1"},
                        [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                            aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inLocation);
                            aTrackers[GE::ConditionType::Activator].insert(&aPD.m_smithMet);

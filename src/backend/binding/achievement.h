@@ -7,26 +7,6 @@
 
 namespace godot
 {
-    class AchievementMetadata : public RefCounted
-    {
-        GDCLASS(AchievementMetadata, RefCounted)
-
-        String m_name;
-        String m_description;
-
-    protected:
-        static void _bind_methods();
-
-    public:
-        static Ref<AchievementMetadata> FromAchievement(const D2::D2Achi& aAchi);
-
-        String get_name() const;
-        void set_name(const String& name);
-
-        const String& get_description() const;
-        void set_description(const String& name);
-    };
-
     class AchievementConditions : public RefCounted
     {
         GDCLASS(AchievementConditions, RefCounted)
@@ -48,7 +28,7 @@ namespace godot
     {
         GDCLASS(Achievement, RefCounted)
 
-        Ref<AchievementMetadata> m_metadata;
+        Dictionary m_metadata;
         Ref<AchievementConditions> m_conditions;
 
         PMA::ScopedTokenPtr m_onStatusChangedToken;
@@ -62,7 +42,7 @@ namespace godot
     public:
         static Ref<Achievement> FromAchievement(const D2::D2Achi& aAchi);
 
-        Ref<AchievementMetadata> get_metadata() const;
+        Dictionary get_metadata() const;
         Ref<AchievementConditions> get_conditions() const;
         int get_status() const;
     };
