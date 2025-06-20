@@ -1,7 +1,10 @@
-#include "achievement.h"
+#include "achievements_module.h"
+
+#include <memory>
 
 #include "d2/achievements/achievements.h"
 
+#include <godot_cpp/classes/project_settings.hpp>
 #include <godot_cpp/core/class_db.hpp>
 
 using namespace godot;
@@ -120,4 +123,61 @@ Ref<AchievementConditions> Achievement::get_conditions() const
 int Achievement::get_status() const
 {
     return static_cast<int>(m_status);
+}
+
+void AchievementsModule::Update(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData)
+{
+    if (!m_achievementManager)
+    {
+        m_logger->warn("Achievement manager is not initialized, cannot update achievements.");
+        return;
+    }
+    m_achievementManager->Update(aDataAccess, aSharedData);
+}
+
+void AchievementsModule::LoadAchievements(std::optional<std::string> aId, bool aActivate)
+{
+    m_achievements.clear();
+    auto loadedAchievements = m_achievementManager->Load(std::move(aId));
+    for (const auto& [_, achi] : loadedAchievements)
+    {
+        m_achievements.push_back(Achievement::FromAchievement(achi));
+    }
+    if (aActivate)
+    {
+        m_achievementManager->Activate(std::move(loadedAchievements));
+    }
+    call_deferred("emit_signal", "new_achievements_loaded");
+}
+
+void AchievementsModule::SaveAchievements(const std::string& aId)
+{
+    if (!m_achievementManager)
+    {
+        m_logger->warn("Achievement manager is not initialized, cannot save achievements.");
+        return;
+    }
+    m_achievementManager->Save(aId);
+}
+
+void AchievementsModule::_bind_methods()
+{
+    ClassDB::bind_method(D_METHOD("get_achievements"), &AchievementsModule::get_achievements);
+
+    ADD_SIGNAL(MethodInfo("new_achievements_loaded"));
+}
+
+Ref<AchievementsModule> AchievementsModule::Create(std::shared_ptr<spdlog::logger> aLogger)
+{
+    auto module = memnew(AchievementsModule);
+    module->m_logger = aLogger;
+    std::string user_dir = godot::ProjectSettings::get_singleton()->globalize_path("user://").utf8().get_data();
+    module->m_achievementManager = std::make_unique<decltype(module->m_achievementManager)::element_type>(
+        D2::CreateAchievements, user_dir + "/achievements", std::move(aLogger));
+    return module;
+}
+
+Array AchievementsModule::get_achievements()
+{
+    return m_achievements;
 }

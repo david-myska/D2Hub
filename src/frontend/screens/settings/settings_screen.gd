@@ -18,7 +18,7 @@ func _ready() -> void:
 	%SkipWarning.button_pressed = App.Config.Get(Cfg.sec_global, Cfg.key_skip_warning)
 	
 	%SaveDirLineEdit.text_changed.connect(func(new_text):
-		Backend.initialize_saves_backup(new_text)
+		Backend.get_backup_module().initialize(new_text)
 		App.Config.Set(Cfg.sec_backup, Cfg.key_saves_dir, new_text)
 	)
 	%SaveDirLineEdit.text = App.Config.Get(Cfg.sec_backup, Cfg.key_saves_dir)

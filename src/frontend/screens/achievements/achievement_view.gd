@@ -2,12 +2,15 @@ extends Control
 
 signal clicked()
 
+var m_achi : Achievement = null
+
 func from_achievement(achievement : Achievement):
-	var m = achievement.get_metadata()
+	m_achi = achievement
+	var m = m_achi.get_metadata()
 	%Title.text = m["name"]
 	%Description.text = m["description"]
-	achievement.status_changed.connect(_recolor)
-	_recolor(achievement.get_status())# TODO
+	m_achi.status_changed.connect(_recolor)
+	_recolor(m_achi.get_status())
 
 func _on_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:

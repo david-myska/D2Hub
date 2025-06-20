@@ -2,9 +2,9 @@
 
 #include <gdextension_interface.h>
 
-#include "achievement.h"
+#include "achievements_module.h"
 #include "d2hub_backend.h"
-#include "developer_control.h"
+#include "developer_module.h"
 
 #include <godot_cpp/core/defs.hpp>
 #include <godot_cpp/godot.hpp>
@@ -20,7 +20,9 @@ void initialize_backend_module(ModuleInitializationLevel p_level)
 
     GDREGISTER_RUNTIME_CLASS(AchievementConditions);
     GDREGISTER_RUNTIME_CLASS(Achievement);
-    GDREGISTER_RUNTIME_CLASS(DeveloperControl);
+    GDREGISTER_RUNTIME_CLASS(AchievementsModule);
+    GDREGISTER_RUNTIME_CLASS(BackupModule);
+    GDREGISTER_RUNTIME_CLASS(DeveloperModule);
     GDREGISTER_RUNTIME_CLASS(D2HubBackend);
 }
 

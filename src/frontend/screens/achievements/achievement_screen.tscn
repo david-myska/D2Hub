@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://dyreym3cio3mc"]
+[gd_scene load_steps=4 format=3 uid="uid://dyreym3cio3mc"]
 
 [ext_resource type="Script" uid="uid://dj3kf2vuj18s1" path="res://screens/achievements/achievement_screen.gd" id="1_aiu0r"]
 [ext_resource type="PackedScene" uid="uid://b02vaqvpalgd" path="res://screens/achievements/achievement_detail.tscn" id="2_aiu0r"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_8weyf"]
 
 [node name="AchievementScreen" type="MarginContainer"]
 anchors_preset = 15
@@ -20,39 +22,68 @@ layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TMP"]
+[node name="ModuleStatus" type="VBoxContainer" parent="VBoxContainer/TMP"]
 layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TMP/ModuleStatus"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="ManualDisable" type="CheckButton" parent="VBoxContainer/TMP/ModuleStatus/VBoxContainer"]
+layout_mode = 2
+text = "Disable Module"
+
+[node name="Running" type="CheckButton" parent="VBoxContainer/TMP/ModuleStatus/VBoxContainer"]
+layout_mode = 2
+disabled = true
+text = "Running"
+
+[node name="Reason" type="Label" parent="VBoxContainer/TMP/ModuleStatus"]
+layout_mode = 2
+
+[node name="Filters" type="VBoxContainer" parent="VBoxContainer/TMP"]
+layout_mode = 2
+size_flags_horizontal = 4
 alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TMP/HBoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="VBoxContainer/TMP/HBoxContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/TMP/Filters"]
 layout_mode = 2
 text = "View"
 horizontal_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TMP/HBoxContainer/VBoxContainer"]
+[node name="StatusFilters" type="HBoxContainer" parent="VBoxContainer/TMP/Filters"]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Button" type="Button" parent="VBoxContainer/TMP/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="FilterAllBtn" type="Button" parent="VBoxContainer/TMP/Filters/StatusFilters"]
 layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_8weyf")
 text = "All"
 
-[node name="Button2" type="Button" parent="VBoxContainer/TMP/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="FilterCompletedBtn" type="Button" parent="VBoxContainer/TMP/Filters/StatusFilters"]
 layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_8weyf")
 text = "Completed"
 
-[node name="Button3" type="Button" parent="VBoxContainer/TMP/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="FilterActiveBtn" type="Button" parent="VBoxContainer/TMP/Filters/StatusFilters"]
 layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_8weyf")
 text = "Active"
 
-[node name="Button4" type="Button" parent="VBoxContainer/TMP/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="FilterInactiveBtn" type="Button" parent="VBoxContainer/TMP/Filters/StatusFilters"]
 layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_8weyf")
 text = "Inactive"
 
-[node name="Button5" type="Button" parent="VBoxContainer/TMP/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="FilterFailedBtn" type="Button" parent="VBoxContainer/TMP/Filters/StatusFilters"]
 layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_8weyf")
 text = "Failed"
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
@@ -70,6 +101,7 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.2
 
 [node name="Categories" type="VBoxContainer" parent="VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -91,3 +123,9 @@ size_flags_stretch_ratio = 0.4
 
 [node name="AchievementDetail" parent="VBoxContainer/MarginContainer/HBoxContainer/AchiDetail" instance=ExtResource("2_aiu0r")]
 layout_mode = 2
+
+[connection signal="pressed" from="VBoxContainer/TMP/Filters/StatusFilters/FilterAllBtn" to="." method="_on_filter_all_btn_pressed"]
+[connection signal="pressed" from="VBoxContainer/TMP/Filters/StatusFilters/FilterCompletedBtn" to="." method="_on_filter_completed_btn_pressed"]
+[connection signal="pressed" from="VBoxContainer/TMP/Filters/StatusFilters/FilterActiveBtn" to="." method="_on_filter_active_btn_pressed"]
+[connection signal="pressed" from="VBoxContainer/TMP/Filters/StatusFilters/FilterInactiveBtn" to="." method="_on_filter_inactive_btn_pressed"]
+[connection signal="pressed" from="VBoxContainer/TMP/Filters/StatusFilters/FilterFailedBtn" to="." method="_on_filter_failed_btn_pressed"]

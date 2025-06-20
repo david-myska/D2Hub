@@ -1,6 +1,6 @@
 extends MarginContainer
 
-var m_dev : DeveloperControl = Backend.get_developer_control()
+var m_dev : DeveloperModule = Backend.get_developer_module()
 
 var m_locked_pos : Vector2i = Vector2i.ZERO
 var m_rel_pos : Vector2i = Vector2i.ZERO

@@ -65,15 +65,15 @@ func _disable_backup(disable : bool) -> void:
 
 func _on_backup_option_pressed() -> void:
 	%BackupOption.clear()
-	for backup in Backend.get_available_backups():
+	for backup in Backend.get_backup_module().get_available_backups():
 		%BackupOption.add_item(backup)
 
 
 func _on_load_backup_btn_pressed() -> void:
 	if %BackupOption.selected < 0:
 		return
-	Backend.recover_from_backup(%BackupOption.get_item_text(%BackupOption.selected))
+	Backend.get_backup_module().recover_from_backup(%BackupOption.get_item_text(%BackupOption.selected))
 
 
 func _on_create_backup_btn_pressed() -> void:
-	Backend.manual_backup(%BackupNameLineEdit.text)
+	Backend.get_backup_module().manual_backup(%BackupNameLineEdit.text)

@@ -20,7 +20,7 @@ void D2HubBackend::Update()
 {
     m_dataAccess->AdvanceFrame();
     m_sharedData->Update();
-    m_achievementManager->Update(*m_dataAccess, *m_sharedData);
+    m_achievementsModule->Update(*m_dataAccess, *m_sharedData);
 }
 
 void D2HubBackend::Clear()
@@ -43,27 +43,20 @@ bool D2HubBackend::IsMxlDirValid(const std::filesystem::path& aPath) const
     return true;
 }
 
-void D2HubBackend::AutoBackup()
+spdlog::level::level_enum godot::D2HubBackend::ParseLogLevel()
 {
-    if (m_autoBackupEnabled)
+    if (OS::get_singleton()->get_cmdline_args().has("--debug"))
     {
-        manual_backup();
+        return spdlog::level::debug;
     }
+    return spdlog::level::info;
 }
 
-void D2HubBackend::LoadAchievements(std::optional<std::string> aId, bool aActivate)
+std::shared_ptr<spdlog::sinks::sink> D2HubBackend::MakeLoggerSink()
 {
-    m_achievements.clear();
-    auto loadedAchievements = m_achievementManager->Load(std::move(aId));
-    for (const auto& [_, achi] : loadedAchievements)
-    {
-        m_achievements.push_back(Achievement::FromAchievement(achi));
-    }
-    if (aActivate)
-    {
-        m_achievementManager->Activate(std::move(loadedAchievements));
-    }
-    call_deferred("emit_signal", "new_achievements_loaded");
+    std::string user_dir = godot::ProjectSettings::get_singleton()->globalize_path("user://").utf8().get_data();
+    std::string log_file = user_dir + "/logs/d2hub.log";
+    return std::make_shared<spdlog::sinks::daily_file_sink_mt>(log_file, 3, 33, false, 5);
 }
 
 std::shared_ptr<spdlog::logger> godot::D2HubBackend::MakeLogger(const std::string& aName) const
@@ -76,57 +69,49 @@ std::shared_ptr<spdlog::logger> godot::D2HubBackend::MakeLogger(const std::strin
 void D2HubBackend::_bind_methods()
 {
     ClassDB::bind_method(D_METHOD("is_mxl_dir_valid", "p_path"), &D2HubBackend::is_mxl_dir_valid);
-    ClassDB::bind_method(D_METHOD("get_achievements"), &D2HubBackend::get_achievements);
-    ClassDB::bind_method(D_METHOD("get_developer_control"), &D2HubBackend::get_developer_control);
     ClassDB::bind_method(D_METHOD("initialize_backend", "p_path_to_modules"), &D2HubBackend::initialize_backend);
     ClassDB::bind_method(D_METHOD("discover_target_process"), &D2HubBackend::discover_target_process);
     ClassDB::bind_method(D_METHOD("attach_to_target_process", "p_attach"), &D2HubBackend::attach_to_target_process);
     ClassDB::bind_method(D_METHOD("start_memory_processor"), &D2HubBackend::start_memory_processor);
     ClassDB::bind_method(D_METHOD("stop_memory_processor"), &D2HubBackend::stop_memory_processor);
-    ClassDB::bind_method(D_METHOD("initialize_saves_backup", "p_target_dir"), &D2HubBackend::initialize_saves_backup);
-    ClassDB::bind_method(D_METHOD("enable_auto_backup", "p_enable"), &D2HubBackend::enable_auto_backup);
-    ClassDB::bind_method(D_METHOD("manual_backup", "p_backup_name"), &D2HubBackend::manual_backup);
-    ClassDB::bind_method(D_METHOD("recover_from_backup", "p_backup_name"), &D2HubBackend::recover_from_backup);
-    ClassDB::bind_method(D_METHOD("get_available_backups"), &D2HubBackend::get_available_backups);
+
+    ClassDB::bind_method(D_METHOD("get_achievements_module"), &D2HubBackend::get_achievements_module);
+    ClassDB::bind_method(D_METHOD("get_backup_module"), &D2HubBackend::get_backup_module);
+    ClassDB::bind_method(D_METHOD("get_developer_module"), &D2HubBackend::get_developer_module);
 
     ADD_SIGNAL(MethodInfo("backend_initialized", PropertyInfo(Variant::BOOL, "initialized")));
     ADD_SIGNAL(MethodInfo("target_process_exists", PropertyInfo(Variant::BOOL, "exists")));
     ADD_SIGNAL(MethodInfo("target_process_attached", PropertyInfo(Variant::BOOL, "attached")));
     ADD_SIGNAL(MethodInfo("memory_processor_running", PropertyInfo(Variant::BOOL, "processing")));
-    ADD_SIGNAL(MethodInfo("new_achievements_loaded"));
     ADD_SIGNAL(MethodInfo("show_popup", PropertyInfo(Variant::STRING, "message")));
 }
 
 D2HubBackend::D2HubBackend()
-    : m_developerControl(DeveloperControl::Create())
+    : m_logLevel(ParseLogLevel())
+    , m_commonFileSink(MakeLoggerSink())
+    , m_logger(MakeLogger("d2hub_backend"))
+    , m_achievementsModule(AchievementsModule::Create(MakeLogger("achievements_module")))
+    , m_backupModule(BackupModule::Create(MakeLogger("backup_module")))
+    , m_developerModule(DeveloperModule::Create(MakeLogger("developer_module")))
 {
-    if (OS::get_singleton()->get_cmdline_args().has("--debug"))
-    {
-        m_logLevel = spdlog::level::debug;
-    }
-    std::string user_dir = godot::ProjectSettings::get_singleton()->globalize_path("user://").utf8().get_data();
-    std::string log_file = user_dir + "/logs/d2hub.log";
-    m_commonFileSink = std::make_shared<spdlog::sinks::daily_file_sink_mt>(log_file, 3, 33, false, 5);
-    m_logger = MakeLogger("d2hub_backend");
-
-    m_achievementManager = std::make_unique<decltype(m_achievementManager)::element_type>(
-        D2::CreateAchievements, user_dir + "/achievements", MakeLogger("achievement_manager"));
-
-    LoadAchievements({}, false);
+    m_achievementsModule->LoadAchievements({}, false);
 }
 
 D2HubBackend::~D2HubBackend() {}
 
-void D2HubBackend::_process(double delta) {}
-
-Array D2HubBackend::get_achievements()
+Ref<AchievementsModule> D2HubBackend::get_achievements_module()
 {
-    return m_achievements;
+    return m_achievementsModule;
 }
 
-Ref<DeveloperControl> godot::D2HubBackend::get_developer_control()
+Ref<BackupModule> D2HubBackend::get_backup_module()
 {
-    return m_developerControl;
+    return m_backupModule;
+}
+
+Ref<DeveloperModule> D2HubBackend::get_developer_module()
+{
+    return m_developerModule;
 }
 
 bool D2HubBackend::is_mxl_dir_valid(const String& path) const
@@ -160,14 +145,14 @@ void D2HubBackend::initialize_backend(const String& path_to_modules)
     D2::SetupCallbacks(
         *m_memoryProcessor,
         [this](std::shared_ptr<GE::DataAccessor> aDataAccessor) {
-            AutoBackup();
+            m_backupModule->AutoBackup();
             m_dataAccess = std::make_shared<D2::Data::DataAccess>(aDataAccessor);
             m_sharedData = std::make_shared<D2::Data::SharedData>(m_dataAccess);
-            m_developerControl->Initialize(m_dataAccess, m_sharedData);
-            LoadAchievements(m_dataAccess->GetLocalPlayerName(), !D2::InvalidStart());
+            m_developerModule->Initialize(m_dataAccess, m_sharedData);
+            m_achievementsModule->LoadAchievements(m_dataAccess->GetLocalPlayerName(), !D2::InvalidStart());
         },
         [this]() {
-            m_achievementManager->Save(m_dataAccess->GetLocalPlayerName());
+            m_achievementsModule->SaveAchievements(m_dataAccess->GetLocalPlayerName());
             m_dataAccess.reset();
             m_sharedData.reset();
         });
@@ -230,82 +215,4 @@ void D2HubBackend::stop_memory_processor()
         return;
     }
     m_memoryProcessor->RequestStop();
-}
-
-void D2HubBackend::initialize_saves_backup(const String& target_dir)
-{
-    try
-    {
-        auto savesDir = godot::ProjectSettings::get_singleton()->globalize_path("user://backup").utf8().get_data();
-        m_savesBackup = GE::BackupEngine::Create(target_dir.utf8().get_data(), savesDir, MakeLogger("saves_backup"));
-    }
-    catch (const std::exception& e)
-    {
-        m_logger->warn("Failed to initialize saves backup: {}", e.what());
-        m_savesBackup.reset();
-    }
-}
-
-void D2HubBackend::enable_auto_backup(bool enable)
-{
-    m_autoBackupEnabled = enable;
-}
-
-void D2HubBackend::manual_backup(const String& backup_name)
-{
-    if (!m_savesBackup)
-    {
-        call_deferred("emit_signal", "show_popup", "Backup component not initialized");
-        return;
-    }
-    std::optional<std::string> name;
-    if (!backup_name.is_empty())
-    {
-        name = backup_name.utf8().get_data();
-    }
-    try
-    {
-        m_savesBackup->Backup(name);
-    }
-    catch (const std::exception& e)
-    {
-        m_logger->warn("Failed to create backup: {}", e.what());
-        call_deferred("emit_signal", "show_popup", "Failed to create backup");
-        return;
-    }
-}
-
-void D2HubBackend::recover_from_backup(const String& backup_name)
-{
-    if (!m_savesBackup)
-    {
-        call_deferred("emit_signal", "show_popup", "Backup component not initialized");
-        return;
-    }
-    try
-    {
-        m_savesBackup->Restore(backup_name.utf8().get_data());
-    }
-    catch (const std::exception& e)
-    {
-        m_logger->warn("Failed to recover from backup: {}", e.what());
-        call_deferred("emit_signal", "show_popup", "Failed to recover from backup");
-        return;
-    }
-}
-
-Array D2HubBackend::get_available_backups()
-{
-    if (!m_savesBackup)
-    {
-        call_deferred("emit_signal", "show_popup", "Backup component not initialized");
-        return {};
-    }
-
-    Array backups;
-    for (const auto& backup : m_savesBackup->GetAvailableBackups())
-    {
-        backups.push_back(String(backup.c_str()));
-    }
-    return backups;
 }

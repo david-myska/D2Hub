@@ -1,6 +1,10 @@
 #pragma once
 
+#include "d2/achievements/achievements.h"
 #include "d2/achievements/base.h"
+#include "d2/utilities/setup.h"
+#include "game_enhancer/achis/achievement_manager.h"
+#include "spdlog/spdlog.h"
 
 #include <godot_cpp/classes/ref_counted.hpp>
 #include <godot_cpp/variant/string.hpp>
@@ -45,6 +49,28 @@ namespace godot
         Dictionary get_metadata() const;
         Ref<AchievementConditions> get_conditions() const;
         int get_status() const;
+    };
+
+    class AchievementsModule : public RefCounted
+    {
+        GDCLASS(AchievementsModule, RefCounted)
+
+        std::shared_ptr<spdlog::logger> m_logger;
+
+        std::unique_ptr<GE::AchievementManager<D2::D2Achi::element_type>> m_achievementManager;
+        Array m_achievements;
+
+    protected:
+        static void _bind_methods();
+
+    public:
+        static Ref<AchievementsModule> Create(std::shared_ptr<spdlog::logger> aLogger);
+
+        void Update(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData);
+        void LoadAchievements(std::optional<std::string> aId = {}, bool aActivate = true);
+        void SaveAchievements(const std::string& aId);
+
+        Array get_achievements();
     };
 
 }

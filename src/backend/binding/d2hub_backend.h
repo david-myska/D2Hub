@@ -1,11 +1,10 @@
 #pragma once
 
-#include "achievement.h"
-#include "developer_control.h"
+#include "achievements_module.h"
+#include "backup_module.h"
+#include "developer_module.h"
 
 #include "d2/achievements/base.h"
-#include "game_enhancer/achis/achievement_manager.h"
-#include "game_enhancer/backup/backup_engine.h"
 #include "game_enhancer/memory_processor.h"
 #include "spdlog/spdlog.h"
 
@@ -18,9 +17,9 @@ namespace godot
     {
         GDCLASS(D2HubBackend, Node)
 
+        spdlog::level::level_enum m_logLevel = spdlog::level::info;
         std::shared_ptr<spdlog::sinks::sink> m_commonFileSink;
         std::shared_ptr<spdlog::logger> m_logger;
-        spdlog::level::level_enum m_logLevel = spdlog::level::info;
 
         PMA::TargetProcessPtr m_targetProcess;
         GE::MemoryProcessorPtr m_memoryProcessor;
@@ -32,21 +31,17 @@ namespace godot
         std::shared_ptr<D2::Data::DataAccess> m_dataAccess;
         std::shared_ptr<D2::Data::SharedData> m_sharedData;
 
-        std::unique_ptr<GE::AchievementManager<D2::D2Achi::element_type>> m_achievementManager;
-        GE::BackupEnginePtr m_savesBackup;
-        bool m_autoBackupEnabled = false;
-
-        Array m_achievements;
-
-        Ref<DeveloperControl> m_developerControl;
+        Ref<AchievementsModule> m_achievementsModule;
+        Ref<BackupModule> m_backupModule;
+        Ref<DeveloperModule> m_developerModule;
 
         bool CanUpdate() const;
         void Update();
         void Clear();
         bool IsMxlDirValid(const std::filesystem::path& aPath) const;
-        void AutoBackup();
 
-        void LoadAchievements(std::optional<std::string> aId = {}, bool aActivate = true);
+        static spdlog::level::level_enum ParseLogLevel();
+        static std::shared_ptr<spdlog::sinks::sink> MakeLoggerSink();
         std::shared_ptr<spdlog::logger> MakeLogger(const std::string& aName) const;
 
     protected:
@@ -56,10 +51,9 @@ namespace godot
         D2HubBackend();
         ~D2HubBackend();
 
-        void _process(double delta) override;
-
-        Array get_achievements();
-        Ref<DeveloperControl> get_developer_control();
+        Ref<AchievementsModule> get_achievements_module();
+        Ref<BackupModule> get_backup_module();
+        Ref<DeveloperModule> get_developer_module();
 
         bool is_mxl_dir_valid(const String& path) const;
         void initialize_backend(const String& path_to_modules);
@@ -67,12 +61,6 @@ namespace godot
         void attach_to_target_process(bool attach);
         void start_memory_processor();
         void stop_memory_processor();
-
-        void initialize_saves_backup(const String& target_dir);
-        void enable_auto_backup(bool enable = true);
-        void manual_backup(const String& backup_name = "");
-        void recover_from_backup(const String& backup_name);
-        Array get_available_backups();
     };
 
 }
