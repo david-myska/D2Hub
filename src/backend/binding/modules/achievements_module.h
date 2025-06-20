@@ -1,12 +1,13 @@
 #pragma once
 
+#include "module.h"
+
 #include "d2/achievements/achievements.h"
 #include "d2/achievements/base.h"
 #include "d2/utilities/setup.h"
 #include "game_enhancer/achis/achievement_manager.h"
 #include "spdlog/spdlog.h"
 
-#include <godot_cpp/classes/ref_counted.hpp>
 #include <godot_cpp/variant/string.hpp>
 
 namespace godot
@@ -51,11 +52,9 @@ namespace godot
         int get_status() const;
     };
 
-    class AchievementsModule : public RefCounted
+    class AchievementsModule : public Module
     {
-        GDCLASS(AchievementsModule, RefCounted)
-
-        std::shared_ptr<spdlog::logger> m_logger;
+        GDCLASS(AchievementsModule, Module)
 
         std::unique_ptr<GE::AchievementManager<D2::D2Achi::element_type>> m_achievementManager;
         Array m_achievements;

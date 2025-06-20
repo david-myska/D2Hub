@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3 uid="uid://c386q5lpfxq5c"]
+
+[ext_resource type="Script" uid="uid://dmftrdanuadrp" path="res://screens/module_status.gd" id="1_7xumw"]
+
+[node name="ModuleStatus" type="VBoxContainer"]
+size_flags_horizontal = 0
+script = ExtResource("1_7xumw")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="ManualDisable" type="CheckButton" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Disable Module"
+
+[node name="Running" type="CheckButton" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+disabled = true
+text = "Running"
+
+[node name="Reason" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+
+[connection signal="toggled" from="VBoxContainer/ManualDisable" to="." method="_on_manual_disable_toggled"]

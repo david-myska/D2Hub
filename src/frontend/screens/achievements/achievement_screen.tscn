@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://dyreym3cio3mc"]
+[gd_scene load_steps=5 format=3 uid="uid://dyreym3cio3mc"]
 
 [ext_resource type="Script" uid="uid://dj3kf2vuj18s1" path="res://screens/achievements/achievement_screen.gd" id="1_aiu0r"]
 [ext_resource type="PackedScene" uid="uid://b02vaqvpalgd" path="res://screens/achievements/achievement_detail.tscn" id="2_aiu0r"]
+[ext_resource type="PackedScene" uid="uid://c386q5lpfxq5c" path="res://screens/module_status.tscn" id="2_ox7ni"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_8weyf"]
 
@@ -22,24 +23,7 @@ layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1
 
-[node name="ModuleStatus" type="VBoxContainer" parent="VBoxContainer/TMP"]
-layout_mode = 2
-size_flags_horizontal = 0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TMP/ModuleStatus"]
-layout_mode = 2
-size_flags_horizontal = 0
-
-[node name="ManualDisable" type="CheckButton" parent="VBoxContainer/TMP/ModuleStatus/VBoxContainer"]
-layout_mode = 2
-text = "Disable Module"
-
-[node name="Running" type="CheckButton" parent="VBoxContainer/TMP/ModuleStatus/VBoxContainer"]
-layout_mode = 2
-disabled = true
-text = "Running"
-
-[node name="Reason" type="Label" parent="VBoxContainer/TMP/ModuleStatus"]
+[node name="ModuleStatus" parent="VBoxContainer/TMP" instance=ExtResource("2_ox7ni")]
 layout_mode = 2
 
 [node name="Filters" type="VBoxContainer" parent="VBoxContainer/TMP"]

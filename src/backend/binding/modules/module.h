@@ -1,0 +1,41 @@
+#pragma once
+
+#include <filesystem>
+
+#include "spdlog/spdlog.h"
+
+#include <godot_cpp/classes/ref_counted.hpp>
+
+namespace godot
+{
+    enum class ModuleStatus
+    {
+        Enabled,
+        Disabled,
+        ManuallyDisabled,
+    };
+
+    class Module : public RefCounted
+    {
+        GDCLASS(Module, RefCounted)
+
+    protected:
+        std::string m_name;
+        std::filesystem::path m_moduleUserDir;
+        std::shared_ptr<spdlog::logger> m_logger;
+        bool m_canBeDisabledManually = true;
+        bool m_disabled_manually = false;
+        bool m_disabled_programatically = false;
+        String m_disableReason;
+
+        static void _bind_methods();
+
+        void SetUserDir(const std::filesystem::path& aRelative);
+
+    public:
+        bool can_be_disabled_manually();
+        void disable_manually(bool aDisable);
+        void disable_programatically(bool aDisable, String aReason = "");
+        int get_status() const;
+    };
+}

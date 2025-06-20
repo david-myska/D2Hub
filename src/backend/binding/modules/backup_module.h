@@ -1,18 +1,17 @@
 #pragma once
 
+#include "module.h"
+
 #include "game_enhancer/backup/backup_engine.h"
 #include "spdlog/spdlog.h"
 
-#include <godot_cpp/classes/ref_counted.hpp>
 #include <godot_cpp/variant/string.hpp>
 
 namespace godot
 {
-    class BackupModule : public RefCounted
+    class BackupModule : public Module
     {
-        GDCLASS(BackupModule, RefCounted)
-
-        std::shared_ptr<spdlog::logger> m_logger;
+        GDCLASS(BackupModule, Module)
 
         GE::BackupEnginePtr m_savesBackup;
         bool m_autoBackupEnabled = false;

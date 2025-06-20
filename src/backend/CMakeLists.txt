@@ -30,9 +30,10 @@ FetchContent_MakeAvailable(game_enhancer)
 
 
 set(SOURCE_FILES
-				"binding/achievements_module.cpp"
-				"binding/backup_module.cpp"
-				"binding/developer_module.cpp"
+				"binding/modules/module.cpp"
+				"binding/modules/achievements_module.cpp"
+				"binding/modules/backup_module.cpp"
+				"binding/modules/developer_module.cpp"
 				"binding/d2hub_backend.cpp"
 				"binding/register_types.cpp"
 				"d2/achievements/achievements.cpp"

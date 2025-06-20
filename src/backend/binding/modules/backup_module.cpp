@@ -1,4 +1,4 @@
-#include "d2hub_backend.h"
+#include "backup_module.h"
 
 #include <godot_cpp/classes/project_settings.hpp>
 #include <godot_cpp/core/class_db.hpp>
@@ -9,6 +9,8 @@ Ref<BackupModule> BackupModule::Create(std::shared_ptr<spdlog::logger> aLogger)
 {
     auto module = memnew(BackupModule);
     module->m_logger = std::move(aLogger);
+    module->m_name = "Backup";
+    module->SetUserDir("backup");
     return module;
 }
 
@@ -33,8 +35,7 @@ void BackupModule::initialize(const String& target_dir)
 {
     try
     {
-        auto savesDir = ProjectSettings::get_singleton()->globalize_path("user://backup").utf8().get_data();
-        m_savesBackup = GE::BackupEngine::Create(target_dir.utf8().get_data(), savesDir, m_logger);
+        m_savesBackup = GE::BackupEngine::Create(target_dir.utf8().get_data(), m_moduleUserDir, m_logger);
     }
     catch (const std::exception& e)
     {

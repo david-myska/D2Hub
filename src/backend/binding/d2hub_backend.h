@@ -1,8 +1,8 @@
 #pragma once
 
-#include "achievements_module.h"
-#include "backup_module.h"
-#include "developer_module.h"
+#include "modules/achievements_module.h"
+#include "modules/backup_module.h"
+#include "modules/developer_module.h"
 
 #include "d2/achievements/base.h"
 #include "game_enhancer/memory_processor.h"

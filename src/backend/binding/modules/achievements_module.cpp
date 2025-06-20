@@ -1,5 +1,6 @@
 #include "achievements_module.h"
 
+#include <filesystem>
 #include <memory>
 
 #include "d2/achievements/achievements.h"
@@ -171,9 +172,10 @@ Ref<AchievementsModule> AchievementsModule::Create(std::shared_ptr<spdlog::logge
 {
     auto module = memnew(AchievementsModule);
     module->m_logger = aLogger;
-    std::string user_dir = godot::ProjectSettings::get_singleton()->globalize_path("user://").utf8().get_data();
+    module->m_name = "Achievements";
+    module->SetUserDir("achievements");
     module->m_achievementManager = std::make_unique<decltype(module->m_achievementManager)::element_type>(
-        D2::CreateAchievements, user_dir + "/achievements", std::move(aLogger));
+        D2::CreateAchievements, module->m_moduleUserDir, std::move(aLogger));
     return module;
 }
 

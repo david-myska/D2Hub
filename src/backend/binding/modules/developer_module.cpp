@@ -13,6 +13,8 @@ Ref<DeveloperModule> DeveloperModule::Create(std::shared_ptr<spdlog::logger> aLo
 {
     auto module = memnew(DeveloperModule);
     module->m_logger = std::move(aLogger);
+    module->m_name = "Developer";
+    module->SetUserDir("developer");
     return module;
 }
 
