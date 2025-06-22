@@ -33,17 +33,17 @@ void D2HubBackend::Clear()
     m_targetProcessExistenceToken.reset();
 }
 
-bool D2HubBackend::IsMxlDirValid(const std::filesystem::path& aPath) const
+// NOT WORKING PROPERLY
+std::string D2HubBackend::GetMedianXlVersion() const
 {
-    if (!aPath.is_absolute() || !std::filesystem::is_directory(aPath))
-    {
-        return false;
-    }
-    // cont
-    return true;
+    auto versionFile = m_targetProcess->GetInfo().executable.parent_path() / "medianxl-version.mpq";
+    std::array<char, 16> version = {0};
+    std::ifstream f(versionFile, std::ios::binary);
+    f.seekg(40).read(version.data(), 6);
+    return version.data();
 }
 
-spdlog::level::level_enum godot::D2HubBackend::ParseLogLevel()
+spdlog::level::level_enum D2HubBackend::ParseLogLevel()
 {
     if (OS::get_singleton()->get_cmdline_args().has("--debug"))
     {
@@ -54,12 +54,12 @@ spdlog::level::level_enum godot::D2HubBackend::ParseLogLevel()
 
 std::shared_ptr<spdlog::sinks::sink> D2HubBackend::MakeLoggerSink()
 {
-    std::string user_dir = godot::ProjectSettings::get_singleton()->globalize_path("user://").utf8().get_data();
+    std::string user_dir = ProjectSettings::get_singleton()->globalize_path("user://").utf8().get_data();
     std::string log_file = user_dir + "/logs/d2hub.log";
     return std::make_shared<spdlog::sinks::daily_file_sink_mt>(log_file, 3, 33, false, 5);
 }
 
-std::shared_ptr<spdlog::logger> godot::D2HubBackend::MakeLogger(const std::string& aName) const
+std::shared_ptr<spdlog::logger> D2HubBackend::MakeLogger(const std::string& aName) const
 {
     auto logger = std::make_shared<spdlog::logger>(aName, m_commonFileSink);
     logger->set_level(m_logLevel);
@@ -68,8 +68,8 @@ std::shared_ptr<spdlog::logger> godot::D2HubBackend::MakeLogger(const std::strin
 
 void D2HubBackend::_bind_methods()
 {
-    ClassDB::bind_method(D_METHOD("is_mxl_dir_valid", "p_path"), &D2HubBackend::is_mxl_dir_valid);
-    ClassDB::bind_method(D_METHOD("initialize_backend", "p_path_to_modules"), &D2HubBackend::initialize_backend);
+    ClassDB::bind_method(D_METHOD("start_auto_attach"), &D2HubBackend::start_auto_attach);
+    ClassDB::bind_method(D_METHOD("stop_auto_attach"), &D2HubBackend::stop_auto_attach);
     ClassDB::bind_method(D_METHOD("discover_target_process"), &D2HubBackend::discover_target_process);
     ClassDB::bind_method(D_METHOD("attach_to_target_process", "p_attach"), &D2HubBackend::attach_to_target_process);
     ClassDB::bind_method(D_METHOD("start_memory_processor"), &D2HubBackend::start_memory_processor);
@@ -79,7 +79,6 @@ void D2HubBackend::_bind_methods()
     ClassDB::bind_method(D_METHOD("get_backup_module"), &D2HubBackend::get_backup_module);
     ClassDB::bind_method(D_METHOD("get_developer_module"), &D2HubBackend::get_developer_module);
 
-    ADD_SIGNAL(MethodInfo("backend_initialized", PropertyInfo(Variant::BOOL, "initialized")));
     ADD_SIGNAL(MethodInfo("target_process_exists", PropertyInfo(Variant::BOOL, "exists")));
     ADD_SIGNAL(MethodInfo("target_process_attached", PropertyInfo(Variant::BOOL, "attached")));
     ADD_SIGNAL(MethodInfo("memory_processor_running", PropertyInfo(Variant::BOOL, "processing")));
@@ -94,6 +93,7 @@ D2HubBackend::D2HubBackend()
     , m_backupModule(BackupModule::Create(MakeLogger("backup_module")))
     , m_developerModule(DeveloperModule::Create(MakeLogger("developer_module")))
 {
+    InitializeBackend();
     m_achievementsModule->LoadAchievements({}, false);
 }
 
@@ -114,31 +114,37 @@ Ref<DeveloperModule> D2HubBackend::get_developer_module()
     return m_developerModule;
 }
 
-bool D2HubBackend::is_mxl_dir_valid(const String& path) const
+void D2HubBackend::InitializeBackend()
 {
-    return IsMxlDirValid(std::filesystem::path(reinterpret_cast<const char8_t*>(path.utf8().get_data())));
-}
-
-void D2HubBackend::initialize_backend(const String& path_to_modules)
-{
-    auto path = std::filesystem::path(reinterpret_cast<const char8_t*>(path_to_modules.utf8().get_data()));
-    if (!IsMxlDirValid(path))
-    {
-        return;
-    }
     Clear();
-    auto targetProcessConfig = D2::CreateTargetProcessConfig(path);
+    auto targetProcessConfig = D2::CreateTargetProcessConfig();
 
-    m_targetProcess = PMA::TargetProcess::Create(targetProcessConfig, MakeLogger("target_process"));
+    auto pmaLogger = MakeLogger("pma");
+    m_targetProcess = PMA::TargetProcess::Create(targetProcessConfig, pmaLogger);
+    m_autoAttach = PMA::AutoAttach::Create(m_targetProcess, std::move(pmaLogger));
     m_targetProcessExistenceToken = m_targetProcess->OnExistenceChanged([this](bool aTargetProcessExists) {
         call_deferred("emit_signal", "target_process_exists", aTargetProcessExists);
+        if (aTargetProcessExists)
+        {
+            m_logger->info("MXL version: {}", GetMedianXlVersion());
+        }
     });
     m_targetProcessAttachmentToken = m_targetProcess->OnAttachmentChanged([this](bool aTargetProcessAttached) {
         call_deferred("emit_signal", "target_process_attached", aTargetProcessAttached);
     });
-    m_memoryProcessor = GE::MemoryProcessor::Create(m_targetProcess, MakeLogger("memory_processor"));
+    m_memoryProcessor = GE::MemoryProcessor::Create(MakeLogger("memory_processor"));
     m_memoryProcessorRunningToken = m_memoryProcessor->OnRunningChanged([this](bool aRunning) {
         call_deferred("emit_signal", "memory_processor_running", aRunning);
+    });
+    m_targetProcess->OnAttachmentChanged([this](bool aAttached) {
+        if (aAttached)
+        {
+            m_memoryProcessor->RequestStart(m_targetProcess->GetMemoryAccess());
+        }
+        else
+        {
+            m_memoryProcessor->RequestStop();
+        }
     });
 
     D2::RegisterLayouts(*m_memoryProcessor);
@@ -164,24 +170,25 @@ void D2HubBackend::initialize_backend(const String& path_to_modules)
         }
         Update();
     });
-    call_deferred("emit_signal", "backend_initialized", true);
+}
+
+void D2HubBackend::start_auto_attach()
+{
+    m_autoAttach->Start();
+}
+
+void D2HubBackend::stop_auto_attach()
+{
+    m_autoAttach->Stop();
 }
 
 void D2HubBackend::discover_target_process()
 {
-    if (!m_targetProcess)
-    {
-        return;
-    }
     m_targetProcess->Discover();
 }
 
 void D2HubBackend::attach_to_target_process(bool attach)
 {
-    if (!m_targetProcess)
-    {
-        return;
-    }
     if (attach)
     {
         m_targetProcess->Attach();
@@ -194,25 +201,38 @@ void D2HubBackend::attach_to_target_process(bool attach)
 
 void D2HubBackend::start_memory_processor()
 {
-    if (!m_memoryProcessor)
-    {
-        return;
-    }
     try
     {
-        m_memoryProcessor->RequestStart();
+        if (!m_targetProcess->IsAttached())
+        {
+            if (m_targetProcess->Discover())
+            {
+                m_targetProcess->Attach();
+            }
+        }
+        if (m_targetProcess->IsAttached())
+        {
+            m_memoryProcessor->RequestStart(m_targetProcess->GetMemoryAccess());
+        }
+        else
+        {
+            m_logger->warn("Cannot start memory processor: TargetProcess is not attached.");
+        }
     }
     catch (const std::exception& e)
     {
-        // TODO log
+        m_logger->warn("Failed to start memory processor: {}", e.what());
     }
 }
 
 void D2HubBackend::stop_memory_processor()
 {
-    if (!m_memoryProcessor)
+    try
     {
-        return;
+        m_memoryProcessor->RequestStop();
     }
-    m_memoryProcessor->RequestStop();
+    catch (const std::exception& e)
+    {
+        m_logger->warn("Failed to stop memory processor: {}", e.what());
+    }
 }

@@ -13,7 +13,6 @@ func _make_default_config() -> MyConfig:
 	var cfg := MyConfig.new()
 	cfg.Set(Cfg.sec_global, Cfg.key_skip_warning, false)
 	cfg.Set(Cfg.sec_global, Cfg.key_auto_attach, false)
-	cfg.Set(Cfg.sec_global, Cfg.key_mxl_dir, r"C:\games\median-xl")
 	cfg.Set(Cfg.sec_backup, Cfg.key_saves_dir, OS.get_environment("APPDATA") + r"\MedianXL\save")
 	cfg.Set(Cfg.sec_backup, Cfg.key_auto_backup, false)
 	return cfg

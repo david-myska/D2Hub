@@ -1,11 +1,11 @@
 #pragma once
 
+#include "d2/achievements/base.h"
+#include "game_enhancer/memory_processor.h"
 #include "modules/achievements_module.h"
 #include "modules/backup_module.h"
 #include "modules/developer_module.h"
-
-#include "d2/achievements/base.h"
-#include "game_enhancer/memory_processor.h"
+#include "pma/utility/auto_attach.h"
 #include "spdlog/spdlog.h"
 
 #include <godot_cpp/classes/node.hpp>
@@ -22,6 +22,7 @@ namespace godot
         std::shared_ptr<spdlog::logger> m_logger;
 
         PMA::TargetProcessPtr m_targetProcess;
+        PMA::AutoAttachPtr m_autoAttach;
         GE::MemoryProcessorPtr m_memoryProcessor;
 
         PMA::ScopedTokenPtr m_targetProcessExistenceToken;
@@ -35,10 +36,11 @@ namespace godot
         Ref<BackupModule> m_backupModule;
         Ref<DeveloperModule> m_developerModule;
 
+        void InitializeBackend();
         bool CanUpdate() const;
         void Update();
         void Clear();
-        bool IsMxlDirValid(const std::filesystem::path& aPath) const;
+        std::string GetMedianXlVersion() const;
 
         static spdlog::level::level_enum ParseLogLevel();
         static std::shared_ptr<spdlog::sinks::sink> MakeLoggerSink();
@@ -55,8 +57,8 @@ namespace godot
         Ref<BackupModule> get_backup_module();
         Ref<DeveloperModule> get_developer_module();
 
-        bool is_mxl_dir_valid(const String& path) const;
-        void initialize_backend(const String& path_to_modules);
+        void start_auto_attach();
+        void stop_auto_attach();
         void discover_target_process();
         void attach_to_target_process(bool attach);
         void start_memory_processor();

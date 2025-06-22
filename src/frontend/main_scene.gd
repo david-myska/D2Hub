@@ -26,25 +26,20 @@ func _ready() -> void:
 		%Processing.text = "ON" if running else "OFF"
 		%Processing.modulate = Color.GREEN if running else Color.RED
 	)
-	var mxl_dir : String = App.Config.Get(Cfg.sec_global, Cfg.key_mxl_dir)
-	if Backend.is_mxl_dir_valid(mxl_dir):
-		Backend.initialize_backend(App.Config.Get(Cfg.sec_global, Cfg.key_mxl_dir))
-	else:
-		$MessagePopup.show_message("Median XL directory is not set correctly")
 	
 	var auto_attach : bool = App.Config.Get(Cfg.sec_global, Cfg.key_auto_attach)
 	if auto_attach:
 		%ManualStart.hide()
-		Backend.start_memory_processor()
+		Backend.start_auto_attach()
 	
 	App.Config.changed.connect(func(sec : String, key : String):
 		if sec == Cfg.sec_global and key == Cfg.key_auto_attach:
 			if App.Config.Get(Cfg.sec_global, Cfg.key_auto_attach):
 				%ManualStart.hide()
-				Backend.start_memory_processor()
+				Backend.start_auto_attach()
 			else:
 				%ManualStart.show()
-				Backend.stop_memory_processor()
+				Backend.stop_auto_attach()
 	)
 
 

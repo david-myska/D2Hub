@@ -8,12 +8,11 @@ namespace D2
 {
     bool g_invalidStart = true;
 
-    PMA::TargetProcess::Config CreateTargetProcessConfig(std::filesystem::path aPathToModules)
+    PMA::TargetProcess::Config CreateTargetProcessConfig()
     {
         PMA::TargetProcess::Config config;
         config.windowInfo = {{.windowTitle = "Diablo II"}};
         config.modules = {"D2Client.dll", "D2Common.dll", "D2Win.dll", "D2Lang.dll", "D2Sigma.dll", "D2Game.dll"};
-        config.pathPrefix = std::move(aPathToModules);
         return config;
     }
 

@@ -7,7 +7,7 @@
 
 namespace D2
 {
-    PMA::TargetProcess::Config CreateTargetProcessConfig(std::filesystem::path aPathToModules);
+    PMA::TargetProcess::Config CreateTargetProcessConfig();
 
     void RegisterLayouts(GE::MemoryProcessor& aMemoryProcessor);
 

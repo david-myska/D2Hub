@@ -79,32 +79,29 @@ layout_mode = 2
 text = "Automatically connect to Diablo II whenever both D2Hub and the game are running—no matter which one starts first."
 autowrap_mode = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/PanelContainer2/VBoxContainer/GridContainer"]
+[node name="BackupDir" type="HBoxContainer" parent="VBoxContainer/PanelContainer2/VBoxContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="VBoxContainer/PanelContainer2/VBoxContainer/GridContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/PanelContainer2/VBoxContainer/GridContainer/BackupDir"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.66
-text = "Median XL directory"
+text = "Save files directory"
 
-[node name="MXLDirLineEdit" type="LineEdit" parent="VBoxContainer/PanelContainer2/VBoxContainer/GridContainer/HBoxContainer"]
+[node name="SaveDirLineEdit" type="LineEdit" parent="VBoxContainer/PanelContainer2/VBoxContainer/GridContainer/BackupDir"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 editable = false
 
-[node name="OpenDirDialogBtn" type="Button" parent="VBoxContainer/PanelContainer2/VBoxContainer/GridContainer/HBoxContainer"]
+[node name="OpenSaveDirDialogBtn" type="Button" parent="VBoxContainer/PanelContainer2/VBoxContainer/GridContainer/BackupDir"]
 layout_mode = 2
 text = "Find"
 
-[node name="MXLDirLabel" type="Label" parent="VBoxContainer/PanelContainer2/VBoxContainer/GridContainer"]
-custom_minimum_size = Vector2(200, 2.08189e-12)
+[node name="BackupLabel" type="Label" parent="VBoxContainer/PanelContainer2/VBoxContainer/GridContainer"]
 layout_mode = 2
-size_flags_horizontal = 3
-text = "Point D2Hub to your Median XL folder—the one with Diablo II’s .exe and .dll files inside."
-autowrap_mode = 3
+text = "Set up path pointing to the root directory of your save files."
 
 [node name="SkipThis" type="CheckButton" parent="VBoxContainer/PanelContainer2/VBoxContainer/GridContainer"]
 unique_name_in_owner = true
@@ -131,6 +128,6 @@ file_mode = 2
 access = 2
 
 [connection signal="toggled" from="VBoxContainer/PanelContainer2/VBoxContainer/GridContainer/AutoConnect" to="." method="_on_auto_connect_toggled"]
-[connection signal="pressed" from="VBoxContainer/PanelContainer2/VBoxContainer/GridContainer/HBoxContainer/OpenDirDialogBtn" to="." method="_on_open_dir_dialog_btn_pressed"]
+[connection signal="pressed" from="VBoxContainer/PanelContainer2/VBoxContainer/GridContainer/BackupDir/OpenSaveDirDialogBtn" to="." method="_on_open_save_dir_dialog_btn_pressed"]
 [connection signal="toggled" from="VBoxContainer/PanelContainer2/VBoxContainer/GridContainer/SkipThis" to="." method="_on_skip_this_toggled"]
 [connection signal="pressed" from="VBoxContainer/PanelContainer2/VBoxContainer/OpenD2Hub" to="." method="_on_open_d2hub_pressed"]
