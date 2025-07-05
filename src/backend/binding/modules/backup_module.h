@@ -16,6 +16,8 @@ namespace godot
         GE::BackupEnginePtr m_savesBackup;
         bool m_autoBackupEnabled = false;
 
+        void DoBackup(const std::optional<std::string>& aBackupName = {}, bool aAppendTimestamp = false);
+
     protected:
         static void _bind_methods();
 

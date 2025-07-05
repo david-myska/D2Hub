@@ -128,7 +128,7 @@ layout_mode = 2
 [node name="BackupNameLineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/CreateBackup"]
 unique_name_in_owner = true
 layout_mode = 2
-tooltip_text = "Leave empty for automatic name in form: YYMMDD_HHMMSS"
+tooltip_text = "Leave empty for automatic name in form: YYYY-MM-DD_HH-MM-SS"
 placeholder_text = "Custom Name"
 alignment = 1
 max_length = 16

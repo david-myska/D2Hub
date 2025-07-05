@@ -41,6 +41,16 @@ func _ready() -> void:
 				%ManualStart.show()
 				Backend.stop_auto_attach()
 	)
+	
+	var auto_backup : bool = App.Config.Get(Cfg.sec_backup, Cfg.key_auto_backup)
+	if auto_backup:
+		Backend.get_backup_module().enable_auto_backup(true)
+	
+	App.Config.changed.connect(func(sec : String, key : String):
+		if sec == Cfg.sec_backup and key == Cfg.key_auto_backup:
+			Backend.get_backup_module().enable_auto_backup(
+				App.Config.Get(Cfg.sec_backup, Cfg.key_auto_backup))
+	)
 
 
 func _on_discover_timer_timeout() -> void:
@@ -67,6 +77,7 @@ func _on_backup_option_pressed() -> void:
 func _on_load_backup_btn_pressed() -> void:
 	if %BackupOption.selected < 0:
 		return
+	print(%BackupOption.get_item_text(%BackupOption.selected))
 	Backend.get_backup_module().recover_from_backup(%BackupOption.get_item_text(%BackupOption.selected))
 
 

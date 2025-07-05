@@ -15,6 +15,7 @@ func _ready() -> void:
 		App.Config.Set(Cfg.sec_backup, Cfg.key_saves_dir, new_text)
 	)
 	%SaveDirLineEdit.text = App.Config.Get(Cfg.sec_backup, Cfg.key_saves_dir)
+	Backend.get_backup_module().initialize(%SaveDirLineEdit.text)
 	%AutoBackup.button_pressed = App.Config.Get(Cfg.sec_backup, Cfg.key_auto_backup)
 
 func _on_about_label_meta_clicked(meta: Variant) -> void:
@@ -31,3 +32,7 @@ func _on_skip_warning_toggled(toggled_on: bool) -> void:
 func _on_open_save_dir_dialog_btn_pressed() -> void:
 	m_current_le = %SaveDirLineEdit
 	$DirDialog.popup_centered()
+
+
+func _on_auto_backup_toggled(toggled_on: bool) -> void:
+	App.Config.Set(Cfg.sec_backup, Cfg.key_auto_backup, toggled_on)

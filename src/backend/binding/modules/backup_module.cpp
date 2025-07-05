@@ -18,7 +18,26 @@ void BackupModule::AutoBackup()
 {
     if (m_autoBackupEnabled)
     {
-        manual_backup();
+        DoBackup("autobackup", true);
+    }
+}
+
+void BackupModule::DoBackup(const std::optional<std::string>& aBackupName, bool aAppendTimestamp)
+{
+    if (!m_savesBackup)
+    {
+        call_deferred("emit_signal", "show_popup", "Backup component not initialized");
+        return;
+    }
+    try
+    {
+        m_savesBackup->Backup(aBackupName, aAppendTimestamp);
+    }
+    catch (const std::exception& e)
+    {
+        m_logger->warn("Failed to create backup: {}", e.what());
+        call_deferred("emit_signal", "show_popup", "Failed to create backup");
+        return;
     }
 }
 
@@ -51,26 +70,12 @@ void BackupModule::enable_auto_backup(bool enable)
 
 void BackupModule::manual_backup(const String& backup_name)
 {
-    if (!m_savesBackup)
-    {
-        call_deferred("emit_signal", "show_popup", "Backup component not initialized");
-        return;
-    }
     std::optional<std::string> name;
     if (!backup_name.is_empty())
     {
         name = backup_name.utf8().get_data();
     }
-    try
-    {
-        m_savesBackup->Backup(name);
-    }
-    catch (const std::exception& e)
-    {
-        m_logger->warn("Failed to create backup: {}", e.what());
-        call_deferred("emit_signal", "show_popup", "Failed to create backup");
-        return;
-    }
+    DoBackup(name, false);
 }
 
 void BackupModule::recover_from_backup(const String& backup_name)

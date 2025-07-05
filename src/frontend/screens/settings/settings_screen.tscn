@@ -130,4 +130,5 @@ access = 2
 [connection signal="toggled" from="HBoxContainer/VBoxContainer/General/VBoxContainer/AutoAttach" to="." method="_on_auto_attach_toggled"]
 [connection signal="toggled" from="HBoxContainer/VBoxContainer/General/VBoxContainer/SkipWarning" to="." method="_on_skip_warning_toggled"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/Backup/VBoxContainer/HBoxContainer/OpenSaveDirDialogBtn" to="." method="_on_open_save_dir_dialog_btn_pressed"]
+[connection signal="toggled" from="HBoxContainer/VBoxContainer/Backup/VBoxContainer/AutoBackup" to="." method="_on_auto_backup_toggled"]
 [connection signal="meta_clicked" from="HBoxContainer/VBoxContainer2/About/VBoxContainer/AboutLabel" to="." method="_on_about_label_meta_clicked"]
