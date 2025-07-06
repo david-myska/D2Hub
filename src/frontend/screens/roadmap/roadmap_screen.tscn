@@ -1,0 +1,54 @@
+[gd_scene load_steps=2 format=3 uid="uid://dq3hwkn4kqrcw"]
+
+[ext_resource type="PackedScene" uid="uid://bpvhgybsvqcbs" path="res://screens/roadmap/roadmap_item.tscn" id="1_epo26"]
+
+[node name="RoadmapScreen" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="LootFilter" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_epo26")]
+layout_mode = 2
+m_expected_release = "01.08.2025"
+m_title = "LootFilter"
+m_description = Array[String](["LootFilter based on the item attributes", "Allows filtering such as: Sacred Weapon, Rare/Set/Unique, All Skills > 1, Fire Spell Dmg > 35%, ...", "Custom sound effect on finding desired item", "Multiple filters active at the same time"])
+
+[node name="ImprovedAchievements" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_epo26")]
+layout_mode = 2
+m_expected_release = "21.09.2025"
+m_title = "Improve Achievements"
+m_description = Array[String](["Replace beta achievements", "At least 1 achievement for each rift and dungeon", "Leveling/Campaign achievements (something to spice up the journey to endgame)", "Global achievements"])
+
+[node name="ChallengeSystem" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_epo26")]
+layout_mode = 2
+m_expected_release = "26.10.2025"
+m_title = "New Challenge System (beta)"
+m_description = Array[String](["New form of content that challenges you to finish certain tasks with specific constraints", "Challenge have to be played with character provided by the challenge (you can't play as your own character and you can't access shared_stash), this makes the challenge same for everyone", "Challenge changes every day", "Examples: Finish Act XYZ in less than XYZ minutes, Finish Act XYZ without equiping any items, acquire XYZ gold in XYZ minutes, Kill boss XYZ but on the way you can kill only  XYZ monsters, ..."])
+
+[node name="RewardSystem" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_epo26")]
+layout_mode = 2
+m_expected_release = "23.11.2025"
+m_title = "New Reward System (beta)"
+m_description = Array[String](["Complementary system to the Challenges and Achievements", "Finishing Challenges earns you a reward that can be used on your own character (reroll item stat, get some reagents, Belladona, ...)", "Completing Achievements earns you a reward (improve drop bias of a rift, get additional magic find, ...)"])
+
+[node name="Overlay" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_epo26")]
+layout_mode = 2
+m_expected_release = "24.12.2025"
+m_title = "Overlay"
+m_description = Array[String](["Overlay on top of Diablo 2 window", "Showing Active achievements, challenges, ...", "Position of dropped items that passed through the loot filter"])
+
+[node name="Teaser" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_epo26")]
+layout_mode = 2
+m_expected_release = "XX.YY.2026"
+m_title = "And more"

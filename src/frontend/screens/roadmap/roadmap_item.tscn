@@ -1,0 +1,50 @@
+[gd_scene load_steps=2 format=3 uid="uid://bpvhgybsvqcbs"]
+
+[ext_resource type="Script" uid="uid://i4c5xqrch50r" path="res://screens/roadmap/roadmap_item.gd" id="1_tywqp"]
+
+[node name="RoadmapItem" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_tywqp")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="ExpectedRelease" type="Label" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Release"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Title" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Title"
+
+[node name="Description" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(250, 2.08189e-12)
+layout_mode = 2
+size_flags_vertical = 1
+text = "Description
+- Point 1
+- Point 2"
+autowrap_mode = 3
+
+[node name="BottomSep" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8

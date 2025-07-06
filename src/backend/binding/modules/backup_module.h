@@ -31,6 +31,7 @@ namespace godot
         void manual_backup(const String& backup_name = "");
         void recover_from_backup(const String& backup_name);
         Array get_available_backups();
+        void delete_all_backups();
     };
 
 }

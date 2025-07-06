@@ -48,6 +48,7 @@ void BackupModule::_bind_methods()
     ClassDB::bind_method(D_METHOD("manual_backup", "p_backup_name"), &BackupModule::manual_backup);
     ClassDB::bind_method(D_METHOD("recover_from_backup", "p_backup_name"), &BackupModule::recover_from_backup);
     ClassDB::bind_method(D_METHOD("get_available_backups"), &BackupModule::get_available_backups);
+    ClassDB::bind_method(D_METHOD("delete_all_backups"), &BackupModule::delete_all_backups);
 }
 
 void BackupModule::initialize(const String& target_dir)
@@ -111,4 +112,22 @@ Array BackupModule::get_available_backups()
         backups.push_back(String(backup.c_str()));
     }
     return backups;
+}
+
+void BackupModule::delete_all_backups()
+{
+    if (!m_savesBackup)
+    {
+        return;
+    }
+    try
+    {
+        m_savesBackup->RemoveAllBackups();
+    }
+    catch (const std::exception& e)
+    {
+        m_logger->warn("Failed to remove all backups: {}", e.what());
+        call_deferred("emit_signal", "show_popup", "Failed to create backup");
+        return;
+    }
 }

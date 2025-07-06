@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://b8mcr6oqu1aqb" path="res://main_scene.gd" id="1_gyfs4"]
 [ext_resource type="PackedScene" uid="uid://b5n3xe1wk02u1" path="res://utils/donate.tscn" id="3_8mm7a"]
 [ext_resource type="PackedScene" uid="uid://bxbty8fetvnll" path="res://screens/settings/settings_screen.tscn" id="3_hq1ik"]
-[ext_resource type="PackedScene" uid="uid://bfdeawjihi7xe" path="res://screens/perks/perks_screen.tscn" id="3_nfk4m"]
+[ext_resource type="PackedScene" uid="uid://dq3hwkn4kqrcw" path="res://screens/roadmap/roadmap_screen.tscn" id="4_hq1ik"]
 [ext_resource type="PackedScene" uid="uid://dsd2jshumefwu" path="res://utils/message_popup.tscn" id="6_hq1ik"]
 
 [node name="MainScene" type="Control"]
@@ -174,33 +174,15 @@ current_tab = 0
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="Challenges" type="CenterContainer" parent="MarginContainer/VBoxContainer/Body/MainPanel/TabContainer"]
+[node name="Settings" parent="MarginContainer/VBoxContainer/Body/MainPanel/TabContainer" instance=ExtResource("3_hq1ik")]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Body/MainPanel/TabContainer/Challenges"]
-layout_mode = 2
-text = "Here will be Challenges."
-
-[node name="Perks" parent="MarginContainer/VBoxContainer/Body/MainPanel/TabContainer" instance=ExtResource("3_nfk4m")]
+[node name="Roadmap" parent="MarginContainer/VBoxContainer/Body/MainPanel/TabContainer" instance=ExtResource("4_hq1ik")]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 2
-
-[node name="LootFilter" type="CenterContainer" parent="MarginContainer/VBoxContainer/Body/MainPanel/TabContainer"]
-visible = false
-layout_mode = 2
-metadata/_tab_index = 3
-
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Body/MainPanel/TabContainer/LootFilter"]
-layout_mode = 2
-text = "Here will be LootFilter."
-
-[node name="Settings" parent="MarginContainer/VBoxContainer/Body/MainPanel/TabContainer" instance=ExtResource("3_hq1ik")]
-visible = false
-layout_mode = 2
-metadata/_tab_index = 4
 
 [node name="Footer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2

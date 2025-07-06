@@ -36,3 +36,7 @@ func _on_open_save_dir_dialog_btn_pressed() -> void:
 
 func _on_auto_backup_toggled(toggled_on: bool) -> void:
 	App.Config.Set(Cfg.sec_backup, Cfg.key_auto_backup, toggled_on)
+
+
+func _on_remove_all_backups_pressed() -> void:
+	Backend.get_backup_module().delete_all_backups()

@@ -80,6 +80,11 @@ layout_mode = 2
 tooltip_text = "Automatically tries to detect and attach to the Diablo II game instance"
 text = "Auto-Backup"
 
+[node name="RemoveAllBackups" type="Button" parent="HBoxContainer/VBoxContainer/Backup/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Remove All Backups"
+
 [node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -131,4 +136,5 @@ access = 2
 [connection signal="toggled" from="HBoxContainer/VBoxContainer/General/VBoxContainer/SkipWarning" to="." method="_on_skip_warning_toggled"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/Backup/VBoxContainer/HBoxContainer/OpenSaveDirDialogBtn" to="." method="_on_open_save_dir_dialog_btn_pressed"]
 [connection signal="toggled" from="HBoxContainer/VBoxContainer/Backup/VBoxContainer/AutoBackup" to="." method="_on_auto_backup_toggled"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/Backup/VBoxContainer/RemoveAllBackups" to="." method="_on_remove_all_backups_pressed"]
 [connection signal="meta_clicked" from="HBoxContainer/VBoxContainer2/About/VBoxContainer/AboutLabel" to="." method="_on_about_label_meta_clicked"]
