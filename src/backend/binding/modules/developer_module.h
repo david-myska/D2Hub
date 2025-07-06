@@ -23,5 +23,6 @@ namespace godot
         void Initialize(std::shared_ptr<D2::Data::DataAccess> aData, std::shared_ptr<D2::Data::SharedData> aShared);
 
         Vector2i get_player_position() const;
+        uint16_t get_location_id() const;
     };
 }

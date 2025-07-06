@@ -7,6 +7,7 @@ using namespace godot;
 void DeveloperModule::_bind_methods()
 {
     ClassDB::bind_method(D_METHOD("get_player_position"), &DeveloperModule::get_player_position);
+    ClassDB::bind_method(D_METHOD("get_location_id"), &DeveloperModule::get_location_id);
 }
 
 Ref<DeveloperModule> DeveloperModule::Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier)
@@ -29,4 +30,9 @@ Vector2i DeveloperModule::get_player_position() const
 {
     auto pos = m_data->GetPlayers().GetLocal()->m_pos;
     return Vector2i(static_cast<int32_t>(pos.x), static_cast<int32_t>(pos.y));
+}
+
+uint16_t DeveloperModule::get_location_id() const
+{
+    return static_cast<uint16_t>(m_data->GetMisc().GetZone());
 }

@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3 uid="uid://17ycg4gdkitd"]
+
+[ext_resource type="Script" uid="uid://b6k57kfepn86m" path="res://screens/lootfilter/setup_filter_dialog.gd" id="1_4q6tv"]
+
+[node name="SetupFilterDialog" type="AcceptDialog"]
+title = "Filter Setup"
+size = Vector2i(200, 188)
+visible = true
+ok_button_text = "Create Filter"
+script = ExtResource("1_4q6tv")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 192.0
+offset_bottom = 139.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="NotificationSettingsLbl" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Notification settings"

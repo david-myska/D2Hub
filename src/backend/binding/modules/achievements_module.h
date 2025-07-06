@@ -4,7 +4,6 @@
 
 #include "d2/achievements/achievements.h"
 #include "d2/achievements/base.h"
-#include "d2/utilities/setup.h"
 #include "game_enhancer/achis/achievement_manager.h"
 #include "spdlog/spdlog.h"
 

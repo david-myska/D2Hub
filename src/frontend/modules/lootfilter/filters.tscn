@@ -1,0 +1,56 @@
+[gd_scene load_steps=2 format=3 uid="uid://vlhjjsc2kthi"]
+
+[ext_resource type="Script" uid="uid://5gpejod4ivqx" path="res://screens/lootfilter/filters.gd" id="1_35g5j"]
+
+[node name="Filters" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_35g5j")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Filters:"
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="FilterList" type="GridContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+columns = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/FilterList"]
+layout_mode = 2
+text = "FilterName 1"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/FilterList"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="CheckButton" type="CheckButton" parent="VBoxContainer/FilterList/HBoxContainer"]
+layout_mode = 2
+text = "Active"
+
+[node name="Label2" type="Label" parent="VBoxContainer/FilterList"]
+layout_mode = 2
+text = "FilterName 2"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/FilterList"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="CheckButton" type="CheckButton" parent="VBoxContainer/FilterList/HBoxContainer2"]
+layout_mode = 2
+text = "Active"
+
+[node name="AddFilter" type="Button" parent="VBoxContainer/FilterList"]
+layout_mode = 2
+text = "Add Filter"
