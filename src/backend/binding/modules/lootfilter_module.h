@@ -147,37 +147,54 @@ namespace godot
         bool check(const ILoot& loot) const override;
     };
 
-    struct FilterMetadata
+    class FilterMetadata : public RefCounted
     {
+        GDCLASS(FilterMetadata, RefCounted)
+
+    protected:
+        static void _bind_methods();
+
+    public:
+        static Ref<FilterMetadata> Create(String name);
+
         bool m_active = true;
         bool m_muted = false;
         float m_volume = 0.5;
-        std::string m_notifSE;
-        std::string m_name;
+        String m_notifSE;
+        String m_name;
     };
 
-    class MetaFilter
+    class MetaFilter : public RefCounted
     {
-        FilterMetadata m_metadata{};
+        GDCLASS(MetaFilter, RefCounted)
+
+        Ref<FilterMetadata> m_metadata;
         std::unique_ptr<IFilter> m_filter;
 
-    public:
-        MetaFilter(const FilterMetadata& filterMetadata, std::unique_ptr<IFilter>&& filter);
+    protected:
+        static void _bind_methods();
 
-        void setActive(bool active);
-        void setMuted(bool muted);
-        void setVolume(float vol);
-        const FilterMetadata& getMetadata() const;
+    public:
+        static Ref<MetaFilter> Create(Ref<FilterMetadata> filterMetadata, std::unique_ptr<IFilter> filter);
+
+        void set_active(bool active);
+        void set_muted(bool muted);
+        void set_volume(float vol);
+        Ref<FilterMetadata> get_metadata() const;
 
         bool check(const ILoot& loot) const;
 
-        void serialize(const std::string& pathWithoutFilename) const;
-        static std::unique_ptr<MetaFilter> deserialize(const std::string& file);
+        //void serialize(const std::string& pathWithoutFilename) const;
+        //static std::unique_ptr<MetaFilter> deserialize(const std::string& file);
     };
 
     class LootFilterModule : public Module
     {
         GDCLASS(LootFilterModule, Module)
+
+        std::vector<std::unique_ptr<MetaFilter>> m_filters;
+
+        Array m_metaFilters;
 
     protected:
         static void _bind_methods();
@@ -186,6 +203,8 @@ namespace godot
         static Ref<LootFilterModule> Create(std::shared_ptr<spdlog::logger> aLogger);
 
         void Update(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData);
+
+        void add_filter(const String& filter_name);
     };
 
 }
