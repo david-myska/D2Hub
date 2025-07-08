@@ -49,6 +49,11 @@ namespace godot
         const uint32_t m_statId = 0;
         const StatType m_statType = StatType::StatList;
 
+        StatId(uint32_t aStatId, uint32_t aStatType)
+            : StatId(aStatId, static_cast<StatType>(aStatType))
+        {
+        }
+
         StatId(uint32_t aStatId, StatType aStatType = StatType::StatList)
             : m_statId(aStatId)
             , m_statType(aStatType)
@@ -151,17 +156,28 @@ namespace godot
     {
         GDCLASS(FilterMetadata, RefCounted)
 
+        bool m_active = true;
+        bool m_muted = false;
+        float m_volume = 0.5;
+        String m_notifSE;
+        String m_name;
+
     protected:
         static void _bind_methods();
 
     public:
         static Ref<FilterMetadata> Create(String name);
 
-        bool m_active = true;
-        bool m_muted = false;
-        float m_volume = 0.5;
-        String m_notifSE;
-        String m_name;
+        void set_active(bool active);
+        bool is_active() const;
+        void set_muted(bool muted);
+        bool is_muted() const;
+        void set_volume(float vol);
+        float get_volume() const;
+        void set_notification_path(const String& path);
+        String get_notification_path() const;
+        void set_name(const String& name);
+        String get_name() const;
     };
 
     class MetaFilter : public RefCounted
@@ -177,15 +193,12 @@ namespace godot
     public:
         static Ref<MetaFilter> Create(Ref<FilterMetadata> filterMetadata, std::unique_ptr<IFilter> filter);
 
-        void set_active(bool active);
-        void set_muted(bool muted);
-        void set_volume(float vol);
         Ref<FilterMetadata> get_metadata() const;
 
         bool check(const ILoot& loot) const;
 
-        //void serialize(const std::string& pathWithoutFilename) const;
-        //static std::unique_ptr<MetaFilter> deserialize(const std::string& file);
+        // void serialize(const std::string& pathWithoutFilename) const;
+        // static std::unique_ptr<MetaFilter> deserialize(const std::string& file);
     };
 
     class LootFilterModule : public Module
@@ -204,7 +217,7 @@ namespace godot
 
         void Update(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData);
 
-        void add_filter(const String& filter_name);
+        void add_filter(Ref<FilterMetadata> metadata, Array filters);
     };
 
 }
