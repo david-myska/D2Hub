@@ -54,6 +54,21 @@ namespace D2::Data
         Unknown
     };
 
+    enum class ItemLocation
+    {
+        Unknown,
+        Inventory,
+        Stash,
+        SharedStash,
+        HoradricCube,
+        Dropped,
+        Equipped,
+        MercenaryEquipped,
+        Vendor,
+        Gamble,
+        Invalid,
+    };
+
     enum class ItemSlot
     {
         // TODO
@@ -124,10 +139,53 @@ namespace D2::Data
     {
         Item(const Raw::UnitData<Raw::ItemData>* aRaw)
             : Unit(aRaw->m_pStatListEx, aRaw->m_pPath->m_xPos, aRaw->m_pPath->m_yPos, aRaw->m_GUID)
+            , m_location(FigureOutLocation(aRaw))
         {
         }
 
         using Raw = Raw::ItemData;
+
+        const ItemLocation m_location;
+
+    private:
+        static ItemLocation FigureOutLocation(const D2::Raw::UnitData<D2::Raw::ItemData>* aRaw)
+        {
+            if (aRaw->m_pPath->m_outerWorld > 0)
+            {
+                return ItemLocation::Dropped;
+            }
+
+            const auto i = aRaw->m_pUnitData->m_invPage;
+
+            if (aRaw->m_pUnitData->m_ownerGUID > 0)
+            {
+                switch (i)
+                {
+                case 0:
+                    return ItemLocation::Inventory;
+                case 3:
+                    return ItemLocation::HoradricCube;
+                case 4:
+                    return ItemLocation::Stash;
+                case 0xFF:
+                    return ItemLocation::Equipped;
+                default:
+                    return ItemLocation::Invalid;
+                }
+            }
+
+            if (i == 0xFF)
+            {
+                return ItemLocation::MercenaryEquipped;
+            }
+
+            if (0 <= i && i <= 3)
+            {
+                return aRaw->m_pUnitData->m_itemFlags[0] & 0x10 ? ItemLocation::Vendor : ItemLocation::Gamble;
+            }
+
+            return ItemLocation::Unknown;
+        }
     };
 
     struct Player : public Unit
@@ -279,31 +337,16 @@ namespace D2::Data
             }
         }
 
-        const std::map<GUID, const Item*>& GetEquipped() const { return m_equipped; }
-
-        const std::map<GUID, const Item*>& GetDropped() const { return m_dropped; }
-
-        const std::map<GUID, const Item*>& GetInInventory() const { return m_inInventory; }
-
-        const std::map<GUID, const Item*>& GetInCube() const { return m_inCube; }
-
-        const std::map<GUID, const Item*>& GetInStash() const { return m_inStash; }
+        const std::map<GUID, const Item*>& GetAt(ItemLocation aLocation) const { return m_itemsByLocation.at(aLocation); }
 
         std::optional<const Item*> GetInHand() const { return m_inHand; }
 
         std::optional<const Item*> GetEquipped(ItemSlot aSlot) const { return {}; }
 
     private:
-        void SortOutItem(GUID id, const Item* item)
-        {
-            // TODO
-        }
+        void SortOutItem(GUID aId, const Item* aItem) { m_itemsByLocation[aItem->m_location][aId] = aItem; }
 
-        std::map<GUID, const Item*> m_equipped;
-        std::map<GUID, const Item*> m_dropped;
-        std::map<GUID, const Item*> m_inInventory;
-        std::map<GUID, const Item*> m_inCube;
-        std::map<GUID, const Item*> m_inStash;
+        std::map<ItemLocation, std::map<GUID, const Item*>> m_itemsByLocation;
         std::optional<const Item*> m_inHand;
     };
 
@@ -623,11 +666,12 @@ namespace D2::Data
 
         void Update() noexcept
         {
-            m_droppedItems = m_dataAccess->GetItems().GetDropped() - m_dataAccess->GetItems(1).GetDropped();
-            m_pickedItems = (m_dataAccess->GetItems().GetEquipped() + m_dataAccess->GetItems().GetInInventory()) -
-                            (m_dataAccess->GetItems(1).GetEquipped() + m_dataAccess->GetItems(1).GetInInventory());
-            m_equippedItems = m_dataAccess->GetItems().GetEquipped() - m_dataAccess->GetItems(1).GetEquipped();
-            m_unequippedItems = m_dataAccess->GetItems(1).GetEquipped() - m_dataAccess->GetItems().GetEquipped();
+            using enum ItemLocation;
+            m_droppedItems = m_dataAccess->GetItems().GetAt(Dropped) - m_dataAccess->GetItems(1).GetAt(Dropped);
+            m_pickedItems = (m_dataAccess->GetItems().GetAt(Equipped) + m_dataAccess->GetItems().GetAt(Inventory)) -
+                            (m_dataAccess->GetItems(1).GetAt(Equipped) + m_dataAccess->GetItems(1).GetAt(Inventory));
+            m_equippedItems = m_dataAccess->GetItems().GetAt(Equipped) - m_dataAccess->GetItems(1).GetAt(Equipped);
+            m_unequippedItems = m_dataAccess->GetItems(1).GetAt(Equipped) - m_dataAccess->GetItems().GetAt(Equipped);
 
             m_newMonsters = m_dataAccess->GetMonsters().Get() - m_dataAccess->m_allMonsters;
             m_deadMonsters = m_dataAccess->GetMonsters().GetDead() & m_dataAccess->GetMonsters(1).GetAlive();

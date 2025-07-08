@@ -23,21 +23,6 @@ namespace godot
         Tampered = 1 << 8,
     };
 
-    enum class ItemLocation
-    {
-        Unknown,
-        Inventory,
-        Stash,
-        SharedStash,
-        HoradricCube,
-        Dropped,
-        Equipped,
-        MercenaryEquipped,
-        Vendor,
-        Gamble,
-        Invalid,
-    };
-
     enum class StatType
     {
         StatList,
@@ -68,7 +53,7 @@ namespace godot
         virtual uint32_t getItemLevel() const = 0;
         virtual std::optional<double> getStatValue(StatId statId) const = 0;
         virtual ItemQuality getQuality() const = 0;
-        virtual ItemLocation getLocation() const = 0;
+        virtual D2::Data::ItemLocation getLocation() const = 0;
         virtual std::pair<uint16_t, uint16_t> getCoordinates() const = 0;
 
         virtual ~ILoot() = default;
@@ -80,7 +65,7 @@ namespace godot
         const uint32_t m_itemClass = 0;
         const uint32_t m_itemLevel = 0;
         const ItemQuality m_quality{};
-        const ItemLocation m_location{};
+        const D2::Data::ItemLocation m_location{};
         const D2::Raw::StatListEx& m_statList;
         const D2::Raw::StaticPath& m_path;
 
@@ -96,7 +81,7 @@ namespace godot
         uint32_t getItemLevel() const override;
         std::optional<double> getStatValue(StatId statId) const override;
         ItemQuality getQuality() const override;
-        ItemLocation getLocation() const override;
+        D2::Data::ItemLocation getLocation() const override;
         std::pair<uint16_t, uint16_t> getCoordinates() const override;
     };
 
@@ -108,9 +93,8 @@ namespace godot
         virtual ~IFilter() = default;
     };
 
-    class Filter
+    class Filter : public IFilter
     {
-    public:
         enum class Is : uint32_t
         {
             Equal,
@@ -122,9 +106,118 @@ namespace godot
             Present,
         };
 
-        static std::unique_ptr<IFilter> create(StatId statId, uint32_t is, double value);
-        static std::unique_ptr<IFilter> create(StatId statId, Is is, double value);
+        using Predicate = std::function<bool(double, double)>;
 
+        const StatId m_statId = 0;
+        const double m_filterValue = 0;
+        const Is m_is;
+        const Predicate m_predicate;
+
+        static Predicate MakePredicate(Is is)
+        {
+            switch (is)
+            {
+            case Is::Equal:
+                return [](double statValue, double filterValue) {
+                    return Math::is_equal_approx(statValue, filterValue);
+                };
+            case Is::NotEqual:
+                return [](double statValue, double filterValue) {
+                    return !Math::is_equal_approx(statValue, filterValue);
+                };
+            case Is::Lesser:
+                return [](double statValue, double filterValue) {
+                    return statValue < filterValue;
+                };
+            case Is::LesserOrEqual:
+                return [](double statValue, double filterValue) {
+                    return statValue <= filterValue;
+                };
+            case Is::Greater:
+                return [](double statValue, double filterValue) {
+                    return statValue > filterValue;
+                };
+            case Is::GreaterOrEqual:
+                return [](double statValue, double filterValue) {
+                    return statValue >= filterValue;
+                };
+            case Is::Present:
+                return [](double, double filterValue) {
+                    return !Math::is_zero_approx(filterValue);  // ?? not sure TODO check
+                };
+            default:
+                return [](double, double) {
+                    return false;
+                };
+            }
+        }
+
+        bool checkQuality(ItemQuality itemQuality) const
+        {
+            return static_cast<uint32_t>(itemQuality) & static_cast<uint32_t>(m_filterValue);
+        }
+
+        bool checkItemLevel(uint32_t ilvl) const { return m_predicate(ilvl, m_filterValue); }
+
+        bool checkStats(const ILoot& loot) const
+        {
+            if (auto l = loot.getStatValue(m_statId); l.has_value())
+            {
+                return m_predicate(l.value(), m_filterValue);
+            }
+            if (m_is == Is::Present)
+            {
+                return Math::is_zero_approx(m_filterValue);
+            }
+            return false;
+        }
+
+        bool checkOther(const ILoot& loot) const
+        {
+            if (m_statId.m_statId == 0)
+            {
+                return checkQuality(loot.getQuality());
+            }
+            if (m_statId.m_statId == 1)
+            {
+                return checkItemLevel(loot.getItemLevel());
+            }
+            return false;
+        }
+
+    public:
+        Filter(StatId statId, Is is, double value)
+            : m_statId(statId)
+            , m_filterValue(value)
+            , m_is(is)
+            , m_predicate(MakePredicate(is))
+        {
+        }
+
+        static std::unique_ptr<IFilter> Create(StatId statId, uint32_t is, double value)
+        {
+            return Create(statId, static_cast<Is>(is), value);
+        }
+
+        static std::unique_ptr<IFilter> Create(StatId statId, Is is, double value)
+        {
+            return std::make_unique<Filter>(std::move(statId), is, value);
+        }
+
+        bool check(const ILoot& loot) const override
+        {
+            switch (m_statId.m_statType)
+            {
+            case StatType::StatList:
+                return checkStats(loot);
+            case StatType::Other:
+                return checkOther(loot);
+            default:
+                return false;
+            }
+        }
+
+        virtual void serialize(std::ostream& bw) const = 0;
         static std::unique_ptr<IFilter> deserialize(std::istream& br);
     };
 
@@ -205,9 +298,8 @@ namespace godot
     {
         GDCLASS(LootFilterModule, Module)
 
-        std::vector<std::unique_ptr<MetaFilter>> m_filters;
-
         Array m_metaFilters;
+        Array m_passingLoot;
 
     protected:
         static void _bind_methods();
@@ -218,6 +310,8 @@ namespace godot
         void Update(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData);
 
         void add_filter(Ref<FilterMetadata> metadata, Array filters);
-    };
+        Array get_filters() const;
 
+        Array get_passing_loot() const;
+    };
 }

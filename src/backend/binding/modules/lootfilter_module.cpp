@@ -7,8 +7,21 @@
 #include <godot_cpp/core/class_db.hpp>
 
 using namespace godot;
+using namespace D2::Data;
 
-void LootFilterModule::Update(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData) {}
+void LootFilterModule::Update(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData)
+{
+    auto itemsOfInterest = aDataAccess.GetItems().GetAt(ItemLocation::Dropped) +
+                           aDataAccess.GetItems().GetAt(ItemLocation::Vendor) +
+                           aDataAccess.GetItems().GetAt(ItemLocation::Gamble);
+    // TODO
+    
+    // filter out items
+    // store passing items -> to avoid multiple notifications
+    // make difference, to see if any is new
+    // the new passing items are now the current ones
+    // emit signal -> build Loot on demand in get
+}
 
 void LootFilterModule::_bind_methods()
 {
@@ -37,37 +50,20 @@ void LootFilterModule::add_filter(Ref<FilterMetadata> metadata, Array filters)
 
     m_logger->info("Adding filter: {} with {} subfilters", metadata->get_name().utf8().get_data(), filters.size());
 
-    std::vector<std::unique_ptr<IFilter>> subfilterVec;
+    std::vector<std::unique_ptr<IFilter>> subfilters;
     for (auto& v : filters)
     {
         Dictionary d = v;
-        subfilterVec.push_back(Filter::create(StatId(d["stat_id"], d["stat_type"]),...));
+        subfilters.push_back(Filter::Create(StatId(d["stat_id"], d["stat_type"]), d["op"], d["value"]));
     }
-    // for (auto& params : subfiltersParams)
-    //{
-    //     subfilterVec.push_back(std::visit(
-    //         [](const auto& v) {
-    //             return createSubFilter(v);
-    //         },
-    //         params));
-    // }
 
-    bool any = false;
-    std::unique_ptr<IFilter> subfilters = any ? FilterGroup::anyOf(std::move(subfilterVec)) :
-                                                FilterGroup::allOf(std::move(subfilterVec));
-
-    std::vector<std::unique_ptr<IFilter>> v;
-    // if (itemLvlFilterParams)
-    //{
-    // v.push_back(createItemLvlFilter(*itemLvlFilterParams));
-    // }
-    // if (qualityFilterParams)
-    //{
-    // v.push_back(createQualityFilter(*qualityFilterParams));
-    // }
-
-    m_metaFilters.push_back(MetaFilter::Create(metadata, FilterGroup::allOf(std::move(v))));
+    m_metaFilters.push_back(MetaFilter::Create(metadata, FilterGroup::allOf(std::move(subfilters))));
     call_deferred("emit_signal", "filters_changed");
+}
+
+Array LootFilterModule::get_filters() const
+{
+    return m_metaFilters;
 }
 
 void MetaFilter::_bind_methods()

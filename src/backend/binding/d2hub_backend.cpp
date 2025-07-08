@@ -21,6 +21,7 @@ void D2HubBackend::Update()
     m_dataAccess->AdvanceFrame();
     m_sharedData->Update();
     m_achievementsModule->Update(*m_dataAccess, *m_sharedData);
+    m_lootfilterModule->Update(*m_dataAccess, *m_sharedData);
 }
 
 void D2HubBackend::Clear()
