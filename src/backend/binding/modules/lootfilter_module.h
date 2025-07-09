@@ -32,36 +32,10 @@ namespace godot
         }
     };
 
-    class Loot
-    {
-        const uint32_t m_guid = 0;
-        const uint32_t m_itemClass = 0;
-        const uint32_t m_itemLevel = 0;
-        const D2::Data::ItemQuality m_quality{};
-        const D2::Data::ItemLocation m_location{};
-        const D2::Raw::StatListEx& m_statList;
-        const D2::Raw::StaticPath& m_path;
-
-        std::optional<double> getStatListValue(uint32_t statId) const;
-        std::optional<double> getOtherStatValue(uint32_t statId) const;
-
-    public:
-        Loot(uint32_t guid, uint32_t itemClass, uint32_t itemLevel, D2::Data::ItemQuality quality,
-             D2::Data::ItemLocation location, const D2::Raw::StatListEx& statList, const D2::Raw::StaticPath& path);
-
-        uint32_t getGUID() const;
-        uint32_t getItemClass() const;
-        uint32_t getItemLevel() const;
-        std::optional<double> getStatValue(StatId statId) const;
-        D2::Data::ItemQuality getQuality() const;
-        D2::Data::ItemLocation getLocation() const;
-        std::pair<uint16_t, uint16_t> getCoordinates() const;
-    };
-
     struct IFilter
     {
         virtual bool Check(const D2::Data::Item& aItem) const = 0;
-        virtual void serialize(std::ostream& bw) const = 0;
+        // virtual void serialize(std::ostream& bw) const = 0;
 
         virtual ~IFilter() = default;
     };
@@ -190,8 +164,8 @@ namespace godot
             }
         }
 
-        virtual void serialize(std::ostream& bw) const = 0;
-        static std::unique_ptr<IFilter> deserialize(std::istream& br);
+        // virtual void serialize(std::ostream& bw) const = 0;
+        // static std::unique_ptr<IFilter> deserialize(std::istream& br);
     };
 
     class FilterGroup : public IFilter
@@ -205,17 +179,35 @@ namespace godot
         const std::vector<std::unique_ptr<IFilter>> m_filters;
         const Predicate m_predicate;
 
-        FilterGroup(std::vector<std::unique_ptr<IFilter>>&& filters, Predicate predicate);
-
     public:
-        static std::unique_ptr<IFilter> anyOf(std::vector<std::unique_ptr<IFilter>>&& filters);
-        static std::unique_ptr<IFilter> allOf(std::vector<std::unique_ptr<IFilter>>&& filters);
+        FilterGroup(std::vector<std::unique_ptr<IFilter>> filters, Predicate predicate)
+            : m_filters(std::move(filters))
+            , m_predicate(predicate)
+        {
+        }
 
-        static std::unique_ptr<IFilter> deserializeF(std::istream& br);
-        static std::unique_ptr<IFilter> deserialize(std::istream& br);
-        void serialize(std::ostream& bw) const override;
+        static std::unique_ptr<IFilter> AnyOf(std::vector<std::unique_ptr<IFilter>> filters)
+        {
+            return std::make_unique<FilterGroup>(std::move(filters), Predicate::Any);
+        }
 
-        bool Check(const D2::Data::Item& aItem) const override;
+        static std::unique_ptr<IFilter> AllOf(std::vector<std::unique_ptr<IFilter>> filters)
+        {
+            return std::make_unique<FilterGroup>(std::move(filters), Predicate::All);
+        }
+
+        // static std::unique_ptr<IFilter> deserializeF(std::istream& br);
+        // static std::unique_ptr<IFilter> deserialize(std::istream& br);
+        // void serialize(std::ostream& bw) const override;
+
+        bool Check(const D2::Data::Item& aItem) const override
+        {
+            auto f = [&](const std::unique_ptr<IFilter>& filter) {
+                return filter->Check(aItem);
+            };
+            return m_predicate == Predicate::All ? std::all_of(m_filters.begin(), m_filters.end(), f) :
+                                                   std::any_of(m_filters.begin(), m_filters.end(), f);
+        }
     };
 
     class FilterMetadata : public RefCounted

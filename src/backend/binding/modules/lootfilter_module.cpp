@@ -50,7 +50,7 @@ void LootFilterModule::_bind_methods()
 
     ADD_SIGNAL(MethodInfo("filters_changed"));
     ADD_SIGNAL(MethodInfo("loot_changed"));
-    ADD_SIGNAL(MethodInfo("new_loot_notification", "p_sound_effect"));
+    ADD_SIGNAL(MethodInfo("new_loot_notification", PropertyInfo(Variant::STRING, "p_sound_effect")));
 }
 
 Ref<LootFilterModule> LootFilterModule::Create(std::shared_ptr<spdlog::logger> aLogger)
@@ -80,7 +80,7 @@ void LootFilterModule::add_filter(Ref<FilterMetadata> metadata, Array filters)
         subfilters.push_back(Filter::Create(StatId(d["stat_id"], d["stat_type"]), d["op"], d["value"]));
     }
 
-    m_metaFilters.push_back(MetaFilter::Create(metadata, FilterGroup::allOf(std::move(subfilters))));
+    m_metaFilters.push_back(MetaFilter::Create(metadata, FilterGroup::AllOf(std::move(subfilters))));
     call_deferred("emit_signal", "filters_changed");
 }
 
@@ -92,6 +92,22 @@ Array LootFilterModule::get_filters() const
         res.push_back(metaFilter);
     }
     return res;
+}
+
+Array LootFilterModule::get_passing_loot() const
+{
+    Array result;
+    for (const auto& [_, item] : m_passingItems)
+    {
+        Dictionary dict;
+        // dict["item_class"] = item->GetItemClass();
+        dict["item_level"] = item->m_itemLevel;
+        dict["quality"] = ToString(item->m_quality).c_str();
+        dict["location"] = ToString(item->m_location).c_str();
+        dict["position"] = Vector2i(item->m_pos.x, item->m_pos.y);
+        result.push_back(dict);
+    }
+    return result;
 }
 
 void MetaFilter::_bind_methods()

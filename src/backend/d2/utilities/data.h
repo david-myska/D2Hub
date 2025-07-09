@@ -40,6 +40,8 @@ namespace D2::Data
         Hell
     };
 
+    std::string ToString(Difficulty aDifficulty);
+
     enum class Act
     {
         Act1,
@@ -69,6 +71,8 @@ namespace D2::Data
         Invalid,
     };
 
+    std::string ToString(ItemLocation aLocation);
+
     // Bitmask since it is easier to filter
     enum class ItemQuality
     {
@@ -83,6 +87,8 @@ namespace D2::Data
         Crafted = 1 << 7,
         Tampered = 1 << 8,
     };
+
+    std::string ToString(ItemQuality aQuality);
 
     enum class ItemSlot
     {
