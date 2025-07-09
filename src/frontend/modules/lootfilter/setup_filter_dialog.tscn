@@ -4,25 +4,161 @@
 
 [node name="SetupFilterDialog" type="AcceptDialog"]
 title = "Filter Setup"
-size = Vector2i(200, 188)
+position = Vector2i(0, 36)
+size = Vector2i(400, 400)
 visible = true
 ok_button_text = "Create Filter"
 script = ExtResource("1_4q6tv")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 offset_left = 8.0
 offset_top = 8.0
-offset_right = 192.0
-offset_bottom = 139.0
+offset_right = 392.0
+offset_bottom = 351.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer"]
+[node name="Quality" type="HFlowContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="NotificationSettingsLbl" type="Label" parent="ScrollContainer/VBoxContainer"]
+[node name="Normal" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Quality"]
 layout_mode = 2
-text = "Notification settings"
+toggle_mode = true
+text = "Normal"
+
+[node name="Superior" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Quality"]
+layout_mode = 2
+toggle_mode = true
+text = "Superior"
+
+[node name="Magic" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Quality"]
+layout_mode = 2
+toggle_mode = true
+text = "Magic"
+
+[node name="Rare" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Quality"]
+layout_mode = 2
+toggle_mode = true
+text = "Rare"
+
+[node name="Set" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Quality"]
+layout_mode = 2
+toggle_mode = true
+text = "Set"
+
+[node name="Unique" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Quality"]
+layout_mode = 2
+toggle_mode = true
+text = "Unique"
+
+[node name="Tiers" type="HFlowContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Tier1" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Tiers"]
+layout_mode = 2
+toggle_mode = true
+text = "Tier 1"
+
+[node name="Tier2" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Tiers"]
+layout_mode = 2
+toggle_mode = true
+text = "Tier 2"
+
+[node name="Tier3" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Tiers"]
+layout_mode = 2
+toggle_mode = true
+text = "Tier 3"
+
+[node name="Tier4" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Tiers"]
+layout_mode = 2
+toggle_mode = true
+text = "Tier 4"
+
+[node name="Sacred" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Tiers"]
+layout_mode = 2
+toggle_mode = true
+text = "Sacred"
+
+[node name="Slots" type="HFlowContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Helm" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Slots"]
+layout_mode = 2
+toggle_mode = true
+text = "Helm"
+
+[node name="BodyArmor" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Slots"]
+layout_mode = 2
+toggle_mode = true
+text = "Body Armor"
+
+[node name="Belt" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Slots"]
+layout_mode = 2
+toggle_mode = true
+text = "Belt"
+
+[node name="Boots" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Slots"]
+layout_mode = 2
+toggle_mode = true
+text = "Boots"
+
+[node name="Gloves" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Slots"]
+layout_mode = 2
+toggle_mode = true
+text = "Gloves"
+
+[node name="Weapon1H" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Slots"]
+layout_mode = 2
+toggle_mode = true
+text = "1H Weapon"
+
+[node name="Weapon2H" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Slots"]
+layout_mode = 2
+toggle_mode = true
+text = "2H Weapon"
+
+[node name="Shield" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Slots"]
+layout_mode = 2
+toggle_mode = true
+text = "Shield"
+
+[node name="Ring" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Slots"]
+layout_mode = 2
+toggle_mode = true
+text = "Ring"
+
+[node name="Amulet" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Slots"]
+layout_mode = 2
+toggle_mode = true
+text = "Amulet"
+
+[node name="SepNotif" type="HSeparator" parent="VBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SepFinal" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Name:"
+
+[node name="FilterName" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "(required)"
