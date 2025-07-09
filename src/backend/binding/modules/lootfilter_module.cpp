@@ -2,6 +2,7 @@
 
 #include <filesystem>
 #include <memory>
+#include <ranges>
 
 #include <godot_cpp/classes/project_settings.hpp>
 #include <godot_cpp/core/class_db.hpp>
@@ -14,20 +15,42 @@ void LootFilterModule::Update(const D2::Data::DataAccess& aDataAccess, const D2:
     auto itemsOfInterest = aDataAccess.GetItems().GetAt(ItemLocation::Dropped) +
                            aDataAccess.GetItems().GetAt(ItemLocation::Vendor) +
                            aDataAccess.GetItems().GetAt(ItemLocation::Gamble);
-    // TODO
-    
-    // filter out items
-    // store passing items -> to avoid multiple notifications
-    // make difference, to see if any is new
-    // the new passing items are now the current ones
-    // emit signal -> build Loot on demand in get
+
+    auto activeFilters = std::ranges::filter_view(m_metaFilters, [](const Ref<MetaFilter>& metaFilter) {
+        return metaFilter->get_metadata()->is_active();
+    });
+    std::map<GUID, Ref<MetaFilter>> item2filter;
+    auto filtered_view = std::ranges::filter_view(itemsOfInterest, [&](const std::pair<GUID, const Item*>& pair) {
+        return std::ranges::any_of(activeFilters, [&](const Ref<MetaFilter>& metaFilter) {
+            if (metaFilter->Check(*pair.second))
+            {
+                item2filter[pair.first] = metaFilter;
+                return true;
+            }
+            return false;
+        });
+    });
+
+    decltype(itemsOfInterest) passingItems(filtered_view.begin(), filtered_view.end());
+    auto newPassingItems = passingItems - m_passingItems;
+    m_passingItems = std::move(passingItems);
+    for (const auto& [guid, _] : newPassingItems)
+    {
+        call_deferred("emit_signal", "new_loot_notification", item2filter[guid]->get_metadata()->get_notification_path());
+    }
+    call_deferred("emit_signal", "loot_changed");
 }
 
 void LootFilterModule::_bind_methods()
 {
     ClassDB::bind_method(D_METHOD("add_filter", "p_metadata", "p_filters"), &LootFilterModule::add_filter);
+    ClassDB::bind_method(D_METHOD("get_filters"), &LootFilterModule::get_filters);
+
+    ClassDB::bind_method(D_METHOD("get_passing_loot"), &LootFilterModule::get_passing_loot);
 
     ADD_SIGNAL(MethodInfo("filters_changed"));
+    ADD_SIGNAL(MethodInfo("loot_changed"));
+    ADD_SIGNAL(MethodInfo("new_loot_notification", "p_sound_effect"));
 }
 
 Ref<LootFilterModule> LootFilterModule::Create(std::shared_ptr<spdlog::logger> aLogger)
@@ -63,7 +86,12 @@ void LootFilterModule::add_filter(Ref<FilterMetadata> metadata, Array filters)
 
 Array LootFilterModule::get_filters() const
 {
-    return m_metaFilters;
+    Array res;
+    for (const auto& metaFilter : m_metaFilters)
+    {
+        res.push_back(metaFilter);
+    }
+    return res;
 }
 
 void MetaFilter::_bind_methods()

@@ -69,6 +69,21 @@ namespace D2::Data
         Invalid,
     };
 
+    // Bitmask since it is easier to filter
+    enum class ItemQuality
+    {
+        Invalid = 0,
+        Low = 1 << 0,
+        Normal = 1 << 1,
+        Superior = 1 << 2,
+        Magic = 1 << 3,
+        Set = 1 << 4,
+        Rare = 1 << 5,
+        Unique = 1 << 6,
+        Crafted = 1 << 7,
+        Tampered = 1 << 8,
+    };
+
     enum class ItemSlot
     {
         // TODO
@@ -140,14 +155,27 @@ namespace D2::Data
         Item(const Raw::UnitData<Raw::ItemData>* aRaw)
             : Unit(aRaw->m_pStatListEx, aRaw->m_pPath->m_xPos, aRaw->m_pPath->m_yPos, aRaw->m_GUID)
             , m_location(FigureOutLocation(aRaw))
+            , m_quality(QualityFromRaw(aRaw->m_pUnitData->m_quality))
+            , m_itemLevel(aRaw->m_pUnitData->m_itemLvl)
         {
         }
 
         using Raw = Raw::ItemData;
 
         const ItemLocation m_location;
+        const ItemQuality m_quality;
+        const uint16_t m_itemLevel;
 
     private:
+        static ItemQuality QualityFromRaw(uint32_t aRawQuality)
+        {
+            if (aRawQuality == 0)
+            {
+                return ItemQuality::Invalid;
+            }
+            return static_cast<ItemQuality>(1 << (aRawQuality - 1));
+        }
+
         static ItemLocation FigureOutLocation(const D2::Raw::UnitData<D2::Raw::ItemData>* aRaw)
         {
             if (aRaw->m_pPath->m_outerWorld > 0)

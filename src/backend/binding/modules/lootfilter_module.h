@@ -9,20 +9,6 @@
 
 namespace godot
 {
-    enum class ItemQuality
-    {
-        Invalid = 0,
-        Low = 1 << 0,
-        Normal = 1 << 1,
-        Superior = 1 << 2,
-        Magic = 1 << 3,
-        Set = 1 << 4,
-        Rare = 1 << 5,
-        Unique = 1 << 6,
-        Crafted = 1 << 7,
-        Tampered = 1 << 8,
-    };
-
     enum class StatType
     {
         StatList,
@@ -46,25 +32,12 @@ namespace godot
         }
     };
 
-    struct ILoot
-    {
-        virtual uint32_t getGUID() const = 0;
-        virtual uint32_t getItemClass() const = 0;
-        virtual uint32_t getItemLevel() const = 0;
-        virtual std::optional<double> getStatValue(StatId statId) const = 0;
-        virtual ItemQuality getQuality() const = 0;
-        virtual D2::Data::ItemLocation getLocation() const = 0;
-        virtual std::pair<uint16_t, uint16_t> getCoordinates() const = 0;
-
-        virtual ~ILoot() = default;
-    };
-
-    class Loot : public ILoot
+    class Loot
     {
         const uint32_t m_guid = 0;
         const uint32_t m_itemClass = 0;
         const uint32_t m_itemLevel = 0;
-        const ItemQuality m_quality{};
+        const D2::Data::ItemQuality m_quality{};
         const D2::Data::ItemLocation m_location{};
         const D2::Raw::StatListEx& m_statList;
         const D2::Raw::StaticPath& m_path;
@@ -73,21 +46,21 @@ namespace godot
         std::optional<double> getOtherStatValue(uint32_t statId) const;
 
     public:
-        Loot(uint32_t guid, uint32_t itemClass, uint32_t itemLevel, ItemQuality quality, ItemLocation location,
-             const D2::Raw::StatListEx& statList, const D2::Raw::StaticPath& path);
+        Loot(uint32_t guid, uint32_t itemClass, uint32_t itemLevel, D2::Data::ItemQuality quality,
+             D2::Data::ItemLocation location, const D2::Raw::StatListEx& statList, const D2::Raw::StaticPath& path);
 
-        uint32_t getGUID() const override;
-        uint32_t getItemClass() const override;
-        uint32_t getItemLevel() const override;
-        std::optional<double> getStatValue(StatId statId) const override;
-        ItemQuality getQuality() const override;
-        D2::Data::ItemLocation getLocation() const override;
-        std::pair<uint16_t, uint16_t> getCoordinates() const override;
+        uint32_t getGUID() const;
+        uint32_t getItemClass() const;
+        uint32_t getItemLevel() const;
+        std::optional<double> getStatValue(StatId statId) const;
+        D2::Data::ItemQuality getQuality() const;
+        D2::Data::ItemLocation getLocation() const;
+        std::pair<uint16_t, uint16_t> getCoordinates() const;
     };
 
     struct IFilter
     {
-        virtual bool check(const ILoot& loot) const = 0;
+        virtual bool Check(const D2::Data::Item& aItem) const = 0;
         virtual void serialize(std::ostream& bw) const = 0;
 
         virtual ~IFilter() = default;
@@ -143,7 +116,7 @@ namespace godot
                 };
             case Is::Present:
                 return [](double, double filterValue) {
-                    return !Math::is_zero_approx(filterValue);  // ?? not sure TODO check
+                    return !Math::is_zero_approx(filterValue);
                 };
             default:
                 return [](double, double) {
@@ -152,16 +125,16 @@ namespace godot
             }
         }
 
-        bool checkQuality(ItemQuality itemQuality) const
+        bool CheckQuality(D2::Data::ItemQuality itemQuality) const
         {
             return static_cast<uint32_t>(itemQuality) & static_cast<uint32_t>(m_filterValue);
         }
 
-        bool checkItemLevel(uint32_t ilvl) const { return m_predicate(ilvl, m_filterValue); }
+        bool CheckItemLevel(uint32_t ilvl) const { return m_predicate(ilvl, m_filterValue); }
 
-        bool checkStats(const ILoot& loot) const
+        bool CheckStats(const D2::Data::Item& aItem) const
         {
-            if (auto l = loot.getStatValue(m_statId); l.has_value())
+            if (auto l = aItem.m_stats.GetValue(static_cast<D2::Data::StatType>(m_statId.m_statId)); l.has_value())
             {
                 return m_predicate(l.value(), m_filterValue);
             }
@@ -172,15 +145,15 @@ namespace godot
             return false;
         }
 
-        bool checkOther(const ILoot& loot) const
+        bool CheckOther(const D2::Data::Item& aItem) const
         {
             if (m_statId.m_statId == 0)
             {
-                return checkQuality(loot.getQuality());
+                return CheckQuality(aItem.m_quality);
             }
             if (m_statId.m_statId == 1)
             {
-                return checkItemLevel(loot.getItemLevel());
+                return CheckItemLevel(aItem.m_itemLevel);
             }
             return false;
         }
@@ -204,14 +177,14 @@ namespace godot
             return std::make_unique<Filter>(std::move(statId), is, value);
         }
 
-        bool check(const ILoot& loot) const override
+        bool Check(const D2::Data::Item& aItem) const override
         {
             switch (m_statId.m_statType)
             {
             case StatType::StatList:
-                return checkStats(loot);
+                return CheckStats(aItem);
             case StatType::Other:
-                return checkOther(loot);
+                return CheckOther(aItem);
             default:
                 return false;
             }
@@ -242,7 +215,7 @@ namespace godot
         static std::unique_ptr<IFilter> deserialize(std::istream& br);
         void serialize(std::ostream& bw) const override;
 
-        bool check(const ILoot& loot) const override;
+        bool Check(const D2::Data::Item& aItem) const override;
     };
 
     class FilterMetadata : public RefCounted
@@ -288,7 +261,7 @@ namespace godot
 
         Ref<FilterMetadata> get_metadata() const;
 
-        bool check(const ILoot& loot) const;
+        bool Check(const D2::Data::Item& aItem) const { return m_filter->Check(aItem); }
 
         // void serialize(const std::string& pathWithoutFilename) const;
         // static std::unique_ptr<MetaFilter> deserialize(const std::string& file);
@@ -298,8 +271,8 @@ namespace godot
     {
         GDCLASS(LootFilterModule, Module)
 
-        Array m_metaFilters;
-        Array m_passingLoot;
+        std::vector<Ref<MetaFilter>> m_metaFilters;
+        std::map<D2::Data::GUID, const D2::Data::Item*> m_passingItems;
 
     protected:
         static void _bind_methods();
