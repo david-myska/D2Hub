@@ -44,7 +44,7 @@ void LootFilterModule::Update(const D2::Data::DataAccess& aDataAccess, const D2:
 void LootFilterModule::_bind_methods()
 {
     ClassDB::bind_method(D_METHOD("add_filter", "p_metadata", "p_filters"), &LootFilterModule::add_filter);
-    ClassDB::bind_method(D_METHOD("add_filter", "p_index"), &LootFilterModule::remove_filter);
+    ClassDB::bind_method(D_METHOD("remove_filter", "p_index"), &LootFilterModule::remove_filter);
     ClassDB::bind_method(D_METHOD("get_filters"), &LootFilterModule::get_filters);
 
     ClassDB::bind_method(D_METHOD("get_passing_loot"), &LootFilterModule::get_passing_loot);

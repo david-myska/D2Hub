@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://c6y5wmgcenk6x"]
 
-[ext_resource type="Script" uid="uid://ddocug7fdl3p5" path="res://modules/lootfilter/lootfilter_screen.gd" id="1_mr3cy"]
+[ext_resource type="Script" uid="uid://k0wqxbomlumn" path="res://modules/lootfilter/lootfilter_screen.gd" id="1_mr3cy"]
 [ext_resource type="PackedScene" uid="uid://vlhjjsc2kthi" path="res://modules/lootfilter/filters.tscn" id="2_ldpkw"]
 [ext_resource type="PackedScene" uid="uid://dq5ppgq6aue2r" path="res://modules/lootfilter/filtered_items.tscn" id="3_58gv7"]
 

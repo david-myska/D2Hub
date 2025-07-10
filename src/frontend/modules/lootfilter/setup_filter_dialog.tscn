@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://17ycg4gdkitd"]
+[gd_scene load_steps=3 format=3 uid="uid://17ycg4gdkitd"]
 
-[ext_resource type="Script" uid="uid://b6k57kfepn86m" path="res://screens/lootfilter/setup_filter_dialog.gd" id="1_4q6tv"]
+[ext_resource type="Script" uid="uid://dmqfrqkg7c68q" path="res://screens/lootfilter/setup_filter_dialog.gd" id="1_4q6tv"]
+[ext_resource type="PackedScene" uid="uid://vjsbn5xk7tuo" path="res://screens/lootfilter/attribute_filter.tscn" id="2_nwd0l"]
 
 [node name="SetupFilterDialog" type="AcceptDialog"]
 title = "Filter Setup"
@@ -144,6 +145,9 @@ toggle_mode = true
 text = "Amulet"
 
 [node name="SepNotif" type="HSeparator" parent="VBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="AttributeFilter" parent="VBoxContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_nwd0l")]
 layout_mode = 2
 
 [node name="SepFinal" type="HSeparator" parent="VBoxContainer"]
