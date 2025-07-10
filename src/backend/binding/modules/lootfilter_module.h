@@ -275,6 +275,7 @@ namespace godot
         void Update(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData);
 
         void add_filter(Ref<FilterMetadata> metadata, Array filters);
+        void remove_filter(int index);
         Array get_filters() const;
 
         Array get_passing_loot() const;

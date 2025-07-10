@@ -44,6 +44,7 @@ void LootFilterModule::Update(const D2::Data::DataAccess& aDataAccess, const D2:
 void LootFilterModule::_bind_methods()
 {
     ClassDB::bind_method(D_METHOD("add_filter", "p_metadata", "p_filters"), &LootFilterModule::add_filter);
+    ClassDB::bind_method(D_METHOD("add_filter", "p_index"), &LootFilterModule::remove_filter);
     ClassDB::bind_method(D_METHOD("get_filters"), &LootFilterModule::get_filters);
 
     ClassDB::bind_method(D_METHOD("get_passing_loot"), &LootFilterModule::get_passing_loot);
@@ -81,6 +82,12 @@ void LootFilterModule::add_filter(Ref<FilterMetadata> metadata, Array filters)
     }
 
     m_metaFilters.push_back(MetaFilter::Create(metadata, FilterGroup::AllOf(std::move(subfilters))));
+    call_deferred("emit_signal", "filters_changed");
+}
+
+void LootFilterModule::remove_filter(int index)
+{
+    m_metaFilters.erase(m_metaFilters.begin() + index);
     call_deferred("emit_signal", "filters_changed");
 }
 
