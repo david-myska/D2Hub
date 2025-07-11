@@ -42,6 +42,7 @@ namespace godot
 
     class Filter : public IFilter
     {
+    public:
         enum class Is : uint32_t
         {
             Equal,
@@ -53,6 +54,7 @@ namespace godot
             Present,
         };
 
+    private:
         using Predicate = std::function<bool(double, double)>;
 
         const StatId m_statId = 0;
@@ -277,6 +279,7 @@ namespace godot
         void add_filter(Ref<FilterMetadata> metadata, Array filters);
         void remove_filter(int index);
         Array get_filters() const;
+        Dictionary get_filter_categories() const;
 
         Array get_passing_loot() const;
     };

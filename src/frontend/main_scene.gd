@@ -65,7 +65,13 @@ func _on_discover_timer_timeout() -> void:
 
 
 func _on_manual_start_pressed() -> void:
-	Backend.start_memory_processor()
+	if %ManualStart.text == "Start":
+		Backend.start_memory_processor()
+		%ManualStart.text = "Stop"
+	else:
+		Backend.stop_memory_processor()
+		Backend.attach_to_target_process(false)
+		%ManualStart.text = "Start"
 
 
 func _on_show_logs_pressed() -> void:

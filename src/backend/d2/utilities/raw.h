@@ -397,8 +397,8 @@ namespace D2::Raw
         UnitData<PlayerData>* m_pPlayerList[128] = {};
         UnitData<MonsterData>* m_pMonsterList[128] = {};
         UnitData<>* m_pObjectList[128] = {};
-        UnitData<ItemData>* m_pItemList[128] = {};
         UnitData<>* m_pMissileList[128] = {};
+        UnitData<ItemData>* m_pItemList[128] = {};// For client units, the items/missiles are actually in the correct order
     };
 
     struct Game

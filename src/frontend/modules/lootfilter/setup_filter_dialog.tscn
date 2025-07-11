@@ -1,14 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://17ycg4gdkitd"]
+[gd_scene load_steps=2 format=3 uid="uid://17ycg4gdkitd"]
 
-[ext_resource type="Script" uid="uid://dmqfrqkg7c68q" path="res://screens/lootfilter/setup_filter_dialog.gd" id="1_4q6tv"]
-[ext_resource type="PackedScene" uid="uid://vjsbn5xk7tuo" path="res://screens/lootfilter/attribute_filter.tscn" id="2_nwd0l"]
+[ext_resource type="Script" uid="uid://b6k57kfepn86m" path="res://screens/lootfilter/setup_filter_dialog.gd" id="1_4q6tv"]
 
 [node name="SetupFilterDialog" type="AcceptDialog"]
 title = "Filter Setup"
 position = Vector2i(0, 36)
 size = Vector2i(400, 400)
-visible = true
 ok_button_text = "Create Filter"
+dialog_hide_on_ok = false
 script = ExtResource("1_4q6tv")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -28,35 +27,36 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Quality" type="HFlowContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer"]
+[node name="Qualities" type="HFlowContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Normal" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Quality"]
+[node name="Normal" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Qualities"]
 layout_mode = 2
 toggle_mode = true
 text = "Normal"
 
-[node name="Superior" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Quality"]
+[node name="Superior" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Qualities"]
 layout_mode = 2
 toggle_mode = true
 text = "Superior"
 
-[node name="Magic" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Quality"]
+[node name="Magic" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Qualities"]
 layout_mode = 2
 toggle_mode = true
 text = "Magic"
 
-[node name="Rare" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Quality"]
+[node name="Rare" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Qualities"]
 layout_mode = 2
 toggle_mode = true
 text = "Rare"
 
-[node name="Set" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Quality"]
+[node name="Set" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Qualities"]
 layout_mode = 2
 toggle_mode = true
 text = "Set"
 
-[node name="Unique" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Quality"]
+[node name="Unique" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Qualities"]
 layout_mode = 2
 toggle_mode = true
 text = "Unique"
@@ -147,8 +147,17 @@ text = "Amulet"
 [node name="SepNotif" type="HSeparator" parent="VBoxContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="AttributeFilter" parent="VBoxContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_nwd0l")]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
+
+[node name="AttributeFilters" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="AddFilterBtn" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Add Attribute Filter"
 
 [node name="SepFinal" type="HSeparator" parent="VBoxContainer"]
 layout_mode = 2
@@ -156,7 +165,8 @@ layout_mode = 2
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+[node name="NameLabel" type="Label" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Name:"
@@ -166,3 +176,6 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "(required)"
+
+[connection signal="confirmed" from="." to="." method="_on_confirmed"]
+[connection signal="pressed" from="VBoxContainer/ScrollContainer/VBoxContainer/VBoxContainer/AddFilterBtn" to="." method="_on_add_filter_btn_pressed"]

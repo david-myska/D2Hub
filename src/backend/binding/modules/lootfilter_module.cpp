@@ -46,6 +46,7 @@ void LootFilterModule::_bind_methods()
     ClassDB::bind_method(D_METHOD("add_filter", "p_metadata", "p_filters"), &LootFilterModule::add_filter);
     ClassDB::bind_method(D_METHOD("remove_filter", "p_index"), &LootFilterModule::remove_filter);
     ClassDB::bind_method(D_METHOD("get_filters"), &LootFilterModule::get_filters);
+    ClassDB::bind_method(D_METHOD("get_filter_categories"), &LootFilterModule::get_filter_categories);
 
     ClassDB::bind_method(D_METHOD("get_passing_loot"), &LootFilterModule::get_passing_loot);
 
@@ -101,6 +102,22 @@ Array LootFilterModule::get_filters() const
     return res;
 }
 
+Dictionary LootFilterModule::get_filter_categories() const
+{
+    Dictionary categories;
+
+    Dictionary d1;
+    d1["stat_type"] = static_cast<int>(StatType::StatList);
+    d1["stats"] = Array({"shit1", "shit2"});
+    categories["Cat1"] = d1;
+    Dictionary d2;
+    d2["stat_type"] = static_cast<int>(StatType::Other);
+    d2["stats"] = Array({"shit3", "shit4"});
+    categories["Cat2"] = d2;
+
+    return categories;
+}
+
 Array LootFilterModule::get_passing_loot() const
 {
     Array result;
@@ -120,6 +137,29 @@ Array LootFilterModule::get_passing_loot() const
 void MetaFilter::_bind_methods()
 {
     ClassDB::bind_method(D_METHOD("get_metadata"), &MetaFilter::get_metadata);
+
+    ClassDB::bind_integer_constant("MetaFilter", "Is", "EQUAL", static_cast<int>(Filter::Is::Equal));
+    ClassDB::bind_integer_constant("MetaFilter", "Is", "NOT_EQUAL", static_cast<int>(Filter::Is::NotEqual));
+    ClassDB::bind_integer_constant("MetaFilter", "Is", "LESSER", static_cast<int>(Filter::Is::Lesser));
+    ClassDB::bind_integer_constant("MetaFilter", "Is", "LESSER_OR_EQUAL", static_cast<int>(Filter::Is::LesserOrEqual));
+    ClassDB::bind_integer_constant("MetaFilter", "Is", "GREATER", static_cast<int>(Filter::Is::Greater));
+    ClassDB::bind_integer_constant("MetaFilter", "Is", "GREATER_OR_EQUAL", static_cast<int>(Filter::Is::GreaterOrEqual));
+    ClassDB::bind_integer_constant("MetaFilter", "Is", "PRESENT", static_cast<int>(Filter::Is::Present));
+
+    ClassDB::bind_integer_constant("MetaFilter", "StatType", "ATTRIBUTE", static_cast<int>(StatType::StatList));
+    ClassDB::bind_integer_constant("MetaFilter", "StatType", "OTHER", static_cast<int>(StatType::Other));
+
+    // TMP
+    ClassDB::bind_integer_constant("MetaFilter", "Quality", "INVALID", static_cast<int>(ItemQuality::Invalid));
+    ClassDB::bind_integer_constant("MetaFilter", "Quality", "LOW", static_cast<int>(ItemQuality::Low));
+    ClassDB::bind_integer_constant("MetaFilter", "Quality", "NORMAL", static_cast<int>(ItemQuality::Normal));
+    ClassDB::bind_integer_constant("MetaFilter", "Quality", "SUPERIOR", static_cast<int>(ItemQuality::Superior));
+    ClassDB::bind_integer_constant("MetaFilter", "Quality", "MAGIC", static_cast<int>(ItemQuality::Magic));
+    ClassDB::bind_integer_constant("MetaFilter", "Quality", "SET", static_cast<int>(ItemQuality::Set));
+    ClassDB::bind_integer_constant("MetaFilter", "Quality", "RARE", static_cast<int>(ItemQuality::Rare));
+    ClassDB::bind_integer_constant("MetaFilter", "Quality", "UNIQUE", static_cast<int>(ItemQuality::Unique));
+    ClassDB::bind_integer_constant("MetaFilter", "Quality", "CRAFTED", static_cast<int>(ItemQuality::Crafted));
+    ClassDB::bind_integer_constant("MetaFilter", "Quality", "TAMPERED", static_cast<int>(ItemQuality::Tampered));
 }
 
 Ref<MetaFilter> MetaFilter::Create(Ref<FilterMetadata> filterMetadata, std::unique_ptr<IFilter> filter)

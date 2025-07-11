@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://vjsbn5xk7tuo"]
 
-[ext_resource type="Script" uid="uid://bip8wg4d1cv6h" path="res://screens/lootfilter/attribute_filter.gd" id="1_18uai"]
+[ext_resource type="Script" uid="uid://d003d1dtg0s6b" path="res://screens/lootfilter/attribute_filter.gd" id="1_18uai"]
 
 [node name="AttributeFilter" type="HBoxContainer"]
 anchors_preset = 15
@@ -12,6 +12,11 @@ theme_override_constants/separation = 25
 script = ExtResource("1_18uai")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Categories" type="OptionButton" parent="HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
