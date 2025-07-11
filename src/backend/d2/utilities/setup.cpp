@@ -25,15 +25,15 @@ namespace D2
         auto dynPathLayout = GE::Layout::MakeConsecutive()->SetTotalSize(sizeof(Raw::DynamicPath)).Build();
         auto gameLayout = GE::Layout::MakeConsecutive()
                               ->SetTotalSize(sizeof(Raw::Game))
-                              .AddPointerOffsets(0x1120u + 0 * 128 * 4, "UnitData", 128)
-                              .AddPointerOffsets(0x1120u + 1 * 128 * 4, "UnitData", 128)
-                              .AddPointerOffsets(0x1120u + 3 * 128 * 4, "UnitData", 128)
+                              .AddPointerOffsets(0x1120u + 0 * 128 * 4, "UnitData", 128)  // Players
+                              .AddPointerOffsets(0x1120u + 1 * 128 * 4, "UnitData", 128)  // Monsters
+                              .AddPointerOffsets(0x1120u + 3 * 128 * 4, "UnitData", 128)  // Items, 3 is correct here
                               .Build();
         auto clientUnitsLayout = GE::Layout::MakeConsecutive()
                                      ->SetTotalSize(sizeof(Raw::ClientUnits))
-                                     .AddPointerOffsets(0x0u + 0 * 128 * 4, "UnitData", 128)
-                                     .AddPointerOffsets(0x0u + 1 * 128 * 4, "UnitData", 128)
-                                     .AddPointerOffsets(0x0u + 3 * 128 * 4, "UnitData", 128)
+                                     .AddPointerOffsets(0x0u + 0 * 128 * 4, "UnitData", 128)  // Players
+                                     .AddPointerOffsets(0x0u + 1 * 128 * 4, "UnitData", 128)  // Monsters
+                                     .AddPointerOffsets(0x0u + 4 * 128 * 4, "UnitData", 128)  // Items, 4 is correct here
                                      .Build();
         auto inventoryLayout = GE::Layout::MakeConsecutive()->SetTotalSize(sizeof(Raw::Inventory)).Build();
         auto itemLayout = GE::Layout::MakeConsecutive()->SetTotalSize(sizeof(Raw::ItemData)).Build();

@@ -30,17 +30,17 @@ func _make_quality_filter():
 	d["stat_id"] = 0
 	d["stat_type"] = MetaFilter.StatType.OTHER
 	d["value"] = 0
-	if %Qualities/Normal.pressed:
+	if %Qualities/Normal.button_pressed:
 		d["value"] += MetaFilter.Quality.NORMAL
-	if %Qualities/Superior.pressed:
+	if %Qualities/Superior.button_pressed:
 		d["value"] += MetaFilter.Quality.SUPERIOR
-	if %Qualities/Magic.pressed:
+	if %Qualities/Magic.button_pressed:
 		d["value"] += MetaFilter.Quality.MAGIC
-	if %Qualities/Rare.pressed:
+	if %Qualities/Rare.button_pressed:
 		d["value"] += MetaFilter.Quality.RARE
-	if %Qualities/Set.pressed:
+	if %Qualities/Set.button_pressed:
 		d["value"] += MetaFilter.Quality.SET
-	if %Qualities/Unique.pressed:
+	if %Qualities/Unique.button_pressed:
 		d["value"] += MetaFilter.Quality.UNIQUE
 	
 	if d["value"] == 0:# Nothing selected, allow all

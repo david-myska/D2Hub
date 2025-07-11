@@ -148,6 +148,7 @@ Array D2HubBackend::get_modules() const
 
 void D2HubBackend::InitializeBackend()
 {
+    m_logger->info("Initializing D2Hub backend");
     Clear();
     auto targetProcessConfig = D2::CreateTargetProcessConfig();
 
@@ -168,7 +169,7 @@ void D2HubBackend::InitializeBackend()
     m_memoryProcessorRunningToken = m_memoryProcessor->OnRunningChanged([this](bool aRunning) {
         call_deferred("emit_signal", "memory_processor_running", aRunning);
     });
-    m_targetProcess->OnAttachmentChanged([this](bool aAttached) {
+    m_startOnAttachedToken = m_targetProcess->OnAttachmentChanged([this](bool aAttached) {
         if (aAttached)
         {
             m_memoryProcessor->RequestStart(m_targetProcess->GetMemoryAccess());

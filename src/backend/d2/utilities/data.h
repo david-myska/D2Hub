@@ -59,7 +59,8 @@ namespace D2::Data
     enum class ItemLocation
     {
         Unknown,
-        Inventory,
+        Begin,
+        Inventory = Begin,
         Stash,
         SharedStash,
         HoradricCube,
@@ -69,6 +70,7 @@ namespace D2::Data
         Vendor,
         Gamble,
         Invalid,
+        End = Invalid
     };
 
     std::string ToString(ItemLocation aLocation);
@@ -365,6 +367,12 @@ namespace D2::Data
         Items(const Raw::UnitData<Raw::ItemData>* const aRaw[128])
             : Units(aRaw)
         {
+            for (auto il = ItemLocation::Begin; il != ItemLocation::End;
+                 il = static_cast<ItemLocation>(static_cast<uint32_t>(il) + 1))
+            {
+                m_itemsByLocation[il] = {};
+            }
+
             for (const auto& [id, item] : m_units)
             {
                 SortOutItem(id, item);
