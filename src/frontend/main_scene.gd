@@ -51,6 +51,16 @@ func _ready() -> void:
 			Backend.get_backup_module().enable_auto_backup(
 				App.Config.Get(Cfg.sec_backup, Cfg.key_auto_backup))
 	)
+	
+	#TODO TMP
+	var overlay_id = $Overlay.get_window_id()
+	var hwnd = DisplayServer.window_get_native_handle(DisplayServer.WINDOW_HANDLE, overlay_id)
+	print("Overlay HWND:", hwnd)
+	Backend.setup_overlay(hwnd)
+	$MarginContainer/VBoxContainer/Body/MainPanel/TabContainer/Settings.fix_overlay.connect(func(r : Rect2i):
+		$Overlay.position = r.position
+		$Overlay.size = r.size
+	)
 
 
 func _on_discover_timer_timeout() -> void:

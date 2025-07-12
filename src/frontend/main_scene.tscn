@@ -211,6 +211,24 @@ autostart = true
 
 [node name="MessagePopup" parent="." instance=ExtResource("6_hq1ik")]
 
+[node name="Overlay" type="Window" parent="."]
+transparent_bg = true
+position = Vector2i(200, 200)
+unresizable = true
+borderless = true
+always_on_top = true
+transparent = true
+unfocusable = true
+mouse_passthrough = true
+
+[node name="ColorRect" type="ColorRect" parent="Overlay"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 0, 1, 0.396078)
+
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/ManualStart" to="." method="_on_manual_start_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/CreateBackup/CreateBackupBtn" to="." method="_on_create_backup_btn_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/LoadBackup/BackupOption" to="." method="_on_backup_option_pressed"]

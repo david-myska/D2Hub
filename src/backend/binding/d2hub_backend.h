@@ -63,6 +63,9 @@ namespace godot
         void attach_to_target_process(bool attach);
         void start_memory_processor();
         void stop_memory_processor();
+
+        Rect2i get_target_rect() const;
+        void setup_overlay(uintptr_t hwnd);
     };
 
 }

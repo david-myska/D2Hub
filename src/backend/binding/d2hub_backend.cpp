@@ -79,6 +79,9 @@ void D2HubBackend::_bind_methods()
     ClassDB::bind_method(D_METHOD("get_backup_module"), &D2HubBackend::get_backup_module);
     ClassDB::bind_method(D_METHOD("get_developer_module"), &D2HubBackend::get_developer_module);
 
+    ClassDB::bind_method(D_METHOD("get_target_rect"), &D2HubBackend::get_target_rect);
+    ClassDB::bind_method(D_METHOD("setup_overlay", "p_hwnd"), &D2HubBackend::setup_overlay);
+
     ADD_SIGNAL(MethodInfo("target_process_exists", PropertyInfo(Variant::BOOL, "exists")));
     ADD_SIGNAL(MethodInfo("target_process_attached", PropertyInfo(Variant::BOOL, "attached")));
     ADD_SIGNAL(MethodInfo("memory_processor_running", PropertyInfo(Variant::BOOL, "processing")));
@@ -235,4 +238,37 @@ void D2HubBackend::stop_memory_processor()
     {
         m_logger->warn("Failed to stop memory processor: {}", e.what());
     }
+}
+
+#include <windows.h>
+
+Rect2i D2HubBackend::get_target_rect() const
+{
+    auto w = FindWindowA(nullptr, "Diablo II");
+    if (w)
+    {
+        RECT rect;
+        if (GetWindowRect(w, &rect))
+        {
+            int virtualLeft = GetSystemMetrics(SM_XVIRTUALSCREEN);
+            int virtualTop = GetSystemMetrics(SM_YVIRTUALSCREEN);
+
+            int width = rect.right - rect.left;
+            int height = rect.bottom - rect.top;
+
+            int x = rect.left - virtualLeft;
+            int y = rect.top - virtualTop;
+            return Rect2i(x, y, width, height);
+        }
+    }
+    return Rect2i();
+}
+
+void D2HubBackend::setup_overlay(uintptr_t godot_hwnd)
+{
+    HWND hwnd = reinterpret_cast<HWND>(godot_hwnd);
+
+    LONG exStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
+    exStyle |= WS_EX_LAYERED | WS_EX_TRANSPARENT;
+    SetWindowLong(hwnd, GWL_EXSTYLE, exStyle);
 }

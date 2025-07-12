@@ -14,99 +14,127 @@ script = ExtResource("1_00yke")
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+[node name="Left" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 25
 
-[node name="General" type="PanelContainer" parent="HBoxContainer/VBoxContainer"]
+[node name="General" type="PanelContainer" parent="HBoxContainer/Left"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/General"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/Left/General"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/General/VBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/Left/General/VBoxContainer"]
 layout_mode = 2
 text = "General"
 
-[node name="HSeparator" type="HSeparator" parent="HBoxContainer/VBoxContainer/General/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/Left/General/VBoxContainer"]
 layout_mode = 2
 
-[node name="AutoAttach" type="CheckButton" parent="HBoxContainer/VBoxContainer/General/VBoxContainer"]
+[node name="AutoAttach" type="CheckButton" parent="HBoxContainer/Left/General/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Automatically tries to detect and attach to the Diablo II game instance"
 text = "Auto-Attach"
 
-[node name="SkipWarning" type="CheckButton" parent="HBoxContainer/VBoxContainer/General/VBoxContainer"]
+[node name="SkipWarning" type="CheckButton" parent="HBoxContainer/Left/General/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Skip warning on startup"
 
-[node name="Backup" type="PanelContainer" parent="HBoxContainer/VBoxContainer"]
+[node name="Backup" type="PanelContainer" parent="HBoxContainer/Left"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/Backup"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/Left/Backup"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/Backup/VBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/Left/Backup/VBoxContainer"]
 layout_mode = 2
 text = "Backup"
 
-[node name="HSeparator" type="HSeparator" parent="HBoxContainer/VBoxContainer/Backup/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/Left/Backup/VBoxContainer"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/Backup/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/Left/Backup/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/Backup/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/Left/Backup/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.66
 text = "Save files directory"
 
-[node name="SaveDirLineEdit" type="LineEdit" parent="HBoxContainer/VBoxContainer/Backup/VBoxContainer/HBoxContainer"]
+[node name="SaveDirLineEdit" type="LineEdit" parent="HBoxContainer/Left/Backup/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="OpenSaveDirDialogBtn" type="Button" parent="HBoxContainer/VBoxContainer/Backup/VBoxContainer/HBoxContainer"]
+[node name="OpenSaveDirDialogBtn" type="Button" parent="HBoxContainer/Left/Backup/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Find"
 
-[node name="AutoBackup" type="CheckButton" parent="HBoxContainer/VBoxContainer/Backup/VBoxContainer"]
+[node name="AutoBackup" type="CheckButton" parent="HBoxContainer/Left/Backup/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Automatically tries to detect and attach to the Diablo II game instance"
 text = "Auto-Backup"
 
-[node name="RemoveAllBackups" type="Button" parent="HBoxContainer/VBoxContainer/Backup/VBoxContainer"]
+[node name="RemoveAllBackups" type="Button" parent="HBoxContainer/Left/Backup/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Remove All Backups"
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
+[node name="Right" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Control" type="Control" parent="HBoxContainer/VBoxContainer2"]
+[node name="Overlay" type="PanelContainer" parent="HBoxContainer/Right"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/Right/Overlay"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/Right/Overlay/VBoxContainer"]
+layout_mode = 2
+text = "Overlay"
+
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/Right/Overlay/VBoxContainer"]
+layout_mode = 2
+
+[node name="EnableOverlay" type="CheckButton" parent="HBoxContainer/Right/Overlay/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Enable"
+
+[node name="FixOverlayPositionBtn" type="Button" parent="HBoxContainer/Right/Overlay/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Fix Position & Size"
+
+[node name="AddOverlayPanelBtn" type="Button" parent="HBoxContainer/Right/Overlay/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add Panel"
+
+[node name="Control" type="Control" parent="HBoxContainer/Right"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="About" type="PanelContainer" parent="HBoxContainer/VBoxContainer2"]
+[node name="About" type="PanelContainer" parent="HBoxContainer/Right"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer2/About"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/Right/About"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer2/About/VBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/Right/About/VBoxContainer"]
 layout_mode = 2
 text = "About"
 
-[node name="HSeparator" type="HSeparator" parent="HBoxContainer/VBoxContainer2/About/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/Right/About/VBoxContainer"]
 layout_mode = 2
 
-[node name="AboutLabel" type="RichTextLabel" parent="HBoxContainer/VBoxContainer2/About/VBoxContainer"]
+[node name="AboutLabel" type="RichTextLabel" parent="HBoxContainer/Right/About/VBoxContainer"]
 layout_mode = 2
 bbcode_enabled = true
 text = "Utility app extending game's capability in non-intrusive way.
@@ -120,10 +148,10 @@ Versions: TODO get them dynamically
 [url=https://github.com/david-myska/ProcessMemoryAccess]ProcessMemoryAccessLib[/url]: v0.5"
 fit_content = true
 
-[node name="HSeparator2" type="HSeparator" parent="HBoxContainer/VBoxContainer2/About/VBoxContainer"]
+[node name="HSeparator2" type="HSeparator" parent="HBoxContainer/Right/About/VBoxContainer"]
 layout_mode = 2
 
-[node name="Donate" parent="HBoxContainer/VBoxContainer2/About/VBoxContainer" instance=ExtResource("2_pfwel")]
+[node name="Donate" parent="HBoxContainer/Right/About/VBoxContainer" instance=ExtResource("2_pfwel")]
 layout_mode = 2
 
 [node name="DirDialog" type="FileDialog" parent="."]
@@ -132,9 +160,10 @@ ok_button_text = "Select Current Folder"
 file_mode = 2
 access = 2
 
-[connection signal="toggled" from="HBoxContainer/VBoxContainer/General/VBoxContainer/AutoAttach" to="." method="_on_auto_attach_toggled"]
-[connection signal="toggled" from="HBoxContainer/VBoxContainer/General/VBoxContainer/SkipWarning" to="." method="_on_skip_warning_toggled"]
-[connection signal="pressed" from="HBoxContainer/VBoxContainer/Backup/VBoxContainer/HBoxContainer/OpenSaveDirDialogBtn" to="." method="_on_open_save_dir_dialog_btn_pressed"]
-[connection signal="toggled" from="HBoxContainer/VBoxContainer/Backup/VBoxContainer/AutoBackup" to="." method="_on_auto_backup_toggled"]
-[connection signal="pressed" from="HBoxContainer/VBoxContainer/Backup/VBoxContainer/RemoveAllBackups" to="." method="_on_remove_all_backups_pressed"]
-[connection signal="meta_clicked" from="HBoxContainer/VBoxContainer2/About/VBoxContainer/AboutLabel" to="." method="_on_about_label_meta_clicked"]
+[connection signal="toggled" from="HBoxContainer/Left/General/VBoxContainer/AutoAttach" to="." method="_on_auto_attach_toggled"]
+[connection signal="toggled" from="HBoxContainer/Left/General/VBoxContainer/SkipWarning" to="." method="_on_skip_warning_toggled"]
+[connection signal="pressed" from="HBoxContainer/Left/Backup/VBoxContainer/HBoxContainer/OpenSaveDirDialogBtn" to="." method="_on_open_save_dir_dialog_btn_pressed"]
+[connection signal="toggled" from="HBoxContainer/Left/Backup/VBoxContainer/AutoBackup" to="." method="_on_auto_backup_toggled"]
+[connection signal="pressed" from="HBoxContainer/Left/Backup/VBoxContainer/RemoveAllBackups" to="." method="_on_remove_all_backups_pressed"]
+[connection signal="pressed" from="HBoxContainer/Right/Overlay/VBoxContainer/FixOverlayPositionBtn" to="." method="_on_fix_overlay_position_btn_pressed"]
+[connection signal="meta_clicked" from="HBoxContainer/Right/About/VBoxContainer/AboutLabel" to="." method="_on_about_label_meta_clicked"]
