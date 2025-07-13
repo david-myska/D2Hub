@@ -106,6 +106,7 @@ grow_vertical = 2
 [connection signal="gui_input" from="EditMode/GridContainer/TopRight" to="." method="_on_top_right_gui_input"]
 [connection signal="gui_input" from="EditMode/GridContainer/Left" to="." method="_on_left_gui_input"]
 [connection signal="gui_input" from="EditMode/GridContainer/Mid" to="." method="_on_mid_gui_input"]
+[connection signal="toggled" from="EditMode/GridContainer/Mid/ActiveBtn" to="." method="_on_active_btn_toggled"]
 [connection signal="gui_input" from="EditMode/GridContainer/Right" to="." method="_on_right_gui_input"]
 [connection signal="gui_input" from="EditMode/GridContainer/BottomLeft" to="." method="_on_bottom_left_gui_input"]
 [connection signal="gui_input" from="EditMode/GridContainer/BottomMid" to="." method="_on_bottom_mid_gui_input"]

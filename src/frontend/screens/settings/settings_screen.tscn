@@ -166,6 +166,7 @@ access = 2
 [connection signal="pressed" from="HBoxContainer/Left/Backup/VBoxContainer/HBoxContainer/OpenSaveDirDialogBtn" to="." method="_on_open_save_dir_dialog_btn_pressed"]
 [connection signal="toggled" from="HBoxContainer/Left/Backup/VBoxContainer/AutoBackup" to="." method="_on_auto_backup_toggled"]
 [connection signal="pressed" from="HBoxContainer/Left/Backup/VBoxContainer/RemoveAllBackups" to="." method="_on_remove_all_backups_pressed"]
+[connection signal="toggled" from="HBoxContainer/Right/Overlay/VBoxContainer/EnableOverlay" to="." method="_on_enable_overlay_toggled"]
 [connection signal="pressed" from="HBoxContainer/Right/Overlay/VBoxContainer/FixOverlayPositionBtn" to="." method="_on_fix_overlay_position_btn_pressed"]
 [connection signal="toggled" from="HBoxContainer/Right/Overlay/VBoxContainer/OverlayEditModeBtn" to="." method="_on_overlay_edit_mode_btn_toggled"]
 [connection signal="meta_clicked" from="HBoxContainer/Right/About/VBoxContainer/AboutLabel" to="." method="_on_about_label_meta_clicked"]

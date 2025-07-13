@@ -21,6 +21,8 @@ func _ready() -> void:
 	%SaveDirLineEdit.text = App.Config.Get(Cfg.sec_backup, Cfg.key_saves_dir)
 	Backend.get_backup_module().initialize(%SaveDirLineEdit.text)
 	%AutoBackup.button_pressed = App.Config.Get(Cfg.sec_backup, Cfg.key_auto_backup)
+	
+	%EnableOverlay.button_pressed = App.Config.Get(Cfg.sec_overlay, Cfg.key_overlay_enabled)
 
 func _on_about_label_meta_clicked(meta: Variant) -> void:
 	OS.shell_open(str(meta))
@@ -53,3 +55,7 @@ func _on_fix_overlay_position_btn_pressed() -> void:
 
 func _on_overlay_edit_mode_btn_toggled(toggled_on: bool) -> void:
 	overlay_edit_mode.emit(toggled_on)
+
+
+func _on_enable_overlay_toggled(toggled_on: bool) -> void:
+	App.Config.Set(Cfg.sec_overlay, Cfg.key_overlay_enabled, toggled_on)

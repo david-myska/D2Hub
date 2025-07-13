@@ -3,6 +3,7 @@ extends Control
 signal request_change(new_rect : Rect2)
 
 @export var m_panel_name : String = ""
+@export var m_active := true
 
 var m_edit_mode := false
 var m_dragging := false
@@ -11,14 +12,30 @@ var m_resizing := false
 var m_min_size := Vector2(100, 100)
 
 func _ready() -> void:
-	enable_edit_mode()
-	%NameLbl.text = m_panel_name
+	if m_panel_name.is_empty():
+		return
 	custom_minimum_size = m_min_size
+	m_active = App.Config.Get(
+		Cfg.sec_overlay, Cfg.key_overlay_panel_active_prefix + m_panel_name, true)
+	var rect : Rect2 = App.Config.Get(
+		Cfg.sec_overlay, Cfg.key_overlay_panel_rect_prefix + m_panel_name,
+		Rect2(Vector2.ZERO, m_min_size))
+	position = rect.position
+	size = rect.size
+	%NameLbl.text = m_panel_name
+	%ActiveBtn.button_pressed = m_active
+	enable_edit_mode(false)
 
 func enable_edit_mode(enable : bool = true):
 	$EditMode.visible = enable
-	$Content.visible = not enable
+	$Content.visible = m_active and not enable
 	m_edit_mode = enable
+	if not enable and not m_panel_name.is_empty():
+		App.Config.Set(
+			Cfg.sec_overlay, Cfg.key_overlay_panel_active_prefix + m_panel_name, m_active)
+		App.Config.Set(
+			Cfg.sec_overlay, Cfg.key_overlay_panel_rect_prefix + m_panel_name,
+			Rect2(position, size))
 
 func process_resizing_input(event : InputEvent, move_dir : Vector2, grow_dir : Vector2):
 	if not m_edit_mode:
@@ -92,3 +109,7 @@ func _on_bottom_mid_gui_input(event: InputEvent) -> void:
 
 func _on_bottom_right_gui_input(event: InputEvent) -> void:
 	process_resizing_input(event, Vector2.ZERO, Vector2.ONE)
+
+
+func _on_active_btn_toggled(toggled_on: bool) -> void:
+	m_active = toggled_on
