@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://c6y5wmgcenk6x"]
 
-[ext_resource type="Script" uid="uid://ddocug7fdl3p5" path="res://screens/lootfilter/lootfilter_screen.gd" id="1_mr3cy"]
+[ext_resource type="Script" uid="uid://ddocug7fdl3p5" path="res://modules/lootfilter/lootfilter_screen.gd" id="1_mr3cy"]
 
 [node name="LootfilterScreen" type="MarginContainer"]
 anchors_preset = 15

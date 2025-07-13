@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bc0dnn6u0ff81"]
 
-[ext_resource type="Script" uid="uid://cuxr7wjwjeqle" path="res://screens/achievements/achievement_view.gd" id="1_fcsdv"]
+[ext_resource type="Script" uid="uid://cuxr7wjwjeqle" path="res://modules/achievements/achievement_view.gd" id="1_fcsdv"]
 [ext_resource type="Texture2D" uid="uid://ciqvoh3b5su3d" path="res://icon.svg" id="1_fqi46"]
 
 [node name="AchievementView" type="MarginContainer"]
@@ -58,11 +58,6 @@ autowrap_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 1
-
-[node name="Track" type="CheckButton" parent="Background/MarginContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 0
-text = "Track in overlay"
 
 [node name="TextureRect" type="TextureRect" parent="Background/MarginContainer/HBoxContainer"]
 layout_mode = 2

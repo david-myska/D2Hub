@@ -9,11 +9,12 @@ var m_edit_mode := false
 var m_dragging := false
 var m_resizing := false
 
-var m_min_size := Vector2(100, 100)
+var m_min_size := Vector2(200, 200)
 
 func _ready() -> void:
 	if m_panel_name.is_empty():
 		return
+	m_min_size = m_min_size.max($EditMode/GridContainer.get_combined_minimum_size())
 	custom_minimum_size = m_min_size
 	m_active = App.Config.Get(
 		Cfg.sec_overlay, Cfg.key_overlay_panel_active_prefix + m_panel_name, true)
@@ -36,6 +37,11 @@ func enable_edit_mode(enable : bool = true):
 		App.Config.Set(
 			Cfg.sec_overlay, Cfg.key_overlay_panel_rect_prefix + m_panel_name,
 			Rect2(position, size))
+
+func set_content(content : Control):
+	for c in $Content.get_children():
+		c.queue_free()
+	$Content.add_child(content)
 
 func process_resizing_input(event : InputEvent, move_dir : Vector2, grow_dir : Vector2):
 	if not m_edit_mode:

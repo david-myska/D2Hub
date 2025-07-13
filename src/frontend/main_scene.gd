@@ -7,7 +7,7 @@ var m_overlay_hwnd : int = 0
 func _ready() -> void:
 	var cmd_args := OS.get_cmdline_args()
 	if "--developer" in cmd_args:
-		var dev_screen = preload("res://screens/developer/developer_screen.tscn").instantiate()
+		var dev_screen = preload("res://modules/developer/developer_screen.tscn").instantiate()
 		$MarginContainer/VBoxContainer/Body/MainPanel/TabContainer.add_child(dev_screen)
 		# TODO disable achievements when in developer mode
 	Backend.show_popup.connect($MessagePopup.show_message)
@@ -56,6 +56,8 @@ func _ready() -> void:
 	
 	%Settings.fix_overlay.connect($Overlay.fill)
 	%Settings.overlay_edit_mode.connect($Overlay.enable_edit_mode)
+	
+	$Overlay.add_panel("Achievements", %Achievements.create_overlay_content())
 
 
 func _on_discover_timer_timeout() -> void:

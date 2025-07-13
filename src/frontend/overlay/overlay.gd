@@ -18,10 +18,11 @@ func fill(r : Rect2i):
 	position = r.position
 	size = r.size
 
-func add_panel(panel_name : String):
+func add_panel(panel_name : String, content : Control):
 	var p := preload("res://overlay/overlay_panel.tscn").instantiate()
 	p.m_panel_name = panel_name
 	p.request_change.connect(_modify_panel.bind(p))
+	p.set_content(content)
 	$Panels.add_child(p)
 
 func _modify_panel(r : Rect2, panel : Control):

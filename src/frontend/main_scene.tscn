@@ -1,10 +1,10 @@
 [gd_scene load_steps=8 format=3 uid="uid://c5ca2tajwu10l"]
 
-[ext_resource type="PackedScene" uid="uid://dyreym3cio3mc" path="res://screens/achievements/achievement_screen.tscn" id="1_0f027"]
+[ext_resource type="PackedScene" uid="uid://dyreym3cio3mc" path="res://modules/achievements/achievement_screen.tscn" id="1_0f027"]
 [ext_resource type="Script" uid="uid://b8mcr6oqu1aqb" path="res://main_scene.gd" id="1_gyfs4"]
 [ext_resource type="PackedScene" uid="uid://b5n3xe1wk02u1" path="res://utils/donate.tscn" id="3_8mm7a"]
-[ext_resource type="PackedScene" uid="uid://bxbty8fetvnll" path="res://screens/settings/settings_screen.tscn" id="3_hq1ik"]
-[ext_resource type="PackedScene" uid="uid://dq3hwkn4kqrcw" path="res://screens/roadmap/roadmap_screen.tscn" id="4_hq1ik"]
+[ext_resource type="PackedScene" uid="uid://bxbty8fetvnll" path="res://modules/settings/settings_screen.tscn" id="3_hq1ik"]
+[ext_resource type="PackedScene" uid="uid://dq3hwkn4kqrcw" path="res://modules/roadmap/roadmap_screen.tscn" id="4_hq1ik"]
 [ext_resource type="PackedScene" uid="uid://dsd2jshumefwu" path="res://utils/message_popup.tscn" id="6_hq1ik"]
 [ext_resource type="PackedScene" uid="uid://d3ro1b34mcrhu" path="res://overlay/overlay.tscn" id="7_nfk4m"]
 
@@ -172,6 +172,7 @@ layout_mode = 2
 current_tab = 0
 
 [node name="Achievements" parent="MarginContainer/VBoxContainer/Body/MainPanel/TabContainer" instance=ExtResource("1_0f027")]
+unique_name_in_owner = true
 layout_mode = 2
 metadata/_tab_index = 0
 

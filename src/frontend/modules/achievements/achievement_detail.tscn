@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://b02vaqvpalgd"]
 
-[ext_resource type="Script" uid="uid://dbr57foxcaytm" path="res://screens/achievements/achievement_detail.gd" id="1_edha3"]
+[ext_resource type="Script" uid="uid://dbr57foxcaytm" path="res://modules/achievements/achievement_detail.gd" id="1_edha3"]
 
 [node name="AchievementDetail" type="MarginContainer"]
 anchors_preset = 15

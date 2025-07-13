@@ -14,6 +14,9 @@ var m_cat_btn_grp := ButtonGroup.new()
 var m_category_filter : String = "All"
 var m_status_filter := Achievement.Status.ALL_STATUSES
 
+var m_opened_achi : Achievement = null
+var m_tracked_achi : Achievement = null
+
 func _ready() -> void:
 	fill_achievements()
 	var achi_module = Backend.get_achievements_module()
@@ -78,12 +81,18 @@ func reset() -> void:
 func fill_achievements() -> void:
 	reset()
 	for a in Backend.get_achievements_module().get_achievements():
-		var achi_view = preload("res://screens/achievements/achievement_view.tscn").instantiate()
+		var achi_view = preload("res://modules/achievements/achievement_view.tscn").instantiate()
 		achi_view.from_achievement(a)
 		m_achis.add_child(achi_view)
+		var m : Dictionary = a.get_metadata()
 		achi_view.clicked.connect(m_details.from_achievement.bind(a))
+		achi_view.clicked.connect(func():
+			m_opened_achi = a
+			%TrackInOverlayBtn.disabled = false
+			%TrackInOverlayBtn.button_pressed = a == m_tracked_achi
+		)
 		a.status_changed.connect(_report_status.bind(a))
-		var category = a.get_metadata()["category"]
+		var category = m["category"]
 		if category in m_cat2views and category != "All":
 			m_cat2views[category].append(achi_view)
 		else:
@@ -111,3 +120,14 @@ func _on_filter_inactive_btn_pressed() -> void:
 
 func _on_filter_failed_btn_pressed() -> void:
 	filter_achis_by_status(Achievement.Status.FAILED)
+
+func create_overlay_content():
+	var content := preload("res://modules/achievements/achievement_overlay.tscn").instantiate()
+	%TrackInOverlayBtn.toggled.connect(func(toggled_on):
+		if toggled_on:
+			m_tracked_achi = m_opened_achi
+			content.track_achievement(m_tracked_achi)
+		else:
+			content.reset()
+	)
+	return content

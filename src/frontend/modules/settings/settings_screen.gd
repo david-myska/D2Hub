@@ -22,7 +22,7 @@ func _ready() -> void:
 	Backend.get_backup_module().initialize(%SaveDirLineEdit.text)
 	%AutoBackup.button_pressed = App.Config.Get(Cfg.sec_backup, Cfg.key_auto_backup)
 	
-	%EnableOverlay.button_pressed = App.Config.Get(Cfg.sec_overlay, Cfg.key_overlay_enabled)
+	%EnableOverlay.button_pressed = App.Config.Get(Cfg.sec_overlay, Cfg.key_overlay_enabled, false)
 
 func _on_about_label_meta_clicked(meta: Variant) -> void:
 	OS.shell_open(str(meta))

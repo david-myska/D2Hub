@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://d3dcj0s3vinc7"]
 
-[ext_resource type="Script" uid="uid://vanlqsycv4p7" path="res://screens/achievements/conditions_view.gd" id="1_misvv"]
+[ext_resource type="Script" uid="uid://vanlqsycv4p7" path="res://modules/achievements/conditions_view.gd" id="1_misvv"]
 
 [node name="ConditionsView" type="MarginContainer"]
 anchors_preset = 15
