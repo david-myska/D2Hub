@@ -78,9 +78,10 @@ void D2HubBackend::_bind_methods()
     ClassDB::bind_method(D_METHOD("get_achievements_module"), &D2HubBackend::get_achievements_module);
     ClassDB::bind_method(D_METHOD("get_backup_module"), &D2HubBackend::get_backup_module);
     ClassDB::bind_method(D_METHOD("get_developer_module"), &D2HubBackend::get_developer_module);
+    ClassDB::bind_method(D_METHOD("get_modules"), &D2HubBackend::get_modules);
 
     ClassDB::bind_method(D_METHOD("get_target_rect"), &D2HubBackend::get_target_rect);
-    ClassDB::bind_method(D_METHOD("setup_overlay", "p_hwnd"), &D2HubBackend::setup_overlay);
+    ClassDB::bind_method(D_METHOD("enable_window_clickthrough", "p_hwnd", "p_enable"), &D2HubBackend::enable_window_clickthrough);
 
     ADD_SIGNAL(MethodInfo("target_process_exists", PropertyInfo(Variant::BOOL, "exists")));
     ADD_SIGNAL(MethodInfo("target_process_attached", PropertyInfo(Variant::BOOL, "attached")));
@@ -95,6 +96,7 @@ D2HubBackend::D2HubBackend()
     , m_achievementsModule(AchievementsModule::Create(MakeLogger("achievements_module")))
     , m_backupModule(BackupModule::Create(MakeLogger("backup_module")))
     , m_developerModule(DeveloperModule::Create(MakeLogger("developer_module")))
+    , m_modules({m_achievementsModule, m_backupModule, m_developerModule})
 {
     InitializeBackend();
     m_achievementsModule->LoadAchievements({}, false);
@@ -115,6 +117,11 @@ Ref<BackupModule> D2HubBackend::get_backup_module()
 Ref<DeveloperModule> D2HubBackend::get_developer_module()
 {
     return m_developerModule;
+}
+
+Array D2HubBackend::get_modules() const
+{
+    return m_modules;
 }
 
 void D2HubBackend::InitializeBackend()
@@ -264,11 +271,18 @@ Rect2i D2HubBackend::get_target_rect() const
     return Rect2i();
 }
 
-void D2HubBackend::setup_overlay(uintptr_t godot_hwnd)
+void D2HubBackend::enable_window_clickthrough(uintptr_t godot_hwnd, bool enable)
 {
     HWND hwnd = reinterpret_cast<HWND>(godot_hwnd);
-
     LONG exStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
-    exStyle |= WS_EX_LAYERED | WS_EX_TRANSPARENT;
+
+    if (enable)
+    {
+        exStyle |= WS_EX_LAYERED | WS_EX_TRANSPARENT;
+    }
+    else
+    {
+        exStyle &= ~WS_EX_TRANSPARENT;
+    }
     SetWindowLong(hwnd, GWL_EXSTYLE, exStyle);
 }

@@ -2,6 +2,7 @@ extends MarginContainer
 
 # TODO TMP
 signal fix_overlay(r : Rect2i)
+signal overlay_edit_mode(enabled : bool)
 
 @onready var m_current_le: LineEdit = null
 
@@ -48,3 +49,7 @@ func _on_remove_all_backups_pressed() -> void:
 func _on_fix_overlay_position_btn_pressed() -> void:
 	var r := Backend.get_target_rect()
 	fix_overlay.emit(r)
+
+
+func _on_overlay_edit_mode_btn_toggled(toggled_on: bool) -> void:
+	overlay_edit_mode.emit(toggled_on)

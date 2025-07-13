@@ -37,5 +37,8 @@ namespace godot
         void disable_manually(bool aDisable);
         void disable_programatically(bool aDisable, String aReason = "");
         int get_status() const;
+        String get_name() const;
+
+        bool has_overlay_panel() const;
     };
 }

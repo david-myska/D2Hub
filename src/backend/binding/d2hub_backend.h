@@ -36,6 +36,8 @@ namespace godot
         Ref<BackupModule> m_backupModule;
         Ref<DeveloperModule> m_developerModule;
 
+        Array m_modules;
+
         void InitializeBackend();
         bool CanUpdate() const;
         void Update();
@@ -56,6 +58,7 @@ namespace godot
         Ref<AchievementsModule> get_achievements_module();
         Ref<BackupModule> get_backup_module();
         Ref<DeveloperModule> get_developer_module();
+        Array get_modules() const;
 
         void start_auto_attach();
         void stop_auto_attach();
@@ -65,7 +68,7 @@ namespace godot
         void stop_memory_processor();
 
         Rect2i get_target_rect() const;
-        void setup_overlay(uintptr_t hwnd);
+        void enable_window_clickthrough(uintptr_t hwnd, bool enable = true);
     };
 
 }

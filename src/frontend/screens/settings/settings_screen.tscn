@@ -112,10 +112,11 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Fix Position & Size"
 
-[node name="AddOverlayPanelBtn" type="Button" parent="HBoxContainer/Right/Overlay/VBoxContainer"]
+[node name="OverlayEditModeBtn" type="Button" parent="HBoxContainer/Right/Overlay/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Add Panel"
+toggle_mode = true
+text = "Edit Mode"
 
 [node name="Control" type="Control" parent="HBoxContainer/Right"]
 layout_mode = 2
@@ -166,4 +167,5 @@ access = 2
 [connection signal="toggled" from="HBoxContainer/Left/Backup/VBoxContainer/AutoBackup" to="." method="_on_auto_backup_toggled"]
 [connection signal="pressed" from="HBoxContainer/Left/Backup/VBoxContainer/RemoveAllBackups" to="." method="_on_remove_all_backups_pressed"]
 [connection signal="pressed" from="HBoxContainer/Right/Overlay/VBoxContainer/FixOverlayPositionBtn" to="." method="_on_fix_overlay_position_btn_pressed"]
+[connection signal="toggled" from="HBoxContainer/Right/Overlay/VBoxContainer/OverlayEditModeBtn" to="." method="_on_overlay_edit_mode_btn_toggled"]
 [connection signal="meta_clicked" from="HBoxContainer/Right/About/VBoxContainer/AboutLabel" to="." method="_on_about_label_meta_clicked"]

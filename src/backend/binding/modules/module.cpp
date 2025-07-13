@@ -10,6 +10,8 @@ void Module::_bind_methods()
     ClassDB::bind_method(D_METHOD("can_be_disabled_manually"), &Module::can_be_disabled_manually);
     ClassDB::bind_method(D_METHOD("disable_manually", "p_disable"), &Module::disable_manually);
     ClassDB::bind_method(D_METHOD("disable_programatically", "p_disable"), &Module::disable_programatically);
+    ClassDB::bind_method(D_METHOD("get_status"), &Module::get_status);
+    ClassDB::bind_method(D_METHOD("get_name"), &Module::get_name);
 
     ClassDB::bind_integer_constant("Module", "Status", "ENABLED", static_cast<int>(ModuleStatus::Enabled));
     ClassDB::bind_integer_constant("Module", "Status", "DISABLED", static_cast<int>(ModuleStatus::Disabled));
@@ -59,4 +61,14 @@ int Module::get_status() const
     return static_cast<int>(m_disabled_manually        ? ModuleStatus::ManuallyDisabled :
                             m_disabled_programatically ? ModuleStatus::Disabled :
                                                          ModuleStatus::Enabled);
+}
+
+String Module::get_name() const
+{
+    return m_name.data();
+}
+
+bool Module::has_overlay_panel() const
+{
+    return false;
 }

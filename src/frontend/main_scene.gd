@@ -2,6 +2,8 @@ extends Control
 
 @onready var discover_timer := $DiscoverTimer
 
+var m_overlay_hwnd : int = 0
+
 func _ready() -> void:
 	var cmd_args := OS.get_cmdline_args()
 	if "--developer" in cmd_args:
@@ -52,15 +54,8 @@ func _ready() -> void:
 				App.Config.Get(Cfg.sec_backup, Cfg.key_auto_backup))
 	)
 	
-	#TODO TMP
-	var overlay_id = $Overlay.get_window_id()
-	var hwnd = DisplayServer.window_get_native_handle(DisplayServer.WINDOW_HANDLE, overlay_id)
-	print("Overlay HWND:", hwnd)
-	Backend.setup_overlay(hwnd)
-	$MarginContainer/VBoxContainer/Body/MainPanel/TabContainer/Settings.fix_overlay.connect(func(r : Rect2i):
-		$Overlay.position = r.position
-		$Overlay.size = r.size
-	)
+	%Settings.fix_overlay.connect($Overlay.fill)
+	%Settings.overlay_edit_mode.connect($Overlay.enable_edit_mode)
 
 
 func _on_discover_timer_timeout() -> void:

@@ -1,0 +1,112 @@
+[gd_scene load_steps=2 format=3 uid="uid://ckc5y8vx50yfl"]
+
+[ext_resource type="Script" uid="uid://7gyrbxroi2ud" path="res://overlay/overlay_panel.gd" id="1_53gmw"]
+
+[node name="OverlayPanel" type="Control"]
+clip_contents = true
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_53gmw")
+
+[node name="EditMode" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 1, 1, 0.392157)
+
+[node name="GridContainer" type="GridContainer" parent="EditMode"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 3
+
+[node name="TopLeft" type="Control" parent="EditMode/GridContainer"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+mouse_default_cursor_shape = 12
+
+[node name="TopMid" type="Control" parent="EditMode/GridContainer"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 9
+
+[node name="TopRight" type="Control" parent="EditMode/GridContainer"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+mouse_default_cursor_shape = 11
+
+[node name="Left" type="Control" parent="EditMode/GridContainer"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_default_cursor_shape = 10
+
+[node name="Mid" type="VBoxContainer" parent="EditMode/GridContainer"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_default_cursor_shape = 13
+alignment = 1
+
+[node name="NameLbl" type="Label" parent="EditMode/GridContainer/Mid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Panel Name"
+
+[node name="ActiveBtn" type="CheckButton" parent="EditMode/GridContainer/Mid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Active"
+
+[node name="Right" type="Control" parent="EditMode/GridContainer"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_default_cursor_shape = 10
+
+[node name="BottomLeft" type="Control" parent="EditMode/GridContainer"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+mouse_default_cursor_shape = 11
+
+[node name="BottomMid" type="Control" parent="EditMode/GridContainer"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 9
+
+[node name="BottomRight" type="Control" parent="EditMode/GridContainer"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+mouse_default_cursor_shape = 12
+
+[node name="Content" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[connection signal="gui_input" from="EditMode/GridContainer/TopLeft" to="." method="_on_top_left_gui_input"]
+[connection signal="gui_input" from="EditMode/GridContainer/TopMid" to="." method="_on_top_mid_gui_input"]
+[connection signal="gui_input" from="EditMode/GridContainer/TopRight" to="." method="_on_top_right_gui_input"]
+[connection signal="gui_input" from="EditMode/GridContainer/Left" to="." method="_on_left_gui_input"]
+[connection signal="gui_input" from="EditMode/GridContainer/Mid" to="." method="_on_mid_gui_input"]
+[connection signal="gui_input" from="EditMode/GridContainer/Right" to="." method="_on_right_gui_input"]
+[connection signal="gui_input" from="EditMode/GridContainer/BottomLeft" to="." method="_on_bottom_left_gui_input"]
+[connection signal="gui_input" from="EditMode/GridContainer/BottomMid" to="." method="_on_bottom_mid_gui_input"]
+[connection signal="gui_input" from="EditMode/GridContainer/BottomRight" to="." method="_on_bottom_right_gui_input"]
