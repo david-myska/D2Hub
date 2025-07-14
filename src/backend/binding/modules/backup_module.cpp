@@ -5,10 +5,11 @@
 
 using namespace godot;
 
-Ref<BackupModule> BackupModule::Create(std::shared_ptr<spdlog::logger> aLogger)
+Ref<BackupModule> BackupModule::Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier)
 {
     auto module = memnew(BackupModule);
     module->m_logger = std::move(aLogger);
+    module->m_notifier = std::move(aNotifier);
     module->m_name = "Backup";
     module->SetUserDir("backup");
     return module;

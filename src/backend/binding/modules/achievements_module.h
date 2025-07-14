@@ -63,7 +63,7 @@ namespace godot
         static void _bind_methods();
 
     public:
-        static Ref<AchievementsModule> Create(std::shared_ptr<spdlog::logger> aLogger);
+        static Ref<AchievementsModule> Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier);
 
         void Update(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData);
         void LoadAchievements(std::optional<std::string> aId = {}, bool aActivate = true);

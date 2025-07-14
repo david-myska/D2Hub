@@ -10,7 +10,6 @@ func _ready() -> void:
 		var dev_screen = preload("res://modules/developer/developer_screen.tscn").instantiate()
 		$MarginContainer/VBoxContainer/Body/MainPanel/TabContainer.add_child(dev_screen)
 		# TODO disable achievements when in developer mode
-	Backend.show_popup.connect($MessagePopup.show_message)
 	Backend.target_process_exists.connect(func(exists : bool):
 		%D2Discovered.text = "ON" if exists else "OFF"
 		%D2Discovered.modulate = Color.GREEN if exists else Color.RED
@@ -58,6 +57,7 @@ func _ready() -> void:
 	%Settings.overlay_edit_mode.connect($Overlay.enable_edit_mode)
 	
 	$Overlay.add_panel("Achievements", %Achievements.create_overlay_content())
+	$Overlay.add_panel("Notifications", preload("res://utils/notifications/notification_overlay.tscn").instantiate())
 
 
 func _on_discover_timer_timeout() -> void:

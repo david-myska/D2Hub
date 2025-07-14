@@ -75,6 +75,8 @@ void D2HubBackend::_bind_methods()
     ClassDB::bind_method(D_METHOD("start_memory_processor"), &D2HubBackend::start_memory_processor);
     ClassDB::bind_method(D_METHOD("stop_memory_processor"), &D2HubBackend::stop_memory_processor);
 
+    ClassDB::bind_method(D_METHOD("get_notifier"), &D2HubBackend::get_notifier);
+
     ClassDB::bind_method(D_METHOD("get_achievements_module"), &D2HubBackend::get_achievements_module);
     ClassDB::bind_method(D_METHOD("get_backup_module"), &D2HubBackend::get_backup_module);
     ClassDB::bind_method(D_METHOD("get_developer_module"), &D2HubBackend::get_developer_module);
@@ -86,16 +88,16 @@ void D2HubBackend::_bind_methods()
     ADD_SIGNAL(MethodInfo("target_process_exists", PropertyInfo(Variant::BOOL, "exists")));
     ADD_SIGNAL(MethodInfo("target_process_attached", PropertyInfo(Variant::BOOL, "attached")));
     ADD_SIGNAL(MethodInfo("memory_processor_running", PropertyInfo(Variant::BOOL, "processing")));
-    ADD_SIGNAL(MethodInfo("show_popup", PropertyInfo(Variant::STRING, "message")));
 }
 
 D2HubBackend::D2HubBackend()
     : m_logLevel(ParseLogLevel())
     , m_commonFileSink(MakeLoggerSink())
     , m_logger(MakeLogger("d2hub_backend"))
-    , m_achievementsModule(AchievementsModule::Create(MakeLogger("achievements_module")))
-    , m_backupModule(BackupModule::Create(MakeLogger("backup_module")))
-    , m_developerModule(DeveloperModule::Create(MakeLogger("developer_module")))
+    , m_notifier(Notifier::Create(MakeLogger("notifier")))
+    , m_achievementsModule(AchievementsModule::Create(MakeLogger("achievements_module"), m_notifier))
+    , m_backupModule(BackupModule::Create(MakeLogger("backup_module"), m_notifier))
+    , m_developerModule(DeveloperModule::Create(MakeLogger("developer_module"), m_notifier))
     , m_modules({m_achievementsModule, m_backupModule, m_developerModule})
 {
     InitializeBackend();
@@ -103,6 +105,11 @@ D2HubBackend::D2HubBackend()
 }
 
 D2HubBackend::~D2HubBackend() {}
+
+Ref<Notifier> D2HubBackend::get_notifier() const
+{
+    return m_notifier;
+}
 
 Ref<AchievementsModule> D2HubBackend::get_achievements_module()
 {

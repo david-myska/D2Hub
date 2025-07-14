@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dsd2jshumefwu"]
 
-[ext_resource type="Script" uid="uid://c151fxjscmvcw" path="res://utils/message_popup.gd" id="1_bmohk"]
+[ext_resource type="Script" uid="uid://c151fxjscmvcw" path="res://utils/notifications/message_popup.gd" id="1_bmohk"]
 
 [node name="MessagePopup" type="PopupPanel"]
 initial_position = 1

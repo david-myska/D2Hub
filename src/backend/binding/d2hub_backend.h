@@ -1,5 +1,7 @@
 #pragma once
 
+#include "notifier.h"
+
 #include "d2/achievements/base.h"
 #include "game_enhancer/memory_processor.h"
 #include "modules/achievements_module.h"
@@ -32,6 +34,8 @@ namespace godot
         std::shared_ptr<D2::Data::DataAccess> m_dataAccess;
         std::shared_ptr<D2::Data::SharedData> m_sharedData;
 
+        Ref<Notifier> m_notifier;
+
         Ref<AchievementsModule> m_achievementsModule;
         Ref<BackupModule> m_backupModule;
         Ref<DeveloperModule> m_developerModule;
@@ -54,6 +58,8 @@ namespace godot
     public:
         D2HubBackend();
         ~D2HubBackend();
+
+        Ref<Notifier> get_notifier() const;
 
         Ref<AchievementsModule> get_achievements_module();
         Ref<BackupModule> get_backup_module();

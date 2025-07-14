@@ -9,10 +9,11 @@ void DeveloperModule::_bind_methods()
     ClassDB::bind_method(D_METHOD("get_player_position"), &DeveloperModule::get_player_position);
 }
 
-Ref<DeveloperModule> DeveloperModule::Create(std::shared_ptr<spdlog::logger> aLogger)
+Ref<DeveloperModule> DeveloperModule::Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier)
 {
     auto module = memnew(DeveloperModule);
     module->m_logger = std::move(aLogger);
+    module->m_notifier = std::move(aNotifier);
     module->m_name = "Developer";
     module->SetUserDir("developer");
     return module;

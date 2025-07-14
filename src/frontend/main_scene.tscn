@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://b5n3xe1wk02u1" path="res://utils/donate.tscn" id="3_8mm7a"]
 [ext_resource type="PackedScene" uid="uid://bxbty8fetvnll" path="res://modules/settings/settings_screen.tscn" id="3_hq1ik"]
 [ext_resource type="PackedScene" uid="uid://dq3hwkn4kqrcw" path="res://modules/roadmap/roadmap_screen.tscn" id="4_hq1ik"]
-[ext_resource type="PackedScene" uid="uid://dsd2jshumefwu" path="res://utils/message_popup.tscn" id="6_hq1ik"]
+[ext_resource type="PackedScene" uid="uid://dsd2jshumefwu" path="res://utils/notifications/message_popup.tscn" id="6_hq1ik"]
 [ext_resource type="PackedScene" uid="uid://d3ro1b34mcrhu" path="res://overlay/overlay.tscn" id="7_nfk4m"]
 
 [node name="MainScene" type="Control"]

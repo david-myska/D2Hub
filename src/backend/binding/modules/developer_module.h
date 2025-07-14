@@ -18,7 +18,7 @@ namespace godot
         static void _bind_methods();
 
     public:
-        static Ref<DeveloperModule> Create(std::shared_ptr<spdlog::logger> aLogger);
+        static Ref<DeveloperModule> Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier);
 
         void Initialize(std::shared_ptr<D2::Data::DataAccess> aData, std::shared_ptr<D2::Data::SharedData> aShared);
 

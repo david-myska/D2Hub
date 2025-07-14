@@ -2,6 +2,7 @@
 
 #include <filesystem>
 
+#include "binding/notifier.h"
 #include "spdlog/spdlog.h"
 
 #include <godot_cpp/classes/ref_counted.hpp>
@@ -23,6 +24,9 @@ namespace godot
         std::string m_name;
         std::filesystem::path m_moduleUserDir;
         std::shared_ptr<spdlog::logger> m_logger;
+
+        Ref<Notifier> m_notifier;
+
         bool m_canBeDisabledManually = true;
         bool m_disabled_manually = false;
         bool m_disabled_programatically = false;
