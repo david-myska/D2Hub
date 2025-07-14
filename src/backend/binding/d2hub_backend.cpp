@@ -94,6 +94,8 @@ void D2HubBackend::_bind_methods()
     ClassDB::bind_method(D_METHOD("get_target_rect"), &D2HubBackend::get_target_rect);
     ClassDB::bind_method(D_METHOD("enable_window_clickthrough", "p_hwnd", "p_enable"), &D2HubBackend::enable_window_clickthrough);
 
+    ClassDB::bind_method(D_METHOD("fucking_flush"), &D2HubBackend::fucking_flush);
+
     ADD_SIGNAL(MethodInfo("target_process_exists", PropertyInfo(Variant::BOOL, "exists")));
     ADD_SIGNAL(MethodInfo("target_process_attached", PropertyInfo(Variant::BOOL, "attached")));
     ADD_SIGNAL(MethodInfo("memory_processor_running", PropertyInfo(Variant::BOOL, "processing")));
@@ -114,7 +116,11 @@ D2HubBackend::D2HubBackend()
     m_achievementsModule->LoadAchievements({}, false);
 }
 
-D2HubBackend::~D2HubBackend() {}
+D2HubBackend::~D2HubBackend()
+{
+    m_logger->info("D2Hub backend destroyed");
+    m_commonFileSink->flush();
+}
 
 Ref<Notifier> D2HubBackend::get_notifier() const
 {
@@ -169,16 +175,17 @@ void D2HubBackend::InitializeBackend()
     m_memoryProcessorRunningToken = m_memoryProcessor->OnRunningChanged([this](bool aRunning) {
         call_deferred("emit_signal", "memory_processor_running", aRunning);
     });
-    m_startOnAttachedToken = m_targetProcess->OnAttachmentChanged([this](bool aAttached) {
-        if (aAttached)
-        {
-            m_memoryProcessor->RequestStart(m_targetProcess->GetMemoryAccess());
-        }
-        else
-        {
-            m_memoryProcessor->RequestStop();
-        }
-    });
+    // TODO only set this callback when autoattach is used, causes crashes when manually attaching to a process
+    //m_startOnAttachedToken = m_targetProcess->OnAttachmentChanged([this](bool aAttached) {
+    //    if (aAttached)
+    //    {
+    //        m_memoryProcessor->RequestStart(m_targetProcess->GetMemoryAccess());
+    //    }
+    //    else
+    //    {
+    //        m_memoryProcessor->RequestStop();
+    //    }
+    //});
 
     D2::RegisterLayouts(*m_memoryProcessor);
     D2::SetupCallbacks(
@@ -308,4 +315,9 @@ void D2HubBackend::enable_window_clickthrough(uintptr_t godot_hwnd, bool enable)
         exStyle &= ~WS_EX_TRANSPARENT;
     }
     SetWindowLong(hwnd, GWL_EXSTYLE, exStyle);
+}
+
+void D2HubBackend::fucking_flush() const
+{
+    m_commonFileSink->flush();
 }

@@ -55,10 +55,11 @@ void LootFilterModule::_bind_methods()
     ADD_SIGNAL(MethodInfo("new_loot_notification", PropertyInfo(Variant::STRING, "p_sound_effect")));
 }
 
-Ref<LootFilterModule> LootFilterModule::Create(std::shared_ptr<spdlog::logger> aLogger)
+Ref<LootFilterModule> LootFilterModule::Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier)
 {
     auto module = memnew(LootFilterModule);
-    module->m_logger = aLogger;
+    module->m_logger = std::move(aLogger);
+    module->m_notifier = std::move(aNotifier);
     module->m_name = "LootFilter";
     module->SetUserDir("lootfilter");
     return module;

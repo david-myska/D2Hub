@@ -272,7 +272,7 @@ namespace godot
         static void _bind_methods();
 
     public:
-        static Ref<LootFilterModule> Create(std::shared_ptr<spdlog::logger> aLogger);
+        static Ref<LootFilterModule> Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier);
 
         void Update(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData);
 

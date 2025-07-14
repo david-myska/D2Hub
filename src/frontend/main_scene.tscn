@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://c5ca2tajwu10l"]
+[gd_scene load_steps=9 format=3 uid="uid://c5ca2tajwu10l"]
 
 [ext_resource type="PackedScene" uid="uid://dyreym3cio3mc" path="res://modules/achievements/achievement_screen.tscn" id="1_0f027"]
 [ext_resource type="Script" uid="uid://b8mcr6oqu1aqb" path="res://main_scene.gd" id="1_gyfs4"]
@@ -178,6 +178,7 @@ layout_mode = 2
 metadata/_tab_index = 0
 
 [node name="Lootfilter" parent="MarginContainer/VBoxContainer/Body/MainPanel/TabContainer" instance=ExtResource("3_nfk4m")]
+unique_name_in_owner = true
 visible = false
 layout_mode = 2
 metadata/_tab_index = 1

@@ -20,7 +20,7 @@ func reset():
 
 
 func _on_add_filter_btn_pressed() -> void:
-	var f = preload("res://screens/lootfilter/attribute_filter.tscn").instantiate()
+	var f = preload("res://modules/lootfilter/attribute_filter.tscn").instantiate()
 	f.populate(m_populate_data)
 	f.delete_requested.connect(%AttributeFilters.remove_child.bind(f))
 	%AttributeFilters.add_child(f)

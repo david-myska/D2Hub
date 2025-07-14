@@ -12,6 +12,7 @@
 #include "spdlog/spdlog.h"
 
 #include <godot_cpp/classes/node.hpp>
+#include <godot_cpp/classes/timer.hpp>
 #include <godot_cpp/variant/string.hpp>
 
 namespace godot
@@ -79,6 +80,7 @@ namespace godot
 
         Rect2i get_target_rect() const;
         void enable_window_clickthrough(uintptr_t hwnd, bool enable = true);
+        void fucking_flush() const;
     };
 
 }
