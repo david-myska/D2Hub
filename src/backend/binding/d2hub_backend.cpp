@@ -114,11 +114,13 @@ D2HubBackend::D2HubBackend()
 {
     InitializeBackend();
     m_achievementsModule->LoadAchievements({}, false);
+    m_lootfilterModule->Load();
 }
 
 D2HubBackend::~D2HubBackend()
 {
-    m_logger->info("D2Hub backend destroyed");
+    m_logger->info("Destroying D2Hub backend");
+    m_lootfilterModule->Save();
     m_commonFileSink->flush();
 }
 
@@ -176,7 +178,7 @@ void D2HubBackend::InitializeBackend()
         call_deferred("emit_signal", "memory_processor_running", aRunning);
     });
     // TODO only set this callback when autoattach is used, causes crashes when manually attaching to a process
-    //m_startOnAttachedToken = m_targetProcess->OnAttachmentChanged([this](bool aAttached) {
+    // m_startOnAttachedToken = m_targetProcess->OnAttachmentChanged([this](bool aAttached) {
     //    if (aAttached)
     //    {
     //        m_memoryProcessor->RequestStart(m_targetProcess->GetMemoryAccess());

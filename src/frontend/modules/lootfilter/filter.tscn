@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dmod3lecx8gwi"]
 
-[ext_resource type="Script" uid="uid://bkwb21lsjktm7" path="res://screens/lootfilter/filter.gd" id="1_ruwl2"]
+[ext_resource type="Script" uid="uid://bkwb21lsjktm7" path="res://modules/lootfilter/filter.gd" id="1_ruwl2"]
 
 [node name="Filter" type="HBoxContainer"]
 script = ExtResource("1_ruwl2")

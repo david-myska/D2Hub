@@ -36,5 +36,6 @@ text = "Add Filter"
 
 [node name="SetupFilterDialog" parent="." instance=ExtResource("2_u71qo")]
 unique_name_in_owner = true
+initial_position = 2
 
 [connection signal="pressed" from="VBoxContainer/VBoxContainer/AddFilter" to="." method="_on_add_filter_pressed"]

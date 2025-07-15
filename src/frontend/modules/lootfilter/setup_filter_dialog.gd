@@ -28,7 +28,7 @@ func _on_add_filter_btn_pressed() -> void:
 func _make_quality_filter():
 	var d := {}
 	d["stat_id"] = 0
-	d["stat_type"] = MetaFilter.StatType.OTHER
+	d["stat_type"] = MetaFilter.FilterType.OTHER
 	d["value"] = 0
 	if %Qualities/Normal.button_pressed:
 		d["value"] += MetaFilter.Quality.NORMAL

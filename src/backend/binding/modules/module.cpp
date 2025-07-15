@@ -24,6 +24,7 @@ void Module::SetUserDir(const std::filesystem::path& aRelative)
 {
     m_moduleUserDir = ProjectSettings::get_singleton()->globalize_path("user://").utf8().get_data();
     m_moduleUserDir /= aRelative;
+    std::filesystem::create_directories(m_moduleUserDir);
 }
 
 bool Module::can_be_disabled_manually()

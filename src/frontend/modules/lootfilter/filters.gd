@@ -3,6 +3,7 @@ extends MarginContainer
 
 func _ready() -> void:
 	Backend.get_lootfilter_module().filters_changed.connect(_update_filters)
+	_update_filters()
 
 func _update_filters():
 	for c in %FilterList.get_children():

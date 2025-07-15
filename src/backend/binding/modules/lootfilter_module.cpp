@@ -1,6 +1,7 @@
 #include "lootfilter_module.h"
 
 #include <filesystem>
+#include <fstream>
 #include <memory>
 #include <ranges>
 
@@ -9,6 +10,227 @@
 
 using namespace godot;
 using namespace D2::Data;
+
+namespace
+{
+    std::unique_ptr<IFilter> DeserializeFilter(GE::BinReader& aBr);
+
+    class Filter : public IFilter
+    {
+    public:
+        enum class Is : uint32_t
+        {
+            Equal,
+            NotEqual,
+            Lesser,
+            LesserOrEqual,
+            Greater,
+            GreaterOrEqual,
+            Present,
+        };
+
+    private:
+        using Predicate = std::function<bool(double, double)>;
+
+        const StatId m_statId = 0;
+        const double m_filterValue = 0;
+        const Is m_is;
+        const Predicate m_predicate;
+
+        static Predicate MakePredicate(Is is)
+        {
+            switch (is)
+            {
+            case Is::Equal:
+                return [](double statValue, double filterValue) {
+                    return Math::is_equal_approx(statValue, filterValue);
+                };
+            case Is::NotEqual:
+                return [](double statValue, double filterValue) {
+                    return !Math::is_equal_approx(statValue, filterValue);
+                };
+            case Is::Lesser:
+                return [](double statValue, double filterValue) {
+                    return statValue < filterValue;
+                };
+            case Is::LesserOrEqual:
+                return [](double statValue, double filterValue) {
+                    return statValue <= filterValue;
+                };
+            case Is::Greater:
+                return [](double statValue, double filterValue) {
+                    return statValue > filterValue;
+                };
+            case Is::GreaterOrEqual:
+                return [](double statValue, double filterValue) {
+                    return statValue >= filterValue;
+                };
+            case Is::Present:
+                return [](double, double filterValue) {
+                    return !Math::is_zero_approx(filterValue);
+                };
+            default:
+                return [](double, double) {
+                    return false;
+                };
+            }
+        }
+
+        bool CheckQuality(D2::Data::ItemQuality itemQuality) const
+        {
+            return static_cast<uint32_t>(itemQuality) & static_cast<uint32_t>(m_filterValue);
+        }
+
+        bool CheckItemLevel(uint32_t ilvl) const { return m_predicate(ilvl, m_filterValue); }
+
+        bool CheckStats(const D2::Data::Item& aItem) const
+        {
+            if (auto l = aItem.m_stats.GetValue(static_cast<D2::Data::StatType>(m_statId.m_statId)); l.has_value())
+            {
+                return m_predicate(l.value(), m_filterValue);
+            }
+            if (m_is == Is::Present)
+            {
+                return Math::is_zero_approx(m_filterValue);
+            }
+            return false;
+        }
+
+        bool CheckOther(const D2::Data::Item& aItem) const
+        {
+            if (m_statId.m_statId == 0)
+            {
+                return CheckQuality(aItem.m_quality);
+            }
+            if (m_statId.m_statId == 1)
+            {
+                return CheckItemLevel(aItem.m_itemLevel);
+            }
+            return false;
+        }
+
+    public:
+        Filter(StatId statId, Is is, double value)
+            : m_statId(statId)
+            , m_filterValue(value)
+            , m_is(is)
+            , m_predicate(MakePredicate(is))
+        {
+        }
+
+        static std::unique_ptr<IFilter> Create(StatId statId, uint32_t is, double value)
+        {
+            return Create(statId, static_cast<Is>(is), value);
+        }
+
+        static std::unique_ptr<IFilter> Create(StatId statId, Is is, double value)
+        {
+            return std::make_unique<Filter>(std::move(statId), is, value);
+        }
+
+        bool Check(const D2::Data::Item& aItem) const override
+        {
+            switch (m_statId.m_statType)
+            {
+            case FilterType::Stat:
+                return CheckStats(aItem);
+            case FilterType::Other:
+                return CheckOther(aItem);
+            default:
+                return false;
+            }
+        }
+
+        void Serialize(GE::BinWriter& aBw) const override
+        {
+            aBw.Write(0u);
+            aBw.Write(m_statId.m_statId);
+            aBw.Write(static_cast<uint32_t>(m_statId.m_statType));
+            aBw.Write(static_cast<uint32_t>(m_is));
+            aBw.Write(m_filterValue);
+        }
+
+        static std::unique_ptr<IFilter> Deserialize(GE::BinReader& aBr)
+        {
+            uint32_t statId = 0;
+            uint32_t statType = 0;
+            uint32_t is = 0;
+            double value = 0.0;
+            aBr.Read(statId).Read(statType).Read(is).Read(value);
+            return Filter::Create(StatId(statId, statType), is, value);
+        }
+    };
+
+    class FilterGroup : public IFilter
+    {
+        enum class Predicate
+        {
+            All,
+            Any
+        };
+
+        const std::vector<std::unique_ptr<IFilter>> m_filters;
+        const Predicate m_predicate;
+
+    public:
+        FilterGroup(std::vector<std::unique_ptr<IFilter>> filters, Predicate predicate)
+            : m_filters(std::move(filters))
+            , m_predicate(predicate)
+        {
+        }
+
+        static std::unique_ptr<IFilter> AnyOf(std::vector<std::unique_ptr<IFilter>> filters)
+        {
+            return std::make_unique<FilterGroup>(std::move(filters), Predicate::Any);
+        }
+
+        static std::unique_ptr<IFilter> AllOf(std::vector<std::unique_ptr<IFilter>> filters)
+        {
+            return std::make_unique<FilterGroup>(std::move(filters), Predicate::All);
+        }
+
+        bool Check(const D2::Data::Item& aItem) const override
+        {
+            auto f = [&](const std::unique_ptr<IFilter>& filter) {
+                return filter->Check(aItem);
+            };
+            return m_predicate == Predicate::All ? std::all_of(m_filters.begin(), m_filters.end(), f) :
+                                                   std::any_of(m_filters.begin(), m_filters.end(), f);
+        }
+
+        void Serialize(GE::BinWriter& aBw) const override
+        {
+            aBw.Write(1u);
+            aBw.Write(m_predicate);
+            aBw.Write(m_filters.size());
+            for (const auto& filter : m_filters)
+            {
+                filter->Serialize(aBw);
+            }
+        }
+
+        static std::unique_ptr<IFilter> Deserialize(GE::BinReader& aBr)
+        {
+            auto predicate = aBr.Read<Predicate>();
+            auto filterCount = aBr.Read<size_t>();
+            std::vector<std::unique_ptr<IFilter>> filters;
+            for (size_t i = 0; i < filterCount; ++i)
+            {
+                filters.push_back(DeserializeFilter(aBr));
+            }
+            return predicate == Predicate::All ? AllOf(std::move(filters)) : AnyOf(std::move(filters));
+        }
+    };
+
+    std::unique_ptr<IFilter> DeserializeFilter(GE::BinReader& aBr)
+    {
+        if (aBr.Read<uint32_t>() == 0u)
+        {
+            return Filter::Deserialize(aBr);
+        }
+        return FilterGroup::Deserialize(aBr);
+    }
+}
 
 void LootFilterModule::Update(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData)
 {
@@ -41,6 +263,43 @@ void LootFilterModule::Update(const D2::Data::DataAccess& aDataAccess, const D2:
     call_deferred("emit_signal", "loot_changed");
 }
 
+void LootFilterModule::Save() const
+{
+    m_logger->info("Saving loot filters");
+    auto outStream = std::ofstream(m_moduleUserDir / "filters", std::ios::binary);
+    GE::BinWriter bw(outStream);
+    bw.Write(m_metaFilters.size());
+    for (const auto& metaFilter : m_metaFilters)
+    {
+        metaFilter->Serialize(bw);
+    }
+}
+
+void LootFilterModule::Load()
+{
+    m_logger->info("Loading loot filters");
+    auto filtersFile = m_moduleUserDir / "filters";
+    if (!std::filesystem::exists(filtersFile))
+    {
+        m_logger->info("Skipping load - No filters file found at: {}", filtersFile.string().c_str());
+        return;
+    }
+    auto inStream = std::ifstream(filtersFile, std::ios::binary);
+    GE::BinReader br(inStream);
+    auto count = br.Read<size_t>();
+    for (size_t i = 0; i < count; ++i)
+    {
+        try
+        {
+            m_metaFilters.push_back(MetaFilter::Deserialize(br));
+        }
+        catch (std::exception& e)
+        {
+            m_logger->error("Failed to deserialize filter at index {}: {}", i, e.what());
+        }
+    }
+}
+
 void LootFilterModule::_bind_methods()
 {
     ClassDB::bind_method(D_METHOD("add_filter", "p_metadata", "p_filters"), &LootFilterModule::add_filter);
@@ -67,7 +326,6 @@ Ref<LootFilterModule> LootFilterModule::Create(std::shared_ptr<spdlog::logger> a
 
 void LootFilterModule::add_filter(Ref<FilterMetadata> metadata, Array filters)
 {
-    // if (filterMetadata.m_name.empty())
     if (metadata->get_name().is_empty())
     {
         m_logger->warn("Filter name cannot be empty");
@@ -108,11 +366,11 @@ Dictionary LootFilterModule::get_filter_categories() const
     Dictionary categories;
 
     Dictionary d1;
-    d1["stat_type"] = static_cast<int>(StatType::StatList);
+    d1["stat_type"] = static_cast<int>(FilterType::Stat);
     d1["stats"] = Array({"shit1", "shit2"});
     categories["Cat1"] = d1;
     Dictionary d2;
-    d2["stat_type"] = static_cast<int>(StatType::Other);
+    d2["stat_type"] = static_cast<int>(FilterType::Other);
     d2["stats"] = Array({"shit3", "shit4"});
     categories["Cat2"] = d2;
 
@@ -147,8 +405,8 @@ void MetaFilter::_bind_methods()
     ClassDB::bind_integer_constant("MetaFilter", "Is", "GREATER_OR_EQUAL", static_cast<int>(Filter::Is::GreaterOrEqual));
     ClassDB::bind_integer_constant("MetaFilter", "Is", "PRESENT", static_cast<int>(Filter::Is::Present));
 
-    ClassDB::bind_integer_constant("MetaFilter", "StatType", "ATTRIBUTE", static_cast<int>(StatType::StatList));
-    ClassDB::bind_integer_constant("MetaFilter", "StatType", "OTHER", static_cast<int>(StatType::Other));
+    ClassDB::bind_integer_constant("MetaFilter", "FilterType", "ATTRIBUTE", static_cast<int>(FilterType::Stat));
+    ClassDB::bind_integer_constant("MetaFilter", "FilterType", "OTHER", static_cast<int>(FilterType::Other));
 
     // TMP
     ClassDB::bind_integer_constant("MetaFilter", "Quality", "INVALID", static_cast<int>(ItemQuality::Invalid));
@@ -169,6 +427,20 @@ Ref<MetaFilter> MetaFilter::Create(Ref<FilterMetadata> filterMetadata, std::uniq
     obj->m_metadata = filterMetadata;
     obj->m_filter = std::move(filter);
     return obj;
+}
+
+void MetaFilter::Serialize(GE::BinWriter& aBw) const
+{
+    m_metadata->Serialize(aBw);
+    m_filter->Serialize(aBw);
+}
+
+Ref<MetaFilter> MetaFilter::Deserialize(GE::BinReader& aBr)
+{
+    auto mf = memnew(MetaFilter);
+    mf->m_metadata = FilterMetadata::Deserialize(aBr);
+    mf->m_filter = DeserializeFilter(aBr);
+    return mf;
 }
 
 Ref<FilterMetadata> MetaFilter::get_metadata() const
@@ -201,6 +473,39 @@ Ref<FilterMetadata> FilterMetadata::Create(String name)
     auto obj = memnew(FilterMetadata);
     obj->m_name = std::move(name);
     return obj;
+}
+
+void FilterMetadata::Serialize(GE::BinWriter& aBw) const
+{
+    aBw.Write(m_active);
+    aBw.Write(m_muted);
+    aBw.Write(m_volume);
+    aBw.Write(m_name.length());
+    aBw.Write(m_name.utf8().get_data(), m_name.length());
+    aBw.Write(m_notifSE.length());
+    aBw.Write(m_notifSE.utf8().get_data(), m_notifSE.length());
+}
+
+Ref<FilterMetadata> FilterMetadata::Deserialize(GE::BinReader& aBr)
+{
+    auto fm = memnew(FilterMetadata);
+    aBr.Read(fm->m_active);
+    aBr.Read(fm->m_muted);
+    aBr.Read(fm->m_volume);
+
+    decltype(fm->m_name.length()) nameLength = 0;
+    aBr.Read(nameLength);
+    std::string nameBuffer(nameLength, '\0');
+    aBr.Read(nameBuffer.data(), nameLength);
+    fm->m_name = nameBuffer.c_str();
+
+    decltype(fm->m_notifSE.length()) notifLength = 0;
+    aBr.Read(notifLength);
+    std::string notifBuffer(notifLength, '\0');
+    aBr.Read(notifBuffer.data(), notifLength);
+    fm->m_notifSE = notifBuffer.c_str();
+
+    return fm;
 }
 
 void FilterMetadata::set_active(bool active)
