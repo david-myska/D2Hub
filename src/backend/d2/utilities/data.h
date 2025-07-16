@@ -140,10 +140,11 @@ namespace D2::Data
 
     struct Unit
     {
-        Unit(const Raw::StatListEx* aStatList, uint16_t x, uint16_t y, uint32_t id)
+        Unit(const Raw::StatListEx* aStatList, uint16_t x, uint16_t y, uint32_t id, uint32_t unitClass)
             : m_stats(aStatList)
             , m_pos({x, y})
             , m_id(id)
+            , m_class(unitClass)
         {
         }
 
@@ -156,12 +157,13 @@ namespace D2::Data
         const Stats m_stats;
         const Position m_pos;
         const GUID m_id;
+        const uint32_t m_class;
     };
 
     struct Item : public Unit
     {
         Item(const Raw::UnitData<Raw::ItemData>* aRaw)
-            : Unit(aRaw->m_pStatListEx, aRaw->m_pPath->m_xPos, aRaw->m_pPath->m_yPos, aRaw->m_GUID)
+            : Unit(aRaw->m_pStatListEx, aRaw->m_pPath->m_xPos, aRaw->m_pPath->m_yPos, aRaw->m_GUID, aRaw->m_unitClass)
             , m_location(FigureOutLocation(aRaw))
             , m_quality(QualityFromRaw(aRaw->m_pUnitData->m_quality))
             , m_itemLevel(aRaw->m_pUnitData->m_itemLvl)
@@ -227,7 +229,7 @@ namespace D2::Data
     struct Player : public Unit
     {
         Player(const Raw::UnitData<Raw::PlayerData>* aRaw)
-            : Unit(aRaw->m_pStatListEx, aRaw->m_pPath->m_xPos, aRaw->m_pPath->m_yPos, aRaw->m_GUID)
+            : Unit(aRaw->m_pStatListEx, aRaw->m_pPath->m_xPos, aRaw->m_pPath->m_yPos, aRaw->m_GUID, aRaw->m_unitClass)
         {
         }
 
@@ -237,7 +239,7 @@ namespace D2::Data
     struct Monster : public Unit
     {
         Monster(const Raw::UnitData<Raw::MonsterData>* aRaw)
-            : Unit(aRaw->m_pStatListEx, aRaw->m_pPath->m_xPos, aRaw->m_pPath->m_yPos, aRaw->m_GUID)
+            : Unit(aRaw->m_pStatListEx, aRaw->m_pPath->m_xPos, aRaw->m_pPath->m_yPos, aRaw->m_GUID, aRaw->m_unitClass)
             , m_name(ConvertName(aRaw->m_pUnitData->m_pMonNameOrAiParams))
         {
         }

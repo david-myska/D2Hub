@@ -1,0 +1,851 @@
+Bone Helm (1),2de
+Bone Helm (2),2df
+Bone Helm (3),2e0
+Bone Helm (4),2e1
+Bone Helm (Sacred),2e2
+Chain Gloves (1),315
+Chain Gloves (2),316
+Chain Gloves (3),317
+Chain Gloves (4),318
+Chain Gloves (Sacred),319
+Two-handed Sword (1),256
+Two-handed Sword (2),257
+Two-handed Sword (3),258
+Two-handed Sword (4),259
+Two-handed Sword (Sacred),25a
+Dirk (1),a3
+Dirk (2),a4
+Dirk (3),a5
+Dirk (4),a6
+Dirk (Sacred),a7
+Zombie Head (1),46e
+Zombie Head (2),46f
+Zombie Head (3),470
+Zombie Head (4),471
+Zombie Head (Sacred),472
+Gargoyle Head (1),360
+Gargoyle Head (2),361
+Gargoyle Head (3),362
+Gargoyle Head (4),363
+Gargoyle Head (Sacred),364
+Light Belt (1),3d3
+Light Belt (2),3d4
+Light Belt (3),3d5
+Light Belt (4),3d6
+Light Belt (Sacred),3d7
+Studded Leather (1),447
+Studded Leather (2),448
+Studded Leather (3),449
+Studded Leather (4),44a
+Studded Leather (Sacred),44b
+Pillum (1),1b6
+Pillum (2),1b7
+Pillum (3),1b8
+Pillum (4),1b9
+Pillum (Sacred),1ba
+Pilum (1),1b6
+Pilum (2),1b7
+Pilum (3),1b8
+Pilum (4),1b9
+Pilum (Sacred),1ba
+Javelin (1),134
+Javelin (2),135
+Javelin (3),136
+Javelin (4),137
+Javelin (Sacred),138
+Trident (1),251
+Trident (2),252
+Trident (3),253
+Trident (4),254
+Trident (Sacred),255
+Signet of Gold,6a2
+Jewel,4a5
+Minor Healing Potion,4b2
+Gold,4a7
+Long Staff (1),161
+Long Staff (2),162
+Long Staff (3),163
+Long Staff (4),164
+Long Staff (Sacred),165
+Throwing Axe (1),23d
+Throwing Axe (2),23e
+Throwing Axe (3),23f
+Throwing Axe (4),240
+Throwing Axe (Sacred),241
+Diadem (1),338
+Diadem (2),339
+Diadem (3),33a
+Diadem (4),33b
+Diadem (Sacred),33c
+Amulet,4a3
+Spear (1),21a
+Spear (2),21b
+Spear (3),21c
+Spear (4),21d
+Spear (Sacred),21e
+Minor Mana Potion,4b7
+Light Healing Potion,4b3
+Raptor Scythe (1),1bb
+Raptor Scythe (2),1bc
+Raptor Scythe (3),1bd
+Raptor Scythe (4),1be
+Raptor Scythe (Sacred),1bf
+Short Bow (1),1f7
+Short Bow (2),1f8
+Short Bow (3),1f9
+Short Bow (4),1fa
+Short Bow (Sacred),1fb
+Quilted Armor (1),40a
+Quilted Armor (2),40b
+Quilted Armor (3),40c
+Quilted Armor (4),40d
+Quilted Armor (Sacred),40e
+Boots (1),2e8
+Boots (2),2e9
+Boots (3),2ea
+Boots (4),2eb
+Boots (Sacred),2ec
+Tir Rune,509
+Sacred Globe (1),1d4
+Sacred Globe (2),1d5
+Sacred Globe (3),1d6
+Sacred Globe (4),1d7
+Sacred Globe (Sacred),1d8
+Circlet (1),31f
+Circlet (2),320
+Circlet (3),321
+Circlet (4),322
+Circlet (Sacred),323
+Tiara (1),451
+Tiara (2),452
+Tiara (3),453
+Tiara (4),454
+Tiara (Sacred),455
+Hundsgugel (1),3ab
+Hundsgugel (2),3ac
+Hundsgugel (3),3ad
+Hundsgugel (4),3ae
+Hundsgugel (Sacred),3af
+Cap (1),301
+Cap (2),302
+Cap (3),303
+Cap (4),304
+Cap (Sacred),305
+Mammen Axe (1),184
+Mammen Axe (2),185
+Mammen Axe (3),186
+Mammen Axe (4),187
+Mammen Axe (Sacred),188
+Targe (1),44c
+Targe (2),44d
+Targe (3),44e
+Targe (4),44f
+Targe (Sacred),450
+Sash (1),419
+Sash (2),41a
+Sash (3),41b
+Sash (4),41c
+Sash (Sacred),41d
+Bronze Shield (1),2f2
+Bronze Shield (2),2f3
+Bronze Shield (3),2f4
+Bronze Shield (4),2f5
+Bronze Shield (Sacred),2f6
+Athulua's Hand (1),2c0
+Athulua's Hand (2),2c1
+Athulua's Hand (3),2c2
+Athulua's Hand (4),2c3
+Athulua's Hand (Sacred),2c4
+Rejuvenation Potion,4bc
+Spiked Club (1),224
+Spiked Club (2),225
+Spiked Club (3),226
+Spiked Club (4),227
+Spiked Club (Sacred),228
+Buckler (1),2f7
+Buckler (2),2f8
+Buckler (3),2f9
+Buckler (4),2fa
+Buckler (Sacred),2fb
+Hand Axe (1),10c
+Hand Axe (2),10d
+Hand Axe (3),10e
+Hand Axe (4),10f
+Hand Axe (Sacred),110
+Needle Crossbow (1),1a7
+Needle Crossbow (2),1a8
+Needle Crossbow (3),1a9
+Needle Crossbow (4),1aa
+Needle Crossbow (Sacred),1ab
+Grim Wand (1),fd
+Grim Wand (2),fe
+Grim Wand (3),ff
+Grim Wand (4),100
+Grim Wand (Sacred),101
+Leather Gloves (1),3ce
+Leather Gloves (2),3cf
+Leather Gloves (3),3d0
+Leather Gloves (4),3d1
+Leather Gloves (Sacred),3d2
+Unraveller Head (1),464
+Unraveller Head (2),465
+Unraveller Head (3),466
+Unraveller Head (4),467
+Unraveller Head (Sacred),468
+Scimitar (1),1de
+Scimitar (2),1df
+Scimitar (3),1e0
+Scimitar (4),1e1
+Scimitar (Sacred),1e2
+Heraldic Shield (1),3a1
+Heraldic Shield (2),3a2
+Heraldic Shield (3),3a3
+Heraldic Shield (4),3a4
+Heraldic Shield (Sacred),3a5
+Hunter's Bow (1),12a
+Hunter's Bow (2),12b
+Hunter's Bow (3),12c
+Hunter's Bow (4),12d
+Hunter's Bow (Sacred),12e
+Hexblade (1),120
+Hexblade (2),121
+Hexblade (3),122
+Hexblade (4),123
+Hexblade (Sacred),124
+Katar (1),139
+Katar (2),13a
+Katar (3),13b
+Katar (4),13c
+Katar (Sacred),13d
+Bone Wand (1),49
+Bone Wand (2),4a
+Bone Wand (3),4b
+Bone Wand (4),4c
+Bone Wand (Sacred),4d
+Throwing Knife (1),242
+Throwing Knife (2),243
+Throwing Knife (3),244
+Throwing Knife (4),245
+Throwing Knife (Sacred),246
+Jawbone Cap (1),3b0
+Jawbone Cap (2),3b1
+Jawbone Cap (3),3b2
+Jawbone Cap (4),3b3
+Jawbone Cap (Sacred),3b4
+Heavy Boots (1),392
+Heavy Boots (2),393
+Heavy Boots (3),394
+Heavy Boots (4),395
+Heavy Boots (Sacred),396
+Hatchet Hands (1),116
+Hatchet Hands (2),117
+Hatchet Hands (3),118
+Hatchet Hands (4),119
+Hatchet Hands (Sacred),11a
+Axe (1),17
+Axe (2),18
+Axe (3),19
+Axe (4),1a
+Axe (Sacred),1b
+Spangenhelm (1),432
+Spangenhelm (2),433
+Spangenhelm (3),434
+Spangenhelm (4),435
+Spangenhelm (Sacred),436
+Short Staff (1),201
+Short Staff (2),202
+Short Staff (3),203
+Short Staff (4),204
+Short Staff (Sacred),205
+Bonebreaker (1),4e
+Bonebreaker (2),4f
+Bonebreaker (3),50
+Bonebreaker (4),51
+Bonebreaker (Sacred),52
+Eld Rune,508
+Ort Rune,50f
+El Rune,507
+Ring,4a4
+Skull Cap (1),428
+Skull Cap (2),429
+Skull Cap (3),42a
+Skull Cap (4),42b
+Skull Cap (Sacred),42c
+Eagle Orb (1),b2
+Eagle Orb (2),b3
+Eagle Orb (3),b4
+Eagle Orb (4),b5
+Eagle Orb (Sacred),b6
+Phoenix Shield (1),3f6
+Phoenix Shield (2),3f7
+Phoenix Shield (3),3f8
+Phoenix Shield (4),3f9
+Phoenix Shield (Sacred),3fa
+Blackguard Helm (1),2d4
+Blackguard Helm (2),2d5
+Blackguard Helm (3),2d6
+Blackguard Helm (4),2d7
+Blackguard Helm (Sacred),2d8
+Gnarled Staff (1),df
+Gnarled Staff (2),e0
+Gnarled Staff (3),e1
+Gnarled Staff (4),e2
+Gnarled Staff (Sacred),e3
+Ono (1),1ac
+Ono (2),1ad
+Ono (3),1ae
+Ono (4),1af
+Ono (Sacred),1b0
+Heavy Gloves (1),397
+Heavy Gloves (2),398
+Heavy Gloves (3),399
+Heavy Gloves (4),39a
+Heavy Gloves (Sacred),39b
+Flail (1),bc
+Flail (2),bd
+Flail (3),be
+Flail (4),bf
+Flail (Sacred),c0
+Bladed Shield (1),2d9
+Bladed Shield (2),2da
+Bladed Shield (3),2db
+Bladed Shield (4),2dc
+Bladed Shield (Sacred),2dd
+Short Sword (1),206
+Short Sword (2),207
+Short Sword (3),208
+Short Sword (4),209
+Short Sword (Sacred),20a
+Rainbow Stone,4f8
+Arrow Quiver,4af
+Wirt's Leg,8
+Preserved Head (1),405
+Preserved Head (2),406
+Preserved Head (3),407
+Preserved Head (4),408
+Preserved Head (Sacred),409
+Dagger (1),99
+Dagger (2),9a
+Dagger (3),9b
+Dagger (4),9c
+Dagger (Sacred),9d
+Gothic Shield (1),374
+Gothic Shield (2),375
+Gothic Shield (3),376
+Gothic Shield (4),377
+Gothic Shield (Sacred),378
+Assault Helmet (1),2bb
+Assault Helmet (2),2bc
+Assault Helmet (3),2bd
+Assault Helmet (4),2be
+Assault Helmet (Sacred),2bf
+Jared's Stone (1),ad
+Jared's Stone (2),ae
+Jared's Stone (3),af
+Jared's Stone (4),b0
+Jared's Stone (Sacred),b1
+Plated Belt (1),400
+Plated Belt (2),401
+Plated Belt (3),402
+Plated Belt (4),403
+Plated Belt (Sacred),404
+Wrist Blade (1),28d
+Wrist Blade (2),28e
+Wrist Blade (3),28f
+Wrist Blade (4),290
+Wrist Blade (Sacred),291
+Winged Feet,458
+Yew Wand (1),292
+Yew Wand (2),293
+Yew Wand (3),294
+Yew Wand (4),295
+Yew Wand (Sacred),296
+Smoked Sphere (1),210
+Smoked Sphere (2),211
+Smoked Sphere (3),212
+Smoked Sphere (4),213
+Smoked Sphere (Sacred),214
+Club (1),80
+Club (2),81
+Club (3),82
+Club (4),83
+Club (Sacred),84
+Scepter (1),1d9
+Scepter (2),1da
+Scepter (3),1db
+Scepter (4),1dc
+Scepter (Sacred),1dd
+Sapphire,4cb
+Totem Shield (1),456
+Totem Shield (2),457
+Totem Shield (3),458
+Totem Shield (4),459
+Totem Shield (Sacred),45a
+Light Mana Potion,4b8
+Military Pick (1),198
+Military Pick (2),199
+Military Pick (3),19a
+Military Pick (4),19b
+Military Pick (Sacred),19c
+Large Shield (1),3c4
+Large Shield (2),3c5
+Large Shield (3),3c6
+Large Shield (4),3c7
+Large Shield (Sacred),3c8
+Gauntlets (1),365
+Gauntlets (2),366
+Gauntlets (3),367
+Gauntlets (4),368
+Gauntlets (Sacred),369
+Mana Potion,4b9
+Aerin Shield (1),2a7
+Aerin Shield (2),2a8
+Aerin Shield (3),2a9
+Aerin Shield (4),2aa
+Aerin Shield (Sacred),2ab
+Coronet (1),324
+Coronet (2),325
+Coronet (3),326
+Coronet (4),327
+Coronet (Sacred),328
+Crossbow (1),8f
+Crossbow (2),90
+Crossbow (3),91
+Crossbow (4),92
+Crossbow (Sacred),93
+Maple Bow (1),189
+Maple Bow (2),18a
+Maple Bow (3),18b
+Maple Bow (4),18c
+Maple Bow (Sacred),18d
+Full Plate Mail (1),356
+Full Plate Mail (2),357
+Full Plate Mail (3),358
+Full Plate Mail (4),359
+Full Plate Mail (Sacred),35a
+Small Shield (1),42d
+Small Shield (2),42e
+Small Shield (3),42f
+Small Shield (4),430
+Small Shield (Sacred),431
+Bull Shield (1),2fc
+Bull Shield (2),2fd
+Bull Shield (3),2fe
+Bull Shield (4),2ff
+Bull Shield (Sacred),300
+Battle Staff (1),3a
+Battle Staff (2),3b
+Battle Staff (3),3c
+Battle Staff (4),3d
+Battle Staff (Sacred),3e
+Hard Leather Armor (1),383
+Hard Leather Armor (2),384
+Hard Leather Armor (3),385
+Hard Leather Armor (4),386
+Hard Leather Armor (Sacred),387
+Large Axe (1),14d
+Large Axe (2),14e
+Large Axe (3),14f
+Large Axe (4),150
+Large Axe (Sacred),151
+Wolf Head (1),469
+Wolf Head (2),46a
+Wolf Head (3),46b
+Wolf Head (4),46c
+Wolf Head (Sacred),46d
+Morion (1),3ec
+Morion (2),3ed
+Morion (3),3ee
+Morion (4),3ef
+Morion (Sacred),3f0
+Wand (1),26a
+Wand (2),26b
+Wand (3),26c
+Wand (4),26d
+Wand (Sacred),26e
+Light Crossbow (1),152
+Light Crossbow (2),153
+Light Crossbow (3),154
+Light Crossbow (4),155
+Light Crossbow (Sacred),156
+Lamellar Armor (1),3bf
+Lamellar Armor (2),3c0
+Lamellar Armor (3),3c1
+Lamellar Armor (4),3c2
+Lamellar Armor (Sacred),3c3
+Gambeson (1),35b
+Gambeson (2),35c
+Gambeson (3),35d
+Gambeson (4),35e
+Gambeson (Sacred),35f
+Leather Armor (1),3c9
+Leather Armor (2),3ca
+Leather Armor (3),3cb
+Leather Armor (4),3cc
+Leather Armor (Sacred),3cd
+Flamen Staff (1),c6
+Flamen Staff (2),c7
+Flamen Staff (3),c8
+Flamen Staff (4),c9
+Flamen Staff (Sacred),ca
+Clasped Orb (1),71
+Clasped Orb (2),72
+Clasped Orb (3),73
+Clasped Orb (4),74
+Clasped Orb (Sacred),75
+Rondache (1),414
+Rondache (2),415
+Rondache (3),416
+Rondache (4),417
+Rondache (Sacred),418
+Battle Axe (1),35
+Battle Axe (2),36
+Battle Axe (3),37
+Battle Axe (4),38
+Battle Axe (Sacred),39
+Key,4b1
+Crown (1),329
+Crown (2),32a
+Crown (3),32b
+Crown (4),32c
+Crown (Sacred),32d
+Glaive (1),da
+Glaive (2),db
+Glaive (3),dc
+Glaive (4),dd
+Glaive (Sacred),de
+Demon Head (1),333
+Demon Head (2),334
+Demon Head (3),335
+Demon Head (4),336
+Demon Head (Sacred),337
+Warp Blade (1),288
+Warp Blade (2),289
+Warp Blade (3),28a
+Warp Blade (4),28b
+Warp Blade (Sacred),28c
+Claymore (1),7b
+Claymore (2),7c
+Claymore (3),7d
+Claymore (4),7e
+Claymore (Sacred),7f
+Avenger Guard (1),2c5
+Avenger Guard (2),2c6
+Avenger Guard (3),2c7
+Avenger Guard (4),2c8
+Avenger Guard (Sacred),2c9
+Full Helm (1),351
+Full Helm (2),352
+Full Helm (3),353
+Full Helm (4),354
+Full Helm (Sacred),355
+Throwing Spear (1),247
+Throwing Spear (2),248
+Throwing Spear (3),249
+Throwing Spear (4),24a
+Throwing Spear (Sacred),24b
+Throwing Spear (1),247
+Throwing Spear (2),248
+Throwing Spear (3),249
+Throwing Spear (4),24a
+Throwing Spear (Sacred),24b
+Trebuchet (1),24c
+Trebuchet (2),24d
+Trebuchet (3),24e
+Trebuchet (4),24f
+Trebuchet (Sacred),250
+Dart Thrower (1),9e
+Dart Thrower (2),9f
+Dart Thrower (3),a0
+Dart Thrower (4),a1
+Dart Thrower (Sacred),a2
+Backsword (1),1c
+Backsword (2),1d
+Backsword (3),1e
+Backsword (4),1f
+Backsword (Sacred),20
+Light Plated Boots (1),3e2
+Light Plated Boots (2),3e3
+Light Plated Boots (3),3e4
+Light Plated Boots (4),3e5
+Light Plated Boots (Sacred),3e6
+Broad Sword (1),62
+Broad Sword (2),63
+Broad Sword (3),64
+Broad Sword (4),65
+Broad Sword (Sacred),66
+Falchion (1),b7
+Falchion (2),b8
+Falchion (3),b9
+Falchion (4),ba
+Falchion (Sacred),bb
+Cestus (1),6c
+Cestus (2),6d
+Cestus (3),6e
+Cestus (4),6f
+Cestus (Sacred),70
+Hand of God (1),111
+Hand of God (2),112
+Hand of God (3),113
+Hand of God (4),114
+Hand of God (Sacred),115
+Stag Bow (1),22e
+Stag Bow (2),22f
+Stag Bow (3),230
+Stag Bow (4),231
+Stag Bow (Sacred),232
+Labrys (1),148
+Labrys (2),149
+Labrys (3),14a
+Labrys (4),14b
+Labrys (Sacred),14c
+War Sword (1),283
+War Sword (2),284
+War Sword (3),285
+War Sword (4),286
+War Sword (Sacred),287
+Spiked Shield (1),437
+Spiked Shield (2),438
+Spiked Shield (3),439
+Spiked Shield (4),43a
+Spiked Shield (Sacred),43b
+Parma (1),3f1
+Parma (2),3f2
+Parma (3),3f3
+Parma (4),3f4
+Parma (Sacred),3f5
+Belt (1),2cf
+Belt (2),2d0
+Belt (3),2d1
+Belt (4),2d2
+Belt (Sacred),2d3
+Composite Bow (1),85
+Composite Bow (2),86
+Composite Bow (3),87
+Composite Bow (4),88
+Composite Bow (Sacred),89
+Broad Axe (1),5d
+Broad Axe (2),5e
+Broad Axe (3),5f
+Broad Axe (4),60
+Broad Axe (Sacred),61
+War Hammer (1),274
+War Hammer (2),275
+War Hammer (3),276
+War Hammer (4),277
+War Hammer (Sacred),278
+Spetum (1),21f
+Spetum (2),220
+Spetum (3),221
+Spetum (4),222
+Spetum (Sacred),223
+Mace (1),170
+Mace (2),171
+Mace (3),172
+Mace (4),173
+Mace (Sacred),174
+Spatha (1),215
+Spatha (2),216
+Spatha (3),217
+Spatha (4),218
+Spatha (Sacred),219
+Short Spear (1),1fc
+Short Spear (2),1fd
+Short Spear (3),1fe
+Short Spear (4),1ff
+Short Spear (Sacred),200
+Kriegsmesser (1),13e
+Kriegsmesser (2),13f
+Kriegsmesser (3),140
+Kriegsmesser (4),141
+Kriegsmesser (Sacred),142
+Double Axe (1),a8
+Double Axe (2),a9
+Double Axe (3),aa
+Double Axe (4),ab
+Double Axe (Sacred),ac
+Halberd (1),102
+Halberd (2),103
+Halberd (3),104
+Halberd (4),105
+Halberd (Sacred),106
+Long Bow (1),15c
+Long Bow (2),15d
+Long Bow (3),15e
+Long Bow (4),15f
+Long Bow (Sacred),160
+Short War Bow (1),20b
+Short War Bow (2),20c
+Short War Bow (3),20d
+Short War Bow (4),20e
+Short War Bow (Sacred),20f
+Bronze Sword (1),67
+Bronze Sword (2),68
+Bronze Sword (3),69
+Bronze Sword (4),6a
+Bronze Sword (Sacred),6b
+Crystal Sword (1),94
+Crystal Sword (2),95
+Crystal Sword (3),96
+Crystal Sword (4),97
+Crystal Sword (Sacred),98
+Long Sword (1),166
+Long Sword (2),167
+Long Sword (3),168
+Long Sword (4),169
+Long Sword (Sacred),16a
+Valaska (1),25b
+Valaska (2),25c
+Valaska (3),25d
+Valaska (4),25e
+Valaska (Sacred),25f
+War Scepter (1),279
+War Scepter (2),27a
+War Scepter (3),27b
+War Scepter (4),27c
+War Scepter (Sacred),27d
+Helm (1),39c
+Helm (2),39d
+Helm (3),39e
+Helm (4),39f
+Helm (Sacred),3a0
+Spirit Edge (1),229
+Spirit Edge (2),22a
+Spirit Edge (3),22b
+Spirit Edge (4),22c
+Spirit Edge (Sacred),22d
+Giant Sword (1),d5
+Giant Sword (2),d6
+Giant Sword (3),d7
+Giant Sword (4),d8
+Giant Sword (Sacred),d9
+Maiden Spear (1),17f
+Maiden Spear (2),180
+Maiden Spear (3),181
+Maiden Spear (4),182
+Maiden Spear (Sacred),183
+Heavy Crossbow (1),11b
+Heavy Crossbow (2),11c
+Heavy Crossbow (3),11d
+Heavy Crossbow (4),11e
+Heavy Crossbow (Sacred),11f
+Heavy Belt (1),38d
+Heavy Belt (2),38e
+Heavy Belt (3),38f
+Heavy Belt (4),390
+Heavy Belt (Sacred),391
+Grand Scepter (1),e9
+Grand Scepter (2),ea
+Grand Scepter (3),eb
+Grand Scepter (4),ec
+Grand Scepter (Sacred),ed
+Viper Bow (1),260
+Viper Bow (2),261
+Viper Bow (3),262
+Viper Bow (4),263
+Viper Bow (Sacred),264
+Splint Mail (1),441
+Splint Mail (2),442
+Splint Mail (3),443
+Splint Mail (4),444
+Splint Mail (Sacred),445
+Light Gauntlets (1),3d8
+Light Gauntlets (2),3d9
+Light Gauntlets (3),3da
+Light Gauntlets (4),3db
+Light Gauntlets (Sacred),3dc
+Giant Axe (1),d0
+Giant Axe (2),d1
+Giant Axe (3),d2
+Giant Axe (4),d3
+Giant Axe (Sacred),d4
+Light Place (1),3dd
+Light Place (2),3de
+Light Place (3),3df
+Light Place (4),3e0
+Light Place (Sacred),3e1
+Light Plate (1),3dd
+Light Plate (2),3de
+Light Plate (3),3df
+Light Plate (4),3e0
+Light Plate (Sacred),3e1
+Bone Shield (1),2e3
+Bone Shield (2),2e4
+Bone Shield (3),2e5
+Bone Shield (4),2e6
+Bone Shield (Sacred),2e7
+Tower Shield (1),45f
+Tower Shield (2),460
+Tower Shield (3),461
+Tower Shield (4),462
+Tower Shield (Sacred),463
+Great Sword (1),f8
+Great Sword (2),f9
+Great Sword (3),fa
+Great Sword (4),fb
+Great Sword (Sacred),fc
+Brandistock (1),58
+Brandistock (2),59
+Brandistock (3),5a
+Brandistock (4),5b
+Brandistock (Sacred),5c
+Gothic Plate (1),36f
+Gothic Plate (2),370
+Gothic Plate (3),371
+Gothic Plate (4),372
+Gothic Plate (Sacred),373
+Mask (1),3e7
+Mask (2),3e8
+Mask (3),3e9
+Mask (4),3ea
+Mask (Sacred),3eb
+Bonesplitter (1),53
+Bonesplitter (2),54
+Bonesplitter (3),55
+Bonesplitter (4),56
+Bonesplitter (Sacred),57
+Flying Knife (1),cb
+Flying Knife (2),cc
+Flying Knife (3),cd
+Flying Knife (4),ce
+Flying Knife (Sacred),cf
+Maul (1),193
+Maul (2),194
+Maul (3),195
+Maul (4),196
+Maul (Sacred),197
+Gilded Shield (1),36a
+Gilded Shield (2),36b
+Gilded Shield (3),36c
+Gilded Shield (4),36d
+Gilded Shield (Sacred),36e
+Breast Plate (1),2ed
+Breast Plate (2),2ee
+Breast Plate (3),2ef
+Breast Plate (4),2f0
+Breast Plate (Sacred),2f1
+War Staff (1),27e
+War Staff (2),27f
+War Staff (3),280
+War Staff (4),281
+War Staff (Sacred),282
+Blade Talons (1),44
+Blade Talons (2),45
+Blade Talons (3),46
+Blade Talons (4),47
+Blade Talons (Sacred),48
+Scissors Katar (1),1e3
+Scissors Katar (2),1e4
+Scissors Katar (3),1e5
+Scissors Katar (4),1e6
+Scissors Katar (Sacred),1e7
+Field Plate (1),34c
+Field Plate (2),34d
+Field Plate (3),34e
+Field Plate (4),34f
+Field Plate (Sacred),350
+Balanced Axe (1),21
+Balanced Axe (2),22
+Balanced Axe (3),23
+Balanced Axe (4),24
+Balanced Axe (Sacred),25

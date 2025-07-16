@@ -1,0 +1,69 @@
+00000000,Strength,Stats
+00010000,Energy,Stats
+00020000,Dexterity,Stats
+00030000,Vitality,Stats
+00070000,Life,Stats
+00090000,Mana,Stats
+000E0000,Gold,Utility
+00170000,Min Weap Dmg,Attack
+00180000,Max Weap Dmg,Attack
+001F0000,Armor,Defense
+00240000,Physical Resist,Defense
+00270000,Fire Resist,Defense
+00280000,Max Fire Res,Defense
+00290000,Lightning Res,Defense
+002A0000,Max Light Res,Defense
+002B0000,Cold Resist,Defense
+002C0000,Max Cold Res,Defense
+002D0000,Poison Resist,Defense
+002E0000,Max Poison Res,Defense
+00300000,WeapMinFireDmg,Attack
+00310000,WeapMaxFireDmg,Attack
+00320000,WeapMinLighDmg,Attack
+00330000,WeapMaxLighDmg,Attack
+00340000,WeapMinColdDmg,Attack
+00350000,WeapMaxColdDmg,Attack
+00390000,WeapMinPoisDmg,Attack
+003A0000,WeapMaxPoisDmg,Attack
+003B0000,Dur ^^ inFrames,Attack
+00440000,WeapAtkSpeedMod,Attack
+00480000,Durability,Utility
+00490000,Max Durability,Utility
+004F0000,Gold Find,Utility
+00550000,Exp Gained,Utility
+00590000,Light Radius,Utility
+005B0000,Requirements,Utility
+005D0000,Attack Speed,Attack
+00600000,Movement Speed,Utility
+00630000,Hit Recovery,Defense
+00690000,Cast Speed,Spell
+006E0000,PoisLenReduced,Defense
+00770000,Attack Rating%,Attack
+007F0000,All skills,Utility
+00AB0000,Defense Bonus %,Defense
+00C20000,Sockets,Utility
+00D20000,LifeOnMeleeAtk,Sustain
+01490000,FireSpellDmg,Spell
+014A0000,LightSpellDmg,Spell
+014B0000,ColdSpellDmg,Spell
+014C0000,PoisSpellDmg,Spell
+014D0000,EnemyFireRes,Spell
+014E0000,EnemyLightRes,Spell
+014F0000,EnemyColdRes,Spell
+01500000,EnemyPoisRes,Spell
+01650000,PhysMagSpellDmg,Spell
+01670000,Strength %,Stats
+01680000,Energy %,Stats
+01690000,Dexterity %,Stats
+016A0000,Vitality %,Stats
+01E40000,InnateElemDmg,Attack
+019F0201,InnateDmgDex,Attack
+01B70000,Life when struck by enemy,Sustain
+01BC0000,SumMinionLife,Utility
+01E90000,Target takes additional dmg,Utility
+00530001,SorcSkillLvl,Utility
+00530005,DruidSkillLvl,Utility
+00530006,AssaSkillLvl,Utility
+006101CB,Apocalypse spell,Sustain
+006101D9,Supernova spell,Sustain
+0061067F,Charged Strike spell,Sustain

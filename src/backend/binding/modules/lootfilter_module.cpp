@@ -8,6 +8,8 @@
 #include <godot_cpp/classes/project_settings.hpp>
 #include <godot_cpp/core/class_db.hpp>
 
+#include "external/plugin.h"
+
 using namespace godot;
 using namespace D2::Data;
 
@@ -383,7 +385,7 @@ Array LootFilterModule::get_passing_loot() const
     for (const auto& [_, item] : m_passingItems)
     {
         Dictionary dict;
-        // dict["item_class"] = item->GetItemClass();
+        dict["name"] = GetItemName(item->m_class);
         dict["item_level"] = item->m_itemLevel;
         dict["quality"] = ToString(item->m_quality).c_str();
         dict["location"] = ToString(item->m_location).c_str();
