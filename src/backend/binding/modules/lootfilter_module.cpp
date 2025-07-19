@@ -8,7 +8,7 @@
 #include <godot_cpp/classes/project_settings.hpp>
 #include <godot_cpp/core/class_db.hpp>
 
-#include "external/plugin.h"
+#include "d2/utilities/loaded_data.h"
 
 using namespace godot;
 using namespace D2::Data;

@@ -8,6 +8,7 @@ func _ready() -> void:
 	var cmd_args := OS.get_cmdline_args()
 	if "--developer" in cmd_args:
 		var dev_screen = preload("res://modules/developer/developer_screen.tscn").instantiate()
+		dev_screen.name = "Developer"
 		$MarginContainer/VBoxContainer/Body/MainPanel/TabContainer.add_child(dev_screen)
 		# TODO disable achievements when in developer mode
 	Backend.target_process_exists.connect(func(exists : bool):

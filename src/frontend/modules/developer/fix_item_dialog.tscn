@@ -1,0 +1,81 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvuh1bq8n7oxl"]
+
+[ext_resource type="Script" uid="uid://djpgd5mdojorb" path="res://modules/developer/fix_item_dialog.gd" id="1_av5qi"]
+
+[node name="FixItemDialog" type="AcceptDialog"]
+title = "Fix Item"
+initial_position = 2
+size = Vector2i(350, 201)
+ok_button_text = "Fix"
+dialog_hide_on_ok = false
+script = ExtResource("1_av5qi")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 342.0
+offset_bottom = 152.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="VBoxContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.66
+text = " Name:"
+
+[node name="NameLE" type="LineEdit" parent="VBoxContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "(required)"
+alignment = 1
+
+[node name="IsTiered" type="CheckButton" parent="VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+button_pressed = true
+text = "Is tiered"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.66
+text = " Tier"
+
+[node name="ChosenTier" type="OptionButton" parent="VBoxContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+selected = 0
+item_count = 5
+popup/item_0/text = "Sacred"
+popup/item_0/id = 5
+popup/item_1/text = "Tier 1"
+popup/item_1/id = 1
+popup/item_2/text = "Tier 2"
+popup/item_2/id = 2
+popup/item_3/text = "Tier 3"
+popup/item_3/id = 3
+popup/item_4/text = "Tier 4"
+popup/item_4/id = 4
+
+[node name="FixOtherTiers" type="CheckButton" parent="VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+button_pressed = true
+text = "Fix also other tiers"
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[connection signal="toggled" from="VBoxContainer/VBoxContainer/IsTiered" to="." method="_on_is_tiered_toggled"]

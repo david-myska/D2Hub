@@ -128,6 +128,8 @@ namespace D2::Data
             return {};
         }
 
+        const std::unordered_map<StatType, int32_t>& GetAll() const { return m_stats; }
+
     private:
         std::unordered_map<StatType, int32_t> m_stats;
     };

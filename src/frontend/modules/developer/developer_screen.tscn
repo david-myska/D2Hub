@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://dqc3266nl801d"]
+[gd_scene load_steps=4 format=3 uid="uid://dqc3266nl801d"]
 
 [ext_resource type="Script" uid="uid://ckc474almfocf" path="res://modules/developer/developer_screen.gd" id="1_xh1pa"]
+[ext_resource type="PackedScene" uid="uid://ci3ngarnkaksi" path="res://modules/developer/fix_stat_dialog.tscn" id="2_lu4sd"]
+[ext_resource type="PackedScene" uid="uid://cvuh1bq8n7oxl" path="res://modules/developer/fix_item_dialog.tscn" id="3_jfpeo"]
 
 [node name="DeveloperScreen" type="MarginContainer"]
 anchors_preset = 15
@@ -88,6 +90,66 @@ text = "Stop"
 layout_mode = 2
 text = "??"
 
+[node name="VSeparator" type="VSeparator" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Fix Stats & Items"
+horizontal_alignment = 1
+
+[node name="LoadItemInHandBtn" type="Button" parent="HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Load Item in Hand"
+
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="LoadedItemStuff" type="VBoxContainer" parent="HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/LoadedItemStuff"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/LoadedItemStuff/HBoxContainer"]
+layout_mode = 2
+text = "Item Name:"
+
+[node name="ItemName" type="Label" parent="HBoxContainer/VBoxContainer/LoadedItemStuff/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="FixNameBtn" type="Button" parent="HBoxContainer/VBoxContainer/LoadedItemStuff/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Fix"
+
+[node name="Label2" type="Label" parent="HBoxContainer/VBoxContainer/LoadedItemStuff"]
+layout_mode = 2
+text = "Item Statistics:"
+
+[node name="ItemStatsFlow" type="VFlowContainer" parent="HBoxContainer/VBoxContainer/LoadedItemStuff"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="VSeparator2" type="VSeparator" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="FixStatDialog" parent="." instance=ExtResource("2_lu4sd")]
+
+[node name="FixItemDialog" parent="." instance=ExtResource("3_jfpeo")]
+
 [connection signal="pressed" from="HBoxContainer/GridContainer/LockPosBtn" to="." method="_on_lock_pos_btn_pressed"]
 [connection signal="pressed" from="HBoxContainer/GridContainer/RelativePosBtn" to="." method="_on_relative_pos_btn_pressed"]
 [connection signal="pressed" from="HBoxContainer/GridContainer/RelativePosBtn2" to="." method="_on_relative_pos_btn_2_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/LoadItemInHandBtn" to="." method="_on_load_item_in_hand_btn_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/LoadedItemStuff/HBoxContainer/FixNameBtn" to="." method="_on_fix_name_btn_pressed"]

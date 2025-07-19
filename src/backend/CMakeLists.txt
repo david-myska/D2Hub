@@ -42,7 +42,7 @@ set(SOURCE_FILES
 				"d2/utilities/data.cpp"
 				"d2/utilities/setup.cpp"
 				"d2/utilities/utilities.cpp"
-				"external/tmp_mxl_plugin.cpp"
+				"d2/utilities/loaded_data.cpp"
 )
 
 add_library(d2hub_backend SHARED ${SOURCE_FILES})

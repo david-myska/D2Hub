@@ -1,10 +1,10 @@
 [gd_scene load_steps=2 format=3 uid="uid://17ycg4gdkitd"]
 
-[ext_resource type="Script" uid="uid://b6k57kfepn86m" path="res://screens/lootfilter/setup_filter_dialog.gd" id="1_4q6tv"]
+[ext_resource type="Script" uid="uid://b6k57kfepn86m" path="res://modules/lootfilter/setup_filter_dialog.gd" id="1_4q6tv"]
 
 [node name="SetupFilterDialog" type="AcceptDialog"]
 title = "Filter Setup"
-position = Vector2i(0, 36)
+initial_position = 2
 size = Vector2i(400, 400)
 ok_button_text = "Create Filter"
 dialog_hide_on_ok = false
