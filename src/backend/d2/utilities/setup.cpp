@@ -20,7 +20,7 @@ namespace D2
     {
         auto baseLayout = GE::Layout::MakeScattered()
                               ->SetTotalSize(sizeof(ScatteredLayout))
-                              .AddPointerOffsets(0x113AB4u, sizeof(uint16_t))
+                              .AddPointerOffsets(0xFAE18u, sizeof(uint16_t))
                               .Build();
         auto dynPathLayout = GE::Layout::MakeConsecutive()->SetTotalSize(sizeof(Raw::DynamicPath)).Build();
         auto gameLayout = GE::Layout::MakeConsecutive()

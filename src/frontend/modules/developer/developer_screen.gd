@@ -66,7 +66,7 @@ func _on_load_item_in_hand_btn_pressed() -> void:
 	_refresh_loaded_item()
 
 func _refresh_loaded_item():
-	for c in %ItemStatsFlow:
+	for c in %ItemStatsFlow.get_children():
 		c.queue_free()
 	%ItemName.text = m_loaded_item["name"]
 	for stat in m_loaded_item["stats"]:
@@ -74,6 +74,7 @@ func _refresh_loaded_item():
 		fixable_stat.from_stat(stat)
 		fixable_stat.stat_fix_requested.connect(open_fix_stat_dialog.bind(stat))
 		%ItemStatsFlow.add_child(fixable_stat)
+	print("Flow children:", %ItemStatsFlow.get_child_count())
 	%LoadedItemStuff.visible = true
 
 func open_fix_stat_dialog(stat : Dictionary):

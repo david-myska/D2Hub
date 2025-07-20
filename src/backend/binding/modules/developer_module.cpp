@@ -30,6 +30,7 @@ Ref<DeveloperModule> DeveloperModule::Create(std::shared_ptr<spdlog::logger> aLo
 
 void DeveloperModule::Initialize(std::shared_ptr<DataAccess> aData, std::shared_ptr<SharedData> aShared)
 {
+    m_logger->info("Initializing DeveloperModule");
     m_data = std::move(aData);
     m_shared = std::move(aShared);
 }
@@ -57,6 +58,11 @@ void DeveloperModule::save_custom_item(uint32_t item_class, const String& item_n
 
 Dictionary DeveloperModule::get_item_in_hand() const
 {
+    for (const auto& [_, i] : m_data->GetItems().Get())
+    {
+        UtilityFunctions::print("Item: {}, Location: {}, Pos: {}, {}", GetItemName(i->m_class), ToString(i->m_location).c_str(),
+                                i->m_pos.x, i->m_pos.y);
+    }
     if (!m_data)
     {
         return {};

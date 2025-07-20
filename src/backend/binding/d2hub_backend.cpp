@@ -1,6 +1,7 @@
 #include "d2hub_backend.h"
 
 #include "d2/achievements/achievements.h"
+#include "d2/utilities/loaded_data.h"
 #include "d2/utilities/setup.h"
 #include "spdlog/sinks/daily_file_sink.h"
 
@@ -112,6 +113,8 @@ D2HubBackend::D2HubBackend()
     , m_lootfilterModule(LootFilterModule::Create(MakeLogger("lootfilter_module"), m_notifier))
     , m_modules({m_achievementsModule, m_backupModule, m_developerModule, m_lootfilterModule})
 {
+    D2::Data::LoadStats();
+    D2::Data::LoadItems();
     InitializeBackend();
     m_achievementsModule->LoadAchievements({}, false);
     m_lootfilterModule->Load();

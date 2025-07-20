@@ -40,6 +40,8 @@ std::string D2::Data::ToString(ItemLocation aLocation)
         return "Vendor";
     case ItemLocation::Gamble:
         return "Gamble";
+    case ItemLocation::InHand:
+        return "InHand";
     case ItemLocation::Invalid:
         return "Invalid";
     }

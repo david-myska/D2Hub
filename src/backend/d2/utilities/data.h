@@ -69,6 +69,7 @@ namespace D2::Data
         MercenaryEquipped,
         Vendor,
         Gamble,
+        InHand,
         Invalid,
         End = Invalid
     };
@@ -99,6 +100,16 @@ namespace D2::Data
 
     using GUID = uint32_t;
 
+    // Item's GUID gets reassigned when lost from sigth
+    struct ItemIdentifier
+    {
+        uint8_t m_act;
+        uint16_t m_xPos;
+        uint16_t m_yPos;
+
+        auto operator<=>(const ItemIdentifier&) const = default;
+    };
+
     struct Stats
     {
         Stats(const Raw::StatListEx* raw)
@@ -106,7 +117,7 @@ namespace D2::Data
             auto& stats = raw->m_fullStats;
             for (uint32_t i = 0; i < stats.m_count; ++i)
             {
-                m_stats[static_cast<StatType>(stats.m_pStats->m_statId)] = stats.m_pStats->m_value;
+                m_stats[static_cast<StatType>(stats.m_pStats[i].m_statId)] = stats.m_pStats[i].m_value;
             }
             for (auto stat : {StatType::Life, StatType::MaxLife, StatType::Mana, StatType::MaxMana})
             {
@@ -169,6 +180,7 @@ namespace D2::Data
             , m_location(FigureOutLocation(aRaw))
             , m_quality(QualityFromRaw(aRaw->m_pUnitData->m_quality))
             , m_itemLevel(aRaw->m_pUnitData->m_itemLvl)
+            , m_act(static_cast<uint8_t>(aRaw->m_actNo))
         {
         }
 
@@ -177,6 +189,7 @@ namespace D2::Data
         const ItemLocation m_location;
         const ItemQuality m_quality;
         const uint16_t m_itemLevel;
+        const uint8_t m_act;
 
     private:
         static ItemQuality QualityFromRaw(uint32_t aRawQuality)
@@ -197,6 +210,10 @@ namespace D2::Data
 
             const auto i = aRaw->m_pUnitData->m_invPage;
 
+            if (i == 0xFF && aRaw->m_pUnitData->m_ownerGUID == 0xFFFFFFFF)
+            {
+                return ItemLocation::InHand;
+            }
             if (aRaw->m_pUnitData->m_ownerGUID > 0)
             {
                 switch (i)
@@ -390,7 +407,14 @@ namespace D2::Data
         std::optional<const Item*> GetEquipped(ItemSlot aSlot) const { return {}; }
 
     private:
-        void SortOutItem(GUID aId, const Item* aItem) { m_itemsByLocation[aItem->m_location][aId] = aItem; }
+        void SortOutItem(GUID aId, const Item* aItem)
+        {
+            if (aItem->m_location == ItemLocation::InHand)
+            {
+                m_inHand = aItem;
+            }
+            m_itemsByLocation[aItem->m_location][aId] = aItem;
+        }
 
         std::map<ItemLocation, std::map<GUID, const Item*>> m_itemsByLocation;
         std::optional<const Item*> m_inHand;
@@ -713,7 +737,10 @@ namespace D2::Data
         void Update() noexcept
         {
             using enum ItemLocation;
-            m_droppedItems = m_dataAccess->GetItems().GetAt(Dropped) - m_dataAccess->GetItems(1).GetAt(Dropped);
+            m_newItems = m_dataAccess->GetItems().GetAt(Dropped) - m_dataAccess->GetItems(1).GetAt(Dropped);
+            std::erase_if(m_newItems, [this](const auto& item) {
+                return m_allItemsOnGround.contains({item.second->m_act, item.second->m_pos.x, item.second->m_pos.y});
+            });
             m_pickedItems = (m_dataAccess->GetItems().GetAt(Equipped) + m_dataAccess->GetItems().GetAt(Inventory)) -
                             (m_dataAccess->GetItems(1).GetAt(Equipped) + m_dataAccess->GetItems(1).GetAt(Inventory));
             m_equippedItems = m_dataAccess->GetItems().GetAt(Equipped) - m_dataAccess->GetItems(1).GetAt(Equipped);
@@ -722,9 +749,25 @@ namespace D2::Data
             m_newMonsters = m_dataAccess->GetMonsters().Get() - m_dataAccess->m_allMonsters;
             m_deadMonsters = m_dataAccess->GetMonsters().GetDead() & m_dataAccess->GetMonsters(1).GetAlive();
             m_outMonsters = m_dataAccess->GetMonsters(1).GetAlive() - m_dataAccess->GetMonsters().GetAlive();
+
+            // Update all items on ground
+            auto pickedItems = m_dataAccess->GetItems(1).GetAt(Dropped) &
+                               (m_dataAccess->GetItems().GetAt(Equipped) + m_dataAccess->GetItems().GetAt(Inventory));
+            std::set<ItemIdentifier> pickedItemsIdentifiers;
+            for (const auto& item : pickedItems)
+            {
+                pickedItemsIdentifiers.insert({item.second->m_act, item.second->m_pos.x, item.second->m_pos.y});
+            }
+            std::erase_if(m_allItemsOnGround, [&](const ItemIdentifier& item) {
+                return pickedItemsIdentifiers.contains(item);
+            });
+            for (const auto& item : m_newItems)
+            {
+                m_allItemsOnGround.insert({item.second->m_act, item.second->m_pos.x, item.second->m_pos.y});
+            }
         }
 
-        const std::map<GUID, const Item*>& GetDroppedItems() const { return m_droppedItems; }
+        const std::map<GUID, const Item*>& GetNewItems() const { return m_newItems; }
 
         const std::map<GUID, const Item*>& GetPickedItems() const { return m_pickedItems; }
 
@@ -742,10 +785,11 @@ namespace D2::Data
         std::shared_ptr<DataAccess> m_dataAccess;
 
         // Items
-        std::map<GUID, const Item*> m_droppedItems;
+        std::map<GUID, const Item*> m_newItems;
         std::map<GUID, const Item*> m_pickedItems;
         std::map<GUID, const Item*> m_equippedItems;
         std::map<GUID, const Item*> m_unequippedItems;
+        std::set<ItemIdentifier> m_allItemsOnGround;
 
         // Monsters
         std::map<GUID, const Monster*> m_newMonsters;
