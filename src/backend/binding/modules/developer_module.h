@@ -29,5 +29,6 @@ namespace godot
         void save_custom_item(uint32_t item_class, const String& item_name);
 
         Dictionary get_item_in_hand() const;
+        Array get_items_from(int location) const;
     };
 }

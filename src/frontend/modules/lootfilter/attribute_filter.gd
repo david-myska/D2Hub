@@ -1,7 +1,5 @@
 extends HBoxContainer
 
-signal delete_requested()
-
 var m_autocomplete : AutoCompleteAssistant = null
 
 func _ready() -> void:
@@ -21,5 +19,17 @@ func get_selection():
 		"value": %Value.value,
 	}
 
+func remove_safely():
+	if m_autocomplete and %Attribute:
+		m_autocomplete.remove_edit(%Attribute)
+	queue_free()
+
 func _on_delete_btn_pressed() -> void:
-	delete_requested.emit()
+	remove_safely()
+
+func validate(d : Dictionary) -> bool:
+	if %Attribute.text in d:
+		%Attribute.modulate = Color.WHITE
+		return true
+	%Attribute.modulate = Color.RED
+	return false

@@ -46,6 +46,7 @@ func create_complete_menu(edit: LineEdit):
 	var placement_point = get_menu_placement_vec(edit, direction)
 	var new_menu: CompleteMenu = complete_menu.instantiate()
 	add_child(new_menu)
+	menus.append(new_menu)
 	new_menu.use_edit_font_size = use_edit_font_size
 	new_menu.set_transform_values(margin, size_min, size_mult)
 	new_menu.set_up_menu(placement_point, direction, location_info[1], location_info[2], edit)
@@ -145,9 +146,14 @@ func add_edit(edit):
 ## removes an [param edit] and its menu if it exists. Will not remove the edit node from the scene just its connection to this node.
 func remove_edit(edit):
 	if edit in line_edits:
+		var m = null
 		for menu in menus:
 			if menu.edit == edit:
-				menu.queue_free()
-				line_edits.remove_at(line_edits.find(edit))
+				m = menu
+				break
+		if m:
+			menus.erase(m)
+			m.queue_free()
+		line_edits.erase(edit)
 	else:
 		assert(false, "ERROR: trying to remove an edit that has no complete menu")

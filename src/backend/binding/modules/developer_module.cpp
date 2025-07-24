@@ -12,9 +12,9 @@ void DeveloperModule::_bind_methods()
     ClassDB::bind_method(D_METHOD("get_player_position"), &DeveloperModule::get_player_position);
     ClassDB::bind_method(D_METHOD("get_location_id"), &DeveloperModule::get_location_id);
     ClassDB::bind_method(D_METHOD("get_item_in_hand"), &DeveloperModule::get_item_in_hand);
+    ClassDB::bind_method(D_METHOD("get_items_from", "location"), &DeveloperModule::get_items_from);
 
-    ClassDB::bind_method(D_METHOD("save_custom_stat", "stat_id", "p_stat_name"),
-                         &DeveloperModule::save_custom_stat);
+    ClassDB::bind_method(D_METHOD("save_custom_stat", "stat_id", "p_stat_name"), &DeveloperModule::save_custom_stat);
     ClassDB::bind_method(D_METHOD("save_custom_item", "item_class", "p_item_name"), &DeveloperModule::save_custom_item);
 }
 
@@ -56,34 +56,40 @@ void DeveloperModule::save_custom_item(uint32_t item_class, const String& item_n
     SaveCustomItem(item_class, item_name.utf8().get_data());
 }
 
+Dictionary MakeItemDictionary(const D2::Data::Item& aItem)
+{
+    Dictionary res;
+    res["item_class"] = aItem.m_class;
+    res["name"] = GetItemName(aItem.m_class);
+    res["location"] = D2::Data::ToString(aItem.m_location).c_str();
+    res["position"] = Vector2i(aItem.m_pos.x, aItem.m_pos.y);
+    Array stats;
+    for (auto [statId, value] : aItem.m_stats.GetAll())
+    {
+        Dictionary stat;
+        stat["id"] = statId;
+        stat["name"] = GetStatName(statId);
+        stat["value"] = value;
+        stats.push_back(std::move(stat));
+    }
+    res["stats"] = std::move(stats);
+    return res;
+}
+
 Dictionary DeveloperModule::get_item_in_hand() const
 {
-    for (const auto& [_, i] : m_data->GetItems().Get())
-    {
-        UtilityFunctions::print("Item: ", GetItemName(i->m_class), ", Location: ", ToString(i->m_location).c_str(),
-                                ", Pos: ", i->m_pos.x, ", ", i->m_pos.y);
-    }
-    if (!m_data)
-    {
-        return {};
-    }
     auto optItem = m_data->GetItems().GetInHand();
-    Dictionary res;
-    if (optItem)
+    return optItem ? MakeItemDictionary(**optItem) : Dictionary();
+}
+
+Array DeveloperModule::get_items_from(int location) const
+{
+    const auto& items = m_data->GetItems().GetAt(static_cast<D2::Data::ItemLocation>(location));
+
+    Array result;
+    for (const auto& [_, item] : items)
     {
-        auto item = *optItem;
-        res["item_class"] = item->m_class;
-        res["name"] = GetItemName(item->m_class);
-        Array stats;
-        for (auto [statId, value] : item->m_stats.GetAll())
-        {
-            Dictionary stat;
-            stat["id"] = statId;
-            stat["name"] = GetStatName(statId);
-            stat["value"] = value;
-            stats.push_back(std::move(stat));
-        }
-        res["stats"] = std::move(stats);
+        result.push_back(MakeItemDictionary(*item));
     }
-    return res;
+    return result;
 }

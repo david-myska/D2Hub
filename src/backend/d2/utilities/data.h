@@ -214,10 +214,18 @@ namespace D2::Data
 
             const auto i = aRaw->m_pUnitData->m_invPage;
 
-            if (i == 0xFF && aRaw->m_pUnitData->m_ownerGUID == 0xFFFFFFFF)
+            if (aRaw->m_pUnitData->m_ownerGUID == 0xFFFFFFFF)
             {
-                return ItemLocation::InHand;
+                if (i == 0xFF)
+                {
+                    return ItemLocation::InHand;
+                }
+                if (0 <= i && i <= 3)
+                {
+                    return aRaw->m_pUnitData->m_itemFlags[0] & 0x10 ? ItemLocation::Vendor : ItemLocation::Gamble;
+                }
             }
+
             if (aRaw->m_pUnitData->m_ownerGUID > 0)
             {
                 switch (i)
@@ -238,11 +246,6 @@ namespace D2::Data
             if (i == 0xFF)
             {
                 return ItemLocation::MercenaryEquipped;
-            }
-
-            if (0 <= i && i <= 3)
-            {
-                return aRaw->m_pUnitData->m_itemFlags[0] & 0x10 ? ItemLocation::Vendor : ItemLocation::Gamble;
             }
 
             return ItemLocation::Unknown;

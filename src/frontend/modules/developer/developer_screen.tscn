@@ -93,60 +93,91 @@ text = "??"
 [node name="VSeparator" type="VSeparator" parent="HBoxContainer"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+[node name="FixItems" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/FixItems"]
 layout_mode = 2
-text = "Fix Stats & Items"
+text = "Fix Items"
 horizontal_alignment = 1
 
-[node name="LoadItemInHandBtn" type="Button" parent="HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/FixItems"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="HBoxContainer/FixItems/HBoxContainer"]
+layout_mode = 2
+text = "Load Items from: "
+
+[node name="LoadGroundItemsBtn" type="Button" parent="HBoxContainer/FixItems/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Ground"
+
+[node name="LoadVendorItemsBtn" type="Button" parent="HBoxContainer/FixItems/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Vendor"
+
+[node name="LoadGambleItemsBtn" type="Button" parent="HBoxContainer/FixItems/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Gamble"
+
+[node name="LoadItemInHandBtn" type="Button" parent="HBoxContainer/FixItems/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
-text = "Load Item in Hand"
+text = "Hand"
 
-[node name="HSeparator" type="HSeparator" parent="HBoxContainer/VBoxContainer"]
+[node name="LoadInventoryItemsBtn" type="Button" parent="HBoxContainer/FixItems/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Inventory"
+
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/FixItems"]
 layout_mode = 2
 
-[node name="LoadedItemStuff" type="VBoxContainer" parent="HBoxContainer/VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/FixItems"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ItemList" type="VBoxContainer" parent="HBoxContainer/FixItems/ScrollContainer"]
 unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VSeparator2" type="VSeparator" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="FixStats" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/FixStats"]
+layout_mode = 2
+text = "Fix Stats"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/FixStats"]
+layout_mode = 2
+
+[node name="LoadedItemStuff" type="VBoxContainer" parent="HBoxContainer/FixStats"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/LoadedItemStuff"]
-layout_mode = 2
-alignment = 1
-
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/LoadedItemStuff/HBoxContainer"]
-layout_mode = 2
-text = "Item Name:"
-
-[node name="ItemName" type="Label" parent="HBoxContainer/VBoxContainer/LoadedItemStuff/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="FixNameBtn" type="Button" parent="HBoxContainer/VBoxContainer/LoadedItemStuff/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Fix"
-
-[node name="Label2" type="Label" parent="HBoxContainer/VBoxContainer/LoadedItemStuff"]
+[node name="Label2" type="Label" parent="HBoxContainer/FixStats/LoadedItemStuff"]
 layout_mode = 2
 text = "Item Statistics:"
 
-[node name="ItemStatsFlow" type="VFlowContainer" parent="HBoxContainer/VBoxContainer/LoadedItemStuff"]
+[node name="ItemStatsFlow" type="VFlowContainer" parent="HBoxContainer/FixStats/LoadedItemStuff"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/h_separation = 25
 theme_override_constants/v_separation = 15
-
-[node name="VSeparator2" type="VSeparator" parent="HBoxContainer"]
-layout_mode = 2
 
 [node name="FixStatDialog" parent="." instance=ExtResource("2_lu4sd")]
 
@@ -155,5 +186,8 @@ layout_mode = 2
 [connection signal="pressed" from="HBoxContainer/GridContainer/LockPosBtn" to="." method="_on_lock_pos_btn_pressed"]
 [connection signal="pressed" from="HBoxContainer/GridContainer/RelativePosBtn" to="." method="_on_relative_pos_btn_pressed"]
 [connection signal="pressed" from="HBoxContainer/GridContainer/RelativePosBtn2" to="." method="_on_relative_pos_btn_2_pressed"]
-[connection signal="pressed" from="HBoxContainer/VBoxContainer/LoadItemInHandBtn" to="." method="_on_load_item_in_hand_btn_pressed"]
-[connection signal="pressed" from="HBoxContainer/VBoxContainer/LoadedItemStuff/HBoxContainer/FixNameBtn" to="." method="_on_fix_name_btn_pressed"]
+[connection signal="pressed" from="HBoxContainer/FixItems/HBoxContainer/LoadGroundItemsBtn" to="." method="_on_load_ground_items_btn_pressed"]
+[connection signal="pressed" from="HBoxContainer/FixItems/HBoxContainer/LoadVendorItemsBtn" to="." method="_on_load_vendor_items_btn_pressed"]
+[connection signal="pressed" from="HBoxContainer/FixItems/HBoxContainer/LoadGambleItemsBtn" to="." method="_on_load_gamble_items_btn_pressed"]
+[connection signal="pressed" from="HBoxContainer/FixItems/HBoxContainer/LoadItemInHandBtn" to="." method="_on_load_item_in_hand_btn_pressed"]
+[connection signal="pressed" from="HBoxContainer/FixItems/HBoxContainer/LoadInventoryItemsBtn" to="." method="_on_load_inventory_items_btn_pressed"]

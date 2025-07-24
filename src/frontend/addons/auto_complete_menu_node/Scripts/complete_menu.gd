@@ -143,13 +143,10 @@ func refresh_nodes(text: String):
 		whitespace_i += 1
 	current_text = text
 
-	if text.is_empty():
-		visible_nodes = all_nodes
-	else:
-		visible_nodes = all_nodes.filter(func(x): return text in get_option_text(x))
-		for node in all_nodes.filter(func(x): return not text in get_option_text(x)):
-			node.visible = false
-	visible_nodes.assign(visible_nodes.map(func(x): x.visible = true; return x))
+	visible_nodes = all_nodes.filter(func(x):
+		x.visible = text.is_empty() or get_option_text(x).containsn(text)
+		return x.visible
+	)
 
 	visible_nodes.sort_custom(compare_options)
 	

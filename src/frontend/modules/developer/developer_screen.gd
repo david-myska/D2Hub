@@ -6,8 +6,6 @@ var m_locked_pos : Vector2i = Vector2i.ZERO
 var m_rel_pos : Vector2i = Vector2i.ZERO
 var m_rel_pos2 : Vector2i = Vector2i.ZERO
 
-var m_loaded_item := {}
-
 func tier_to_string(tier : int) -> String:
 	match tier:
 		0: return "(No tier)"
@@ -19,7 +17,6 @@ func tier_to_string(tier : int) -> String:
 	return "(Unknown tier %s)" % tier
 
 func _ready():
-	%LoadedItemStuff.visible = false
 	$FixStatDialog.validated.connect(func(stat_id : int, stat_name : String):
 		m_dev.save_custom_stat(stat_id, stat_name)
 	)
@@ -62,19 +59,16 @@ func _on_load_item_in_hand_btn_pressed() -> void:
 	if loaded_item.is_empty():
 		Backend.get_notifier().push(Notifier.WARNING, "No item in hand")
 		return
-	m_loaded_item = loaded_item
-	_refresh_loaded_item()
+	_refresh_items([loaded_item])
 
-func _refresh_loaded_item():
+func _refresh_item_stats(item : Dictionary):
 	for c in %ItemStatsFlow.get_children():
 		c.queue_free()
-	%ItemName.text = m_loaded_item["name"]
-	for stat in m_loaded_item["stats"]:
+	for stat in item["stats"]:
 		var fixable_stat := preload("res://modules/developer/fixable_stat.tscn").instantiate()
 		fixable_stat.from_stat(stat)
 		fixable_stat.stat_fix_requested.connect(open_fix_stat_dialog.bind(stat))
 		%ItemStatsFlow.add_child(fixable_stat)
-	%LoadedItemStuff.visible = true
 
 func open_fix_stat_dialog(stat : Dictionary):
 	$FixStatDialog.show_filled(stat["id"], stat["name"])
@@ -82,6 +76,27 @@ func open_fix_stat_dialog(stat : Dictionary):
 func open_fix_item_dialog(item : Dictionary):
 	$FixItemDialog.show_filled(item["item_class"], item["name"])
 
+func _refresh_items(items : Array):
+	for c in %ItemsFlow.get_children():
+		c.queue_free()
+	for item in items:
+		var fixable_item := preload("res://modules/developer/fixable_item.tscn").instantiate()
+		fixable_item.from_item(item)
+		fixable_item.item_fix_requested.connect(open_fix_item_dialog.bind(item))
+		fixable_item.load_stats_requested.connect(_refresh_item_stats.bind(item))
+		%ItemsFlow.add_child(fixable_item)
 
-func _on_fix_name_btn_pressed() -> void:
-	open_fix_item_dialog(m_loaded_item)
+func _on_load_ground_items_btn_pressed() -> void:
+	_refresh_items(m_dev.get_items_from(5)) # 5 == Dropped
+
+
+func _on_load_vendor_items_btn_pressed() -> void:
+	_refresh_items(m_dev.get_items_from(8)) # 8 == Vendor
+
+
+func _on_load_gamble_items_btn_pressed() -> void:
+	_refresh_items(m_dev.get_items_from(9)) # 9 == Gamble
+
+
+func _on_load_inventory_items_btn_pressed() -> void:
+	_refresh_items(m_dev.get_items_from(1)) # 1 == Inventory

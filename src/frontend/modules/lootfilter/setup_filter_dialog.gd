@@ -11,7 +11,7 @@ func reset():
 	if not visible:
 		return
 	for c in %AttributeFilters.get_children():
-		c.queue_free()
+		c.remove_safely()
 	
 	for q in %Qualities.get_children():
 		q.button_pressed = false
@@ -23,7 +23,6 @@ func reset():
 func _on_add_filter_btn_pressed() -> void:
 	var f = preload("res://modules/lootfilter/attribute_filter.tscn").instantiate()
 	f.m_autocomplete = $AutoCompleteAssistant
-	f.delete_requested.connect(%AttributeFilters.remove_child.bind(f))
 	%AttributeFilters.add_child(f)
 
 func _make_quality_filter():
@@ -55,8 +54,16 @@ func _make_quality_filter():
 	return d
 
 func _on_confirmed() -> void:
+	var valid := true
 	if %FilterName.text.is_empty():
 		%NameLabel.modulate = Color.RED
+		valid = false
+	else:
+		%NameLabel.modulate = Color.WHITE
+	for af in %AttributeFilters.get_children():
+		if not af.validate(m_stat_data):
+			valid = false
+	if not valid:
 		return
 	var metadata := FilterMetadata.new()
 	metadata.name = %FilterName.text
