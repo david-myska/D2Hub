@@ -119,7 +119,10 @@ namespace
                 {
                     return Math::is_zero_approx(m_filterValue);
                 }
-                return m_filterValue == 0;
+                else
+                {
+                    return m_filterValue == 0;
+                }
             }
             return false;
         }

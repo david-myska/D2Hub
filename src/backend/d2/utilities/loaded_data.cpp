@@ -22,13 +22,11 @@ namespace
     struct StatMetadata
     {
         std::string name;
-        std::string_view category;
     };
 
     std::vector<uint32_t> g_statIds;
     std::map<uint32_t, StatMetadata> g_stats;
     std::set<uint32_t> g_customStatIds;
-    std::set<std::string> g_statCategories;
 
     std::vector<uint32_t> g_itemIds;
     std::map<uint32_t, std::string> g_itemNames;
@@ -52,33 +50,28 @@ namespace
     auto ParseStatLine(std::string_view aLine)
     {
         auto sep1 = aLine.find(',');
-        auto sep2 = aLine.find(',', sep1 + 1);
-        if (sep1 == std::string_view::npos || sep2 == std::string_view::npos)
+        if (sep1 == std::string_view::npos)
         {
             throw std::runtime_error("Invalid stat line format: " + std::string(aLine));
         }
         auto statIdStr = aLine.substr(0, sep1);
-        auto statName = aLine.substr(sep1 + 1, sep2 - sep1 - 1);
-        auto category = aLine.substr(sep2 + 1);
-        if (statIdStr.empty() || statName.empty() || category.empty())
+        auto statName = aLine.substr(sep1 + 1);
+        if (statIdStr.empty() || statName.empty())
         {
-            throw std::runtime_error(
-                std::format("Fields cannot be empty: Id '{}', Name '{}', Category '{}'", statIdStr, statName, category));
+            throw std::runtime_error(std::format("Fields cannot be empty: Id '{}', Name '{}'", statIdStr, statName));
         }
         uint32_t statId = 0;
         std::from_chars(statIdStr.data(), statIdStr.data() + statIdStr.size(), statId, 16);
-        return std::make_pair(statId,
-                              StatMetadata{std::string{statName}, g_statCategories.insert(std::string{category}).first->c_str()});
+        return std::make_pair(statId, StatMetadata{std::string{statName}});
     }
 
     void WriteStatLine(std::ofstream& aFile, uint32_t aStatId, const StatMetadata& aStatMetadata)
     {
-        if (aStatMetadata.name.empty() || aStatMetadata.category.empty())
+        if (aStatMetadata.name.empty())
         {
-            throw std::runtime_error(std::format("Fields cannot be empty: Id '{}', Name '{}', Category '{}'", aStatId,
-                                                 aStatMetadata.name, aStatMetadata.category));
+            throw std::runtime_error(std::format("Fields cannot be empty: Id '{}', Name '{}'", aStatId, aStatMetadata.name));
         }
-        aFile << std::format("{:08X},{},{}\n", aStatId, aStatMetadata.name, aStatMetadata.category);
+        aFile << std::format("{:08X},{}\n", aStatId, aStatMetadata.name);
     }
 
     auto ParseItemLine(std::string_view aLine)
@@ -164,15 +157,6 @@ namespace D2::Data
         return c_unknownName;
     }
 
-    const char* GetStatCategory(uint32_t aStatId)
-    {
-        if (auto it = g_stats.find(aStatId); it != g_stats.end())
-        {
-            return it->second.category.data();
-        }
-        return c_unknownName;
-    }
-
     bool LoadItems()
     {
         g_itemIds.clear();
@@ -226,9 +210,9 @@ namespace D2::Data
         return c_unknownName;
     }
 
-    void SaveCustomStat(uint32_t aStatId, const char* aStatName, const char* aStatCategory)
+    void SaveCustomStat(uint32_t aStatId, const char* aStatName)
     {
-        auto [it, x] = g_stats.insert_or_assign(aStatId, StatMetadata{aStatName, aStatCategory});
+        auto [it, x] = g_stats.insert_or_assign(aStatId, StatMetadata{aStatName});
         auto [y, newStat] = g_customStatIds.insert(aStatId);
 
         if (newStat)

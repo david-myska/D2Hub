@@ -1,4 +1,3 @@
-@tool
 extends Button
 
 signal option_chosen(option_text)

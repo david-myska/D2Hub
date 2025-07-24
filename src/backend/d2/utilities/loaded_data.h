@@ -12,10 +12,9 @@ namespace D2::Data
     };
 
     bool LoadStats();
-    void SaveCustomStat(uint32_t aStatId, const char* aStatName, const char* aStatCategory);
+    void SaveCustomStat(uint32_t aStatId, const char* aStatName);
     Ids GetStatIds();
     const char* GetStatName(uint32_t aStatId);
-    const char* GetStatCategory(uint32_t aStatId);
 
     bool LoadItems();
     void SaveCustomItem(uint32_t aItemId, const char* aItemName);

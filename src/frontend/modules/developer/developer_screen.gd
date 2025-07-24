@@ -20,8 +20,8 @@ func tier_to_string(tier : int) -> String:
 
 func _ready():
 	%LoadedItemStuff.visible = false
-	$FixStatDialog.validated.connect(func(stat_id : int, stat_name : String, categories : String):
-		m_dev.save_custom_stat(stat_id, stat_name, categories)
+	$FixStatDialog.validated.connect(func(stat_id : int, stat_name : String):
+		m_dev.save_custom_stat(stat_id, stat_name)
 	)
 	$FixItemDialog.validated.connect(
 		func(item_class : int, item_name : String, tier : int, fix_other_tiers : bool):

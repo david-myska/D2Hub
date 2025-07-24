@@ -13,7 +13,7 @@ void DeveloperModule::_bind_methods()
     ClassDB::bind_method(D_METHOD("get_location_id"), &DeveloperModule::get_location_id);
     ClassDB::bind_method(D_METHOD("get_item_in_hand"), &DeveloperModule::get_item_in_hand);
 
-    ClassDB::bind_method(D_METHOD("save_custom_stat", "stat_id", "p_stat_name", "p_stat_category"),
+    ClassDB::bind_method(D_METHOD("save_custom_stat", "stat_id", "p_stat_name"),
                          &DeveloperModule::save_custom_stat);
     ClassDB::bind_method(D_METHOD("save_custom_item", "item_class", "p_item_name"), &DeveloperModule::save_custom_item);
 }
@@ -46,9 +46,9 @@ uint16_t DeveloperModule::get_location_id() const
     return static_cast<uint16_t>(m_data->GetMisc().GetZone());
 }
 
-void DeveloperModule::save_custom_stat(uint32_t stat_id, const String& stat_name, const String& stat_category)
+void DeveloperModule::save_custom_stat(uint32_t stat_id, const String& stat_name)
 {
-    SaveCustomStat(stat_id, stat_name.utf8().get_data(), stat_category.utf8().get_data());
+    SaveCustomStat(stat_id, stat_name.utf8().get_data());
 }
 
 void DeveloperModule::save_custom_item(uint32_t item_class, const String& item_name)
