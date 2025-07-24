@@ -35,7 +35,7 @@ namespace D2::Achi::CountessGoldSteal
                     })
             .OnEntering(GE::Status::Active,
                         [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
-                            aPD.m_initialGold = *aDataAccess.GetPlayers().GetLocal()->m_stats.GetValue(Data::StatType::Gold);
+                            aPD.m_initialGold = *aDataAccess.GetPlayers().GetLocal()->m_stats.GetValue(Data::Stat::Id::Gold);
                             aPD.m_timer.Start();
                         })
             .OnEntering(GE::Status::Paused,
@@ -62,7 +62,7 @@ namespace D2::Achi::CountessGoldSteal
                             aPD.m_countessKilled = aS.GetDeadMonsters().contains(aPD.m_countessId);
                         }
                         aPD.m_notInLocation = aDataAccess.GetMisc().GetZone() != Data::Zone::Act1_Bloodthrone;
-                        aPD.m_goldCollected += *aDataAccess.GetPlayers().GetLocal()->m_stats.GetValue(Data::StatType::Gold) -
+                        aPD.m_goldCollected += *aDataAccess.GetPlayers().GetLocal()->m_stats.GetValue(Data::Stat::Id::Gold) -
                                                aPD.m_initialGold;
                     })
             .Build();

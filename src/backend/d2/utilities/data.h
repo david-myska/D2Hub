@@ -117,32 +117,36 @@ namespace D2::Data
             auto& stats = raw->m_fullStats;
             for (uint32_t i = 0; i < stats.m_count; ++i)
             {
-                m_stats[static_cast<StatType>(stats.m_pStats[i].m_statId)] = stats.m_pStats[i].m_value;
+                m_stats[stats.m_pStats[i].m_id] = stats.m_pStats[i].m_value;
             }
-            for (auto stat : {StatType::Life, StatType::MaxLife, StatType::Mana, StatType::MaxMana})
+            for (auto stat : {Stat::Id::Life, Stat::Id::MaxLife, Stat::Id::Mana, Stat::Id::MaxMana})
             {
-                if (m_stats.contains(stat))
+                if (Has(stat))
                 {
-                    m_stats[stat] >>= 8;
+                    m_stats[static_cast<uint32_t>(stat)] >>= 8;
                 }
             }
         }
 
-        bool Has(StatType aStat) const { return m_stats.contains(aStat); }
+        bool Has(Stat::Id aStat) const { return Has(static_cast<uint32_t>(aStat)); }
 
-        std::optional<int32_t> GetValue(StatType aStat) const
+        bool Has(uint32_t aStatId) const { return m_stats.contains(aStatId); }
+
+        std::optional<int32_t> GetValue(Stat::Id aStat) const { return GetValue(static_cast<uint32_t>(aStat)); }
+
+        std::optional<int32_t> GetValue(uint32_t aStatId) const
         {
-            if (Has(aStat))
+            if (Has(aStatId))
             {
-                return m_stats.at(aStat);
+                return m_stats.at(aStatId);
             }
             return {};
         }
 
-        const std::unordered_map<StatType, int32_t>& GetAll() const { return m_stats; }
+        const std::unordered_map<uint32_t, int32_t>& GetAll() const { return m_stats; }
 
     private:
-        std::unordered_map<StatType, int32_t> m_stats;
+        std::unordered_map<uint32_t, int32_t> m_stats;
     };
 
     struct Position
@@ -161,7 +165,7 @@ namespace D2::Data
         {
         }
 
-        bool IsAlive() const { return m_stats.GetValue(StatType::Life).value_or(0) > 0; }
+        bool IsAlive() const { return m_stats.GetValue(Stat::Id::Life).value_or(0) > 0; }
 
         bool IsDead() const { return !IsAlive(); }
 

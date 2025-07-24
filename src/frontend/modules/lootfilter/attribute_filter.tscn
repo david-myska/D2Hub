@@ -15,12 +15,7 @@ script = ExtResource("1_18uai")
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Categories" type="OptionButton" parent="HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Attributes" type="OptionButton" parent="HBoxContainer"]
+[node name="Attribute" type="LineEdit" parent="HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3

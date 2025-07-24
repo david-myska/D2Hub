@@ -46,7 +46,7 @@ namespace D2
                                     ->SetTotalSize(sizeof(Raw::StatListEx))
                                     .AddPointerOffsets<Raw::StatListEx>(0x48u,
                                                                         [](Raw::StatListEx* aStatList) {
-                                                                            return aStatList->m_baseStats.m_count *
+                                                                            return aStatList->m_fullStats.m_count *
                                                                                    sizeof(Raw::Stat);
                                                                         })
                                     .Build();

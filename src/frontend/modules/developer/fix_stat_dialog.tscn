@@ -6,6 +6,7 @@
 title = "Fix Stat"
 initial_position = 2
 size = Vector2i(350, 135)
+visible = true
 ok_button_text = "Fix"
 dialog_hide_on_ok = false
 script = ExtResource("1_anuc3")
@@ -31,24 +32,7 @@ text = "Name: "
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-placeholder_text = "(required)"
-alignment = 1
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="CategoriesLabel" type="Label" parent="VBoxContainer/HBoxContainer2"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.66
-text = "Categories: "
-
-[node name="CategoriesLE" type="LineEdit" parent="VBoxContainer/HBoxContainer2"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
+size_flags_vertical = 4
 placeholder_text = "(required)"
 alignment = 1
 

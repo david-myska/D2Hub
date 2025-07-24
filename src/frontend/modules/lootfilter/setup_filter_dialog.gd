@@ -1,9 +1,10 @@
 extends AcceptDialog
 
-var m_populate_data : Dictionary = {}
+var m_stat_data : Dictionary = {}
 
 func _ready() -> void:
-	m_populate_data = Backend.get_lootfilter_module().get_filter_categories()
+	m_stat_data = Backend.get_lootfilter_module().get_filter_categories()
+	$AutoCompleteAssistant.load_terms(m_stat_data.keys())
 	visibility_changed.connect(self.reset)
 
 func reset():
@@ -21,7 +22,7 @@ func reset():
 
 func _on_add_filter_btn_pressed() -> void:
 	var f = preload("res://modules/lootfilter/attribute_filter.tscn").instantiate()
-	f.populate(m_populate_data)
+	f.m_autocomplete = $AutoCompleteAssistant
 	f.delete_requested.connect(%AttributeFilters.remove_child.bind(f))
 	%AttributeFilters.add_child(f)
 
@@ -61,6 +62,8 @@ func _on_confirmed() -> void:
 	metadata.name = %FilterName.text
 	var filters := [_make_quality_filter()]
 	for f in %AttributeFilters.get_children():
-		filters.append(f.get_selection())
+		var s : Dictionary = f.get_selection()
+		s.merge(m_stat_data[s["stat_name"]])
+		filters.append(s)
 	Backend.get_lootfilter_module().add_filter(metadata, filters)
 	hide()

@@ -2,27 +2,35 @@
 
 #include <format>
 
-namespace D2::Data
+namespace D2::Data::Stat
 {
-    enum class StatType : uint32_t
+    constexpr uint32_t ToId(uint16_t aId, uint16_t aSubId = 0)
     {
-        Strength = 0x00000000,
-        Energy = 0x00010000,
-        Dexterity = 0x00020000,
-        Vitality = 0x00030000,
+        return (static_cast<uint32_t>(aId) << 16) | aSubId;
+    }
+
+    enum class Id : uint32_t
+    {
+        Strength = ToId(0x0),
+        Energy = ToId(0x1),
+        Dexterity = ToId(0x2),
+        Vitality = ToId(0x3),
         StatsToSpend = 0x00040000,
         SkillsToSpend = 0x00050000,
         Life = 0x00060000,
         MaxLife = 0x00070000,
         Mana = 0x00080000,
         MaxMana = 0x00090000,
-        Stamina = 0x000A0000,
-        MaxStamina = 0x000B0000,
+        Stamina = 0x000A0000,     // 1 byte only 00vv0000, or probably the same as life/mana
+        MaxStamina = 0x000B0000,  // same
         CharLevel = 0x000C0000,
+        CharExp = 0x000D0000,
         Gold = 0x000E0000,
-        Min_Weap_Dmg = 0x00170000,
-        Max_Weap_Dmg = 0x00180000,
-        Armor = 0x001F0000,
+        Min_Weap_Dmg_1H = 0x00150000,
+        Max_Weap_Dmg_1H = 0x00160000,
+        Min_Weap_Dmg_2H = 0x00170000,
+        Max_Weap_Dmg_2H = 0x00180000,
+        Defense = 0x001F0000,
         Physical_Resist = 0x00240000,
         Fire_Resist = 0x00270000,
         Max_Fire_Res = 0x00280000,
@@ -42,6 +50,7 @@ namespace D2::Data
         WeapMaxPoisDmg = 0x003A0000,
         Dur_inFrames = 0x003B0000,
         WeapAtkSpeedMod = 0x00440000,
+        Quantity = 0x00460000,
         Durability = 0x00480000,
         Max_Durability = 0x00490000,
         Gold_Find = 0x004F0000,
@@ -55,6 +64,8 @@ namespace D2::Data
         PoisLenReduced = 0x006E0000,
         Attack_Rating_perc = 0x00770000,
         All_skills = 0x007F0000,
+        //??MinThrowDmg = 0x009F0000,
+        //??MaxThrowDmg = 0x00A00000,
         Defense_Bonus_perc = 0x00AB0000,
         Sockets = 0x00C20000,
         LifeOnMeleeAtk = 0x00D20000,
@@ -71,8 +82,15 @@ namespace D2::Data
         Energy_perc = 0x01680000,
         Dexterity_perc = 0x01690000,
         Vitality_perc = 0x016A0000,
+        //??WeaponReach = 0x018B0000,
+        //??Suffixes = 0x019B0000,
         InnateElemDmg = 0x01E40000,
-        InnateDmgDex = 0x019F0201,
+        //??InnateFireDmgFromDexPerc = 0x006107D0,
+        //??InnateLightDmgFromDexPerc = 0x006107D2,
+        //??InnateFireDmgFromDexPerc = 0x017F07D0,
+        //??InnateLightDmgFromDexPerc = 0x017F07D2,
+        //??InnateDmgDex = 0x019F0200,
+        //??InnateDmgDex = 0x019F0201,
         Life_when_struck_by_enemy = 0x01B70000,
         SumMinionLife = 0x01BC0000,
         TargetTakesAdditionalDmg = 0x01E90000,

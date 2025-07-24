@@ -22,12 +22,13 @@ namespace
     struct StatMetadata
     {
         std::string name;
-        std::string category;
+        std::string_view category;
     };
 
     std::vector<uint32_t> g_statIds;
     std::map<uint32_t, StatMetadata> g_stats;
     std::set<uint32_t> g_customStatIds;
+    std::set<std::string> g_statCategories;
 
     std::vector<uint32_t> g_itemIds;
     std::map<uint32_t, std::string> g_itemNames;
@@ -66,7 +67,8 @@ namespace
         }
         uint32_t statId = 0;
         std::from_chars(statIdStr.data(), statIdStr.data() + statIdStr.size(), statId, 16);
-        return std::make_pair(statId, StatMetadata{std::string{statName}, std::string{category}});
+        return std::make_pair(statId,
+                              StatMetadata{std::string{statName}, g_statCategories.insert(std::string{category}).first->c_str()});
     }
 
     void WriteStatLine(std::ofstream& aFile, uint32_t aStatId, const StatMetadata& aStatMetadata)
@@ -166,7 +168,7 @@ namespace D2::Data
     {
         if (auto it = g_stats.find(aStatId); it != g_stats.end())
         {
-            return it->second.category.c_str();
+            return it->second.category.data();
         }
         return c_unknownName;
     }

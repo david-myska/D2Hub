@@ -11,7 +11,7 @@ namespace D2::Raw
     {
         // clang-format off
                                 // sizeof = 0x8
-    uint32_t m_statId = {};
+    uint32_t m_id = {};
     int32_t m_value      = {};
         // clang-format on
     };
@@ -398,7 +398,7 @@ namespace D2::Raw
         UnitData<MonsterData>* m_pMonsterList[128] = {};
         UnitData<>* m_pObjectList[128] = {};
         UnitData<>* m_pMissileList[128] = {};
-        UnitData<ItemData>* m_pItemList[128] = {};// For client units, the items/missiles are actually in the correct order
+        UnitData<ItemData>* m_pItemList[128] = {};  // For client units, the items/missiles are actually in the correct order
     };
 
     struct Game

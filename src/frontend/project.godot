@@ -34,3 +34,7 @@ window/per_pixel_transparency/allowed=true
 [editor]
 
 run/main_run_args="--developer"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/auto_complete_menu_node/plugin.cfg")

@@ -74,11 +74,10 @@ func _refresh_loaded_item():
 		fixable_stat.from_stat(stat)
 		fixable_stat.stat_fix_requested.connect(open_fix_stat_dialog.bind(stat))
 		%ItemStatsFlow.add_child(fixable_stat)
-	print("Flow children:", %ItemStatsFlow.get_child_count())
 	%LoadedItemStuff.visible = true
 
 func open_fix_stat_dialog(stat : Dictionary):
-	$FixStatDialog.show_filled(stat["id"], stat["name"], stat["categories"])
+	$FixStatDialog.show_filled(stat["id"], stat["name"])
 
 func open_fix_item_dialog(item : Dictionary):
 	$FixItemDialog.show_filled(item["item_class"], item["name"])

@@ -41,7 +41,7 @@ namespace D2::Achi::Act1Speedrun
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
                         aPD.m_newChar = aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_BloodMoor &&
                                         aDataAccess.GetMisc(1).GetZone() == Data::Zone::Act1_RogueEncampment &&
-                                        *aDataAccess.GetPlayers().GetLocal()->m_stats.GetValue(Data::StatType::CharLevel) == 1;
+                                        *aDataAccess.GetPlayers().GetLocal()->m_stats.GetValue(Data::Stat::Id::CharLevel) == 1;
                     })
             .OnEntering(GE::Status::Active,
                         [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {

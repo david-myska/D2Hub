@@ -5,10 +5,10 @@
 #include <memory>
 #include <ranges>
 
+#include "d2/utilities/loaded_data.h"
+
 #include <godot_cpp/classes/project_settings.hpp>
 #include <godot_cpp/core/class_db.hpp>
-
-#include "d2/utilities/loaded_data.h"
 
 using namespace godot;
 using namespace D2::Data;
@@ -17,6 +17,7 @@ namespace
 {
     std::unique_ptr<IFilter> DeserializeFilter(GE::BinReader& aBr);
 
+    template <typename T>
     class Filter : public IFilter
     {
     public:
@@ -32,10 +33,10 @@ namespace
         };
 
     private:
-        using Predicate = std::function<bool(double, double)>;
+        using Predicate = std::function<bool(T, T)>;
 
         const StatId m_statId = 0;
-        const double m_filterValue = 0;
+        const T m_filterValue = 0;
         const Is m_is;
         const Predicate m_predicate;
 
@@ -44,35 +45,56 @@ namespace
             switch (is)
             {
             case Is::Equal:
-                return [](double statValue, double filterValue) {
-                    return Math::is_equal_approx(statValue, filterValue);
+                return [](T statValue, T filterValue) {
+                    if constexpr (std::is_same_v<T, double> || std::is_same_v<T, float>)
+                    {
+                        return Math::is_equal_approx(statValue, filterValue);
+                    }
+                    else
+                    {
+                        return statValue == filterValue;
+                    }
                 };
             case Is::NotEqual:
-                return [](double statValue, double filterValue) {
-                    return !Math::is_equal_approx(statValue, filterValue);
+                return [](T statValue, T filterValue) {
+                    if constexpr (std::is_same_v<T, double> || std::is_same_v<T, float>)
+                    {
+                        return !Math::is_equal_approx(statValue, filterValue);
+                    }
+                    else
+                    {
+                        return statValue != filterValue;
+                    }
                 };
             case Is::Lesser:
-                return [](double statValue, double filterValue) {
+                return [](T statValue, T filterValue) {
                     return statValue < filterValue;
                 };
             case Is::LesserOrEqual:
-                return [](double statValue, double filterValue) {
+                return [](T statValue, T filterValue) {
                     return statValue <= filterValue;
                 };
             case Is::Greater:
-                return [](double statValue, double filterValue) {
+                return [](T statValue, T filterValue) {
                     return statValue > filterValue;
                 };
             case Is::GreaterOrEqual:
-                return [](double statValue, double filterValue) {
+                return [](T statValue, T filterValue) {
                     return statValue >= filterValue;
                 };
             case Is::Present:
-                return [](double, double filterValue) {
-                    return !Math::is_zero_approx(filterValue);
+                return [](T, T filterValue) {
+                    if constexpr (std::is_same_v<T, double> || std::is_same_v<T, float>)
+                    {
+                        return !Math::is_zero_approx(filterValue);
+                    }
+                    else
+                    {
+                        return filterValue != 0;
+                    }
                 };
             default:
-                return [](double, double) {
+                return [](T, T) {
                     return false;
                 };
             }
@@ -87,13 +109,17 @@ namespace
 
         bool CheckStats(const D2::Data::Item& aItem) const
         {
-            if (auto l = aItem.m_stats.GetValue(static_cast<D2::Data::StatType>(m_statId.m_statId)); l.has_value())
+            if (auto l = aItem.m_stats.GetValue(m_statId.m_statId); l.has_value())
             {
                 return m_predicate(l.value(), m_filterValue);
             }
             if (m_is == Is::Present)
             {
-                return Math::is_zero_approx(m_filterValue);
+                if constexpr (std::is_same_v<T, double> || std::is_same_v<T, float>)
+                {
+                    return Math::is_zero_approx(m_filterValue);
+                }
+                return m_filterValue == 0;
             }
             return false;
         }
@@ -112,7 +138,7 @@ namespace
         }
 
     public:
-        Filter(StatId statId, Is is, double value)
+        Filter(StatId statId, Is is, T value)
             : m_statId(statId)
             , m_filterValue(value)
             , m_is(is)
@@ -120,12 +146,12 @@ namespace
         {
         }
 
-        static std::unique_ptr<IFilter> Create(StatId statId, uint32_t is, double value)
+        static std::unique_ptr<IFilter> Create(StatId statId, uint32_t is, T value)
         {
             return Create(statId, static_cast<Is>(is), value);
         }
 
-        static std::unique_ptr<IFilter> Create(StatId statId, Is is, double value)
+        static std::unique_ptr<IFilter> Create(StatId statId, Is is, T value)
         {
             return std::make_unique<Filter>(std::move(statId), is, value);
         }
@@ -157,7 +183,7 @@ namespace
             uint32_t statId = 0;
             uint32_t statType = 0;
             uint32_t is = 0;
-            double value = 0.0;
+            T value = {};
             aBr.Read(statId).Read(statType).Read(is).Read(value);
             return Filter::Create(StatId(statId, statType), is, value);
         }
@@ -228,7 +254,7 @@ namespace
     {
         if (aBr.Read<uint32_t>() == 0u)
         {
-            return Filter::Deserialize(aBr);
+            return Filter<uint32_t>::Deserialize(aBr);
         }
         return FilterGroup::Deserialize(aBr);
     }
@@ -340,7 +366,7 @@ void LootFilterModule::add_filter(Ref<FilterMetadata> metadata, Array filters)
     for (auto& v : filters)
     {
         Dictionary d = v;
-        subfilters.push_back(Filter::Create(StatId(d["stat_id"], d["stat_type"]), d["op"], d["value"]));
+        subfilters.push_back(Filter<uint32_t>::Create(StatId(d["stat_id"], d["stat_type"]), d["op"], d["value"]));
     }
 
     m_metaFilters.push_back(MetaFilter::Create(metadata, FilterGroup::AllOf(std::move(subfilters))));
@@ -365,18 +391,22 @@ Array LootFilterModule::get_filters() const
 
 Dictionary LootFilterModule::get_filter_categories() const
 {
-    Dictionary categories;
+    auto [count, ids] = D2::Data::GetStatIds();
 
-    Dictionary d1;
-    d1["stat_type"] = static_cast<int>(FilterType::Stat);
-    d1["stats"] = Array({"shit1", "shit2"});
-    categories["Cat1"] = d1;
-    Dictionary d2;
-    d2["stat_type"] = static_cast<int>(FilterType::Other);
-    d2["stats"] = Array({"shit3", "shit4"});
-    categories["Cat2"] = d2;
+    Dictionary stats;
+    for (auto i = 0; i < count; ++i)
+    {
+        Dictionary d;
+        d["stat_id"] = ids[i];
+        d["stat_type"] = static_cast<int>(FilterType::Stat);
+        stats[D2::Data::GetStatName(ids[i])] = std::move(d);
+    }
+    Dictionary d;
+    d["stat_id"] = 1;
+    d["stat_type"] = static_cast<int>(FilterType::Other);
+    stats["ItemLevel"] = std::move(d);
 
-    return categories;
+    return stats;
 }
 
 Array LootFilterModule::get_passing_loot() const
@@ -399,13 +429,14 @@ void MetaFilter::_bind_methods()
 {
     ClassDB::bind_method(D_METHOD("get_metadata"), &MetaFilter::get_metadata);
 
-    ClassDB::bind_integer_constant("MetaFilter", "Is", "EQUAL", static_cast<int>(Filter::Is::Equal));
-    ClassDB::bind_integer_constant("MetaFilter", "Is", "NOT_EQUAL", static_cast<int>(Filter::Is::NotEqual));
-    ClassDB::bind_integer_constant("MetaFilter", "Is", "LESSER", static_cast<int>(Filter::Is::Lesser));
-    ClassDB::bind_integer_constant("MetaFilter", "Is", "LESSER_OR_EQUAL", static_cast<int>(Filter::Is::LesserOrEqual));
-    ClassDB::bind_integer_constant("MetaFilter", "Is", "GREATER", static_cast<int>(Filter::Is::Greater));
-    ClassDB::bind_integer_constant("MetaFilter", "Is", "GREATER_OR_EQUAL", static_cast<int>(Filter::Is::GreaterOrEqual));
-    ClassDB::bind_integer_constant("MetaFilter", "Is", "PRESENT", static_cast<int>(Filter::Is::Present));
+    ClassDB::bind_integer_constant("MetaFilter", "Is", "EQUAL", static_cast<int>(Filter<uint32_t>::Is::Equal));
+    ClassDB::bind_integer_constant("MetaFilter", "Is", "NOT_EQUAL", static_cast<int>(Filter<uint32_t>::Is::NotEqual));
+    ClassDB::bind_integer_constant("MetaFilter", "Is", "LESSER", static_cast<int>(Filter<uint32_t>::Is::Lesser));
+    ClassDB::bind_integer_constant("MetaFilter", "Is", "LESSER_OR_EQUAL", static_cast<int>(Filter<uint32_t>::Is::LesserOrEqual));
+    ClassDB::bind_integer_constant("MetaFilter", "Is", "GREATER", static_cast<int>(Filter<uint32_t>::Is::Greater));
+    ClassDB::bind_integer_constant("MetaFilter", "Is", "GREATER_OR_EQUAL",
+                                   static_cast<int>(Filter<uint32_t>::Is::GreaterOrEqual));
+    ClassDB::bind_integer_constant("MetaFilter", "Is", "PRESENT", static_cast<int>(Filter<uint32_t>::Is::Present));
 
     ClassDB::bind_integer_constant("MetaFilter", "FilterType", "ATTRIBUTE", static_cast<int>(FilterType::Stat));
     ClassDB::bind_integer_constant("MetaFilter", "FilterType", "OTHER", static_cast<int>(FilterType::Other));

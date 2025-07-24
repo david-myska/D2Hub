@@ -60,8 +60,8 @@ Dictionary DeveloperModule::get_item_in_hand() const
 {
     for (const auto& [_, i] : m_data->GetItems().Get())
     {
-        UtilityFunctions::print("Item: {}, Location: {}, Pos: {}, {}", GetItemName(i->m_class), ToString(i->m_location).c_str(),
-                                i->m_pos.x, i->m_pos.y);
+        UtilityFunctions::print("Item: ", GetItemName(i->m_class), ", Location: ", ToString(i->m_location).c_str(),
+                                ", Pos: ", i->m_pos.x, ", ", i->m_pos.y);
     }
     if (!m_data)
     {
@@ -75,13 +75,12 @@ Dictionary DeveloperModule::get_item_in_hand() const
         res["item_class"] = item->m_class;
         res["name"] = GetItemName(item->m_class);
         Array stats;
-        for (const auto [statId, value] : item->m_stats.GetAll())
+        for (auto [statId, value] : item->m_stats.GetAll())
         {
             Dictionary stat;
-            stat["id"] = static_cast<uint32_t>(statId);
-            stat["name"] = GetStatName(static_cast<uint32_t>(statId));
+            stat["id"] = statId;
+            stat["name"] = GetStatName(statId);
             stat["value"] = value;
-            stat["categories"] = GetStatCategory(static_cast<uint32_t>(statId));
             stats.push_back(std::move(stat));
         }
         res["stats"] = std::move(stats);

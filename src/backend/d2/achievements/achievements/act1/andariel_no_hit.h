@@ -35,8 +35,8 @@ namespace D2::Achi::AndarielNoHit
             .Update(GE::Status::Active,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
                         aPD.m_andarielKilled = aS.GetDeadMonsters().contains(aPD.m_andarielId);
-                        auto currentLife = aDataAccess.GetPlayers().GetLocal()->m_stats.GetValue(Data::StatType::Life);
-                        auto previousLife = aDataAccess.GetPlayers(1).GetLocal()->m_stats.GetValue(Data::StatType::Life);
+                        auto currentLife = aDataAccess.GetPlayers().GetLocal()->m_stats.GetValue(Data::Stat::Id::Life);
+                        auto previousLife = aDataAccess.GetPlayers(1).GetLocal()->m_stats.GetValue(Data::Stat::Id::Life);
                         aPD.m_gotHit = currentLife < previousLife;
                     })
             .Build();
