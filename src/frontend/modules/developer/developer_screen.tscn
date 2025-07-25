@@ -97,10 +97,23 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="HBoxContainer/FixItems"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/FixItems"]
 layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/FixItems/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
 text = "Fix Items"
 horizontal_alignment = 1
+
+[node name="AutoRefreshBtn" type="CheckButton" parent="HBoxContainer/FixItems/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Auto-Refresh"
+
+[node name="AutoRefreshTimer" type="Timer" parent="HBoxContainer/FixItems/HBoxContainer2/AutoRefreshBtn"]
+unique_name_in_owner = true
+wait_time = 0.5
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/FixItems"]
 layout_mode = 2
@@ -146,6 +159,7 @@ size_flags_vertical = 3
 [node name="ItemList" type="VBoxContainer" parent="HBoxContainer/FixItems/ScrollContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="VSeparator2" type="VSeparator" parent="HBoxContainer"]
@@ -186,6 +200,8 @@ theme_override_constants/v_separation = 15
 [connection signal="pressed" from="HBoxContainer/GridContainer/LockPosBtn" to="." method="_on_lock_pos_btn_pressed"]
 [connection signal="pressed" from="HBoxContainer/GridContainer/RelativePosBtn" to="." method="_on_relative_pos_btn_pressed"]
 [connection signal="pressed" from="HBoxContainer/GridContainer/RelativePosBtn2" to="." method="_on_relative_pos_btn_2_pressed"]
+[connection signal="toggled" from="HBoxContainer/FixItems/HBoxContainer2/AutoRefreshBtn" to="." method="_on_auto_refresh_btn_toggled"]
+[connection signal="timeout" from="HBoxContainer/FixItems/HBoxContainer2/AutoRefreshBtn/AutoRefreshTimer" to="." method="_on_auto_refresh_timer_timeout"]
 [connection signal="pressed" from="HBoxContainer/FixItems/HBoxContainer/LoadGroundItemsBtn" to="." method="_on_load_ground_items_btn_pressed"]
 [connection signal="pressed" from="HBoxContainer/FixItems/HBoxContainer/LoadVendorItemsBtn" to="." method="_on_load_vendor_items_btn_pressed"]
 [connection signal="pressed" from="HBoxContainer/FixItems/HBoxContainer/LoadGambleItemsBtn" to="." method="_on_load_gamble_items_btn_pressed"]

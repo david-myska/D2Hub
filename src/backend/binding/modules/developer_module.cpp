@@ -63,6 +63,8 @@ Dictionary MakeItemDictionary(const D2::Data::Item& aItem)
     res["name"] = GetItemName(aItem.m_class);
     res["location"] = D2::Data::ToString(aItem.m_location).c_str();
     res["position"] = Vector2i(aItem.m_pos.x, aItem.m_pos.y);
+    res["quality"] = static_cast<uint32_t>(aItem.m_quality);
+    // res["quality_str"] = ToString(aItem.m_quality).c_str();
     Array stats;
     for (auto [statId, value] : aItem.m_stats.GetAll())
     {

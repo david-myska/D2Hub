@@ -34,6 +34,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 4
 placeholder_text = "(required)"
 alignment = 1
+select_all_on_focus = true
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
 layout_mode = 2

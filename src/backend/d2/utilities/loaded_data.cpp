@@ -81,11 +81,11 @@ namespace
         {
             throw std::runtime_error("Invalid item line format: " + std::string(aLine));
         }
-        auto itemName = aLine.substr(0, sep);
-        auto itemIdStr = aLine.substr(sep + 1);
+        auto itemIdStr = aLine.substr(0, sep);
+        auto itemName = aLine.substr(sep + 1);
         if (itemName.empty() || itemIdStr.empty())
         {
-            throw std::runtime_error(std::format("Fields cannot be empty: Name '{}', Id '{}'", itemName, itemIdStr));
+            throw std::runtime_error(std::format("Fields cannot be empty: Id '{}', Name '{}'", itemIdStr, itemName));
         }
         uint32_t itemId = 0;
         std::from_chars(itemIdStr.data(), itemIdStr.data() + itemIdStr.size(), itemId, 16);

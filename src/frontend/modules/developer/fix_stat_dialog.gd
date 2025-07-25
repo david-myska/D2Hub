@@ -12,6 +12,8 @@ func show_filled(stat_id : int, stat_name : String):
 	m_stat_id = stat_id
 	%NameLE.text = stat_name
 	show()
+	%NameLE.edit()
+	%NameLE.select_all()
 
 func validate():
 	%NameLabel.modulate = Color.RED if %NameLE.text.is_empty() else Color.WHITE

@@ -4,9 +4,11 @@ signal item_fix_requested()
 signal load_stats_requested()
 
 func from_item(item : Dictionary):
+	%ItemClass.text = "[%x]" % item["item_class"]
 	%ItemName.text = item["name"]
+	%ItemName.modulate = Utils.ItemColor(item)
 	%Location.text = item["location"]
-	%Position.text = "[%s]" % str(item["position"])
+	%Position.text = str(item["position"])
 
 
 func _on_fix_item_btn_pressed() -> void:

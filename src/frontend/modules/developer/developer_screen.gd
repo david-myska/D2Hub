@@ -22,15 +22,15 @@ func _ready():
 	)
 	$FixItemDialog.validated.connect(
 		func(item_class : int, item_name : String, tier : int, fix_other_tiers : bool):
-			if tier == 0:
+			if tier == 0: # Doesn't have tier -> Ring, Amulet, etc.
 				m_dev.save_custom_item(item_class, item_name)
 				return
 			if not fix_other_tiers:
 				m_dev.save_custom_item(item_class, "%s %s" % [item_name, tier_to_string(tier)])
 				return
-			var zero_tier_class : int = item_class - tier # Not having +1 here on purpose
+			var zeroed_tier : int = item_class - tier # Not having +1 here on purpose
 			for i in range(1, 6):
-				m_dev.save_custom_item(zero_tier_class + i, "%s %s" % [item_name, tier_to_string(tier)])
+				m_dev.save_custom_item(zeroed_tier + i, "%s %s" % [item_name, tier_to_string(i)])
 	)
 
 func _on_lock_pos_btn_pressed() -> void:
@@ -53,14 +53,6 @@ func _update_rel2(to_point : Vector2i):
 func _on_relative_pos_btn_2_pressed() -> void:
 	_update_rel2(m_dev.get_player_position())
 
-
-func _on_load_item_in_hand_btn_pressed() -> void:
-	var loaded_item := m_dev.get_item_in_hand()
-	if loaded_item.is_empty():
-		Backend.get_notifier().push(Notifier.WARNING, "No item in hand")
-		return
-	_refresh_items([loaded_item])
-
 func _refresh_item_stats(item : Dictionary):
 	for c in %ItemStatsFlow.get_children():
 		c.queue_free()
@@ -77,26 +69,52 @@ func open_fix_item_dialog(item : Dictionary):
 	$FixItemDialog.show_filled(item["item_class"], item["name"])
 
 func _refresh_items(items : Array):
-	for c in %ItemsFlow.get_children():
+	for c in %ItemList.get_children():
 		c.queue_free()
 	for item in items:
 		var fixable_item := preload("res://modules/developer/fixable_item.tscn").instantiate()
 		fixable_item.from_item(item)
 		fixable_item.item_fix_requested.connect(open_fix_item_dialog.bind(item))
 		fixable_item.load_stats_requested.connect(_refresh_item_stats.bind(item))
-		%ItemsFlow.add_child(fixable_item)
+		%ItemList.add_child(fixable_item)
+
+var m_last_pressed_fnc : Callable
+
+func _on_load_item_in_hand_btn_pressed() -> void:
+	var loaded_item := m_dev.get_item_in_hand()
+	if loaded_item.is_empty():
+		return
+	_refresh_items([loaded_item])
+	m_last_pressed_fnc = _on_load_item_in_hand_btn_pressed
+
 
 func _on_load_ground_items_btn_pressed() -> void:
 	_refresh_items(m_dev.get_items_from(5)) # 5 == Dropped
+	m_last_pressed_fnc = _on_load_ground_items_btn_pressed
 
 
 func _on_load_vendor_items_btn_pressed() -> void:
 	_refresh_items(m_dev.get_items_from(8)) # 8 == Vendor
+	m_last_pressed_fnc = _on_load_vendor_items_btn_pressed
 
 
 func _on_load_gamble_items_btn_pressed() -> void:
 	_refresh_items(m_dev.get_items_from(9)) # 9 == Gamble
+	m_last_pressed_fnc = _on_load_gamble_items_btn_pressed
 
 
 func _on_load_inventory_items_btn_pressed() -> void:
 	_refresh_items(m_dev.get_items_from(1)) # 1 == Inventory
+	m_last_pressed_fnc = _on_load_inventory_items_btn_pressed
+
+
+func _on_auto_refresh_timer_timeout() -> void:
+	if m_last_pressed_fnc:
+		m_last_pressed_fnc.call()
+
+
+func _on_auto_refresh_btn_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		%AutoRefreshTimer.start()
+	else:
+		%AutoRefreshTimer.stop()
