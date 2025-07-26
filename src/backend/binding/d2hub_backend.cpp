@@ -43,14 +43,33 @@ void D2HubBackend::Clear()
     m_targetProcessExistenceToken.reset();
 }
 
-// NOT WORKING PROPERLY
-std::string D2HubBackend::GetMedianXlVersion() const
+void D2HubBackend::StartMemoryProcessor()
 {
-    auto versionFile = m_targetProcess->GetInfo().executable.parent_path() / "medianxl-version.mpq";
-    std::array<char, 16> version = {0};
-    std::ifstream f(versionFile, std::ios::binary);
-    f.seekg(40).read(version.data(), 6);
-    return version.data();
+    if (m_memoryProcessor->IsRunning())
+    {
+        m_logger->warn("Memory processor is already running.");
+        return;
+    }
+
+    m_memoryProcessor->SetUpdateCallback(
+        [this](const GE::DataAccessor&) {
+            if (!CanUpdate())
+            {
+                return;
+            }
+            Update();
+        },
+        c_framesToKeep, 1000 / m_updatesPerSecond);
+
+    if (m_targetProcess->IsAttached())
+    {
+        m_logger->info("Starting memory processor: keep {} memory scans and scan {}x/second", c_framesToKeep, m_updatesPerSecond);
+        m_memoryProcessor->RequestStart(m_targetProcess->GetMemoryAccess());
+    }
+    else
+    {
+        m_logger->warn("Cannot start memory processor: TargetProcess is not attached.");
+    }
 }
 
 spdlog::level::level_enum D2HubBackend::ParseLogLevel()
@@ -78,6 +97,9 @@ std::shared_ptr<spdlog::logger> D2HubBackend::MakeLogger(const std::string& aNam
 
 void D2HubBackend::_bind_methods()
 {
+    ClassDB::bind_method(D_METHOD("set_update_rate", "updates_per_second"), &D2HubBackend::set_update_rate);
+    ClassDB::bind_method(D_METHOD("get_update_rate"), &D2HubBackend::get_update_rate);
+
     ClassDB::bind_method(D_METHOD("start_auto_attach"), &D2HubBackend::start_auto_attach);
     ClassDB::bind_method(D_METHOD("stop_auto_attach"), &D2HubBackend::stop_auto_attach);
     ClassDB::bind_method(D_METHOD("discover_target_process"), &D2HubBackend::discover_target_process);
@@ -165,6 +187,21 @@ Array D2HubBackend::get_modules() const
     return m_modules;
 }
 
+uint32_t D2HubBackend::get_update_rate()
+{
+    return m_updatesPerSecond;
+}
+
+void D2HubBackend::set_update_rate(uint32_t updates_per_second)
+{
+    if (updates_per_second == 0)
+    {
+        m_logger->warn("Update rate cannot be zero.");
+        return;
+    }
+    m_updatesPerSecond = updates_per_second;
+}
+
 void D2HubBackend::InitializeBackend()
 {
     m_logger->info("Initializing D2Hub backend");
@@ -176,10 +213,6 @@ void D2HubBackend::InitializeBackend()
     m_autoAttach = PMA::AutoAttach::Create(m_targetProcess, std::move(pmaLogger));
     m_targetProcessExistenceToken = m_targetProcess->OnExistenceChanged([this](bool aTargetProcessExists) {
         call_deferred("emit_signal", "target_process_exists", aTargetProcessExists);
-        if (aTargetProcessExists)
-        {
-            m_logger->info("MXL version: {}", GetMedianXlVersion());
-        }
     });
     m_targetProcessAttachmentToken = m_targetProcess->OnAttachmentChanged([this](bool aTargetProcessAttached) {
         call_deferred("emit_signal", "target_process_attached", aTargetProcessAttached);
@@ -220,14 +253,6 @@ void D2HubBackend::InitializeBackend()
             m_dataAccess.reset();
             m_sharedData.reset();
         });
-
-    m_memoryProcessor->SetUpdateCallback([this](const GE::DataAccessor&) {
-        if (!CanUpdate())
-        {
-            return;
-        }
-        Update();
-    });
 }
 
 void D2HubBackend::start_auto_attach()
@@ -268,14 +293,7 @@ void D2HubBackend::start_memory_processor()
                 m_targetProcess->Attach();
             }
         }
-        if (m_targetProcess->IsAttached())
-        {
-            m_memoryProcessor->RequestStart(m_targetProcess->GetMemoryAccess());
-        }
-        else
-        {
-            m_logger->warn("Cannot start memory processor: TargetProcess is not attached.");
-        }
+        StartMemoryProcessor();
     }
     catch (const std::exception& e)
     {

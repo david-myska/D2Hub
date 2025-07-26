@@ -11,6 +11,7 @@ const sec_overlay := "overlay"
 # Keys
 const key_skip_warning := "skip_warning"
 const key_auto_attach := "auto_attach"
+const key_updates_per_second := "updates_per_second"
 
 const key_saves_dir := "saves_directory"
 const key_auto_backup := "auto_backup"

@@ -26,6 +26,9 @@ namespace godot
         std::shared_ptr<spdlog::sinks::sink> m_commonFileSink;
         std::shared_ptr<spdlog::logger> m_logger;
 
+        const uint32_t c_framesToKeep = 2;
+        uint32_t m_updatesPerSecond = 2;
+
         PMA::TargetProcessPtr m_targetProcess;
         PMA::AutoAttachPtr m_autoAttach;
         GE::MemoryProcessorPtr m_memoryProcessor;
@@ -52,7 +55,8 @@ namespace godot
         bool CanUpdate() const;
         void Update();
         void Clear();
-        std::string GetMedianXlVersion() const;
+
+        void StartMemoryProcessor();
 
         static spdlog::level::level_enum ParseLogLevel();
         static std::shared_ptr<spdlog::sinks::sink> MakeLoggerSink();
@@ -73,6 +77,9 @@ namespace godot
         Ref<LootFilterModule> get_lootfilter_module();
         Ref<StatisticsModule> get_statistics_module();
         Array get_modules() const;
+
+        uint32_t get_update_rate();
+        void set_update_rate(uint32_t updates_per_second);
 
         void start_auto_attach();
         void stop_auto_attach();

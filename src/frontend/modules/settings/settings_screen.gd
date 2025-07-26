@@ -13,6 +13,9 @@ func _ready() -> void:
 	)
 	%AutoAttach.button_pressed = App.Config.Get(Cfg.sec_global, Cfg.key_auto_attach)
 	%SkipWarning.button_pressed = App.Config.Get(Cfg.sec_global, Cfg.key_skip_warning)
+	var update_rate : int = App.Config.Get(Cfg.sec_global, Cfg.key_updates_per_second)
+	%UpdateRateSB.value = update_rate
+	Backend.set_update_rate(update_rate)
 	
 	%SaveDirLineEdit.text_changed.connect(func(new_text):
 		Backend.get_backup_module().initialize(new_text)
@@ -59,3 +62,10 @@ func _on_overlay_edit_mode_btn_toggled(toggled_on: bool) -> void:
 
 func _on_enable_overlay_toggled(toggled_on: bool) -> void:
 	App.Config.Set(Cfg.sec_overlay, Cfg.key_overlay_enabled, toggled_on)
+
+
+func _on_update_rate_sb_value_changed(value: float) -> void:
+	@warning_ignore("narrowing_conversion")
+	var update_rate : int = value
+	App.Config.Set(Cfg.sec_global, Cfg.key_updates_per_second, update_rate)
+	Backend.set_update_rate(update_rate)
