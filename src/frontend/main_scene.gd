@@ -14,10 +14,6 @@ func _ready() -> void:
 	Backend.target_process_exists.connect(func(exists : bool):
 		%D2Discovered.text = "ON" if exists else "OFF"
 		%D2Discovered.modulate = Color.GREEN if exists else Color.RED
-		if exists:
-			discover_timer.stop()
-		else:
-			discover_timer.start()
 		_disable_backup(exists)
 	)
 	Backend.target_process_attached.connect(func(attached : bool):
@@ -29,29 +25,20 @@ func _ready() -> void:
 		%Processing.modulate = Color.GREEN if running else Color.RED
 	)
 	
-	var auto_attach : bool = App.Config.Get(Cfg.sec_global, Cfg.key_auto_attach)
-	if auto_attach:
+	if App.Config.Get(Cfg.sec_global, Cfg.key_auto_attach):
 		%ManualStart.hide()
-		Backend.start_auto_attach()
+		Backend.enable_auto_attach(true)
 	
-	App.Config.changed.connect(func(sec : String, key : String):
-		if sec == Cfg.sec_global and key == Cfg.key_auto_attach:
-			if App.Config.Get(Cfg.sec_global, Cfg.key_auto_attach):
-				%ManualStart.hide()
-				Backend.start_auto_attach()
-			else:
-				%ManualStart.show()
-				Backend.stop_auto_attach()
+	Backend.get_backup_module().enable_auto_backup(App.Config.Get(Cfg.sec_backup, Cfg.key_auto_backup))
+	App.Config.changed.connect(func(sec : String, key : String, v : Variant):
+		if sec == Cfg.sec_backup and key == Cfg.key_auto_backup:
+			Backend.get_backup_module().enable_auto_backup(v)
 	)
 	
-	var auto_backup : bool = App.Config.Get(Cfg.sec_backup, Cfg.key_auto_backup)
-	if auto_backup:
-		Backend.get_backup_module().enable_auto_backup(true)
-	
-	App.Config.changed.connect(func(sec : String, key : String):
-		if sec == Cfg.sec_backup and key == Cfg.key_auto_backup:
-			Backend.get_backup_module().enable_auto_backup(
-				App.Config.Get(Cfg.sec_backup, Cfg.key_auto_backup))
+	$Overlay.visible = App.Config.Get(Cfg.sec_overlay, Cfg.key_overlay_enabled)
+	App.Config.changed.connect(func(sec : String, key : String, v : Variant):
+		if sec == Cfg.sec_overlay and key == Cfg.key_overlay_enabled:
+			$Overlay.enable(v)
 	)
 	
 	%Settings.fix_overlay.connect($Overlay.fill)
@@ -66,6 +53,7 @@ func _on_discover_timer_timeout() -> void:
 	Backend.discover_target_process()
 	$Overlay.fill(Backend.get_target_rect())
 	Backend.fucking_flush()
+	Backend.get_notifier().push(Notifier.WARNING, "Testing overlay: %s" % randi())
 
 
 func _on_manual_start_pressed() -> void:
@@ -94,7 +82,6 @@ func _on_backup_option_pressed() -> void:
 func _on_load_backup_btn_pressed() -> void:
 	if %BackupOption.selected < 0:
 		return
-	print(%BackupOption.get_item_text(%BackupOption.selected))
 	Backend.get_backup_module().recover_from_backup(%BackupOption.get_item_text(%BackupOption.selected))
 
 

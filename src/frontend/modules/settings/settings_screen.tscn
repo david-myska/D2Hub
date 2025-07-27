@@ -36,7 +36,7 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Automatically tries to detect and attach to the Diablo II game instance"
-text = "Auto-Attach"
+text = "* Auto-Attach"
 
 [node name="SkipWarning" type="CheckButton" parent="HBoxContainer/Left/General/VBoxContainer"]
 unique_name_in_owner = true
@@ -54,7 +54,7 @@ Lower this settings if you experience sudden crashes."
 [node name="Label" type="Label" parent="HBoxContainer/Left/General/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Memory scanning rate"
+text = "  * Memory scanning rate"
 
 [node name="UpdateRateSB" type="SpinBox" parent="HBoxContainer/Left/General/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
@@ -109,6 +109,25 @@ layout_mode = 2
 size_flags_horizontal = 4
 text = "Remove All Backups"
 
+[node name="Control" type="Control" parent="HBoxContainer/Left"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/Left"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/Left/PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/Left/PanelContainer/HBoxContainer"]
+layout_mode = 2
+text = "* These settings require D2Hub restart to take effect."
+
+[node name="RestartBtn" type="Button" parent="HBoxContainer/Left/PanelContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Restart"
+
 [node name="Right" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -126,6 +145,11 @@ text = "Overlay"
 [node name="HSeparator" type="HSeparator" parent="HBoxContainer/Right/Overlay/VBoxContainer"]
 layout_mode = 2
 
+[node name="Label2" type="Label" parent="HBoxContainer/Right/Overlay/VBoxContainer"]
+modulate = Color(1, 0.337255, 0, 1)
+layout_mode = 2
+text = "Overlay is visible only when the game is in windowed mode. (windowed fullscreen is fine)"
+
 [node name="EnableOverlay" type="CheckButton" parent="HBoxContainer/Right/Overlay/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -133,6 +157,7 @@ text = "Enable"
 
 [node name="FixOverlayPositionBtn" type="Button" parent="HBoxContainer/Right/Overlay/VBoxContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 text = "Fix Position & Size"
 
@@ -164,13 +189,11 @@ layout_mode = 2
 bbcode_enabled = true
 text = "Utility app extending game's capability in non-intrusive way.
 
+Supported Median-XL versions:
+Sigma 2.11.x
+[ Earlier versions were not tested, but it might still work ]
 
-
-Versions: TODO get them dynamically
-
-[url=https://github.com/david-myska/D2MXL-Enhanced]D2MXL-Enhanced[/url]: v0.3
-[url=https://github.com/david-myska/GameEnhancer]GameExtenderLib[/url]: v0.8
-[url=https://github.com/david-myska/ProcessMemoryAccess]ProcessMemoryAccessLib[/url]: v0.5"
+[url=https://github.com/david-myska/D2MXL-Enhanced]D2Hub[/url]: v0.8 (beta)"
 fit_content = true
 
 [node name="HSeparator2" type="HSeparator" parent="HBoxContainer/Right/About/VBoxContainer"]
@@ -191,6 +214,7 @@ access = 2
 [connection signal="pressed" from="HBoxContainer/Left/Backup/VBoxContainer/HBoxContainer/OpenSaveDirDialogBtn" to="." method="_on_open_save_dir_dialog_btn_pressed"]
 [connection signal="toggled" from="HBoxContainer/Left/Backup/VBoxContainer/AutoBackup" to="." method="_on_auto_backup_toggled"]
 [connection signal="pressed" from="HBoxContainer/Left/Backup/VBoxContainer/RemoveAllBackups" to="." method="_on_remove_all_backups_pressed"]
+[connection signal="pressed" from="HBoxContainer/Left/PanelContainer/HBoxContainer/RestartBtn" to="." method="_on_restart_btn_pressed"]
 [connection signal="toggled" from="HBoxContainer/Right/Overlay/VBoxContainer/EnableOverlay" to="." method="_on_enable_overlay_toggled"]
 [connection signal="pressed" from="HBoxContainer/Right/Overlay/VBoxContainer/FixOverlayPositionBtn" to="." method="_on_fix_overlay_position_btn_pressed"]
 [connection signal="toggled" from="HBoxContainer/Right/Overlay/VBoxContainer/OverlayEditModeBtn" to="." method="_on_overlay_edit_mode_btn_toggled"]

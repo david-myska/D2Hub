@@ -62,10 +62,14 @@ func _on_overlay_edit_mode_btn_toggled(toggled_on: bool) -> void:
 
 func _on_enable_overlay_toggled(toggled_on: bool) -> void:
 	App.Config.Set(Cfg.sec_overlay, Cfg.key_overlay_enabled, toggled_on)
+	%OverlayEditModeBtn.button_pressed = false
+	%OverlayEditModeBtn.disabled = not toggled_on
 
 
 func _on_update_rate_sb_value_changed(value: float) -> void:
-	@warning_ignore("narrowing_conversion")
-	var update_rate : int = value
-	App.Config.Set(Cfg.sec_global, Cfg.key_updates_per_second, update_rate)
-	Backend.set_update_rate(update_rate)
+	App.Config.Set(Cfg.sec_global, Cfg.key_updates_per_second, int(value))
+
+
+func _on_restart_btn_pressed() -> void:
+	OS.set_restart_on_exit(true, OS.get_cmdline_args())
+	get_tree().quit()

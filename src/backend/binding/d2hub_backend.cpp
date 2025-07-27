@@ -100,6 +100,8 @@ void D2HubBackend::_bind_methods()
     ClassDB::bind_method(D_METHOD("set_update_rate", "updates_per_second"), &D2HubBackend::set_update_rate);
     ClassDB::bind_method(D_METHOD("get_update_rate"), &D2HubBackend::get_update_rate);
 
+    ClassDB::bind_method(D_METHOD("enable_auto_attach", "enable"), &D2HubBackend::enable_auto_attach);
+
     ClassDB::bind_method(D_METHOD("start_auto_attach"), &D2HubBackend::start_auto_attach);
     ClassDB::bind_method(D_METHOD("stop_auto_attach"), &D2HubBackend::stop_auto_attach);
     ClassDB::bind_method(D_METHOD("discover_target_process"), &D2HubBackend::discover_target_process);
@@ -202,6 +204,32 @@ void D2HubBackend::set_update_rate(uint32_t updates_per_second)
     m_updatesPerSecond = updates_per_second;
 }
 
+void D2HubBackend::enable_auto_attach(bool enable)
+{
+    if (enable)
+    {
+        m_startOnAttachedToken = m_targetProcess->OnAttachmentChanged([this](bool aAttached) {
+            if (aAttached)
+            {
+                StartMemoryProcessor();
+            }
+            else
+            {
+                m_memoryProcessor->RequestStop();
+            }
+        });
+
+        m_logger->info("Enabling auto-attach to target process");
+        start_auto_attach();
+    }
+    else
+    {
+        m_startOnAttachedToken.reset();
+        m_logger->info("Disabling auto-attach to target process");
+        stop_auto_attach();
+    }
+}
+
 void D2HubBackend::InitializeBackend()
 {
     m_logger->info("Initializing D2Hub backend");
@@ -221,17 +249,6 @@ void D2HubBackend::InitializeBackend()
     m_memoryProcessorRunningToken = m_memoryProcessor->OnRunningChanged([this](bool aRunning) {
         call_deferred("emit_signal", "memory_processor_running", aRunning);
     });
-    // TODO only set this callback when autoattach is used, causes crashes when manually attaching to a process
-    // m_startOnAttachedToken = m_targetProcess->OnAttachmentChanged([this](bool aAttached) {
-    //    if (aAttached)
-    //    {
-    //        m_memoryProcessor->RequestStart(m_targetProcess->GetMemoryAccess());
-    //    }
-    //    else
-    //    {
-    //        m_memoryProcessor->RequestStop();
-    //    }
-    //});
 
     D2::RegisterLayouts(*m_memoryProcessor);
     D2::SetupCallbacks(

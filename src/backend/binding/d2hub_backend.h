@@ -81,6 +81,8 @@ namespace godot
         uint32_t get_update_rate();
         void set_update_rate(uint32_t updates_per_second);
 
+        void enable_auto_attach(bool enable);
+
         void start_auto_attach();
         void stop_auto_attach();
         void discover_target_process();
