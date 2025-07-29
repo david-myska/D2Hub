@@ -35,6 +35,7 @@ set(SOURCE_FILES
 				"binding/modules/backup_module.cpp"
 				"binding/modules/developer_module.cpp"
 				"binding/modules/lootfilter_module.cpp"
+				"binding/modules/statistics_module.cpp"
 				"binding/notifier.cpp"
 				"binding/d2hub_backend.cpp"
 				"binding/register_types.cpp"
