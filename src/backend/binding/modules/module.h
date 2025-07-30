@@ -3,8 +3,8 @@
 #include <filesystem>
 
 #include "binding/notifier.h"
-#include "spdlog/spdlog.h"
 #include "d2/utilities/data.h"
+#include "spdlog/spdlog.h"
 
 #include <godot_cpp/classes/ref_counted.hpp>
 
@@ -37,7 +37,7 @@ namespace godot
 
         void SetUserDir(const std::filesystem::path& aRelative);
 
-        virtual void UpdateInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData) = 0;
+        virtual void UpdateInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData);
 
     public:
         void Update(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData);

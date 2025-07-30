@@ -25,6 +25,7 @@ void D2HubBackend::Update()
         m_sharedData->Update();
         m_achievementsModule->Update(*m_dataAccess, *m_sharedData);
         m_lootfilterModule->Update(*m_dataAccess, *m_sharedData);
+        m_statisticsModule->Update(*m_dataAccess, *m_sharedData);
     }
     catch (const std::exception& e)
     {
@@ -90,6 +91,7 @@ void D2HubBackend::_bind_methods()
     ClassDB::bind_method(D_METHOD("get_backup_module"), &D2HubBackend::get_backup_module);
     ClassDB::bind_method(D_METHOD("get_developer_module"), &D2HubBackend::get_developer_module);
     ClassDB::bind_method(D_METHOD("get_lootfilter_module"), &D2HubBackend::get_lootfilter_module);
+    ClassDB::bind_method(D_METHOD("get_statistics_module"), &D2HubBackend::get_statistics_module);
     ClassDB::bind_method(D_METHOD("get_modules"), &D2HubBackend::get_modules);
 
     ClassDB::bind_method(D_METHOD("get_target_rect"), &D2HubBackend::get_target_rect);
@@ -111,7 +113,8 @@ D2HubBackend::D2HubBackend()
     , m_backupModule(BackupModule::Create(MakeLogger("backup_module"), m_notifier))
     , m_developerModule(DeveloperModule::Create(MakeLogger("developer_module"), m_notifier))
     , m_lootfilterModule(LootFilterModule::Create(MakeLogger("lootfilter_module"), m_notifier))
-    , m_modules({m_achievementsModule, m_backupModule, m_developerModule, m_lootfilterModule})
+    , m_statisticsModule(StatisticsModule::Create(MakeLogger("statistics_module"), m_notifier))
+    , m_modules({m_achievementsModule, m_backupModule, m_developerModule, m_lootfilterModule, m_statisticsModule})
 {
     D2::Data::LoadStats();
     D2::Data::LoadItems();
@@ -150,6 +153,11 @@ Ref<DeveloperModule> D2HubBackend::get_developer_module()
 Ref<LootFilterModule> D2HubBackend::get_lootfilter_module()
 {
     return m_lootfilterModule;
+}
+
+Ref<StatisticsModule> D2HubBackend::get_statistics_module()
+{
+    return m_statisticsModule;
 }
 
 Array D2HubBackend::get_modules() const

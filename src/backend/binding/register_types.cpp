@@ -26,6 +26,7 @@ void initialize_backend_module(ModuleInitializationLevel p_level)
     GDREGISTER_RUNTIME_CLASS(FilterMetadata);
     GDREGISTER_RUNTIME_CLASS(MetaFilter);
     GDREGISTER_RUNTIME_CLASS(LootFilterModule);
+    GDREGISTER_RUNTIME_CLASS(StatisticsModule);
     GDREGISTER_RUNTIME_CLASS(D2HubBackend);
 }
 

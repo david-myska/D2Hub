@@ -27,13 +27,33 @@ void Module::SetUserDir(const std::filesystem::path& aRelative)
     std::filesystem::create_directories(m_moduleUserDir);
 }
 
+void Module::UpdateInternal(const D2::Data::DataAccess&, const D2::Data::SharedData&)
+{
+    throw std::runtime_error(std::format("UpdateInternal not implemented for module: ", m_name));
+}
+
 void Module::Update(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData)
 {
     if (m_disabled_manually || m_disabled_programatically)
     {
         return;
     }
-    UpdateInternal(aDataAccess, aSharedData);
+    try
+    {
+        UpdateInternal(aDataAccess, aSharedData);
+    }
+    catch (const std::exception& e)
+    {
+        auto msg = std::format("Error updating module '{}': {}", m_name, e.what());
+        m_logger->error(msg);
+        m_notifier->Push(Notifier::NotificationType::Error, msg);
+    }
+    catch (...)
+    {
+        auto msg = std::format("Unknown error updating module '{}'", m_name);
+        m_logger->error(msg);
+        m_notifier->Push(Notifier::NotificationType::Error, msg);
+    }
 }
 
 bool Module::can_be_disabled_manually()

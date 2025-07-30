@@ -1,0 +1,114 @@
+[gd_scene load_steps=2 format=3 uid="uid://cwqls6dvtnjfm"]
+
+[ext_resource type="Script" uid="uid://85mp2uj0xjuk" path="res://modules/statistics/statistics_screen.gd" id="1_m5tfb"]
+
+[node name="StatisticsScreen" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_m5tfb")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="Exp" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ExpLabel" type="Label" parent="CenterContainer/VBoxContainer/Exp"]
+layout_mode = 2
+text = "Experience:"
+
+[node name="ExpPer" type="Label" parent="CenterContainer/VBoxContainer/Exp"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1000 /2min"
+
+[node name="ExpTotal" type="Label" parent="CenterContainer/VBoxContainer/Exp"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "(10000)"
+
+[node name="Items" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ItemsLabel" type="Label" parent="CenterContainer/VBoxContainer/Items"]
+layout_mode = 2
+text = "Items:"
+
+[node name="ItemsPer" type="Label" parent="CenterContainer/VBoxContainer/Items"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1000 /2min"
+
+[node name="ItemsTotal" type="Label" parent="CenterContainer/VBoxContainer/Items"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "(10000)"
+
+[node name="Rares" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="RaresLabel" type="Label" parent="CenterContainer/VBoxContainer/Rares"]
+modulate = Color(1, 1, 0, 1)
+layout_mode = 2
+text = "Rares:"
+
+[node name="RaresPer" type="Label" parent="CenterContainer/VBoxContainer/Rares"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1000 /2min"
+
+[node name="RaresTotal" type="Label" parent="CenterContainer/VBoxContainer/Rares"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "(10000)"
+
+[node name="Sets" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SetsLabel" type="Label" parent="CenterContainer/VBoxContainer/Sets"]
+modulate = Color(0, 1, 0, 1)
+layout_mode = 2
+text = "Sets:"
+
+[node name="SetsPer" type="Label" parent="CenterContainer/VBoxContainer/Sets"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1000 /2min"
+
+[node name="SetsTotal" type="Label" parent="CenterContainer/VBoxContainer/Sets"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "(10000)"
+
+[node name="Uniques" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="UniquesLabel" type="Label" parent="CenterContainer/VBoxContainer/Uniques"]
+modulate = Color(0.839216, 0.752941, 0, 1)
+layout_mode = 2
+text = "Uniques:"
+
+[node name="UniquesPer" type="Label" parent="CenterContainer/VBoxContainer/Uniques"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1000 /2min"
+
+[node name="UniquesTotal" type="Label" parent="CenterContainer/VBoxContainer/Uniques"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "(10000)"
+
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Reset"
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]

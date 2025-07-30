@@ -5,6 +5,8 @@
 #include <memory>
 #include <ranges>
 
+#include "statistics_module.h"
+
 #include <godot_cpp/classes/project_settings.hpp>
 #include <godot_cpp/core/class_db.hpp>
 
@@ -55,7 +57,8 @@ void StatisticsModule::UpdateInternal(const D2::Data::DataAccess& aDataAccess, c
 
 void StatisticsModule::_bind_methods()
 {
-    ClassDB::bind_method(D_METHOD("get_statistics", "p_metadata", "p_filters"), &StatisticsModule::get_statistics);
+    ClassDB::bind_method(D_METHOD("get_statistics"), &StatisticsModule::get_statistics);
+    ClassDB::bind_method(D_METHOD("reset"), &StatisticsModule::reset);
 
     ADD_SIGNAL(MethodInfo("statistics_changed"));
 }
@@ -67,26 +70,40 @@ Ref<StatisticsModule> StatisticsModule::Create(std::shared_ptr<spdlog::logger> a
     module->m_notifier = std::move(aNotifier);
     module->m_name = "Statistics";
     module->SetUserDir("statistics");
-    module->m_exp = std::make_unique<TimedOccurence<uint32_t>>(std::chrono::minutes(1), std::chrono::minutes(2));
-    module->m_items = std::make_unique<TimedOccurence<uint32_t>>(std::chrono::minutes(1), std::chrono::minutes(2));
-    module->m_rareItems = std::make_unique<TimedOccurence<uint32_t>>(std::chrono::minutes(1), std::chrono::minutes(2));
-    module->m_setItems = std::make_unique<TimedOccurence<uint32_t>>(std::chrono::minutes(1), std::chrono::minutes(2));
-    module->m_uniqueItems = std::make_unique<TimedOccurence<uint32_t>>(std::chrono::minutes(1), std::chrono::minutes(2));
+    module->reset();
     return module;
 }
 
 Dictionary StatisticsModule::get_statistics() const
 {
-    return {"exp_total",    m_totalExp,
-            "items_total",  m_totalItems,
-            "rare_total",   m_totalRareItems,
-            "set_total",    m_totalSetItems,
-            "unique_total", m_totalUniqueItems,
-            "exp_per",      m_exp->GetAbsoluteValue(),
-            "items_per",    m_items->GetSummedValue(),
-            "rare_per",     m_rareItems->GetSummedValue(),
-            "set_per",      m_setItems->GetSummedValue(),
-            "unique_per",   m_uniqueItems->GetSummedValue()};
+    Dictionary d;
+    d["exp_total"] = m_totalExp;
+    d["items_total"] = m_totalItems;
+    d["rare_total"] = m_totalRareItems;
+    d["set_total"] = m_totalSetItems;
+    d["unique_total"] = m_totalUniqueItems;
+    d["exp_per"] = m_exp->GetAbsoluteValue();
+    d["items_per"] = m_items->GetSummedValue();
+    d["rare_per"] = m_rareItems->GetSummedValue();
+    d["set_per"] = m_setItems->GetSummedValue();
+    d["unique_per"] = m_uniqueItems->GetSummedValue();
+    return d;
+}
+
+void StatisticsModule::reset()
+{
+    m_exp = std::make_unique<TimedOccurence<uint32_t>>(std::chrono::minutes(1), std::chrono::minutes(2));
+    m_initialExp = 0;
+    m_totalExp = 0;
+    m_items = std::make_unique<TimedOccurence<uint32_t>>(std::chrono::minutes(1), std::chrono::minutes(2));
+    m_totalItems = 0;
+    m_rareItems = std::make_unique<TimedOccurence<uint32_t>>(std::chrono::minutes(1), std::chrono::minutes(2));
+    m_totalRareItems = 0;
+    m_setItems = std::make_unique<TimedOccurence<uint32_t>>(std::chrono::minutes(1), std::chrono::minutes(2));
+    m_totalSetItems = 0;
+    m_uniqueItems = std::make_unique<TimedOccurence<uint32_t>>(std::chrono::minutes(1), std::chrono::minutes(2));
+    m_totalUniqueItems = 0;
+    call_deferred("emit_signal", "statistics_changed");
 }
 
 void StatisticsData::_bind_methods() {}

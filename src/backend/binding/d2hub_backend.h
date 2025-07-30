@@ -8,6 +8,7 @@
 #include "modules/backup_module.h"
 #include "modules/developer_module.h"
 #include "modules/lootfilter_module.h"
+#include "modules/statistics_module.h"
 #include "pma/utility/auto_attach.h"
 #include "spdlog/spdlog.h"
 
@@ -43,6 +44,7 @@ namespace godot
         Ref<BackupModule> m_backupModule;
         Ref<DeveloperModule> m_developerModule;
         Ref<LootFilterModule> m_lootfilterModule;
+        Ref<StatisticsModule> m_statisticsModule;
 
         Array m_modules;
 
@@ -69,6 +71,7 @@ namespace godot
         Ref<BackupModule> get_backup_module();
         Ref<DeveloperModule> get_developer_module();
         Ref<LootFilterModule> get_lootfilter_module();
+        Ref<StatisticsModule> get_statistics_module();
         Array get_modules() const;
 
         void start_auto_attach();

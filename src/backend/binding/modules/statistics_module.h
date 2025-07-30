@@ -12,12 +12,8 @@ namespace godot
 {
     template <typename T>
     concept Summable = requires(T a, T b) {
-        {
-            a -= b
-        } -> std::convertible_to<T>;
-        {
-            a += b
-        } -> std::convertible_to<T>;
+        { a -= b } -> std::convertible_to<T>;
+        { a += b } -> std::convertible_to<T>;
     };
 
     template <typename T>
@@ -67,14 +63,14 @@ namespace godot
             {
                 return;
             }
-            auto newBasePoint = now - m_baseInterval;
-            while (m_baseIntervalIterator != m_occurences.end() && m_baseValueIterator->m_time < newBasePoint)
+            auto newBasePoint = aNow - m_baseInterval;
+            while (m_baseIntervalIterator != m_occurences.end() && m_baseIntervalIterator->m_time < newBasePoint)
             {
                 m_summedValue -= m_baseIntervalIterator->m_value;
-                m_baseValueIterator++;
+                m_baseIntervalIterator++;
             }
 
-            auto newMinPoint = now - m_maxInterval;
+            auto newMinPoint = aNow - m_maxInterval;
             while (!m_occurences.empty() && m_occurences.front().m_time < newMinPoint)
             {
                 m_occurences.pop_front();
@@ -195,5 +191,6 @@ namespace godot
         static Ref<StatisticsModule> Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier);
 
         Dictionary get_statistics() const;
+        void reset();
     };
 }
