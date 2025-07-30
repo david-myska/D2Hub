@@ -103,6 +103,8 @@ namespace godot
         std::vector<Ref<MetaFilter>> m_metaFilters;
         std::map<D2::Data::GUID, const D2::Data::Item*> m_passingItems;
 
+        void UpdateInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData) override;
+
     protected:
         static void _bind_methods();
 
@@ -111,8 +113,6 @@ namespace godot
 
         void Save() const;
         void Load();
-
-        void Update(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData);
 
         void add_filter(Ref<FilterMetadata> metadata, Array filters);
         void remove_filter(int index);

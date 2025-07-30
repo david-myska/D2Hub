@@ -18,6 +18,8 @@ namespace godot
 
         void DoBackup(const std::optional<std::string>& aBackupName = {}, bool aAppendTimestamp = false);
 
+        void UpdateInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData) override {}
+
     protected:
         static void _bind_methods();
 

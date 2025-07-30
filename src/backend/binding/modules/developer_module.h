@@ -14,6 +14,8 @@ namespace godot
         std::shared_ptr<D2::Data::DataAccess> m_data;
         std::shared_ptr<D2::Data::SharedData> m_shared;
 
+        void UpdateInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData) override {}
+
     protected:
         static void _bind_methods();
 

@@ -126,7 +126,7 @@ int Achievement::get_status() const
     return static_cast<int>(m_status);
 }
 
-void AchievementsModule::Update(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData)
+void AchievementsModule::UpdateInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData)
 {
     if (!m_achievementManager)
     {

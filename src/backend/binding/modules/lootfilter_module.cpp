@@ -263,7 +263,7 @@ namespace
     }
 }
 
-void LootFilterModule::Update(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData)
+void LootFilterModule::UpdateInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData)
 {
     auto itemsOfInterest = aDataAccess.GetItems().GetAt(ItemLocation::Dropped) +
                            aDataAccess.GetItems().GetAt(ItemLocation::Vendor) +

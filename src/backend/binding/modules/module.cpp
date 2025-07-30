@@ -27,6 +27,15 @@ void Module::SetUserDir(const std::filesystem::path& aRelative)
     std::filesystem::create_directories(m_moduleUserDir);
 }
 
+void Module::Update(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData)
+{
+    if (m_disabled_manually || m_disabled_programatically)
+    {
+        return;
+    }
+    UpdateInternal(aDataAccess, aSharedData);
+}
+
 bool Module::can_be_disabled_manually()
 {
     return m_canBeDisabledManually;

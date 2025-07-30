@@ -58,13 +58,14 @@ namespace godot
         std::unique_ptr<GE::AchievementManager<D2::D2Achi::element_type>> m_achievementManager;
         Array m_achievements;
 
+        void UpdateInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData) override;
+
     protected:
         static void _bind_methods();
 
     public:
         static Ref<AchievementsModule> Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier);
 
-        void Update(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData);
         void LoadAchievements(std::optional<std::string> aId = {}, bool aActivate = true);
         void SaveAchievements(const std::string& aId);
 

@@ -4,6 +4,7 @@
 
 #include "binding/notifier.h"
 #include "spdlog/spdlog.h"
+#include "d2/utilities/data.h"
 
 #include <godot_cpp/classes/ref_counted.hpp>
 
@@ -36,7 +37,11 @@ namespace godot
 
         void SetUserDir(const std::filesystem::path& aRelative);
 
+        virtual void UpdateInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData) = 0;
+
     public:
+        void Update(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData);
+
         bool can_be_disabled_manually();
         void disable_manually(bool aDisable);
         void disable_programatically(bool aDisable, String aReason = "");
