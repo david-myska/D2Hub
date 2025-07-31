@@ -14,6 +14,7 @@ void Module::_bind_methods()
     ClassDB::bind_method(D_METHOD("get_name"), &Module::get_name);
 
     ClassDB::bind_integer_constant("Module", "Status", "ENABLED", static_cast<int>(ModuleStatus::Enabled));
+    ClassDB::bind_integer_constant("Module", "Status", "RUNNING", static_cast<int>(ModuleStatus::Running));
     ClassDB::bind_integer_constant("Module", "Status", "DISABLED", static_cast<int>(ModuleStatus::Disabled));
     ClassDB::bind_integer_constant("Module", "Status", "MANUALLY_DISABLED", static_cast<int>(ModuleStatus::ManuallyDisabled));
 
@@ -25,6 +26,15 @@ void Module::SetUserDir(const std::filesystem::path& aRelative)
     m_moduleUserDir = ProjectSettings::get_singleton()->globalize_path("user://").utf8().get_data();
     m_moduleUserDir /= aRelative;
     std::filesystem::create_directories(m_moduleUserDir);
+}
+
+void Module::ResolveStatus()
+{
+    using enum ModuleStatus;
+    auto originalStatus = m_status;
+    m_status = m_disabledManually ? ManuallyDisabled : m_disabledProgramatically ? Disabled : Enabled;
+    String reason = m_disabledManually ? "Manually disabled" : m_disabledProgramatically ? m_disableReason : "";
+    call_deferred("emit_signal", "status_changed", static_cast<int>(m_status), reason);
 }
 
 void Module::InitializeInternal(const D2::Data::DataAccess&, const D2::Data::SharedData&)
@@ -90,7 +100,18 @@ void Module::Update(const D2::Data::DataAccess& aDataAccess, const D2::Data::Sha
 {
     if (m_disabledManually || m_disabledProgramatically)
     {
+        if (m_status == ModuleStatus::Running)
+        {
+            Uninitialize();
+            m_status = ModuleStatus::Disabled;
+            m_logger->info("Module '{}' disabled", m_name);
+        }
         return;
+    }
+    if (m_status == ModuleStatus::Enabled)
+    {
+        Initialize(aDataAccess, aSharedData);
+        m_status = ModuleStatus::Running;
     }
     try
     {
@@ -117,34 +138,33 @@ bool Module::can_be_disabled_manually()
 
 void Module::disable_manually(bool aDisable)
 {
+    if (m_disabledManually == aDisable)
+    {
+        m_logger->info("Module '{}' already {} manually", m_name, aDisable ? "disabled" : "enabled");
+        return;
+    }
     m_disabledManually = aDisable;
-    String manualReason = aDisable ? "Disabled manually" : "";
     m_logger->info("Module '{}' {} manually", m_name, aDisable ? "disabled" : "enabled");
-    auto status = get_status();
-    call_deferred("emit_signal", "status_changed", status,
-                  status == static_cast<int>(ModuleStatus::Disabled) ? m_disableReason : manualReason);
+    ResolveStatus();
 }
 
 void Module::disable_programatically(bool aDisable, String aReason)
 {
-    m_disabledProgramatically = aDisable;
     m_disableReason = std::move(aReason);
-    m_logger->info("Module '{}' {} programmatically: {}", m_name, aDisable ? "disabled" : "enabled",
-                   m_disableReason.utf8().get_data());
-    auto status = get_status();
-    if (status == static_cast<int>(ModuleStatus::ManuallyDisabled))
+    if (m_disabledProgramatically == aDisable)
     {
-        m_logger->info("Module '{}' is manually disabled, ignoring programmatic disable request.", m_name);
+        m_logger->info("Module '{}' already {} programmatically", m_name, aDisable ? "disabled" : "enabled");
         return;
     }
-    call_deferred("emit_signal", "status_changed", status, m_disableReason);
+    m_disabledProgramatically = aDisable;
+    m_logger->info("Module '{}' {} programmatically: {}", m_name, aDisable ? "disabled" : "enabled",
+                   m_disableReason.utf8().get_data());
+    ResolveStatus();
 }
 
 int Module::get_status() const
 {
-    return static_cast<int>(m_disabledManually        ? ModuleStatus::ManuallyDisabled :
-                            m_disabledProgramatically ? ModuleStatus::Disabled :
-                                                        ModuleStatus::Enabled);
+    return static_cast<int>(m_status);
 }
 
 String Module::get_name() const

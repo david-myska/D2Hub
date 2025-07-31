@@ -13,6 +13,8 @@ namespace godot
     enum class ModuleStatus
     {
         Enabled,
+        Running,
+        Stopping,
         Disabled,
         ManuallyDisabled,
     };
@@ -32,10 +34,12 @@ namespace godot
         bool m_disabledManually = false;
         bool m_disabledProgramatically = false;
         String m_disableReason;
+        ModuleStatus m_status = ModuleStatus::Enabled;
 
         static void _bind_methods();
 
         void SetUserDir(const std::filesystem::path& aRelative);
+        void ResolveStatus();
 
         virtual void InitializeInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData);
         virtual void UninitializeInternal();
