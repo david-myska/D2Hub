@@ -27,14 +27,68 @@ void Module::SetUserDir(const std::filesystem::path& aRelative)
     std::filesystem::create_directories(m_moduleUserDir);
 }
 
+void Module::InitializeInternal(const D2::Data::DataAccess&, const D2::Data::SharedData&)
+{
+    // Default implementation only because Godot requires all methods to be defined
+}
+
+void Module::UninitializeInternal()
+{
+    // Default implementation only because Godot requires all methods to be defined
+}
+
 void Module::UpdateInternal(const D2::Data::DataAccess&, const D2::Data::SharedData&)
 {
-    throw std::runtime_error(std::format("UpdateInternal not implemented for module: ", m_name));
+    // Default implementation only because Godot requires all methods to be defined
+}
+
+void Module::Initialize(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData)
+{
+    if (m_disabledManually || m_disabledProgramatically)
+    {
+        return;
+    }
+    try
+    {
+        InitializeInternal(aDataAccess, aSharedData);
+    }
+    catch (const std::exception& e)
+    {
+        auto msg = std::format("Error initializing module '{}': {}", m_name, e.what());
+        m_logger->error(msg);
+        m_notifier->Push(Notifier::NotificationType::Error, msg);
+    }
+    catch (...)
+    {
+        auto msg = std::format("Unknown error initializing module '{}'", m_name);
+        m_logger->error(msg);
+        m_notifier->Push(Notifier::NotificationType::Error, msg);
+    }
+}
+
+void Module::Uninitialize()
+{
+    try
+    {
+        UninitializeInternal();
+    }
+    catch (const std::exception& e)
+    {
+        auto msg = std::format("Error uninitializing module '{}': {}", m_name, e.what());
+        m_logger->error(msg);
+        m_notifier->Push(Notifier::NotificationType::Error, msg);
+    }
+    catch (...)
+    {
+        auto msg = std::format("Unknown error uninitializing module '{}'", m_name);
+        m_logger->error(msg);
+        m_notifier->Push(Notifier::NotificationType::Error, msg);
+    }
 }
 
 void Module::Update(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData)
 {
-    if (m_disabled_manually || m_disabled_programatically)
+    if (m_disabledManually || m_disabledProgramatically)
     {
         return;
     }
@@ -63,7 +117,7 @@ bool Module::can_be_disabled_manually()
 
 void Module::disable_manually(bool aDisable)
 {
-    m_disabled_manually = aDisable;
+    m_disabledManually = aDisable;
     String manualReason = aDisable ? "Disabled manually" : "";
     m_logger->info("Module '{}' {} manually", m_name, aDisable ? "disabled" : "enabled");
     auto status = get_status();
@@ -73,7 +127,7 @@ void Module::disable_manually(bool aDisable)
 
 void Module::disable_programatically(bool aDisable, String aReason)
 {
-    m_disabled_programatically = aDisable;
+    m_disabledProgramatically = aDisable;
     m_disableReason = std::move(aReason);
     m_logger->info("Module '{}' {} programmatically: {}", m_name, aDisable ? "disabled" : "enabled",
                    m_disableReason.utf8().get_data());
@@ -88,9 +142,9 @@ void Module::disable_programatically(bool aDisable, String aReason)
 
 int Module::get_status() const
 {
-    return static_cast<int>(m_disabled_manually        ? ModuleStatus::ManuallyDisabled :
-                            m_disabled_programatically ? ModuleStatus::Disabled :
-                                                         ModuleStatus::Enabled);
+    return static_cast<int>(m_disabledManually        ? ModuleStatus::ManuallyDisabled :
+                            m_disabledProgramatically ? ModuleStatus::Disabled :
+                                                        ModuleStatus::Enabled);
 }
 
 String Module::get_name() const

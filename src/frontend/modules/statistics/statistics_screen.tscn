@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cwqls6dvtnjfm"]
 
-[ext_resource type="Script" uid="uid://85mp2uj0xjuk" path="res://modules/statistics/statistics_screen.gd" id="1_m5tfb"]
+[ext_resource type="Script" uid="uid://caswutw4oxx5j" path="res://modules/statistics/statistics_screen.gd" id="1_m5tfb"]
 
 [node name="StatisticsScreen" type="MarginContainer"]
 anchors_preset = 15
@@ -26,12 +26,12 @@ text = "Experience:"
 [node name="ExpPer" type="Label" parent="CenterContainer/VBoxContainer/Exp"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "1000 /2min"
+text = "0 /min"
 
 [node name="ExpTotal" type="Label" parent="CenterContainer/VBoxContainer/Exp"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "(10000)"
+text = "(0)"
 
 [node name="Items" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
@@ -43,12 +43,12 @@ text = "Items:"
 [node name="ItemsPer" type="Label" parent="CenterContainer/VBoxContainer/Items"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "1000 /2min"
+text = "0 /min"
 
 [node name="ItemsTotal" type="Label" parent="CenterContainer/VBoxContainer/Items"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "(10000)"
+text = "(0)"
 
 [node name="Rares" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
@@ -61,12 +61,12 @@ text = "Rares:"
 [node name="RaresPer" type="Label" parent="CenterContainer/VBoxContainer/Rares"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "1000 /2min"
+text = "0 /min"
 
 [node name="RaresTotal" type="Label" parent="CenterContainer/VBoxContainer/Rares"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "(10000)"
+text = "(0)"
 
 [node name="Sets" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
@@ -79,12 +79,12 @@ text = "Sets:"
 [node name="SetsPer" type="Label" parent="CenterContainer/VBoxContainer/Sets"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "1000 /2min"
+text = "0 /min"
 
 [node name="SetsTotal" type="Label" parent="CenterContainer/VBoxContainer/Sets"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "(10000)"
+text = "(0)"
 
 [node name="Uniques" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
@@ -97,12 +97,12 @@ text = "Uniques:"
 [node name="UniquesPer" type="Label" parent="CenterContainer/VBoxContainer/Uniques"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "1000 /2min"
+text = "0 /min"
 
 [node name="UniquesTotal" type="Label" parent="CenterContainer/VBoxContainer/Uniques"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "(10000)"
+text = "(0)"
 
 [node name="HSeparator" type="HSeparator" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2

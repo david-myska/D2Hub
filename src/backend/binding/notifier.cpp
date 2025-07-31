@@ -25,6 +25,10 @@ void Notifier::_bind_methods()
     ClassDB::bind_integer_constant("Notifier", "Type", "WARNING", static_cast<int>(NotificationType::Warning));
     ClassDB::bind_integer_constant("Notifier", "Type", "ERROR", static_cast<int>(NotificationType::Error));
 
+    ClassDB::bind_integer_constant("Notifier", "Target", "OVERLAY", static_cast<int>(Target::Overlay));
+    ClassDB::bind_integer_constant("Notifier", "Target", "BOTTOM_BAR", static_cast<int>(Target::BottomBar));
+    ClassDB::bind_integer_constant("Notifier", "Target", "POPUP", static_cast<int>(Target::Popup));
+
     ADD_SIGNAL(MethodInfo("pushed", PropertyInfo(Variant::INT, "notification_type"), PropertyInfo(Variant::STRING, "message"),
                           PropertyInfo(Variant::FLOAT, "duration")));
 }

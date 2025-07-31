@@ -30,25 +30,28 @@ void StatisticsModule::UpdateInternal(const D2::Data::DataAccess& aDataAccess, c
         m_rareItems->Cleanup();
         m_setItems->Cleanup();
         m_uniqueItems->Cleanup();
-        return;
     }
-    m_items->Update(newItems.size());
-    for (const auto& [_, item] : newItems)
+    else
     {
-        if (item->m_quality == ItemQuality::Rare)
+        m_items->Update(newItems.size());
+        m_totalItems += newItems.size();
+        for (const auto& [_, item] : newItems)
         {
-            m_rareItems->Update(1);
-            m_totalRareItems++;
-        }
-        else if (item->m_quality == ItemQuality::Set)
-        {
-            m_setItems->Update(1);
-            m_totalSetItems++;
-        }
-        else if (item->m_quality == ItemQuality::Unique)
-        {
-            m_uniqueItems->Update(1);
-            m_totalUniqueItems++;
+            if (item->m_quality == ItemQuality::Rare)
+            {
+                m_rareItems->Update(1);
+                m_totalRareItems++;
+            }
+            else if (item->m_quality == ItemQuality::Set)
+            {
+                m_setItems->Update(1);
+                m_totalSetItems++;
+            }
+            else if (item->m_quality == ItemQuality::Unique)
+            {
+                m_uniqueItems->Update(1);
+                m_totalUniqueItems++;
+            }
         }
     }
 

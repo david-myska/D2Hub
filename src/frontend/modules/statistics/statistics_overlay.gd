@@ -1,4 +1,4 @@
-extends MarginContainer
+extends VBoxContainer
 
 func _ready() -> void:
 	Backend.get_statistics_module().statistics_changed.connect(_update_statistics)
@@ -15,11 +15,3 @@ func _update_statistics():
 	%SetsPer.text = "%s /min" % d["set_per"]
 	%UniquesTotal.text = "%s" % d["unique_total"]
 	%UniquesPer.text = "%s /min" % d["unique_per"]
-
-
-func _on_button_pressed() -> void:
-	Backend.get_statistics_module().reset()
-
-
-func create_overlay_content():
-	return preload("res://modules/statistics/statistics_overlay.tscn").instantiate()

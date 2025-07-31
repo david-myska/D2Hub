@@ -1,0 +1,101 @@
+[gd_scene load_steps=2 format=3 uid="uid://bcg5yugepp84v"]
+
+[ext_resource type="Script" uid="uid://dgo4a10u1vl7h" path="res://modules/statistics/statistics_overlay.gd" id="1_wihot"]
+
+[node name="StatisticsOverlay" type="GridContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 10
+columns = 4
+script = ExtResource("1_wihot")
+
+[node name="ExpLabel" type="Label" parent="."]
+layout_mode = 2
+text = "Experience:"
+
+[node name="ExpTotal" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+
+[node name="ExpSep" type="VSeparator" parent="."]
+layout_mode = 2
+
+[node name="ExpPer" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0 /min"
+
+[node name="ItemsLabel" type="Label" parent="."]
+layout_mode = 2
+text = "Items:"
+
+[node name="ItemsTotal" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+
+[node name="ItemsSep" type="VSeparator" parent="."]
+layout_mode = 2
+
+[node name="ItemsPer" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0 /min"
+
+[node name="RaresLabel" type="Label" parent="."]
+modulate = Color(1, 1, 0, 1)
+layout_mode = 2
+text = "Rares:"
+
+[node name="RaresTotal" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+
+[node name="RaresSep" type="VSeparator" parent="."]
+layout_mode = 2
+
+[node name="RaresPer" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0 /min"
+
+[node name="SetsLabel" type="Label" parent="."]
+modulate = Color(0, 1, 0, 1)
+layout_mode = 2
+text = "Sets:"
+
+[node name="SetsTotal" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+
+[node name="SetsSep" type="VSeparator" parent="."]
+layout_mode = 2
+
+[node name="SetsPer" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0 /min"
+
+[node name="UniquesLabel" type="Label" parent="."]
+modulate = Color(0.839216, 0.752941, 0, 1)
+layout_mode = 2
+text = "Uniques:"
+
+[node name="UniquesTotal" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+
+[node name="UniquesSep" type="VSeparator" parent="."]
+layout_mode = 2
+
+[node name="UniquesPer" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0 /min"

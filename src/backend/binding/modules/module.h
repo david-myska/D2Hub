@@ -29,17 +29,21 @@ namespace godot
         Ref<Notifier> m_notifier;
 
         bool m_canBeDisabledManually = true;
-        bool m_disabled_manually = false;
-        bool m_disabled_programatically = false;
+        bool m_disabledManually = false;
+        bool m_disabledProgramatically = false;
         String m_disableReason;
 
         static void _bind_methods();
 
         void SetUserDir(const std::filesystem::path& aRelative);
 
+        virtual void InitializeInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData);
+        virtual void UninitializeInternal();
         virtual void UpdateInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData);
 
     public:
+        void Initialize(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData);
+        void Uninitialize();
         void Update(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData);
 
         bool can_be_disabled_manually();

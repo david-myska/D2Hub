@@ -24,6 +24,12 @@ namespace godot
             Warning,
             Error
         };
+        enum class Target : uint8_t
+        {
+            Overlay = 1 << 0,
+            BottomBar = 1 << 1,
+            Popup = 1 << 2,
+        };
 
         static Ref<Notifier> Create(std::shared_ptr<spdlog::logger> aLogger);
 
