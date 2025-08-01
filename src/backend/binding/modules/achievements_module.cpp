@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "d2/achievements/achievements.h"
+#include "d2/utilities/setup.h"
 
 #include <godot_cpp/classes/project_settings.hpp>
 #include <godot_cpp/core/class_db.hpp>
@@ -135,6 +136,13 @@ void AchievementsModule::UpdateInternal(const D2::Data::DataAccess& aDataAccess,
     }
     m_achievementManager->Update(aDataAccess, aSharedData);
 }
+
+void AchievementsModule::InitializeInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData)
+{
+    LoadAchievements(aDataAccess.GetLocalPlayerName(), !D2::InvalidStart());
+}
+
+void AchievementsModule::UninitializeInternal() {}
 
 void AchievementsModule::LoadAchievements(std::optional<std::string> aId, bool aActivate)
 {

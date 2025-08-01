@@ -14,7 +14,6 @@ namespace godot
     {
         Enabled,
         Running,
-        Stopping,
         Disabled,
         ManuallyDisabled,
     };
@@ -33,8 +32,9 @@ namespace godot
         bool m_canBeDisabledManually = true;
         bool m_disabledManually = false;
         bool m_disabledProgramatically = false;
-        String m_disableReason;
-        ModuleStatus m_status = ModuleStatus::Enabled;
+        String m_disableReason;  // TODO possibly vector or set, 1 is not enough
+        std::atomic<ModuleStatus> m_status = ModuleStatus::Enabled;
+        bool m_initialized = false;
 
         static void _bind_methods();
 
@@ -45,14 +45,15 @@ namespace godot
         virtual void UninitializeInternal();
         virtual void UpdateInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData);
 
-    public:
         void Initialize(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData);
         void Uninitialize();
+
+    public:
         void Update(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData);
+        void DisableProgramatically(bool aDisable, String aReason = "");
 
         bool can_be_disabled_manually();
         void disable_manually(bool aDisable);
-        void disable_programatically(bool aDisable, String aReason = "");
         int get_status() const;
         String get_name() const;
 

@@ -207,11 +207,16 @@ void D2HubBackend::InitializeBackend()
             m_backupModule->AutoBackup();
             m_dataAccess = std::make_shared<D2::Data::DataAccess>(aDataAccessor);
             m_sharedData = std::make_shared<D2::Data::SharedData>(m_dataAccess);
-            m_developerModule->Initialize(m_dataAccess, m_sharedData);
-            m_achievementsModule->LoadAchievements(m_dataAccess->GetLocalPlayerName(), !D2::InvalidStart());
+            m_achievementsModule->DisableProgramatically(D2::InvalidStart(), "Not in main menu on D2Hub start-up");
+            m_developerModule->DisableProgramatically(false);
+            m_lootfilterModule->DisableProgramatically(false);
+            m_statisticsModule->DisableProgramatically(false);
         },
         [this]() {
-            m_achievementsModule->SaveAchievements(m_dataAccess->GetLocalPlayerName());
+            m_achievementsModule->DisableProgramatically(true, "In main menu, not in game");
+            m_developerModule->DisableProgramatically(true, "In main menu, not in game");
+            m_lootfilterModule->DisableProgramatically(true, "In main menu, not in game");
+            m_statisticsModule->DisableProgramatically(true, "In main menu, not in game");
             m_dataAccess.reset();
             m_sharedData.reset();
         });

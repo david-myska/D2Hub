@@ -59,6 +59,8 @@ namespace godot
         Array m_achievements;
 
         void UpdateInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData) override;
+        void InitializeInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData) override;
+        void UninitializeInternal() override;
 
     protected:
         static void _bind_methods();

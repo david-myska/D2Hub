@@ -28,11 +28,16 @@ Ref<DeveloperModule> DeveloperModule::Create(std::shared_ptr<spdlog::logger> aLo
     return module;
 }
 
-void DeveloperModule::Initialize(std::shared_ptr<DataAccess> aData, std::shared_ptr<SharedData> aShared)
+void DeveloperModule::InitializeInternal(const DataAccess& aData, const SharedData& aShared)
 {
-    m_logger->info("Initializing DeveloperModule");
-    m_data = std::move(aData);
-    m_shared = std::move(aShared);
+    m_data = &aData;
+    m_shared = &aShared;
+}
+
+void DeveloperModule::UninitializeInternal()
+{
+    m_data = nullptr;
+    m_shared = nullptr;
 }
 
 Vector2i DeveloperModule::get_player_position() const
