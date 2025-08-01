@@ -29,13 +29,16 @@ namespace godot
             Overlay = 1 << 0,
             BottomBar = 1 << 1,
             Popup = 1 << 2,
+            All = Overlay | BottomBar | Popup
         };
 
         static Ref<Notifier> Create(std::shared_ptr<spdlog::logger> aLogger);
 
-        void Push(NotificationType aNotificationType, const std::string& aMessage, float aDuration = 5.0);
+        void Push(NotificationType aNotificationType, const std::string& aMessage, Target aTargets = Target::All,
+                  float aDuration = 5.0);
 
-        void push(int notification_type, const String& message, float duration = 5.0);
+        void push(int notification_type, const String& message, int targets = static_cast<int>(Target::All),
+                  float duration = 5.0);
     };
 
 }

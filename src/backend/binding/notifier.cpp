@@ -12,14 +12,15 @@ Ref<Notifier> Notifier::Create(std::shared_ptr<spdlog::logger> aLogger)
     return notifier;
 }
 
-void Notifier::Push(NotificationType aNotificationType, const std::string& aMessage, float aDuration)
+void Notifier::Push(NotificationType aNotificationType, const std::string& aMessage, Target aTargets, float aDuration)
 {
-    push(static_cast<int>(aNotificationType), aMessage.c_str(), aDuration);
+    push(static_cast<int>(aNotificationType), aMessage.c_str(), static_cast<int>(aTargets), aDuration);
 }
 
 void Notifier::_bind_methods()
 {
-    ClassDB::bind_method(D_METHOD("push", "p_notification_type", "p_message", "p_duration"), &Notifier::push, DEFVAL(5.0));
+    ClassDB::bind_method(D_METHOD("push", "p_notification_type", "p_message", "targets", "duration"), &Notifier::push,
+                         DEFVAL(5.0), DEFVAL(static_cast<int>(Target::All)));
 
     ClassDB::bind_integer_constant("Notifier", "Type", "INFO", static_cast<int>(NotificationType::Info));
     ClassDB::bind_integer_constant("Notifier", "Type", "WARNING", static_cast<int>(NotificationType::Warning));
@@ -28,9 +29,10 @@ void Notifier::_bind_methods()
     ClassDB::bind_integer_constant("Notifier", "Target", "OVERLAY", static_cast<int>(Target::Overlay));
     ClassDB::bind_integer_constant("Notifier", "Target", "BOTTOM_BAR", static_cast<int>(Target::BottomBar));
     ClassDB::bind_integer_constant("Notifier", "Target", "POPUP", static_cast<int>(Target::Popup));
+    ClassDB::bind_integer_constant("Notifier", "Target", "ALL", static_cast<int>(Target::All));
 
     ADD_SIGNAL(MethodInfo("pushed", PropertyInfo(Variant::INT, "notification_type"), PropertyInfo(Variant::STRING, "message"),
-                          PropertyInfo(Variant::FLOAT, "duration")));
+                          PropertyInfo(Variant::INT, "targets"), PropertyInfo(Variant::FLOAT, "duration")));
 }
 
 std::string_view ToString(int type)
@@ -48,8 +50,8 @@ std::string_view ToString(int type)
     }
 }
 
-void Notifier::push(int type, const String& message, float duration)
+void Notifier::push(int type, const String& message, int targets, float duration)
 {
     m_logger->info("Notification[{}] pushed[{}s]: {}", ToString(type), duration, message.utf8().get_data());
-    call_deferred("emit_signal", "pushed", type, message, duration);
+    call_deferred("emit_signal", "pushed", type, message, targets, duration);
 }
