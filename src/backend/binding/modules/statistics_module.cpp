@@ -15,7 +15,7 @@ using namespace D2::Data;
 
 void StatisticsModule::UpdateInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData)
 {
-    auto currExp = aDataAccess.GetPlayers().GetLocal()->m_stats.GetValue(Stat::Id::CharExp).value();
+    auto currExp = aDataAccess.GetPlayers().GetLocal()->m_stats.GetValue(Stat::Id::CharExp).value_or(0);
     m_exp->Update(currExp);
     if (m_initialExp = 0)
     {

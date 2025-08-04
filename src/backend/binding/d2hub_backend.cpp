@@ -26,10 +26,13 @@ void D2HubBackend::Update()
         m_achievementsModule->Update(*m_dataAccess, *m_sharedData);
         m_lootfilterModule->Update(*m_dataAccess, *m_sharedData);
         m_statisticsModule->Update(*m_dataAccess, *m_sharedData);
+        m_developerModule->Update(*m_dataAccess, *m_sharedData);
     }
     catch (const std::exception& e)
     {
-        m_logger->error("Error during update: {}", e.what());
+        auto msg = fmt::format("Error during update: {}", e.what());
+        m_logger->error(msg);
+        m_notifier->Push(Notifier::NotificationType::Error, msg);
     }
 }
 
@@ -122,6 +125,7 @@ void D2HubBackend::_bind_methods()
     ClassDB::bind_method(D_METHOD("enable_window_clickthrough", "p_hwnd", "p_enable"), &D2HubBackend::enable_window_clickthrough);
 
     ClassDB::bind_method(D_METHOD("fucking_flush"), &D2HubBackend::fucking_flush);
+    ClassDB::bind_method(D_METHOD("send_unhandled_exception"), &D2HubBackend::send_unhandled_exception);
 
     ADD_SIGNAL(MethodInfo("target_process_exists", PropertyInfo(Variant::BOOL, "exists")));
     ADD_SIGNAL(MethodInfo("target_process_attached", PropertyInfo(Variant::BOOL, "attached")));
@@ -373,4 +377,12 @@ void D2HubBackend::enable_window_clickthrough(uintptr_t godot_hwnd, bool enable)
 void D2HubBackend::fucking_flush() const
 {
     m_commonFileSink->flush();
+}
+
+void D2HubBackend::send_unhandled_exception()
+{
+    std::thread thrower([]() {
+        throw std::runtime_error("This is an unhandled exception from D2HubBackend");
+    });
+    thrower.join();
 }

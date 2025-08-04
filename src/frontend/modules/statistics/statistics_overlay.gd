@@ -1,4 +1,4 @@
-extends VBoxContainer
+extends GridContainer
 
 func _ready() -> void:
 	Backend.get_statistics_module().statistics_changed.connect(_update_statistics)

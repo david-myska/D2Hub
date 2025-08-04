@@ -92,7 +92,8 @@ namespace D2
                               .Build();
         auto gameUtilsLayout = GE::Layout::MakeScattered()
                                    ->SetTotalSize(sizeof(GameUtilsLayout))
-                                   .AddPointerOffsets(PMA::MultiLevelPointer{0x11C070u, 0x38u, 0x150u}, sizeof(D2::Data::Zone))
+                                   .AddPointerOffsets(PMA::MultiLevelPointer{0x11C078u, 0x34u, 0x70u}, sizeof(D2::Data::Zone))
+                                   .AddPointerOffsets(PMA::MultiLevelPointer{0x11B800u, 0x0u}, "UnitData")
                                    .Build();
 
         aMemoryProcessor.RegisterLayout("Base", std::move(baseLayout));
@@ -122,14 +123,14 @@ namespace D2
             auto baseLayout = aDataAccess.Get<ScatteredLayout>("Base");
             if (*baseLayout->m_inGame)
             {
-                aEnabler.Enable("Game");
+                // aEnabler.Enable("Game");
                 aEnabler.Enable("GameUtils");
                 aEnabler.Enable("ClientUnits");
             }
             else
             {
                 g_invalidStart = false;
-                aEnabler.Disable("Game");
+                // aEnabler.Disable("Game");
                 aEnabler.Disable("GameUtils");
                 aEnabler.Disable("ClientUnits");
             }
@@ -138,6 +139,12 @@ namespace D2
         GE::MainLayoutCallbacks gameUtilsCallbacks;
         gameUtilsCallbacks.m_baseLocator = [](PMA::MemoryAccessPtr aMemoryAccess, const std::optional<PMA::MemoryAddress>&) {
             return aMemoryAccess->GetBaseAddress("D2Client.dll");
+        };
+        gameUtilsCallbacks.m_onReady = [aInGameReady](std::shared_ptr<GE::DataAccessor> aDataAccessor) {
+            aInGameReady(aDataAccessor);
+        };
+        gameUtilsCallbacks.m_onDisabled = [aInGameDisabled](const GE::DataAccessor&) {
+            aInGameDisabled();
         };
 
         GE::MainLayoutCallbacks clientUnitsCallbacks;

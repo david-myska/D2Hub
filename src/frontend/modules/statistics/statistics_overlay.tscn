@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bcg5yugepp84v"]
 
-[ext_resource type="Script" uid="uid://dgo4a10u1vl7h" path="res://modules/statistics/statistics_overlay.gd" id="1_wihot"]
+[ext_resource type="Script" uid="uid://vf2d3p441oma" path="res://modules/statistics/statistics_overlay.gd" id="1_wihot"]
 
 [node name="StatisticsOverlay" type="GridContainer"]
 anchors_preset = 15

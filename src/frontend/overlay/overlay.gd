@@ -6,10 +6,10 @@ func _ready() -> void:
 	_initialize()
 	visibility_changed.connect(_initialize)
 
-func enable(enable : bool = true):
-	if not enable:
+func enable(enable_ : bool = true):
+	if not enable_:
 		enable_edit_mode(false)
-	visible = enable
+	visible = enable_
 	_initialize()
 
 func _initialize():
@@ -19,16 +19,16 @@ func _initialize():
 		DisplayServer.WINDOW_HANDLE, get_window_id())
 	Backend.enable_window_clickthrough(m_hwnd, true)
 
-func enable_edit_mode(enable : bool = true):
+func enable_edit_mode(enable_ : bool = true):
 	if not visible:
 		return
-	if $EditMode.visible == enable:
+	if $EditMode.visible == enable_:
 		return
-	$EditMode.visible = enable
-	mouse_passthrough = not enable
+	$EditMode.visible = enable_
+	mouse_passthrough = not enable_
 	for p in $Panels.get_children():
-		p.enable_edit_mode(enable)
-	Backend.enable_window_clickthrough(m_hwnd, not enable)
+		p.enable_edit_mode(enable_)
+	Backend.enable_window_clickthrough(m_hwnd, not enable_)
 
 func fill(r : Rect2i):
 	position = r.position

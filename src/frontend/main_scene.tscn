@@ -223,6 +223,10 @@ text = "Report Bug"
 layout_mode = 2
 text = "Show Logs"
 
+[node name="ExceptionBtn" type="Button" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+text = "Crash me"
+
 [node name="DiscoverTimer" type="Timer" parent="."]
 autostart = true
 
@@ -235,4 +239,5 @@ autostart = true
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/LoadBackup/BackupOption" to="." method="_on_backup_option_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/LoadBackup/LoadBackupBtn" to="." method="_on_load_backup_btn_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Footer/PanelContainer/HBoxContainer/ShowLogs" to="." method="_on_show_logs_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Footer/PanelContainer/HBoxContainer/ExceptionBtn" to="." method="_on_exception_btn_pressed"]
 [connection signal="timeout" from="DiscoverTimer" to="." method="_on_discover_timer_timeout"]

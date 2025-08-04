@@ -14,7 +14,9 @@ func to_color(type : int) -> Color:
 		_:
 			return Color.BLUE
 
-func push(type : int, message : String, duration : float = 5.0):
+func push(type : int, message : String, targets : int = Notifier.Target.ALL, duration : float = 5.0):
+	if not (targets & Notifier.Target.OVERLAY):
+		return
 	var msg := preload("res://utils/notifications/overlay_message.tscn").instantiate()
 	msg.set_message(message, to_color(type), duration)
 	add_child(msg)

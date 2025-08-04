@@ -91,12 +91,26 @@ Dictionary DeveloperModule::get_item_in_hand() const
 
 Array DeveloperModule::get_items_from(int location) const
 {
-    const auto& items = m_data->GetItems().GetAt(static_cast<D2::Data::ItemLocation>(location));
-
     Array result;
-    for (const auto& [_, item] : items)
+    try
     {
-        result.push_back(MakeItemDictionary(*item));
+        const auto& items = m_data->GetItems().GetAt(static_cast<D2::Data::ItemLocation>(location));
+
+        for (const auto& [_, item] : items)
+        {
+            result.push_back(MakeItemDictionary(*item));
+        }
+    }
+    catch (const std::exception& e)
+    {
+        auto msg = std::format("Error getting items from location {}: {}", location, e.what());
+        m_logger->error(msg);
+        m_notifier->Push(Notifier::NotificationType::Error, msg);
+    }
+    catch (...)
+    {
+        m_logger->error("Unknown error getting items from location {}", location);
+        m_notifier->Push(Notifier::NotificationType::Error, "Unknown error getting items");
     }
     return result;
 }

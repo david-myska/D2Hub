@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cwqls6dvtnjfm"]
 
-[ext_resource type="Script" uid="uid://caswutw4oxx5j" path="res://modules/statistics/statistics_screen.gd" id="1_m5tfb"]
+[ext_resource type="Script" uid="uid://85mp2uj0xjuk" path="res://modules/statistics/statistics_screen.gd" id="1_m5tfb"]
 
 [node name="StatisticsScreen" type="MarginContainer"]
 anchors_preset = 15

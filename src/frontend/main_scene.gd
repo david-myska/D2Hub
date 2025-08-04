@@ -47,13 +47,13 @@ func _ready() -> void:
 	$Overlay.add_panel("Achievements", %Achievements.create_overlay_content())
 	$Overlay.add_panel("Notifications", preload("res://utils/notifications/notification_overlay.tscn").instantiate())
 	$Overlay.add_panel("LootFilter", %Lootfilter.create_overlay_content())
+	$Overlay.add_panel("Statistics", %Statistics.create_overlay_content())
 
 
 func _on_discover_timer_timeout() -> void:
 	Backend.discover_target_process()
 	$Overlay.fill(Backend.get_target_rect())
 	Backend.fucking_flush()
-	Backend.get_notifier().push(Notifier.WARNING, "Testing overlay: %s" % randi())
 
 
 func _on_manual_start_pressed() -> void:
@@ -87,3 +87,7 @@ func _on_load_backup_btn_pressed() -> void:
 
 func _on_create_backup_btn_pressed() -> void:
 	Backend.get_backup_module().manual_backup(%BackupNameLineEdit.text)
+
+
+func _on_exception_btn_pressed() -> void:
+	Backend.send_unhandled_exception()

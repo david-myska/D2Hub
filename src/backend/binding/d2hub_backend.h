@@ -93,6 +93,8 @@ namespace godot
         Rect2i get_target_rect() const;
         void enable_window_clickthrough(uintptr_t hwnd, bool enable = true);
         void fucking_flush() const;
+
+        void send_unhandled_exception();
     };
 
 }

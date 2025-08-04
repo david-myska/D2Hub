@@ -21,10 +21,51 @@ struct ScatteredLayout
 struct GameUtilsLayout
 {
     D2::Data::Zone* m_zone;
+    D2::Raw::UnitData<D2::Raw::PlayerData>* m_localPlayer;
 };
 
 namespace D2::Data
 {
+    // TODO LATER
+    template <typename T>
+    class SafePtr
+    {
+        T* m_raw;
+
+    public:
+        SafePtr(T* aRaw)
+            : m_raw(aRaw)
+        {
+        }
+
+        T* Get() const { return m_raw; }
+
+        operator T*() const { return m_raw; }
+
+        operator bool() const { return m_raw; }
+
+        T* operator->() const
+        {
+            if (m_raw)
+            {
+                return m_raw;
+            }
+            throw std::runtime_error("Attempt to dereference a null SafePtr");
+        }
+    };
+
+    // TODO remove
+    // CheckPtr
+    template <typename T>
+    T* CP(T* aPtr)
+    {
+        if (!aPtr)
+        {
+            throw std::runtime_error("Attempt to dereference a null pointer");
+        }
+        return aPtr;
+    }
+
     struct AchievementMetadata
     {
         std::string m_name;
@@ -114,7 +155,7 @@ namespace D2::Data
     {
         Stats(const Raw::StatListEx* raw)
         {
-            auto& stats = raw->m_fullStats;
+            auto& stats = CP(raw)->m_fullStats;
             for (uint32_t i = 0; i < stats.m_count; ++i)
             {
                 m_stats[stats.m_pStats[i].m_id] = stats.m_pStats[i].m_value;
@@ -180,10 +221,10 @@ namespace D2::Data
     struct Item : public Unit
     {
         Item(const Raw::UnitData<Raw::ItemData>* aRaw)
-            : Unit(aRaw->m_pStatListEx, aRaw->m_pPath->m_xPos, aRaw->m_pPath->m_yPos, aRaw->m_GUID, aRaw->m_unitClass)
+            : Unit(aRaw->m_pStatListEx, CP(aRaw->m_pPath)->m_xPos, CP(aRaw->m_pPath)->m_yPos, aRaw->m_GUID, aRaw->m_unitClass)
             , m_location(FigureOutLocation(aRaw))
-            , m_quality(QualityFromRaw(aRaw->m_pUnitData->m_quality))
-            , m_itemLevel(aRaw->m_pUnitData->m_itemLvl)
+            , m_quality(QualityFromRaw(CP(aRaw->m_pUnitData)->m_quality))
+            , m_itemLevel(CP(aRaw->m_pUnitData)->m_itemLvl)
             , m_act(static_cast<uint8_t>(aRaw->m_actNo))
         {
         }
@@ -255,7 +296,7 @@ namespace D2::Data
     struct Player : public Unit
     {
         Player(const Raw::UnitData<Raw::PlayerData>* aRaw)
-            : Unit(aRaw->m_pStatListEx, aRaw->m_pPath->m_xPos, aRaw->m_pPath->m_yPos, aRaw->m_GUID, aRaw->m_unitClass)
+            : Unit(aRaw->m_pStatListEx, CP(aRaw->m_pPath)->m_xPos, CP(aRaw->m_pPath)->m_yPos, aRaw->m_GUID, aRaw->m_unitClass)
         {
         }
 
@@ -265,7 +306,7 @@ namespace D2::Data
     struct Monster : public Unit
     {
         Monster(const Raw::UnitData<Raw::MonsterData>* aRaw)
-            : Unit(aRaw->m_pStatListEx, aRaw->m_pPath->m_xPos, aRaw->m_pPath->m_yPos, aRaw->m_GUID, aRaw->m_unitClass)
+            : Unit(aRaw->m_pStatListEx, CP(aRaw->m_pPath)->m_xPos, CP(aRaw->m_pPath)->m_yPos, aRaw->m_GUID, aRaw->m_unitClass)
             , m_name(ConvertName(aRaw->m_pUnitData->m_pMonNameOrAiParams))
         {
         }
@@ -317,7 +358,15 @@ namespace D2::Data
             {
                 return;
             }
-            aOutput[aUnit->m_GUID] = std::make_unique<UnitType>(aUnit);
+            try
+            {
+                aOutput[aUnit->m_GUID] = std::make_unique<UnitType>(aUnit);
+            }
+            catch (...)
+            {
+                // Empty, allowing to skip invalid units
+                throw;
+            }
             IterateThroughUnits(aUnit->m_pPrevUnit, aOutput);
         }
 
@@ -338,16 +387,23 @@ namespace D2::Data
 
     struct Players : public Units<Player>
     {
-        Players(const Raw::UnitData<Raw::PlayerData>* const aRaw[128])
+        Players(const Raw::UnitData<Raw::PlayerData>* const aRaw[128], GUID aLocalPlayerGuid)
             : Units(aRaw)
+            , m_localPlayerGuid(aLocalPlayerGuid)
         {
         }
 
         const Player* GetLocal() const
         {
-            // TODO somehow decide which is local
-            return m_units.begin()->second;
+            if (auto it = m_units.find(m_localPlayerGuid); it != m_units.end())
+            {
+                return it->second;
+            }
+            throw std::runtime_error("No players found");
         }
+
+    private:
+        const GUID m_localPlayerGuid;
     };
 
     struct Monsters : public Units<Monster>
@@ -660,10 +716,12 @@ namespace D2::Data
     {
         DataAccess(std::shared_ptr<GE::DataAccessor> aDataAccess)
             : m_dataAccess(std::move(aDataAccess))
-            , m_difficulty(static_cast<Difficulty>(m_dataAccess->Get<Raw::Game>("Game")->m_difficultyLevel))
-            , m_gameType(GameType{})  // TODO
+            , m_difficulty(
+                  Difficulty::Normal)  // static_cast<Difficulty>(m_dataAccess->Get<Raw::Game>("Game")->m_difficultyLevel))
+            , m_gameType(GameType{})   // TODO
+            //, m_localPlayerName("xxx")
             , m_localPlayerName(reinterpret_cast<const char*>(
-                  m_dataAccess->Get<Raw::ClientUnits>("ClientUnits")->m_pPlayerList[1]->m_pUnitData->m_name))
+                  m_dataAccess->Get<GameUtilsLayout>("GameUtils")->m_localPlayer->m_pUnitData->m_name))
         {
             const size_t frames = m_dataAccess->GetNumberOfFrames();
             for (size_t i = 1; i <= frames; ++i)
@@ -711,7 +769,8 @@ namespace D2::Data
         struct FrameData
         {
             FrameData(const GE::DataAccessor& aDataAccess, size_t aFrame = 0)
-                : m_players(aDataAccess.Get<Raw::ClientUnits>("ClientUnits", aFrame)->m_pPlayerList)
+                : m_players(aDataAccess.Get<Raw::ClientUnits>("ClientUnits", aFrame)->m_pPlayerList,
+                            aDataAccess.Get<GameUtilsLayout>("GameUtils", aFrame)->m_localPlayer->m_GUID)
                 , m_monsters(aDataAccess.Get<Raw::ClientUnits>("ClientUnits", aFrame)->m_pMonsterList)
                 , m_items(aDataAccess.Get<Raw::ClientUnits>("ClientUnits", aFrame)->m_pItemList)
                 , m_misc(*aDataAccess.Get<GameUtilsLayout>("GameUtils")->m_zone)
