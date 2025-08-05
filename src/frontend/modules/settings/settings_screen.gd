@@ -26,6 +26,11 @@ func _ready() -> void:
 	%AutoBackup.button_pressed = App.Config.Get(Cfg.sec_backup, Cfg.key_auto_backup)
 	
 	%EnableOverlay.button_pressed = App.Config.Get(Cfg.sec_overlay, Cfg.key_overlay_enabled, false)
+	
+	Backend.target_process_existence_changed.connect(func(exists : bool):
+		%OverlayEditModeBtn.button_pressed = false
+		%OverlayEditModeBtn.disabled = not exists or not %EnableOverlay.button_pressed
+	)
 
 func _on_about_label_meta_clicked(meta: Variant) -> void:
 	OS.shell_open(str(meta))
@@ -63,7 +68,7 @@ func _on_overlay_edit_mode_btn_toggled(toggled_on: bool) -> void:
 func _on_enable_overlay_toggled(toggled_on: bool) -> void:
 	App.Config.Set(Cfg.sec_overlay, Cfg.key_overlay_enabled, toggled_on)
 	%OverlayEditModeBtn.button_pressed = false
-	%OverlayEditModeBtn.disabled = not toggled_on
+	%OverlayEditModeBtn.disabled = not toggled_on or not Backend.target_process_exists()
 
 
 func _on_update_rate_sb_value_changed(value: float) -> void:

@@ -86,6 +86,7 @@ namespace godot
         void start_auto_attach();
         void stop_auto_attach();
         void discover_target_process();
+        bool target_process_exists();
         void attach_to_target_process(bool attach);
         void start_memory_processor();
         void stop_memory_processor();

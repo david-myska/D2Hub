@@ -11,7 +11,7 @@ func _ready() -> void:
 		dev_screen.name = "Developer"
 		$MarginContainer/VBoxContainer/Body/MainPanel/TabContainer.add_child(dev_screen)
 		# TODO disable achievements when in developer mode
-	Backend.target_process_exists.connect(func(exists : bool):
+	Backend.target_process_existence_changed.connect(func(exists : bool):
 		%D2Discovered.text = "ON" if exists else "OFF"
 		%D2Discovered.modulate = Color.GREEN if exists else Color.RED
 		_disable_backup(exists)

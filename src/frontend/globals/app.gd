@@ -16,4 +16,5 @@ func _make_default_config() -> MyConfig:
 	cfg.Set(Cfg.sec_global, Cfg.key_updates_per_second, int(5))
 	cfg.Set(Cfg.sec_backup, Cfg.key_saves_dir, OS.get_environment("APPDATA") + r"\MedianXL\save")
 	cfg.Set(Cfg.sec_backup, Cfg.key_auto_backup, false)
+	cfg.Set(Cfg.sec_overlay, Cfg.key_overlay_enabled, false)
 	return cfg

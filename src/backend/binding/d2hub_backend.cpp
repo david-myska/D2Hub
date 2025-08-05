@@ -108,6 +108,7 @@ void D2HubBackend::_bind_methods()
     ClassDB::bind_method(D_METHOD("start_auto_attach"), &D2HubBackend::start_auto_attach);
     ClassDB::bind_method(D_METHOD("stop_auto_attach"), &D2HubBackend::stop_auto_attach);
     ClassDB::bind_method(D_METHOD("discover_target_process"), &D2HubBackend::discover_target_process);
+    ClassDB::bind_method(D_METHOD("target_process_exists"), &D2HubBackend::target_process_exists);
     ClassDB::bind_method(D_METHOD("attach_to_target_process", "p_attach"), &D2HubBackend::attach_to_target_process);
     ClassDB::bind_method(D_METHOD("start_memory_processor"), &D2HubBackend::start_memory_processor);
     ClassDB::bind_method(D_METHOD("stop_memory_processor"), &D2HubBackend::stop_memory_processor);
@@ -127,7 +128,7 @@ void D2HubBackend::_bind_methods()
     ClassDB::bind_method(D_METHOD("fucking_flush"), &D2HubBackend::fucking_flush);
     ClassDB::bind_method(D_METHOD("send_unhandled_exception"), &D2HubBackend::send_unhandled_exception);
 
-    ADD_SIGNAL(MethodInfo("target_process_exists", PropertyInfo(Variant::BOOL, "exists")));
+    ADD_SIGNAL(MethodInfo("target_process_existence_changed", PropertyInfo(Variant::BOOL, "exists")));
     ADD_SIGNAL(MethodInfo("target_process_attached", PropertyInfo(Variant::BOOL, "attached")));
     ADD_SIGNAL(MethodInfo("memory_processor_running", PropertyInfo(Variant::BOOL, "processing")));
 }
@@ -289,6 +290,11 @@ void D2HubBackend::stop_auto_attach()
 void D2HubBackend::discover_target_process()
 {
     m_targetProcess->Discover();
+}
+
+bool D2HubBackend::target_process_exists()
+{
+    return m_targetProcess && m_targetProcess->Exists();
 }
 
 void D2HubBackend::attach_to_target_process(bool attach)
