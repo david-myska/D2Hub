@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bxbty8fetvnll"]
 
-[ext_resource type="Script" uid="uid://dwhukqnam4jf2" path="res://modules/settings/settings_screen.gd" id="1_00yke"]
+[ext_resource type="Script" uid="uid://cxsy6b6jkajwi" path="res://modules/settings/settings_screen.gd" id="1_00yke"]
 [ext_resource type="PackedScene" uid="uid://b5n3xe1wk02u1" path="res://utils/donate.tscn" id="2_pfwel"]
 
 [node name="SettingsScreen" type="MarginContainer"]
@@ -158,7 +158,6 @@ text = "Enable"
 [node name="OverlayEditModeBtn" type="Button" parent="HBoxContainer/Right/Overlay/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-toggle_mode = true
 text = "Edit Mode"
 
 [node name="Control" type="Control" parent="HBoxContainer/Right"]
@@ -202,6 +201,16 @@ ok_button_text = "Select Current Folder"
 file_mode = 2
 access = 2
 
+[node name="OverlayEditModeDialog" type="AcceptDialog" parent="."]
+title = "Overlay Edit Mode"
+size = Vector2i(548, 132)
+unresizable = true
+borderless = true
+ok_button_text = "Exit Overlay Edit Mode"
+dialog_text = "1. Click into Diablo 2 window to make the overlay visible.
+2. Modify layout to your liking.
+3. When finished, exit the Edit Mode by closing this window."
+
 [connection signal="toggled" from="HBoxContainer/Left/General/VBoxContainer/AutoAttach" to="." method="_on_auto_attach_toggled"]
 [connection signal="toggled" from="HBoxContainer/Left/General/VBoxContainer/SkipWarning" to="." method="_on_skip_warning_toggled"]
 [connection signal="value_changed" from="HBoxContainer/Left/General/VBoxContainer/HBoxContainer/UpdateRateSB" to="." method="_on_update_rate_sb_value_changed"]
@@ -210,5 +219,7 @@ access = 2
 [connection signal="pressed" from="HBoxContainer/Left/Backup/VBoxContainer/RemoveAllBackups" to="." method="_on_remove_all_backups_pressed"]
 [connection signal="pressed" from="HBoxContainer/Left/PanelContainer/HBoxContainer/RestartBtn" to="." method="_on_restart_btn_pressed"]
 [connection signal="toggled" from="HBoxContainer/Right/Overlay/VBoxContainer/EnableOverlay" to="." method="_on_enable_overlay_toggled"]
-[connection signal="toggled" from="HBoxContainer/Right/Overlay/VBoxContainer/OverlayEditModeBtn" to="." method="_on_overlay_edit_mode_btn_toggled"]
+[connection signal="pressed" from="HBoxContainer/Right/Overlay/VBoxContainer/OverlayEditModeBtn" to="." method="_on_overlay_edit_mode_btn_pressed"]
 [connection signal="meta_clicked" from="HBoxContainer/Right/About/VBoxContainer/AboutLabel" to="." method="_on_about_label_meta_clicked"]
+[connection signal="canceled" from="OverlayEditModeDialog" to="." method="_on_overlay_edit_mode_dialog_canceled"]
+[connection signal="confirmed" from="OverlayEditModeDialog" to="." method="_on_overlay_edit_mode_dialog_confirmed"]

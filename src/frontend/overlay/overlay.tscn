@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://d3ro1b34mcrhu"]
 
-[ext_resource type="Script" uid="uid://bero7q4x6yf6b" path="res://overlay/overlay.gd" id="1_cj75p"]
+[ext_resource type="Script" uid="uid://b5d8of5655302" path="res://overlay/overlay.gd" id="1_cj75p"]
 
 [node name="Overlay" type="Window"]
 auto_translate_mode = 1
@@ -49,5 +49,6 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="UpdateTimer" type="Timer" parent="."]
+wait_time = 0.25
 
 [connection signal="timeout" from="UpdateTimer" to="." method="_on_update_timer_timeout"]

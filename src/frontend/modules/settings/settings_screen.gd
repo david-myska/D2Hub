@@ -55,10 +55,6 @@ func _on_remove_all_backups_pressed() -> void:
 	Backend.get_backup_module().delete_all_backups()
 
 
-func _on_overlay_edit_mode_btn_toggled(toggled_on: bool) -> void:
-	overlay_edit_mode.emit(toggled_on)
-
-
 func _on_enable_overlay_toggled(toggled_on: bool) -> void:
 	App.Config.Set(Cfg.sec_overlay, Cfg.key_overlay_enabled, toggled_on)
 	%OverlayEditModeBtn.button_pressed = false
@@ -72,3 +68,16 @@ func _on_update_rate_sb_value_changed(value: float) -> void:
 func _on_restart_btn_pressed() -> void:
 	OS.set_restart_on_exit(true, OS.get_cmdline_args())
 	get_tree().quit()
+
+
+func _on_overlay_edit_mode_btn_pressed() -> void:
+	$OverlayEditModeDialog.popup_centered()
+	overlay_edit_mode.emit(true)
+
+
+func _on_overlay_edit_mode_dialog_confirmed() -> void:
+	overlay_edit_mode.emit(false)
+
+
+func _on_overlay_edit_mode_dialog_canceled() -> void:
+	overlay_edit_mode.emit(false)

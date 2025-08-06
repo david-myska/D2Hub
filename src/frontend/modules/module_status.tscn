@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://c386q5lpfxq5c"]
 
-[ext_resource type="Script" uid="uid://da0bbwl6w8xrw" path="res://modules/module_status.gd" id="1_7xumw"]
+[ext_resource type="Script" uid="uid://dmftrdanuadrp" path="res://modules/module_status.gd" id="1_7xumw"]
 
 [node name="ModuleStatus" type="VBoxContainer"]
 size_flags_horizontal = 0
