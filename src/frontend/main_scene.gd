@@ -35,13 +35,12 @@ func _ready() -> void:
 			Backend.get_backup_module().enable_auto_backup(v)
 	)
 	
-	$Overlay.visible = App.Config.Get(Cfg.sec_overlay, Cfg.key_overlay_enabled)
+	$Overlay.enable(App.Config.Get(Cfg.sec_overlay, Cfg.key_overlay_enabled))
 	App.Config.changed.connect(func(sec : String, key : String, v : Variant):
 		if sec == Cfg.sec_overlay and key == Cfg.key_overlay_enabled:
 			$Overlay.enable(v)
 	)
 	
-	%Settings.fix_overlay.connect($Overlay.fill)
 	%Settings.overlay_edit_mode.connect($Overlay.enable_edit_mode)
 	
 	$Overlay.add_panel("Achievements", %Achievements.create_overlay_content())
@@ -52,7 +51,6 @@ func _ready() -> void:
 
 func _on_discover_timer_timeout() -> void:
 	Backend.discover_target_process()
-	$Overlay.fill(Backend.get_target_rect())
 	Backend.fucking_flush()
 
 

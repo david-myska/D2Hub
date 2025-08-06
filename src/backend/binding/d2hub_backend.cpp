@@ -124,6 +124,7 @@ void D2HubBackend::_bind_methods()
 
     ClassDB::bind_method(D_METHOD("get_target_rect"), &D2HubBackend::get_target_rect);
     ClassDB::bind_method(D_METHOD("enable_window_clickthrough", "p_hwnd", "p_enable"), &D2HubBackend::enable_window_clickthrough);
+    ClassDB::bind_method(D_METHOD("is_target_window_focused"), &D2HubBackend::is_target_window_focused);
 
     ClassDB::bind_method(D_METHOD("fucking_flush"), &D2HubBackend::fucking_flush);
     ClassDB::bind_method(D_METHOD("send_unhandled_exception"), &D2HubBackend::send_unhandled_exception);
@@ -245,7 +246,7 @@ void D2HubBackend::InitializeBackend()
     m_targetProcess = PMA::TargetProcess::Create(targetProcessConfig, pmaLogger);
     m_autoAttach = PMA::AutoAttach::Create(m_targetProcess, std::move(pmaLogger));
     m_targetProcessExistenceToken = m_targetProcess->OnExistenceChanged([this](bool aTargetProcessExists) {
-        call_deferred("emit_signal", "target_process_exists", aTargetProcessExists);
+        call_deferred("emit_signal", "target_process_existence_changed", aTargetProcessExists);
     });
     m_targetProcessAttachmentToken = m_targetProcess->OnAttachmentChanged([this](bool aTargetProcessAttached) {
         call_deferred("emit_signal", "target_process_attached", aTargetProcessAttached);
@@ -342,9 +343,11 @@ void D2HubBackend::stop_memory_processor()
 
 #include <windows.h>
 
+constexpr auto c_tmpWindowName = "Diablo II";
+
 Rect2i D2HubBackend::get_target_rect() const
 {
-    auto w = FindWindowA(nullptr, "Diablo II");
+    auto w = FindWindowA(nullptr, c_tmpWindowName);
     if (w)
     {
         RECT rect;
@@ -378,6 +381,12 @@ void D2HubBackend::enable_window_clickthrough(uintptr_t godot_hwnd, bool enable)
         exStyle &= ~WS_EX_TRANSPARENT;
     }
     SetWindowLong(hwnd, GWL_EXSTYLE, exStyle);
+}
+
+bool D2HubBackend::is_target_window_focused()
+{
+    auto hwnd = FindWindowA(nullptr, c_tmpWindowName);
+    return hwnd == GetForegroundWindow();
 }
 
 void D2HubBackend::fucking_flush() const
