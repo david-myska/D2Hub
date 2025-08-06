@@ -25,7 +25,7 @@ func _initialize():
 		return
 	m_hwnd = DisplayServer.window_get_native_handle(
 		DisplayServer.WINDOW_HANDLE, get_window_id())
-	Backend.enable_window_clickthrough(m_hwnd, true)
+	Backend.enable_window_clickthrough(m_hwnd, not $EditMode.visible)
 
 func enable_edit_mode(enable_ : bool = true):
 	if $EditMode.visible == enable_:
@@ -34,7 +34,6 @@ func enable_edit_mode(enable_ : bool = true):
 	mouse_passthrough = not enable_
 	for p in $Panels.get_children():
 		p.enable_edit_mode(enable_)
-	Backend.enable_window_clickthrough(m_hwnd, not enable_)
 
 func _periodic_update():
 	var r : Rect2i = Backend.get_target_rect()
@@ -42,8 +41,7 @@ func _periodic_update():
 	size = r.size
 	m_target_in_focus = Backend.is_target_window_focused()
 	visible = m_enabled and m_target_in_focus
-	if not m_enabled:
-		enable_edit_mode(false)
+
 
 func add_panel(panel_name : String, content : Control):
 	var p := preload("res://overlay/overlay_panel.tscn").instantiate()
