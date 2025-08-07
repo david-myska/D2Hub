@@ -17,7 +17,7 @@ void StatisticsModule::UpdateInternal(const D2::Data::DataAccess& aDataAccess, c
 {
     auto currExp = aDataAccess.GetPlayers().GetLocal()->m_stats.GetValue(Stat::Id::CharExp).value_or(0);
     m_exp->Update(currExp);
-    if (m_initialExp = 0)
+    if (m_initialExp == 0)
     {
         m_initialExp = currExp;
     }
