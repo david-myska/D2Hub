@@ -412,18 +412,33 @@ Dictionary LootFilterModule::get_filter_categories() const
     return stats;
 }
 
+Dictionary MakeItemDictionary(const D2::Data::Item& aItem)
+{
+    Dictionary res;
+    res["item_class"] = aItem.m_class;
+    res["name"] = GetItemName(aItem.m_class);
+    res["location"] = D2::Data::ToString(aItem.m_location).c_str();
+    res["position"] = Vector2i(aItem.m_pos.x, aItem.m_pos.y);
+    res["quality"] = static_cast<uint32_t>(aItem.m_quality);
+    Array stats;
+    for (auto [statId, value] : aItem.m_stats.GetAll())
+    {
+        Dictionary stat;
+        stat["id"] = statId;
+        stat["name"] = GetStatName(statId);
+        stat["value"] = value;
+        stats.push_back(std::move(stat));
+    }
+    res["stats"] = std::move(stats);
+    return res;
+}
+
 Array LootFilterModule::get_passing_loot() const
 {
     Array result;
     for (const auto& [_, item] : m_passingItems)
     {
-        Dictionary dict;
-        dict["name"] = GetItemName(item->m_class);
-        dict["item_level"] = item->m_itemLevel;
-        dict["quality"] = ToString(item->m_quality).c_str();
-        dict["location"] = ToString(item->m_location).c_str();
-        dict["position"] = Vector2i(item->m_pos.x, item->m_pos.y);
-        result.push_back(dict);
+        result.push_back(MakeItemDictionary(*item));
     }
     return result;
 }

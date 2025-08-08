@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cwj38axcccomh"]
 
-[ext_resource type="Script" uid="uid://budqvxxsos5i7" path="res://modules/achievements/achievement_overlay.gd" id="1_mrfhp"]
+[ext_resource type="Script" uid="uid://dpg8e22871hcf" path="res://modules/achievements/achievement_overlay.gd" id="1_mrfhp"]
 [ext_resource type="PackedScene" uid="uid://d3dcj0s3vinc7" path="res://modules/achievements/conditions_view.tscn" id="2_sa2gm"]
 
 [node name="AchievementOverlay" type="VBoxContainer"]
@@ -25,3 +25,5 @@ layout_mode = 2
 
 [node name="BottomSep" type="HSeparator" parent="."]
 layout_mode = 2
+
+[connection signal="resized" from="." to="." method="_on_resized"]

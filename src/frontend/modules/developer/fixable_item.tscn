@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://no4i1r8cfnkk"]
 
-[ext_resource type="Script" uid="uid://dr8ds2cb0ogf5" path="res://modules/developer/fixable_item.gd" id="1_vd5h0"]
+[ext_resource type="Script" uid="uid://ey3kndvtvfc2" path="res://modules/developer/fixable_item.gd" id="1_vd5h0"]
 
 [node name="FixableItem" type="HBoxContainer"]
 anchors_preset = 15

@@ -7,3 +7,7 @@ func track_achievement(achi : Achievement):
 
 func reset():
 	visible = false
+
+
+func _on_resized() -> void:
+	%ConditionsView.m_columns = max(1, size.x / 100)

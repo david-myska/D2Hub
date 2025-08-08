@@ -7,7 +7,8 @@ func update_items():
 	for c in get_children():
 		c.queue_free()
 	
-	for d in Backend.get_lootfilter_module().get_passing_loot():
+	for item in Backend.get_lootfilter_module().get_passing_loot():
 		var lbl := Label.new()
-		lbl.text = d["location"] + ", " + str(d["position"])
+		lbl.text = "%s %s" % [item["name"], str(item["position"])]
+		lbl.modulate = Utils.ItemColor(item)
 		add_child(lbl)
