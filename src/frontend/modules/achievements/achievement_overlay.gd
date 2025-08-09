@@ -1,5 +1,8 @@
 extends VBoxContainer
 
+func _ready() -> void:
+	%ConditionsView.m_columns = 1
+
 func track_achievement(achi : Achievement):
 	visible = true
 	%AchiName.text = achi.get_metadata()["name"]
@@ -7,7 +10,3 @@ func track_achievement(achi : Achievement):
 
 func reset():
 	visible = false
-
-
-func _on_resized() -> void:
-	%ConditionsView.m_columns = max(1, size.x / 100)

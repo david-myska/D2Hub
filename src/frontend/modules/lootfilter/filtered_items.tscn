@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dq5ppgq6aue2r"]
 
-[ext_resource type="Script" uid="uid://m3wltir07b65" path="res://modules/lootfilter/filtered_items.gd" id="1_1ryqu"]
+[ext_resource type="Script" uid="uid://b2rcndllif4kw" path="res://modules/lootfilter/filtered_items.gd" id="1_1ryqu"]
 [ext_resource type="PackedScene" uid="uid://bnhw4l5av4wm5" path="res://modules/lootfilter/lootfilter_overlay.tscn" id="2_tfi3t"]
 
 [node name="FilteredItems" type="MarginContainer"]
