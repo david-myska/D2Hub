@@ -16,7 +16,7 @@ namespace D2::Achi::TestPersistance
 
     auto Create()
     {
-        return BLD<PD>({.m_name = "TestPersistance", .m_description = "Desc", .m_category = "Global"},
+        return AB<PD>({.m_name = "TestPersistance", .m_description = "Desc", .m_category = "Global"},
                        [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                            aTrackers[GE::ConditionType::Activator].insert(&aPD.m_activate);
                            aTrackers[GE::ConditionType::Completer].insert(&aPD.m_killed);

@@ -22,7 +22,7 @@ namespace D2::Achi::TristramClear
 
     auto Create()
     {
-        return BLD<PD>({.m_name = "Tristram visit",
+        return AB<PD>({.m_name = "Tristram visit",
                         .m_description =
                             "Reminiscence about the good old days and while at it, clear Tristram of those pesky monsters.",
                         .m_category = "Act 1"},

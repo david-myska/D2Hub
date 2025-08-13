@@ -15,7 +15,7 @@ namespace D2::Achi::SmithHighHealth
 
     auto Create()
     {
-        return BLD<PD>({.m_name = "Smith High Health",
+        return AB<PD>({.m_name = "Smith High Health",
                         .m_description = "Kill Smith while staying above 80% life",
                         .m_category = "Act 1"},
                        [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {

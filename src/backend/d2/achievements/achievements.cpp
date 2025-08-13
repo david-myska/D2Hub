@@ -11,6 +11,7 @@
 #include "achievements/act1/speedrun.h"
 #include "achievements/act1/test_persistance.h"
 #include "achievements/act1/tristram_clear.h"
+#include "achievements/dungeons/easy/death_projector_high_health.h"
 
 namespace D2
 {
@@ -20,13 +21,16 @@ namespace D2
 
         result.emplace(100, D2::Achi::TestPersistance::Create());  // just testing
                                                                    // Act1
-        result.emplace(1, D2::Achi::TristramClear::Create());
-        result.emplace(2, D2::Achi::AndarielNoHit::Create());
-        result.emplace(3, D2::Achi::AndarielNoLeave::Create());
-        result.emplace(4, D2::Achi::BloodRavenWalkDistance::Create());
-        result.emplace(5, D2::Achi::CountessGoldSteal::Create());
-        result.emplace(6, D2::Achi::LeoricLast::Create());
-        result.emplace(7, D2::Achi::Act1Speedrun::Create());
+        uint32_t id = 1;
+        result.emplace(id++, D2::Achi::TristramClear::Create());
+        result.emplace(id++, D2::Achi::AndarielNoHit::Create());
+        result.emplace(id++, D2::Achi::AndarielNoLeave::Create());
+        result.emplace(id++, D2::Achi::BloodRavenWalkDistance::Create());
+        result.emplace(id++, D2::Achi::CountessGoldSteal::Create());
+        result.emplace(id++, D2::Achi::LeoricLast::Create());
+        result.emplace(id++, D2::Achi::Act1Speedrun::Create());
+        // Dungeons
+        result.emplace(id++, D2::Achi::Dungeons::Easy::DeathProjectorHighHealth::Create());
 
         return result;
     }

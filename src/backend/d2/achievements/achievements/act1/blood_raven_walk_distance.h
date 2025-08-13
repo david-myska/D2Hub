@@ -16,7 +16,7 @@ namespace D2::Achi::BloodRavenWalkDistance
 
     auto Create()
     {
-        return BLD<PD>({.m_name = "Blood Raven walk distance",
+        return AB<PD>({.m_name = "Blood Raven walk distance",
                         .m_description = "Kill Blood Raven making more steps than her",
                         .m_category = "Act 1"},
                        [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {

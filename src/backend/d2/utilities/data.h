@@ -66,14 +66,6 @@ namespace D2::Data
         return aPtr;
     }
 
-    struct AchievementMetadata
-    {
-        std::string m_name;
-        std::string m_description;
-        std::string m_category;
-        std::string m_icon;
-    };
-
     enum class Difficulty
     {
         Normal,
@@ -457,7 +449,7 @@ namespace D2::Data
 
         const std::map<GUID, const Monster*>& GetDead() const { return m_dead; }
 
-        std::map<GUID, const Monster*> GetByName(const std::string& aName) const
+        std::map<GUID, const Monster*> GetByName(std::string_view aName) const
         {
             std::map<GUID, const Monster*> result;
             for (const auto& [id, unit] : m_units)

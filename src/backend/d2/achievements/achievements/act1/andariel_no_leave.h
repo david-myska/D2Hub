@@ -17,7 +17,7 @@ namespace D2::Achi::AndarielNoLeave
 
     auto Create()
     {
-        return BLD<PD>({.m_name = "Andariel no leave",
+        return AB<PD>({.m_name = "Andariel no leave",
                         .m_description = "Kill Andariel without leaving her room",
                         .m_category = "Act 1"},
                        [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {

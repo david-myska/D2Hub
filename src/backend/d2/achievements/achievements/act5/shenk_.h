@@ -10,7 +10,7 @@ namespace D2::Achi::ClearTristram
 
     auto Create()
     {
-        return BLD<CD>({"ClearTristram", "Desc"})
+        return AB<CD>({"ClearTristram", "Desc"})
             .Add(GE::ConditionType::Precondition, "In Tristram",
                  [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, CD& aC) {
                      return aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_Tristram;

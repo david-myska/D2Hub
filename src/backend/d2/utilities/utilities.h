@@ -4,5 +4,5 @@
 
 namespace D2
 {
-    bool MonsterNearby(const std::string& aName, const Data::DataAccess& aDataAccess, Data::GUID& aGuid);
+    bool MonsterNearby(std::string_view aName, const Data::DataAccess& aDataAccess, Data::GUID& aGuid);
 }

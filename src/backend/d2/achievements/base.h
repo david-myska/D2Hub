@@ -8,9 +8,17 @@
 
 namespace D2
 {
-    template <typename CustomData = GE::None>
-    using BLD = GE::AchievementBuilder<Data::AchievementMetadata, CustomData, Data::SharedData, Data::DataAccess>;
+    struct AchievementMetadata
+    {
+        std::string m_name;
+        std::string m_description;
+        std::string m_category;
+        std::string m_icon;
+    };
 
-    using D2Achi = std::unique_ptr<GE::Achievement<Data::AchievementMetadata, Data::SharedData, Data::DataAccess>>;
+    template <typename CustomData = GE::None>
+    using AB = GE::AchievementBuilder<AchievementMetadata, CustomData, Data::SharedData, Data::DataAccess>;
+
+    using D2Achi = std::unique_ptr<GE::Achievement<AchievementMetadata, Data::SharedData, Data::DataAccess>>;
 
 }
