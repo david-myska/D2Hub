@@ -61,7 +61,7 @@ void DeveloperModule::save_custom_item(uint32_t item_class, const String& item_n
     SaveCustomItem(item_class, item_name.utf8().get_data());
 }
 
-Dictionary MakeItemDictionary(const D2::Data::Item& aItem)
+Dictionary MakeItemDictionaryDev(const D2::Data::Item& aItem)
 {
     Dictionary res;
     res["item_class"] = aItem.m_class;
@@ -86,7 +86,7 @@ Dictionary MakeItemDictionary(const D2::Data::Item& aItem)
 Dictionary DeveloperModule::get_item_in_hand() const
 {
     auto optItem = m_data->GetItems().GetInHand();
-    return optItem ? MakeItemDictionary(**optItem) : Dictionary();
+    return optItem ? MakeItemDictionaryDev(**optItem) : Dictionary();
 }
 
 Array DeveloperModule::get_items_from(int location) const
@@ -98,7 +98,7 @@ Array DeveloperModule::get_items_from(int location) const
 
         for (const auto& [_, item] : items)
         {
-            result.push_back(MakeItemDictionary(*item));
+            result.push_back(MakeItemDictionaryDev(*item));
         }
     }
     catch (const std::exception& e)
