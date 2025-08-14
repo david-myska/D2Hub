@@ -1,6 +1,7 @@
 #pragma once
 
-#include "../../base.h"
+#include "d2/achievements/base.h"
+#include "d2/achievements/utilities.h"
 
 namespace D2::Achi::LeoricLast
 {
@@ -17,14 +18,14 @@ namespace D2::Achi::LeoricLast
     auto Create()
     {
         return AB<PD>({.m_name = "He likes to watch",
-                        .m_description = "Kill Leoric's servants in from of him",
-                        .m_category = "Act 1"},
-                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
-                           aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inLocation);
-                           aTrackers[GE::ConditionType::Activator].insert(&aPD.m_leoricMet);
-                           aTrackers[GE::ConditionType::Completer].insert(&aPD.m_leoricKilled);
-                           aTrackers[GE::ConditionType::Validator].insert(&aPD.m_killedNearLeoric);
-                       })
+                       .m_description = "Kill Leoric's servants in from of him",
+                       .m_category = "Act 1"},
+                      [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
+                          aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inLocation);
+                          aTrackers[GE::ConditionType::Activator].insert(&aPD.m_leoricMet);
+                          aTrackers[GE::ConditionType::Completer].insert(&aPD.m_leoricKilled);
+                          aTrackers[GE::ConditionType::Validator].insert(&aPD.m_killedNearLeoric);
+                      })
             .Update(GE::Status::All,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
                         aPD.m_inLocation = aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_InnerCloister ||
@@ -32,7 +33,7 @@ namespace D2::Achi::LeoricLast
                     })
             .Update(GE::Status::Inactive,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
-                        aPD.m_leoricMet = MonsterNearby("LEORIC THE SKELETON KING", aDataAccess, aPD.m_leoricId);
+                        aPD.m_leoricMet = Utils::MonsterNearby("LEORIC THE SKELETON KING", aDataAccess, aPD.m_leoricId);
                     })
             .Update(GE::Status::Active,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {

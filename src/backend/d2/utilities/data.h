@@ -297,10 +297,12 @@ namespace D2::Data
     {
         Player(const Raw::UnitData<Raw::PlayerData>* aRaw)
             : Unit(aRaw->m_pStatListEx, CP(aRaw->m_pPath)->m_xPos, CP(aRaw->m_pPath)->m_yPos, aRaw->m_GUID, aRaw->m_unitClass)
+            , m_act(static_cast<Act>(aRaw->m_actNo))
         {
         }
 
         using Raw = Raw::PlayerData;
+        const Data::Act m_act;
     };
 
     struct Monster : public Unit

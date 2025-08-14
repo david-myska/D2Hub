@@ -1,6 +1,7 @@
 #pragma once
 
-#include "../../base.h"
+#include "d2/achievements/base.h"
+#include "d2/achievements/utilities.h"
 
 namespace D2::Achi::CountessGoldSteal
 {
@@ -52,7 +53,7 @@ namespace D2::Achi::CountessGoldSteal
                         if (!aPD.m_countessId)
                         {
                             Data::GUID countessId = 0;
-                            if (MonsterNearby("THE COUNTESS", aDataAccess, countessId))
+                            if (Utils::MonsterNearby("THE COUNTESS", aDataAccess, countessId))
                             {
                                 aPD.m_countessId = countessId;
                             }

@@ -82,30 +82,33 @@ namespace D2::Achi::Utils
 
     }
 
-    template <details::FixedString _Target>
-    struct BaseKillPD : public GE::BaseProgressData
-    {
-        static constexpr auto Target = _Target;
+    std::string FindStr(const char* aName);
+    std::string KillStr(const char* aName);
 
-        Data::GUID m_targetId = 0;
-
-        GE::ProgressTrackerBool m_inLocation = {this, "In LOCATION", true};
-        GE::ProgressTrackerBool m_targetMet = {this, "Meet " + Target, true};
-        GE::ProgressTrackerBool m_targetKilled = {this, "Kill " + Target, true};
-
-        void BaseKillSetup(std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers)
-        {
-            aTrackers[GE::ConditionType::Precondition].insert(&m_inLocation);
-            aTrackers[GE::ConditionType::Activator].insert(&m_targetMet);
-            aTrackers[GE::ConditionType::Completer].insert(&m_targetKilled);
-        }
-    };
+    bool MonsterNearby(std::string_view aName, const Data::DataAccess& aDataAccess, Data::GUID& aGuid);
 
     template <typename PD>
-    auto InZone(Data::Zone aZone, GE::ProgressTrackerBool PD::*aTracker)
+    auto InZone(Data::Zone aZone, GE::ProgressTrackerBool PD::* aTracker)
     {
         return [aZone, aTracker](const D2::Data::DataAccess& aData, const D2::Data::SharedData& aCache, PD& aPD) {
             aPD.*aTracker = aData.GetMisc().GetZone() == aZone;
+        };
+    }
+
+    template <typename PD>
+    auto InAct(Data::Act aAct, GE::ProgressTrackerBool PD::* aTracker)
+    {
+        return [aAct, aTracker](const D2::Data::DataAccess& aData, const D2::Data::SharedData& aCache, PD& aPD) {
+            aPD.*aTracker = aData.GetPlayers().GetLocal()->m_act == aAct;
+        };
+    }
+
+    template <typename PD>
+    auto BossNearby(std::string aName, GE::ProgressTrackerBool PD::* aTracker, Data::GUID PD::* aTargetId)
+    {
+        return [aName = std::move(aName), aTracker, aTargetId](const D2::Data::DataAccess& aData,
+                                                               const D2::Data::SharedData& aCache, PD& aPD) {
+            aPD.*aTracker = MonsterNearby(aName, aData, aPD.*aTargetId);
         };
     }
 }

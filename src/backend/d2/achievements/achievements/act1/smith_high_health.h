@@ -1,6 +1,7 @@
 #pragma once
 
-#include "../../base.h"
+#include "d2/achievements/base.h"
+#include "d2/achievements/utilities.h"
 
 namespace D2::Achi::SmithHighHealth
 {
@@ -29,7 +30,7 @@ namespace D2::Achi::SmithHighHealth
                     })
             .Update(GE::Status::Inactive,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
-                        aPD.m_smithMet = MonsterNearby("THE SMITH", aDataAccess, aPD.m_smithId);
+                        aPD.m_smithMet = Utils::MonsterNearby("THE SMITH", aDataAccess, aPD.m_smithId);
                     })
             .Update(GE::Status::Active,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {

@@ -41,6 +41,7 @@ set(SOURCE_FILES
 				"binding/d2hub_backend.cpp"
 				"binding/register_types.cpp"
 				"d2/achievements/achievements.cpp"
+				"d2/achievements/utilities.cpp"
 				"d2/utilities/data.cpp"
 				"d2/utilities/setup.cpp"
 				"d2/utilities/utilities.cpp"
@@ -50,6 +51,8 @@ set(SOURCE_FILES
 				"d2/achievements/achievements/dungeons/very_easy/death_projector_high_health.cpp"
 				# Easy
 				"d2/achievements/achievements/dungeons/easy/binding_of_baal_kill_at_most_4_minions.cpp"
+				# Moderate
+				"d2/achievements/achievements/dungeons/moderate/heart_of_sin_negative_fire_res.cpp"
 )
 
 add_library(d2hub_backend SHARED ${SOURCE_FILES})

@@ -1,6 +1,7 @@
 #pragma once
 
-#include "../../base.h"
+#include "d2/achievements/base.h"
+#include "d2/achievements/utilities.h"
 
 namespace D2::Achi::TristramClear
 {

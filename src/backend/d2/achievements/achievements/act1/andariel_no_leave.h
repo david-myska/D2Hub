@@ -1,6 +1,7 @@
 #pragma once
 
-#include "../../base.h"
+#include "d2/achievements/base.h"
+#include "d2/achievements/utilities.h"
 
 namespace D2::Achi::AndarielNoLeave
 {
@@ -32,7 +33,7 @@ namespace D2::Achi::AndarielNoLeave
                     })
             .Update(GE::Status::Inactive,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
-                        aPD.m_andarielMet = MonsterNearby("ANDARIEL", aDataAccess, aPD.m_andarielId);
+                        aPD.m_andarielMet = Utils::MonsterNearby("ANDARIEL", aDataAccess, aPD.m_andarielId);
                         // auto currentPos = aDataAccess.GetPlayers().GetLocal()->m_pos;
                         // aPD.m_inRoom = IsIn(currentPos, Rectangle(...));
                     })

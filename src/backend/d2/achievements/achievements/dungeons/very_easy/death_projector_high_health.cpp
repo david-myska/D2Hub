@@ -4,8 +4,18 @@
 
 namespace D2::Achi::Dungeons::VeryEasy::DeathProjector::HighHealth
 {
-    struct PD : public Utils::BaseKillPD<"Death Projector">
+    constexpr auto DeathProjector = "Death Projector";
+    constexpr auto DeathProjectorUpper = "DEATH PROJECTOR";
+
+    struct PD : public GE::BaseProgressData
     {
+        GE::ProgressTrackerBool m_inAct = {this, "In Act 3", true};
+        GE::ProgressTrackerBool m_inZone = {this, "In Proving Grounds", true};
+
+        Data::GUID m_targetId = 0;
+        GE::ProgressTrackerBool m_targetFound = {this, Utils::FindStr(DeathProjector), true};
+        GE::ProgressTrackerBool m_targetKilled = {this, Utils::KillStr(DeathProjector), true};
+
         GE::ProgressTrackerBool m_notHealthy = {this, "Life less than 90%", true};
     };
 
@@ -15,17 +25,13 @@ namespace D2::Achi::Dungeons::VeryEasy::DeathProjector::HighHealth
                        .m_description = "Kill Death Projector while staying at or above 90% of life",
                        .m_category = "Dungeons"},
                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
-                          aPD.BaseKillSetup(aTrackers);
+                          aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inAct);
+                          aTrackers[GE::ConditionType::Activator].insert(&aPD.m_targetFound);
+                          aTrackers[GE::ConditionType::Completer].insert(&aPD.m_targetKilled);
                           aTrackers[GE::ConditionType::Failer].insert(&aPD.m_notHealthy);
                       })
-            .Update(GE::Status::All,
-                    [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
-                        aPD.m_inLocation = aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_CatacombsLevel4;  // TODO
-                    })
-            .Update(GE::Status::Inactive,
-                    [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
-                        aPD.m_targetMet = MonsterNearby(PD::Target.upper(), aDataAccess, aPD.m_targetId);
-                    })
+            .Update(GE::Status::All, Utils::InAct(Data::Act::Act3, &PD::m_inAct))
+            .Update(GE::Status::Inactive, Utils::BossNearby(DeathProjectorUpper, &PD::m_targetFound, &PD::m_targetId))
             .Update(GE::Status::Active,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
                         aPD.m_targetKilled = aS.GetDeadMonsters().contains(aPD.m_targetId);

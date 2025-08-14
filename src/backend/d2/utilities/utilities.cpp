@@ -5,17 +5,6 @@
 
 namespace D2
 {
-    bool MonsterNearby(std::string_view aName, const Data::DataAccess& aDataAccess, Data::GUID& aGuid)
-    {
-        auto mons = aDataAccess.GetMonsters().GetByName(aName);
-        if (mons.empty())
-        {
-            return false;
-        }
-        aGuid = mons.begin()->first;
-        return true;
-    }
-
     std::string to_string(Data::Zone zone)
     {
         using enum Data::Zone;

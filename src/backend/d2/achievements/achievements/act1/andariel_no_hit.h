@@ -1,6 +1,7 @@
 #pragma once
 
-#include "../../base.h"
+#include "d2/achievements/base.h"
+#include "d2/achievements/utilities.h"
 
 namespace D2::Achi::AndarielNoHit
 {
@@ -30,7 +31,7 @@ namespace D2::Achi::AndarielNoHit
                     })
             .Update(GE::Status::Inactive,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
-                        aPD.m_andarielMet = MonsterNearby("ANDARIEL", aDataAccess, aPD.m_andarielId);
+                        aPD.m_andarielMet = Utils::MonsterNearby("ANDARIEL", aDataAccess, aPD.m_andarielId);
                     })
             .Update(GE::Status::Active,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {

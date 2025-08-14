@@ -1,6 +1,7 @@
 #pragma once
 
-#include "../../base.h"
+#include "d2/achievements/base.h"
+#include "d2/achievements/utilities.h"
 
 namespace D2::Achi::BloodRavenWalkDistance
 {
@@ -31,7 +32,7 @@ namespace D2::Achi::BloodRavenWalkDistance
                     })
             .Update(GE::Status::Inactive,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
-                        aPD.m_bloodRavenMet = MonsterNearby("BLOOD RAVEN", aDataAccess, aPD.m_bloodRavenId);
+                        aPD.m_bloodRavenMet = Utils::MonsterNearby("BLOOD RAVEN", aDataAccess, aPD.m_bloodRavenId);
                     })
             .Update(GE::Status::Active,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
