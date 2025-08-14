@@ -2,7 +2,7 @@
 
 #include "d2/achievements/base.h"
 
-namespace D2::Achi::Dungeons::Easy::DeathProjectorHighHealth
+namespace D2::Achi::Dungeons::VeryEasy::DeathProjector::HighHealth
 {
     D2Achi Create();
 }

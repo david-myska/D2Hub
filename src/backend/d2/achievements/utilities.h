@@ -5,80 +5,87 @@
 
 #include <game_enhancer/achis/achievement.h>
 
+#include "d2/achievements/base.h"
+
 namespace D2::Achi::Utils
 {
     namespace details
     {
-        template <std::size_t N>
+        constexpr char to_upper(char c)
+        {
+            return (c >= 'a' && c <= 'z') ? (c - 'a' + 'A') : c;
+        }
+
+        template <size_t N>
         struct FixedString
         {
-            char value[N];
+            std::array<char, N> m_value;
+            std::array<char, N> m_upper;
 
             constexpr FixedString()
-                : value{}
+                : m_value{}
+                , m_upper{}
             {
             }
 
             constexpr FixedString(const char (&str)[N])
             {
-                for (std::size_t i = 0; i < N; ++i)
-                    value[i] = str[i];
+                for (size_t i = 0; i < N; ++i)
+                {
+                    m_value[i] = str[i];
+                    m_upper[i] = to_upper(str[i]);
+                }
             }
 
-            constexpr const char* data() const { return value; }
+            constexpr const char* data() const { return m_value.data(); }
 
-            constexpr std::size_t size() const { return N; }
+            constexpr const char* upper() const { return m_upper.data(); }
 
-            operator std::string() const { return std::string(value, N - 1); }
+            constexpr size_t size() const { return N; }
 
-            constexpr operator std::string_view() const { return {value, N - 1}; }
+            operator std::string() const { return std::string(m_value.data(), N - 1); }
+
+            constexpr operator std::string_view() const { return {m_value.data(), N - 1}; }
         };
 
-        template <std::size_t N1, std::size_t N2>
+        template <size_t N1, size_t N2>
         constexpr auto operator+(const FixedString<N1>& a, const FixedString<N2>& b)
         {
             FixedString<N1 + N2 - 1> r;
-            for (std::size_t i = 0; i < N1 - 1; ++i)
-                r.value[i] = a.value[i];
-            for (std::size_t i = 0; i < N2; ++i)
-                r.value[i + N1 - 1] = b.value[i];
+            for (size_t i = 0; i < N1 - 1; ++i)
+            {
+                r.m_value[i] = a.m_value[i];
+                r.m_upper[i] = a.m_upper[i];
+            }
+            for (size_t i = 0; i < N2; ++i)
+            {
+                r.m_value[i + N1 - 1] = b.m_value[i];
+                r.m_upper[i + N1 - 1] = b.m_upper[i];
+            }
             return r;
         }
 
-        template <std::size_t N1, std::size_t N2>
+        template <size_t N1, size_t N2>
         constexpr auto operator+(const char (&lhs)[N1], const FixedString<N2>& rhs)
         {
             return FixedString<N1>{lhs} + rhs;
         }
 
-        template <std::size_t N1, std::size_t N2>
+        template <size_t N1, size_t N2>
         constexpr auto operator+(const FixedString<N1>& lhs, const char (&rhs)[N2])
         {
             return lhs + FixedString<N2>{rhs};
         }
 
-        template <std::size_t N>
+        template <size_t N>
         FixedString(const char (&)[N]) -> FixedString<N>;
 
-        // template <std::size_t N1, std::size_t N2>
-        // constexpr auto CE_Concatenate(const char (&a)[N1], const char (&b)[N2])
-        //{
-        //     std::array<char, N1 + N2 - 1> result{};
-        //     for (std::size_t i = 0; i < N1 - 1; ++i)
-        //         result[i] = a[i];
-        //     for (std::size_t i = 0; i < N2; ++i)
-        //         result[i + N1 - 1] = b[i];
-        //     return result;
-        // }
     }
 
-    template <details::FixedString _Target, uint32_t Count = 1>
+    template <details::FixedString _Target>
     struct BaseKillPD : public GE::BaseProgressData
     {
         static constexpr auto Target = _Target;
-
-        // inline static constexpr auto c_meetStr = details::CE_Concatenate("Meet ", Target.data());
-        // inline static constexpr auto c_killStr = details::CE_Concatenate("Kill ", Target.data());
 
         Data::GUID m_targetId = 0;
 
@@ -93,4 +100,12 @@ namespace D2::Achi::Utils
             aTrackers[GE::ConditionType::Completer].insert(&m_targetKilled);
         }
     };
+
+    template <typename PD>
+    auto InZone(Data::Zone aZone, GE::ProgressTrackerBool PD::*aTracker)
+    {
+        return [aZone, aTracker](const D2::Data::DataAccess& aData, const D2::Data::SharedData& aCache, PD& aPD) {
+            aPD.*aTracker = aData.GetMisc().GetZone() == aZone;
+        };
+    }
 }

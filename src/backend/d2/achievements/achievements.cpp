@@ -11,7 +11,8 @@
 #include "achievements/act1/speedrun.h"
 #include "achievements/act1/test_persistance.h"
 #include "achievements/act1/tristram_clear.h"
-#include "achievements/dungeons/easy/death_projector_high_health.h"
+#include "achievements/dungeons/very_easy/death_projector_high_health.h"
+#include "achievements/dungeons/easy/binding_of_baal_kill_at_most_4_minions.h"
 
 namespace D2
 {
@@ -30,7 +31,8 @@ namespace D2
         result.emplace(id++, D2::Achi::LeoricLast::Create());
         result.emplace(id++, D2::Achi::Act1Speedrun::Create());
         // Dungeons
-        result.emplace(id++, D2::Achi::Dungeons::Easy::DeathProjectorHighHealth::Create());
+        result.emplace(id++, D2::Achi::Dungeons::VeryEasy::DeathProjector::HighHealth::Create());
+        result.emplace(id++, D2::Achi::Dungeons::Easy::BindingOfBaal::KillAtMostFourMinions::Create());
 
         return result;
     }

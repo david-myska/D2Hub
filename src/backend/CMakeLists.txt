@@ -46,7 +46,10 @@ set(SOURCE_FILES
 				"d2/utilities/utilities.cpp"
 				"d2/utilities/loaded_data.cpp"
 				# Achievements
-				"d2/achievements/achievements/dungeons/easy/death_projector_high_health.cpp"
+				# Very Easy
+				"d2/achievements/achievements/dungeons/very_easy/death_projector_high_health.cpp"
+				# Easy
+				"d2/achievements/achievements/dungeons/easy/binding_of_baal_kill_at_most_4_minions.cpp"
 )
 
 add_library(d2hub_backend SHARED ${SOURCE_FILES})

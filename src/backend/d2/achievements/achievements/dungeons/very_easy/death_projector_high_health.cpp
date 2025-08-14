@@ -2,7 +2,7 @@
 
 #include "d2/achievements/utilities.h"
 
-namespace D2::Achi::Dungeons::Easy::DeathProjectorHighHealth
+namespace D2::Achi::Dungeons::VeryEasy::DeathProjector::HighHealth
 {
     struct PD : public Utils::BaseKillPD<"Death Projector">
     {
@@ -24,8 +24,7 @@ namespace D2::Achi::Dungeons::Easy::DeathProjectorHighHealth
                     })
             .Update(GE::Status::Inactive,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
-                        aPD.m_targetMet = MonsterNearby(PD::Target.data(), aDataAccess, aPD.m_targetId);  // TODO Target needs to
-                                                                                                          // be capitalized
+                        aPD.m_targetMet = MonsterNearby(PD::Target.upper(), aDataAccess, aPD.m_targetId);
                     })
             .Update(GE::Status::Active,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
