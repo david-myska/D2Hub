@@ -4,12 +4,13 @@
 
 namespace D2::Achi::Dungeons::Easy::BindingOfBaal::KillAtMostFourMinions
 {
-    constexpr auto TalRasha = "Tal Rasha";
-    constexpr auto TalRashaUpper = "TAL RASHA";
+    // TODO names correctly of all 4:
+    // Horadric Spark, Tal Rasha's Valor, Wisdom, Tenacity, Vengeance
+    constexpr auto TalRasha = "Tal Rasha's Valor";
+    constexpr auto TalRashaUpper = "TAL RASHA'S VALOR";
 
     struct PD : public GE::BaseProgressData
     {
-        GE::ProgressTrackerBool m_inAct = {this, "In Act 2", true};
         GE::ProgressTrackerBool m_inZone = {this, "In Old Canyon of the Magi", true};
 
         Data::GUID m_targetId = 0;
@@ -24,13 +25,11 @@ namespace D2::Achi::Dungeons::Easy::BindingOfBaal::KillAtMostFourMinions
                        .m_description = "Kill Tal Rasha. Do not kill more than 4 of his minions.",
                        .m_category = "Dungeons"},
                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
-                          aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inAct);
                           aTrackers[GE::ConditionType::Activator].insert(&aPD.m_inZone);
                           aTrackers[GE::ConditionType::Completer].insert(&aPD.m_targetKilled);
                           aTrackers[GE::ConditionType::Failer].insert(&aPD.m_minionsKilled);
                       })
-            .Update(GE::Status::All, Utils::InAct(Data::Act::Act2, &PD::m_inAct))
-            .Update(GE::Status::Inactive, Utils::InZone(Data::Zone::Act1_Barracks, &PD::m_inZone))  // TODO
+            .Update(GE::Status::Inactive, Utils::InZone(Data::Zone::MXL_CanyonOfTheMagi, &PD::m_inZone))
             .OnEntering(GE::Status::Active, Utils::BossNearby(TalRashaUpper, &PD::m_targetKilled, &PD::m_targetId))// TODO
             .Update(GE::Status::Active,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {

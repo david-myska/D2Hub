@@ -22,4 +22,9 @@ namespace D2::Achi::Utils
     {
         return std::format("Kill {}", aName);
     }
+
+    std::string InStr(Data::Zone aZone)
+    {
+        return std::format("In {}", to_string(aZone));
+    }
 }

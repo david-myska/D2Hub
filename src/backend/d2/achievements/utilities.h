@@ -84,6 +84,7 @@ namespace D2::Achi::Utils
 
     std::string FindStr(const char* aName);
     std::string KillStr(const char* aName);
+    std::string InStr(Data::Zone aZone);
 
     bool MonsterNearby(std::string_view aName, const Data::DataAccess& aDataAccess, Data::GUID& aGuid);
 
@@ -92,6 +93,15 @@ namespace D2::Achi::Utils
     {
         return [aZone, aTracker](const D2::Data::DataAccess& aData, const D2::Data::SharedData& aCache, PD& aPD) {
             aPD.*aTracker = aData.GetMisc().GetZone() == aZone;
+        };
+    }
+
+    template <typename PD>
+    auto InZones(std::set<Data::Zone> aZones, GE::ProgressTrackerBool PD::* aTracker)
+    {
+        return [aZones = std::move(aZones), aTracker](const D2::Data::DataAccess& aData, const D2::Data::SharedData& aCache,
+                                                      PD& aPD) {
+            aPD.*aTracker = aZones.contain(aData.GetMisc().GetZone());
         };
     }
 

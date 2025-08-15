@@ -9,7 +9,6 @@ namespace D2::Achi::Dungeons::VeryEasy::DeathProjector::HighHealth
 
     struct PD : public GE::BaseProgressData
     {
-        GE::ProgressTrackerBool m_inAct = {this, "In Act 3", true};
         GE::ProgressTrackerBool m_inZone = {this, "In Proving Grounds", true};
 
         Data::GUID m_targetId = 0;
@@ -25,12 +24,12 @@ namespace D2::Achi::Dungeons::VeryEasy::DeathProjector::HighHealth
                        .m_description = "Kill Death Projector while staying at or above 90% of life",
                        .m_category = "Dungeons"},
                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
-                          aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inAct);
+                          aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inZone);
                           aTrackers[GE::ConditionType::Activator].insert(&aPD.m_targetFound);
                           aTrackers[GE::ConditionType::Completer].insert(&aPD.m_targetKilled);
                           aTrackers[GE::ConditionType::Failer].insert(&aPD.m_notHealthy);
                       })
-            .Update(GE::Status::All, Utils::InAct(Data::Act::Act3, &PD::m_inAct))
+            .Update(GE::Status::All, Utils::InZone(Data::Zone::MXL_ProvingGrounds, &PD::m_inZone))
             .Update(GE::Status::Inactive, Utils::BossNearby(DeathProjectorUpper, &PD::m_targetFound, &PD::m_targetId))
             .Update(GE::Status::Active,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {

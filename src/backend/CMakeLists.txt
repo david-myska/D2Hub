@@ -53,6 +53,10 @@ set(SOURCE_FILES
 				"d2/achievements/achievements/dungeons/easy/binding_of_baal_kill_at_most_4_minions.cpp"
 				# Moderate
 				"d2/achievements/achievements/dungeons/moderate/heart_of_sin_negative_fire_res.cpp"
+				"d2/achievements/achievements/rifts/moderate/kurast_3000ba_kill_all_totems_timed.cpp"
+				# Hard
+				# Very Hard
+				"d2/achievements/achievements/dungeons/very_hard/xazax_start_at_15_kill_before_30_pentients.cpp"
 )
 
 add_library(d2hub_backend SHARED ${SOURCE_FILES})
