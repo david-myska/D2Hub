@@ -18,273 +18,435 @@ namespace D2
 
     std::string to_string(Data::Zone zone)
     {
+        using enum Data::Zone;
         switch (zone)
         {
         // Act1
-        case Data::Zone::Act1_RogueEncampment:
+        case Act1_RogueEncampment:
             return "Rogue Encampment";
-        case Data::Zone::Act1_BloodMoor:
+        case Act1_BloodMoor:
             return "Blood Moor";
-        case Data::Zone::Act1_ColdPlains:
+        case Act1_ColdPlains:
             return "Cold Plains";
-        case Data::Zone::Act1_StonyField:
+        case Act1_StonyField:
             return "Stony Field";
-        case Data::Zone::Act1_DarkWood:
+        case Act1_DarkWood:
             return "Dark Wood";
-        case Data::Zone::Act1_BlackMarsh:
+        case Act1_BlackMarsh:
             return "Black Marsh";
-        case Data::Zone::Act1_TamoeHighland:
+        case Act1_TamoeHighland:
             return "Tamoe Highland";
-        case Data::Zone::Act1_DenOfEvil:
+        case Act1_DenOfEvil:
             return "Den of Evil";
-        case Data::Zone::Act1_CaveLevel1:
+        case Act1_CaveLevel1:
             return "Cave Level 1";
-        case Data::Zone::Act1_UndergroundPassage:
+        case Act1_UndergroundPassage:
             return "Underground Passage";
-        case Data::Zone::Act1_HoleLevel1:
+        case Act1_HoleLevel1:
             return "Hole Level 1";
-        case Data::Zone::Act1_PitLevel1:
+        case Act1_PitLevel1:
             return "Pit Level 1";
-        case Data::Zone::Act1_CaveLevel2:
+        case Act1_CaveLevel2:
             return "Cave Level 2";
-        case Data::Zone::Act1_UndergroundPassageLevel2:
+        case Act1_UndergroundPassageLevel2:
             return "Underground Passage Level 2";
-        case Data::Zone::Act1_HoleLevel2:
+        case Act1_HoleLevel2:
             return "Hole Level 2";
-        case Data::Zone::Act1_PitLevel2:
+        case Act1_PitLevel2:
             return "Pit Level 2";
-        case Data::Zone::Act1_BurialGrounds:
+        case Act1_BurialGrounds:
             return "Burial Grounds";
-        case Data::Zone::Act1_Crypt:
+        case Act1_Crypt:
             return "Crypt";
-        case Data::Zone::Act1_Mausoleum:
+        case Act1_Mausoleum:
             return "Mausoleum";
-        case Data::Zone::Act1_ForgottenTower:
+        case Act1_ForgottenTower:
             return "Forgotten Tower";
-        case Data::Zone::Act1_TowerCellarLevel1:
+        case Act1_TowerCellarLevel1:
             return "Tower Cellar Level 1";
-        case Data::Zone::Act1_TowerCellarLevel2:
+        case Act1_TowerCellarLevel2:
             return "Tower Cellar Level 2";
-        case Data::Zone::Act1_TowerCellarLevel3:
+        case Act1_TowerCellarLevel3:
             return "Tower Cellar Level 3";
-        case Data::Zone::Act1_TowerCellarLevel4:
+        case Act1_TowerCellarLevel4:
             return "Tower Cellar Level 4";
-        case Data::Zone::Act1_Bloodthrone:
+        case Act1_Bloodthrone:
             return "Bloodthrone";
-        case Data::Zone::Act1_MonasteryGate:
+        case Act1_MonasteryGate:
             return "Monastery Gate";
-        case Data::Zone::Act1_OuterCloister:
+        case Act1_OuterCloister:
             return "Outer Cloister";
-        case Data::Zone::Act1_Barracks:
+        case Act1_Barracks:
             return "Barracks";
-        case Data::Zone::Act1_JailLevel1:
+        case Act1_JailLevel1:
             return "Jail Level 1";
-        case Data::Zone::Act1_JailLevel2:
+        case Act1_JailLevel2:
             return "Jail Level 2";
-        case Data::Zone::Act1_JailLevel3:
+        case Act1_JailLevel3:
             return "Jail Level 3";
-        case Data::Zone::Act1_InnerCloister:
+        case Act1_InnerCloister:
             return "Inner Cloister";
-        case Data::Zone::Act1_Cathedral:
+        case Act1_Cathedral:
             return "Cathedral";
-        case Data::Zone::Act1_CatacombsLevel1:
+        case Act1_CatacombsLevel1:
             return "Catacombs Level 1";
-        case Data::Zone::Act1_CatacombsLevel2:
+        case Act1_CatacombsLevel2:
             return "Catacombs Level 2";
-        case Data::Zone::Act1_CatacombsLevel3:
+        case Act1_CatacombsLevel3:
             return "Catacombs Level 3";
-        case Data::Zone::Act1_CatacombsLevel4:
+        case Act1_CatacombsLevel4:
             return "Catacombs Level 4";
-        case Data::Zone::Act1_Tristram:
+        case Act1_Tristram:
             return "Tristram";
         // Act2
-        case Data::Zone::Act2_LutGholein:
+        case Act2_LutGholein:
             return "Lut Gholein";
-        case Data::Zone::Act2_RockyWaste:
+        case Act2_RockyWaste:
             return "Rocky Waste";
-        case Data::Zone::Act2_DryHills:
+        case Act2_DryHills:
             return "Dry Hills";
-        case Data::Zone::Act2_FarOasis:
+        case Act2_FarOasis:
             return "Far Oasis";
-        case Data::Zone::Act2_LostCity:
+        case Act2_LostCity:
             return "Lost City";
-        case Data::Zone::Act2_ValleyOfSnakes:
+        case Act2_ValleyOfSnakes:
             return "Valley of Snakes";
-        case Data::Zone::Act2_CanyonOfTheMagi:
+        case Act2_CanyonOfTheMagi:
             return "Canyon of the Magi";
-        case Data::Zone::Act2_SewersLevel1:
+        case Act2_SewersLevel1:
             return "Sewers Level 1";
-        case Data::Zone::Act2_SewersLevel2:
+        case Act2_SewersLevel2:
             return "Sewers Level 2";
-        case Data::Zone::Act2_SewersLevel3:
+        case Act2_SewersLevel3:
             return "Sewers Level 3";
-        case Data::Zone::Act2_HaremLevel1:
+        case Act2_HaremLevel1:
             return "Harem Level 1";
-        case Data::Zone::Act2_HaremLevel2:
+        case Act2_HaremLevel2:
             return "Harem Level 2";
-        case Data::Zone::Act2_PalaceCellarLevel1:
+        case Act2_PalaceCellarLevel1:
             return "Palace Cellar Level 1";
-        case Data::Zone::Act2_PalaceCellarLevel2:
+        case Act2_PalaceCellarLevel2:
             return "Palace Cellar Level 2";
-        case Data::Zone::Act2_PalaceCellarLevel3:
+        case Act2_PalaceCellarLevel3:
             return "Palace Cellar Level 3";
-        case Data::Zone::Act2_StonyTombLevel1:
+        case Act2_StonyTombLevel1:
             return "Stony Tomb Level 1";
-        case Data::Zone::Act2_HallsOfTheDeadLevel1:
+        case Act2_HallsOfTheDeadLevel1:
             return "Halls of the Dead Level 1";
-        case Data::Zone::Act2_HallsOfTheDeadLevel2:
+        case Act2_HallsOfTheDeadLevel2:
             return "Halls of the Dead Level 2";
-        case Data::Zone::Act2_ClawViperTempleLevel1:
+        case Act2_ClawViperTempleLevel1:
             return "Claw Viper Temple Level 1";
-        case Data::Zone::Act2_TreasureVault:
+        case Act2_TreasureVault:
             return "Treasure Vault";
-        case Data::Zone::Act2_HallsOfTheDeadLevel3:
+        case Act2_HallsOfTheDeadLevel3:
             return "Halls of the Dead Level 3";
-        case Data::Zone::Act2_RitualChamber:
+        case Act2_RitualChamber:
             return "Ritual Chamber";
-        case Data::Zone::Act2_MaggotLairLevel1:
+        case Act2_MaggotLairLevel1:
             return "Maggot Lair Level 1";
-        case Data::Zone::Act2_MaggotLairLevel2:
+        case Act2_MaggotLairLevel2:
             return "Maggot Lair Level 2";
-        case Data::Zone::Act2_MaggotLairLevel3:
+        case Act2_MaggotLairLevel3:
             return "Maggot Lair Level 3";
-        case Data::Zone::Act2_TalRashasTomb1:
+        case Act2_TalRashasTomb1:
             [[fallthrough]];
-        case Data::Zone::Act2_TalRashasTomb2:
+        case Act2_TalRashasTomb2:
             [[fallthrough]];
-        case Data::Zone::Act2_TalRashasTomb3:
+        case Act2_TalRashasTomb3:
             [[fallthrough]];
-        case Data::Zone::Act2_TalRashasTomb4:
+        case Act2_TalRashasTomb4:
             [[fallthrough]];
-        case Data::Zone::Act2_TalRashasTomb5:
+        case Act2_TalRashasTomb5:
             [[fallthrough]];
-        case Data::Zone::Act2_TalRashasTomb6:
+        case Act2_TalRashasTomb6:
             [[fallthrough]];
-        case Data::Zone::Act2_TalRashasTomb7:
+        case Act2_TalRashasTomb7:
             return "Tal Rasha's Tomb";
-        case Data::Zone::Act2_DurielsLair:
+        case Act2_DurielsLair:
             return "Duriel's Lair";
-        case Data::Zone::Act2_ArcaneSanctuary:
+        case Act2_ArcaneSanctuary:
             return "Arcane Sanctuary";
         // Act3
-        case Data::Zone::Act3_KurastDocks:
+        case Act3_KurastDocks:
             return "Kurast Docks";
-        case Data::Zone::Act3_SpiderForest:
+        case Act3_SpiderForest:
             return "Spider Forest";
-        case Data::Zone::Act3_GreatMarsh:
+        case Act3_GreatMarsh:
             return "Great Marsh";
-        case Data::Zone::Act3_FlayerJungle:
+        case Act3_FlayerJungle:
             return "Flayer Jungle";
-        case Data::Zone::Act3_LowerKurast:
+        case Act3_LowerKurast:
             return "Lower Kurast";
-        case Data::Zone::Act3_KurastBazaar:
+        case Act3_KurastBazaar:
             return "Kurast Bazaar";
-        case Data::Zone::Act3_UpperKurast:
+        case Act3_UpperKurast:
             return "Upper Kurast";
-        case Data::Zone::Act3_KurastCauseway:
+        case Act3_KurastCauseway:
             return "Kurast Causeway";
-        case Data::Zone::Act3_Travincal:
+        case Act3_Travincal:
             return "Travincal";
-        case Data::Zone::Act3_SpiderCavern:
+        case Act3_SpiderCavern:
             return "Spider Cavern";
-        case Data::Zone::Act3_ArachnidLair:
+        case Act3_ArachnidLair:
             return "Arachnid Lair";
-        case Data::Zone::Act3_SwampyPitLevel1:
+        case Act3_SwampyPitLevel1:
             return "Swampy Pit Level 1";
-        case Data::Zone::Act3_SwampyPitLevel2:
+        case Act3_SwampyPitLevel2:
             return "Swampy Pit Level 2";
-        case Data::Zone::Act3_FlayerDungeonLevel1:
+        case Act3_FlayerDungeonLevel1:
             return "Flayer Dungeon Level 1";
-        case Data::Zone::Act3_FlayerDungeonLevel2:
+        case Act3_FlayerDungeonLevel2:
             return "Flayer Dungeon Level 2";
-        case Data::Zone::Act3_FlayerDungeonLevel3:
+        case Act3_FlayerDungeonLevel3:
             return "Flayer Dungeon Level 3";
-        case Data::Zone::Act3_SewersLevel1:
+        case Act3_SewersLevel1:
             return "Sewers Level 1";
-        case Data::Zone::Act3_SewersLevel2:
+        case Act3_SewersLevel2:
             return "Sewers Level 2";
-        case Data::Zone::Act3_RuinedTemple:
+        case Act3_RuinedTemple:
             return "Ruined Temple";
-        case Data::Zone::Act3_DisusedFane:
+        case Act3_DisusedFane:
             return "Disused Fane";
-        case Data::Zone::Act3_ForgottenReliquary:
+        case Act3_ForgottenReliquary:
             return "Forgotten Reliquary";
-        case Data::Zone::Act3_ForgottenTemple:
+        case Act3_ForgottenTemple:
             return "Forgotten Temple";
-        case Data::Zone::Act3_RuinedFane:
+        case Act3_RuinedFane:
             return "Ruined Fane";
-        case Data::Zone::Act3_DisusedReliquary:
+        case Act3_DisusedReliquary:
             return "Disused Reliquary";
-        case Data::Zone::Act3_DuranceOfHateLevel1:
+        case Act3_DuranceOfHateLevel1:
             return "Durance of Hate Level 1";
-        case Data::Zone::Act3_DuranceOfHateLevel2:
+        case Act3_DuranceOfHateLevel2:
             return "Durance of Hate Level 2";
-        case Data::Zone::Act3_SeatOfHatred:
+        case Act3_SeatOfHatred:
             return "Seat of Hatred";
         // Act4
-        case Data::Zone::Act4_CityOfTheDamned:
+        case Act4_CityOfTheDamned:
             return "City of the Damned";
-        case Data::Zone::Act4_PlainsOfDespair:
+        case Act4_PlainsOfDespair:
             return "Plains of Despair";
-        case Data::Zone::Act4_OuterSteppes:
+        case Act4_OuterSteppes:
             return "Outer Steppes";
-        case Data::Zone::Act4_RiverOfFlame:
+        case Act4_RiverOfFlame:
             return "River of Flame";
-        case Data::Zone::Act4_PandemoniumFortress:
+        case Act4_PandemoniumFortress:
             return "The Pandemonium Fortress";
-        case Data::Zone::Act4_ChaosSanctuary:
+        case Act4_ChaosSanctuary:
             return "The Chaos Sanctuary";
         // Act5
-        case Data::Zone::Act5_Harrogath:
+        case Act5_Harrogath:
             return "Harrogath";
-        case Data::Zone::Act5_BloodyFoothills:
+        case Act5_BloodyFoothills:
             return "Bloody Foothills";
-        case Data::Zone::Act5_FrigidHighlands:
+        case Act5_FrigidHighlands:
             return "Frigid Highlands";
-        case Data::Zone::Act5_ArreatPlateau:
+        case Act5_ArreatPlateau:
             return "Arreat Plateau";
-        case Data::Zone::Act5_CrystallinePassage:
+        case Act5_CrystallinePassage:
             return "Crystalline Passage";
-        case Data::Zone::Act5_FrozenRiver:
+        case Act5_FrozenRiver:
             return "Frozen River";
-        case Data::Zone::Act5_GlacialTrail:
+        case Act5_GlacialTrail:
             return "Glacial Trail";
-        case Data::Zone::Act5_DrifterCavern:
+        case Act5_DrifterCavern:
             return "Drifter Cavern";
-        case Data::Zone::Act5_FrozenTundra:
+        case Act5_FrozenTundra:
             return "Frozen Tundra";
-        case Data::Zone::Act5_AncientsWay:
+        case Act5_AncientsWay:
             return "The Ancients' Way";
-        case Data::Zone::Act5_IcyCellar:
+        case Act5_IcyCellar:
             return "Icy Cellar";
-        case Data::Zone::Act5_ArreatSummit:
+        case Act5_ArreatSummit:
             return "Arreat Summit";
-        case Data::Zone::Act5_NihlathaksTemple:
+        case Act5_NihlathaksTemple:
             return "Nihlathak's Temple";
-        case Data::Zone::Act5_HallsOfAnguish:
+        case Act5_HallsOfAnguish:
             return "Halls of Anguish";
-        case Data::Zone::Act5_HallsOfPain:
+        case Act5_HallsOfPain:
             return "Halls of Pain";
-        case Data::Zone::Act5_HallsOfTorment:
+        case Act5_HallsOfTorment:
             return "Halls of Torment";
-        case Data::Zone::Act5_HallsOfVaught:
+        case Act5_HallsOfVaught:
             return "Halls of Vaught";
-        case Data::Zone::Act5_WorldstoneKeepLevel1:
+        case Act5_WorldstoneKeepLevel1:
             return "Worldstone Keep Level 1";
-        case Data::Zone::Act5_WorldstoneKeepLevel2:
+        case Act5_WorldstoneKeepLevel2:
             return "Worldstone Keep Level 2";
-        case Data::Zone::Act5_Antechamber:
+        case Act5_Antechamber:
             return "Antechamber";
-        case Data::Zone::Act5_WorldstoneChamber:
+        case Act5_WorldstoneChamber:
             return "The Worldstone Chamber";
-        case Data::Zone::Act5_ThroneOfDestruction:
+        case Act5_ThroneOfDestruction:
             return "Throne of Destruction";
-        // Median Challenges
-        case Data::Zone::SecretCowLevel:
-            return "The Secret Cow Level";
-        case Data::Zone::TranAthulua:
+        // MXL
+        case MXL_Caldeum:
+            return "Caldeum";
+        case MXL_SilverCity:
+            return "Silver City";
+        case MXL_IslandOfTheSunlessSea:
+            return "Island of the Sunless Sea";
+        case MXL_TorajanJungles:
+            return "Torajan Jungles";
+        case MXL_Kurast3000BA:
+            return "Kurast 3000 BA";
+        case MXL_DiamondGates:
+            return "Diamond Gates";
+        case MXL_LibraryOfFate:
+            return "Library of Fate";
+        case MXL_SilverSpireLevel1:
+            return "Silver Spire Level 1";
+        case MXL_SilverSpireLevel2:
+            return "Silver Spire Level 2";
+        case MXL_TranAthulua:
             return "Tran Athulua";
-        // TODO
+        case MXL_TorajanCemetery:
+            return "Torajan Cemetery";
+        case MXL_Teganze:
+            return "Teganze";
+        case MXL_BastionOfTheTriune:
+            return "Bastion of the Triune";
+        case MXL_CorruptedAbbey:
+            return "Corrupted Abbey";
+        case MXL_Duncraig:
+            return "Duncraig";
+        case MXL_Toraja:
+            return "Toraja";
+        case MXL_Vizjun:
+            return "Vizjun";
+        case MXL_Fauztinville:
+            return "Fauztinville";
+        case MXL_ButchersLair:
+            return "Butcher's Lair";
+        case MXL_InfernalCave:
+            return "Infernal Cave";
+        case MXL_ProvingGrounds:
+            return "Proving Grounds";
+        case MXL_ArreatSummit:
+            return "Arreat Summit";
+        case MXL_CanyonOfTheMagi:
+            return "Canyon of the Magi";
+        case MXL_DimensionalSanctum:
+            return "Dimensional Sanctum";
+        case MXL_ChamberOfBlood:
+            return "Chamber of Blood";
+        case MXL_CorralOfCorruption:
+            return "Corral of Corruption";
+        case MXL_RathmaSquare:
+            return "Rathma Square";
+        case MXL_CathedralOfVanity:
+            return "Cathedral of Vanity";
+        case MXL_RealmOfSin:
+            return "Realm of Sin";
+        case MXL_HeartOfSin:
+            return "Heart of Sin";
+        case MXL_IslandOfSkartara:
+            return "Island of Skartara";
+        case MXL_VizjereiTemple:
+            return "Vizjerei Temple";
+        case MXL_PoolsOfWisdom:
+            return "Pools of Wisdom";
+        case MXL_HallsOfValor:
+            return "Halls of Valor";
+        case MXL_PathToEnlightenment:
+            return "Path to Enlightenment";
+        case MXL_KingdomOfShadow:
+            return "Kingdom of Shadow";
+        case MXL_RealmOfLies:
+            return "Realm of Lies";
+        case MXL_SpecterOfHatred:
+            return "Specter of Hatred";
+        case MXL_SpecterOfSomething2:
+            return "Specter of Something2";
+        case MXL_SpecterOfSomething3:
+            return "SpecterOfSomething3";
+        case MXL_SpecterOfSomething4:
+            return "SpecterOfSomething4";
+        case MXL_SpecterOfSomething5:
+            return "SpecterOfSomething5";
+        case MXL_YshariSanctum:
+            return "Yshari Sanctum";
+        case MXL_MaggotPassage:
+            return "Maggot Passage";
+        case MXL_MaggotDepths:
+            return "Maggot Depths";
+        case MXL_WretchedSands:
+            return "Wretched Sands";
+        case MXL_WebOfDeceit:
+            return "Web of Deceit";
+        case MXL_CaldeumLibrary:
+            return "Caldeum Library";
+        case MXL_Bremmtown:
+            return "Bremmtown";
+        case MXL_MbwiruEikura:
+            return "Mbwiru Eikura";
+        case MXL_WorldNexus:
+            return "World Nexus";
+        case MXL_CrystalArch:
+            return "Crystal Arch";
+        case MXL_EdyremsPath_BloodRaven:
+            return "Edyrem's Path (Blood Raven)";
+        case MXL_EdyremsPath_Countess:
+            return "Edyrem's Path (Countess)";
+        case MXL_EdyremsPath_Radament:
+            return "Edyrem's Path (Radament)";
+        case MXL_EdyremsPath_Summoner:
+            return "Edyrem's Path (Summoner)";
+        case MXL_EdyremsPath_Something1:
+            return "EdyremsPath_Something1";
+        case MXL_EdyremsPath_Something2:
+            return "EdyremsPath_Something2";
+        case MXL_EdyremsPath_Something3:
+            return "EdyremsPath_Something3";
+        case MXL_EdyremsPath_Something4:
+            return "EdyremsPath_Something4";
+        case MXL_EdyremsPath_Something5:
+            return "EdyremsPath_Something5";
+        case MXL_EdyremsPath_Something6:
+            return "EdyremsPath_Something6";
+        case MXL_EdyremsPath_Something7:
+            return "EdyremsPath_Something7";
+        case MXL_Genesis:
+            return "Genesis";
+        case MXL_BlackAbyss:
+            return "Black Abyss";
+        case MXL_PlaneOfSloth:
+            return "Plane of Sloth";
+        case MXL_PlaneOfGluttony:
+            return "Plane of Gluttony";
+        case MXL_PlaneOfGreed:
+            return "Plane of Greed";
+        case MXL_PlaneOfLust:
+            return "Plane of Lust";
+        case MXL_PlaneOfWrath:
+            return "Plane of Wrath";
+        case MXL_PlaneOfEnvy:
+            return "Plane of Envy";
+        case MXL_PlaneOfPride:
+            return "Plane of Pride";
+        case MXL_TheVoid:
+            return "The Void";
+        case MXL_ChurchOfDien_Ap_Sten:
+            return "Church of Dien-Ap-Sten";
+        case MXL_SubterraneanCorridor:
+            return "Subterranean Corridor";
+        case MXL_Bramwell:
+            return "Bramwell";
+        case MXL_TheStormOasis:
+            return "The Storm Oasis";
+        case MXL_TheStormCave:
+            return "The Storm Cave";
+        case MXL_TheStormPit:
+            return "The Storm Pit";
+        case MXL_ChamberOfOffering:
+            return "Chamber of Offering";
+        case MXL_TurDulra:
+            return "Tur Dulra";
+        case MXL_TheMirrorTemple:
+            return "The Mirror Temple";
+        case MXL_Scosglen:
+            return "Scosglen";
         default:
             return std::format("Unknown zone ({})", static_cast<uint16_t>(zone));
         }

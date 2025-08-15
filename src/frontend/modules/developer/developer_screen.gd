@@ -118,3 +118,7 @@ func _on_auto_refresh_btn_toggled(toggled_on: bool) -> void:
 		%AutoRefreshTimer.start()
 	else:
 		%AutoRefreshTimer.stop()
+
+
+func _on_zone_id_btn_pressed() -> void:
+	$HBoxContainer/GridContainer/ZoneId.text = str(m_dev.get_location_id())

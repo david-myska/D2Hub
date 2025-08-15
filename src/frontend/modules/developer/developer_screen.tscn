@@ -43,6 +43,15 @@ text = "Relative to ^"
 layout_mode = 2
 text = "(??, ??)"
 
+[node name="ZoneIdBtn" type="Button" parent="HBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Zone Id"
+
+[node name="ZoneId" type="Label" parent="HBoxContainer/GridContainer"]
+layout_mode = 2
+text = "??"
+horizontal_alignment = 1
+
 [node name="Sep" type="Control" parent="HBoxContainer/GridContainer"]
 custom_minimum_size = Vector2(2.08189e-12, 50)
 layout_mode = 2
@@ -200,6 +209,7 @@ theme_override_constants/v_separation = 15
 [connection signal="pressed" from="HBoxContainer/GridContainer/LockPosBtn" to="." method="_on_lock_pos_btn_pressed"]
 [connection signal="pressed" from="HBoxContainer/GridContainer/RelativePosBtn" to="." method="_on_relative_pos_btn_pressed"]
 [connection signal="pressed" from="HBoxContainer/GridContainer/RelativePosBtn2" to="." method="_on_relative_pos_btn_2_pressed"]
+[connection signal="pressed" from="HBoxContainer/GridContainer/ZoneIdBtn" to="." method="_on_zone_id_btn_pressed"]
 [connection signal="toggled" from="HBoxContainer/FixItems/HBoxContainer2/AutoRefreshBtn" to="." method="_on_auto_refresh_btn_toggled"]
 [connection signal="timeout" from="HBoxContainer/FixItems/HBoxContainer2/AutoRefreshBtn/AutoRefreshTimer" to="." method="_on_auto_refresh_timer_timeout"]
 [connection signal="pressed" from="HBoxContainer/FixItems/HBoxContainer/LoadGroundItemsBtn" to="." method="_on_load_ground_items_btn_pressed"]

@@ -307,7 +307,7 @@ namespace D2::Data
     {
         Monster(const Raw::UnitData<Raw::MonsterData>* aRaw)
             : Unit(aRaw->m_pStatListEx, CP(aRaw->m_pPath)->m_xPos, CP(aRaw->m_pPath)->m_yPos, aRaw->m_GUID, aRaw->m_unitClass)
-            , m_name(ConvertName(aRaw->m_pUnitData->m_pMonNameOrAiParams))
+            , m_name(ConvertName(CP(CP(aRaw->m_pUnitData)->m_pMonNameOrAiParams)))
         {
         }
 
