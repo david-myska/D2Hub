@@ -9,23 +9,26 @@ namespace D2::Achi::Rifts::Moderate::Kurast3000BA::KillAllTotemsTimed
     constexpr auto Necro = "Ennead Necromancer";
     constexpr auto NecroUpper = "ENNEAD NECROMANCER";
 
+    constexpr auto c_totalTotemCount = 27;
+    constexpr auto c_totalNecroCount = 3;
+    constexpr auto c_secondsPerKill = 20;
+
     struct PD : public GE::BaseProgressData
     {
         GE::ProgressTrackerBool m_inZone = {this, Utils::InStr(Data::Zone::MXL_Kurast3000BA), true};
 
-        GE::ProgressTrackerInt<> m_totemsKilled = {this, Utils::KillStr(Totem), 50};
-        GE::ProgressTrackerTimer m_timer = {this, 600};
+        GE::ProgressTrackerInt<> m_totemsKilled = {this, Utils::KillStr(Totem), c_totalTotemCount};
+        GE::ProgressTrackerTimer m_timer = {this, c_totalTotemCount* c_secondsPerKill};
     };
 
     D2Achi Create()
     {
-        return AB<PD>(
-                   {.m_name = "Totemless", .m_description = "Kill all totems in the Kurast 3000 BA.", .m_category = "Rifts"},
-                   [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
-                       aTrackers[GE::ConditionType::Activator].insert(&aPD.m_inZone);
-                       aTrackers[GE::ConditionType::Completer].insert(&aPD.m_totemsKilled);
-                       aTrackers[GE::ConditionType::Failer].insert(&aPD.m_timer);
-                   })
+        return AB<PD>({.m_name = "Totemless", .m_description = "Kill all totems in the Kurast 3000 BA.", .m_category = "Rifts"},
+                      [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
+                          aTrackers[GE::ConditionType::Activator].insert(&aPD.m_inZone);
+                          aTrackers[GE::ConditionType::Completer].insert(&aPD.m_totemsKilled);
+                          aTrackers[GE::ConditionType::Failer].insert(&aPD.m_timer);
+                      })
             .Update(GE::Status::Inactive, Utils::InZone(Data::Zone::MXL_Kurast3000BA, &PD::m_inZone))
             .OnEntering(GE::Status::Active,
                         [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
