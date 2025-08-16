@@ -1,25 +1,15 @@
 extends MarginContainer
 
-func _ready() -> void:
-	Backend.get_statistics_module().statistics_changed.connect(_update_statistics)
+func create_overlay_content():
+	return preload("res://modules/statistics/statistics_overlay.tscn").instantiate()
 
-func _update_statistics():
-	var d := Backend.get_statistics_module().get_statistics()
-	%ExpTotal.text = "%s" % d["exp_total"]
-	%ExpPer.text = "%s /min" % d["exp_per"]
-	%ItemsTotal.text = "%s" % d["items_total"]
-	%ItemsPer.text = "%s /min" % d["items_per"]
-	%RaresTotal.text = "%s" % d["rare_total"]
-	%RaresPer.text = "%s /min" % d["rare_per"]
-	%SetsTotal.text = "%s" % d["set_total"]
-	%SetsPer.text = "%s /min" % d["set_per"]
-	%UniquesTotal.text = "%s" % d["unique_total"]
-	%UniquesPer.text = "%s /min" % d["unique_per"]
+func create_damage_meter_overlay_content():
+	return preload("res://modules/statistics/damage_meter_overlay.tscn").instantiate()
 
 
-func _on_button_pressed() -> void:
+func _on_reset_stats_btn_pressed() -> void:
 	Backend.get_statistics_module().reset()
 
 
-func create_overlay_content():
-	return preload("res://modules/statistics/statistics_overlay.tscn").instantiate()
+func _on_reset_dmg_btn_pressed() -> void:
+	Backend.get_statistics_module().reset_dmg_stats()

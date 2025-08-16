@@ -47,6 +47,7 @@ func _ready() -> void:
 	$Overlay.add_panel("Notifications", preload("res://utils/notifications/notification_overlay.tscn").instantiate())
 	$Overlay.add_panel("LootFilter", %Lootfilter.create_overlay_content())
 	$Overlay.add_panel("Statistics", %Statistics.create_overlay_content())
+	$Overlay.add_panel("DamageMeter", %Statistics.create_damage_meter_overlay_content())
 
 
 func _on_discover_timer_timeout() -> void:

@@ -182,6 +182,12 @@ namespace godot
         std::unique_ptr<TimedOccurence<uint32_t>> m_uniqueItems;
         uint32_t m_totalUniqueItems = 0;
 
+        std::unique_ptr<TimedOccurence<uint64_t>> m_dmgPer5Sec;
+        uint64_t m_totalDmg = 0;
+
+        void UpdateExperience(const D2::Data::DataAccess& aDataAccess);
+        void UpdateItems(const D2::Data::SharedData& aSharedData);
+        void UpdateDmg(const D2::Data::DataAccess& aDataAccess);
         void UpdateInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData) override;
 
     protected:
@@ -192,5 +198,8 @@ namespace godot
 
         Dictionary get_statistics() const;
         void reset();
+
+        Dictionary get_dmg_stats() const;
+        void reset_dmg_stats();
     };
 }
