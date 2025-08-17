@@ -33,6 +33,7 @@ set(SOURCE_FILES
 				"binding/modules/module.cpp"
 				"binding/modules/achievements_module.cpp"
 				"binding/modules/backup_module.cpp"
+				"binding/modules/bestiary_module.cpp"
 				"binding/modules/developer_module.cpp"
 				"binding/modules/lootfilter_module.cpp"
 				"binding/modules/statistics_module.cpp"
