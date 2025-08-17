@@ -51,6 +51,8 @@ set(SOURCE_FILES
 				"d2/achievements/achievements/dungeons/very_easy/death_projector_high_health.cpp"
 				# Easy
 				"d2/achievements/achievements/dungeons/easy/binding_of_baal_kill_at_most_4_minions.cpp"
+				"d2/achievements/achievements/dungeons/easy/akarat_let_heal_and_kill.cpp"
+				"d2/achievements/achievements/dungeons/easy/horazons_sanctum_no_portal_kill_have_10_portals.cpp"
 				# Moderate
 				"d2/achievements/achievements/dungeons/moderate/heart_of_sin_negative_fire_res.cpp"
 				"d2/achievements/achievements/rifts/moderate/kurast_3000ba_kill_all_totems_timed.cpp"

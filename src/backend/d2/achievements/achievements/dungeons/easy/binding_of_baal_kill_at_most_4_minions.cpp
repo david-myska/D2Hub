@@ -11,7 +11,7 @@ namespace D2::Achi::Dungeons::Easy::BindingOfBaal::KillAtMostFourMinions
 
     struct PD : public GE::BaseProgressData
     {
-        GE::ProgressTrackerBool m_inZone = {this, "In Old Canyon of the Magi", true};
+        GE::ProgressTrackerBool m_inZone = {this, Utils::InStr(Data::Zone::MXL_CanyonOfTheMagi), true};
 
         Data::GUID m_targetId = 0;
         GE::ProgressTrackerBool m_targetKilled = {this, Utils::KillStr(TalRasha), true};
