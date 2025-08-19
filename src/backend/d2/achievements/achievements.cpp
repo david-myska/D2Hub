@@ -14,6 +14,8 @@
 #include "achievements/dungeons/easy/binding_of_baal_kill_at_most_4_minions.h"
 #include "achievements/dungeons/moderate/heart_of_sin_negative_fire_res.h"
 #include "achievements/dungeons/very_easy/death_projector_high_health.h"
+#include "achievements/rifts/easy/the_secret_cow_level_peaceful_gathering.h"
+#include "achievements/rifts/moderate/kurast_3000ba_kill_all_totems_timed.h"
 
 namespace D2
 {
@@ -35,6 +37,9 @@ namespace D2
         result.emplace(id++, D2::Achi::Dungeons::VeryEasy::DeathProjector::HighHealth::Create());
         result.emplace(id++, D2::Achi::Dungeons::Easy::BindingOfBaal::KillAtMostFourMinions::Create());
         result.emplace(id++, D2::Achi::Dungeons::Moderate::HeartOfSin::NegativeFireRes::Create());
+        // Rifts
+        result.emplace(id++, D2::Achi::Rifts::Easy::TheSecretCowLevel::PeacefulGathering::Create());
+        result.emplace(id++, D2::Achi::Rifts::Moderate::Kurast3000BA::KillAllTotemsTimed::Create());
 
         return result;
     }

@@ -58,11 +58,11 @@ namespace D2::Achi::Dungeons::Easy::Akarat::LetHealAndKill
                         }
                         else if (aPD.m_stage == Stage::Damaged)
                         {
-                            if (aS.GetMonsters().GetByGUID(aPD.m_targetId).m_life ==
-                                aS.GetMonsters().GetByGUID(aPD.m_targetId).m_maxLife)
-                            {
-                                aPD.m_stage = Stage::Healed;
-                            }
+                            //if (aS.GetMonsters().GetByGUID(aPD.m_targetId).m_life ==
+                            //    aS.GetMonsters().GetByGUID(aPD.m_targetId).m_maxLife)
+                            //{
+                            //    aPD.m_stage = Stage::Healed;
+                            //}
                         }
                         else if (aPD.m_stage == Stage::Healed)
                         {

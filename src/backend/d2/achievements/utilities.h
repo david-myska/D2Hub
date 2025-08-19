@@ -101,7 +101,7 @@ namespace D2::Achi::Utils
     {
         return [aZones = std::move(aZones), aTracker](const D2::Data::DataAccess& aData, const D2::Data::SharedData& aCache,
                                                       PD& aPD) {
-            aPD.*aTracker = aZones.contain(aData.GetMisc().GetZone());
+            aPD.*aTracker = aZones.contains(aData.GetMisc().GetZone());
         };
     }
 
