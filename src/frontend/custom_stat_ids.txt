@@ -1,1 +1,74 @@
+00190000,% Weapon Physical Damage
+001B0000,% Regenerate Mana
+001F0000,Defense
+00280000,Maximum Fire Resist
+002A0000,Maximum Lightning Resist
+002C0000,Maximum Cold Resist
+002E0000,Maximum Poison Resist
+00300000,Weapon Min Fire Damage
+00310000,Weapon Max Fire Damage
+00320000,Weapon Min Lightning Damage
+00330000,Weapon Max Lightning Damage
+00360000,Weapon Min Cold Damage
+00370000,Weapon Max Cold Damage
+003C0000,% Life stolen per Hit
+003E0000,% Mana stolen per Hit
+00440000,Weapon's Base Attack Speed
 00460000,Quantity
+004A0000,Life Regenerated per Second
+004C0000,% Life
+004D0000,% Mana
+00500000,Magic Find
+00530000,Amazon Skills
+00530001,Sorceress Skills
+00530002,Necromancer Skills
+00530003,Paladin Skills
+00530004,Barbarian Skills
+00530005,Druid Skills
+00530006,Assassin Skills
+00550000,Experience Gained
+00570000,All Vendor Prices
+005C0000,Required Level (modifier)
+00610227,Jitan's Gate
+0061056E,Bane (oskill)
+00610687,Teleport (oskill)
+006106AD,Overlord (oskill)
+00610722,Purify (oskill)
+00660000,Block Speed
+006E0000,Poison Length Reduction
+00760000,Half Freeze Duration
+00770000,% Bonus to Attack Rating
+007F0000,All Skills
+00880000,% Chance of Crushing Blow
+008E0000,Fire Absorb
+00900000,Lightning Absorb
+00940000,Cold Absorb
+00990000,Cannot Be Frozen
+00AB0000,% Bonus to Defense
+01030000,Charges
+01490000,% Fire Spell Damage
+014A0000,% Lightning Spell Damage
+014B0000,% Cold Spell Damage
+014C0000,% Poison Spell Damage
+014D0000,Enemy Fire Resist
+014E0000,Enemy Lightning Resist
+014F0000,Enemy Cold Resist
+01500000,Enemy Poison Resist
+01520000,% Chance to Avoid Damage (Weapon Hit)
+01530000,% Chance to Avoid Damage (Projectile Hit)
+01540000,% Chance to Avoid Damage (Spell Hit)
+01650000,% Physical/Magic Spell Damage
+01670000,% Strength
+01680000,% Energy
+01690000,% Energy
+016A0000,% Vitality
+019A0000,Prefixes
+019B0000,Suffixes
+019E0000,% Bonus to Summoned Edyrem Life
+01D60000,Summoned Minion Damage
+01E40000,% Innate Elemental Damage
+01E50000,Spell Focus
+01E70000,Summoned Minion Resistances
+01E80000,% Bonus to Spell Focus
+01F50000,ContainerQuantity
+006101D9,Supernova (oskill)

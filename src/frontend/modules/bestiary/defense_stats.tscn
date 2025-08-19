@@ -1,0 +1,71 @@
+[gd_scene load_steps=2 format=3 uid="uid://drguvok0cj7e7"]
+
+[ext_resource type="Script" uid="uid://cdm7ovqsuujax" path="res://modules/bestiary/defense_stats.gd" id="1_auxjw"]
+
+[node name="DefenseStats" type="HBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_auxjw")
+
+[node name="ElementalResists" type="GridContainer" parent="."]
+layout_mode = 2
+columns = 5
+
+[node name="ResistLabel" type="Label" parent="ElementalResists"]
+layout_mode = 2
+text = "Resist"
+
+[node name="FireRes" type="Label" parent="ElementalResists"]
+unique_name_in_owner = true
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+text = "0"
+
+[node name="ColdRes" type="Label" parent="ElementalResists"]
+unique_name_in_owner = true
+modulate = Color(0, 0, 1, 1)
+layout_mode = 2
+text = "0"
+
+[node name="LightningRes" type="Label" parent="ElementalResists"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 0, 1)
+layout_mode = 2
+text = "0"
+
+[node name="PoisonRes" type="Label" parent="ElementalResists"]
+unique_name_in_owner = true
+modulate = Color(0, 1, 0, 1)
+layout_mode = 2
+text = "0"
+
+[node name="AbsorbLabel" type="Label" parent="ElementalResists"]
+layout_mode = 2
+text = "Absorb"
+
+[node name="FireAbs" type="Label" parent="ElementalResists"]
+unique_name_in_owner = true
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+text = "0"
+
+[node name="ColdAbs" type="Label" parent="ElementalResists"]
+unique_name_in_owner = true
+modulate = Color(0, 0, 1, 1)
+layout_mode = 2
+text = "0"
+
+[node name="LightningAbs" type="Label" parent="ElementalResists"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 0, 1)
+layout_mode = 2
+text = "0"
+
+[node name="PoisonAbs" type="Label" parent="ElementalResists"]
+unique_name_in_owner = true
+modulate = Color(0, 1, 0, 1)
+layout_mode = 2
+text = "0"

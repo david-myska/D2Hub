@@ -35,6 +35,6 @@ func _on_is_tiered_toggled(toggled_on: bool) -> void:
 func _reset():
 	%NameLabel.modulate = Color.WHITE
 	%NameLE.text = ""
-	%IsTiered.button_pressed = true
+	%IsTiered.button_pressed = false
 	%ChosenTier.select(0)
-	%FixOtherTiers.button_pressed = true
+	%FixOtherTiers.button_pressed = false

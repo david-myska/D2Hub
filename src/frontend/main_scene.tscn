@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://c5ca2tajwu10l"]
+[gd_scene load_steps=10 format=3 uid="uid://c5ca2tajwu10l"]
 
 [ext_resource type="PackedScene" uid="uid://dyreym3cio3mc" path="res://modules/achievements/achievement_screen.tscn" id="1_0f027"]
 [ext_resource type="Script" uid="uid://b8mcr6oqu1aqb" path="res://main_scene.gd" id="1_gyfs4"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bxbty8fetvnll" path="res://modules/settings/settings_screen.tscn" id="3_hq1ik"]
 [ext_resource type="PackedScene" uid="uid://c6y5wmgcenk6x" path="res://modules/lootfilter/lootfilter_screen.tscn" id="3_nfk4m"]
 [ext_resource type="PackedScene" uid="uid://cwqls6dvtnjfm" path="res://modules/statistics/statistics_screen.tscn" id="4_7ycvg"]
+[ext_resource type="PackedScene" uid="uid://cwiyi5jgu0ich" path="res://modules/bestiary/bestiary_screen.tscn" id="5_7ycvg"]
 [ext_resource type="PackedScene" uid="uid://dsd2jshumefwu" path="res://utils/notifications/message_popup.tscn" id="6_hq1ik"]
 [ext_resource type="PackedScene" uid="uid://d3ro1b34mcrhu" path="res://overlay/overlay.tscn" id="7_nfk4m"]
 
@@ -189,11 +190,16 @@ visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
+[node name="Bestiary" parent="MarginContainer/VBoxContainer/Body/MainPanel/TabContainer" instance=ExtResource("5_7ycvg")]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 3
+
 [node name="Settings" parent="MarginContainer/VBoxContainer/Body/MainPanel/TabContainer" instance=ExtResource("3_hq1ik")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-metadata/_tab_index = 3
+metadata/_tab_index = 4
 
 [node name="Footer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2

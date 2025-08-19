@@ -25,9 +25,9 @@ namespace D2
         auto dynPathLayout = GE::Layout::MakeConsecutive()->SetTotalSize(sizeof(Raw::DynamicPath)).Build();
         auto gameLayout = GE::Layout::MakeConsecutive()
                               ->SetTotalSize(sizeof(Raw::Game))
-                              .AddPointerOffsets(0x1120u + 0 * 128 * 4, "UnitData", 128)  // Players
+                              //.AddPointerOffsets(0x1120u + 0 * 128 * 4, "UnitData", 128)  // Players
                               .AddPointerOffsets(0x1120u + 1 * 128 * 4, "UnitData", 128)  // Monsters
-                              .AddPointerOffsets(0x1120u + 3 * 128 * 4, "UnitData", 128)  // Items, 3 is correct here
+                              //.AddPointerOffsets(0x1120u + 3 * 128 * 4, "UnitData", 128)  // Items, 3 is correct here
                               .Build();
         auto clientUnitsLayout = GE::Layout::MakeConsecutive()
                                      ->SetTotalSize(sizeof(Raw::ClientUnits))
@@ -123,14 +123,12 @@ namespace D2
             auto baseLayout = aDataAccess.Get<ScatteredLayout>("Base");
             if (*baseLayout->m_inGame)
             {
-                // aEnabler.Enable("Game");
                 aEnabler.Enable("GameUtils");
                 aEnabler.Enable("ClientUnits");
             }
             else
             {
                 g_invalidStart = false;
-                // aEnabler.Disable("Game");
                 aEnabler.Disable("GameUtils");
                 aEnabler.Disable("ClientUnits");
             }
@@ -145,6 +143,17 @@ namespace D2
         };
         gameUtilsCallbacks.m_onDisabled = [aInGameDisabled](const GE::DataAccessor&) {
             aInGameDisabled();
+        };
+        gameUtilsCallbacks.m_enabler = [](const GE::DataAccessor& aDataAccess, GE::Enabler& aEnabler) {
+            auto guLayout = aDataAccess.Get<GameUtilsLayout>("GameUtils");
+            if (guLayout->m_localPlayer->m_GUID == 1)  // Player is host (either single player or host in LAN), not online
+            {
+                aEnabler.Enable("Game");
+            }
+            else
+            {
+                aEnabler.Disable("Game");
+            }
         };
 
         GE::MainLayoutCallbacks clientUnitsCallbacks;
@@ -166,9 +175,9 @@ namespace D2
         };
 
         aMemoryProcessor.AddMainLayout("Base", baseCallbacks);
-        aMemoryProcessor.AddMainLayout("Game", inGameCallbacks);
         aMemoryProcessor.AddMainLayout("GameUtils", gameUtilsCallbacks);
         aMemoryProcessor.AddMainLayout("ClientUnits", clientUnitsCallbacks);
+        aMemoryProcessor.AddMainLayout("Game", inGameCallbacks);
     }
 
     bool InvalidStart()

@@ -188,6 +188,11 @@
 000000D2,Giant Axe (3)
 000000D3,Giant Axe (4)
 000000D4,Giant Axe (Sacred)
+000000D5,Giant Sword (1)
+000000D6,Giant Sword (2)
+000000D7,Giant Sword (3)
+000000D8,Giant Sword (4)
+000000D9,Giant Sword (Sacred)
 000000DA,Glaive (1)
 000000DB,Glaive (2)
 000000DC,Glaive (3)
@@ -203,6 +208,11 @@
 000000E6,Goedendag (3)
 000000E7,Goedendag (4)
 000000E8,Goedendag (Sacred)
+000000E9,Grand Scepter (1)
+000000EA,Grand Scepter (2)
+000000EB,Grand Scepter (3)
+000000EC,Grand Scepter (4)
+000000ED,Grand Scepter (Sacred)
 000000EE,Great Axe (1)
 000000EF,Great Axe (2)
 000000F0,Great Axe (3)
@@ -248,6 +258,11 @@
 00000118,Hatchet Hands (3)
 00000119,Hatchet Hands (4)
 0000011A,Hatchet Hands (Sacred)
+0000011B,Heavy Crossbow (1)
+0000011C,Heavy Crossbow (2)
+0000011D,Heavy Crossbow (3)
+0000011E,Heavy Crossbow (4)
+0000011F,Heavy Crossbow (Sacred)
 00000120,Hexblade (1)
 00000121,Hexblade (2)
 00000122,Hexblade (3)
@@ -333,6 +348,11 @@
 00000172,Mace (3)
 00000173,Mace (4)
 00000174,Mace (Sacred)
+00000175,Maiden Javelin (1)
+00000176,Maiden Javelin (2)
+00000177,Maiden Javelin (3)
+00000178,Maiden Javelin (4)
+00000179,Maiden Javelin (Sacred)
 0000017A,Maiden Pike (1)
 0000017B,Maiden Pike (2)
 0000017C,Maiden Pike (3)
@@ -358,6 +378,11 @@
 00000190,Marrow Staff (3)
 00000191,Marrow Staff (4)
 00000192,Marrow Staff (Sacred)
+00000193,Maul (1)
+00000194,Maul (2)
+00000195,Maul (3)
+00000196,Maul (4)
+00000197,Maul (Sacred)
 00000198,Military Pick (1)
 00000199,Military Pick (2)
 0000019A,Military Pick (3)
@@ -413,6 +438,11 @@
 000001CC,Repeating Crossbow (3)
 000001CD,Repeating Crossbow (4)
 000001CE,Repeating Crossbow (Sacred)
+000001CF,Saber (1)
+000001D0,Saber (2)
+000001D1,Saber (3)
+000001D2,Saber (4)
+000001D3,Saber (Sacred)
 000001D4,Sacred Globe (1)
 000001D5,Sacred Globe (2)
 000001D6,Sacred Globe (3)
@@ -933,6 +963,11 @@
 000003FB,Morion (3)
 000003FC,Morion (4)
 000003FD,Morion (Sacred)
+000003FE,Parma (1)
+000003FF,Parma (2)
+00000400,Parma (3)
+00000401,Parma (4)
+00000402,Parma (Sacred)
 00000403,Phoenix Shield (1)
 00000404,Phoenix Shield (2)
 00000405,Phoenix Shield (3)
@@ -1057,46 +1092,72 @@
 0000047D,Zombie Head (3)
 0000047E,Zombie Head (4)
 0000047F,Zombie Head (Sacred)
+00000486,Light Plated Boots (Angelic)
 000004B2,Horadric Cube
 000004B8,Amulet
 000004B9,Ring
+000004BA,Jewel
 000004C4,Arrow Quiver
 000004C5,Bolt Quiver
 000004C6,Key
 000004C7,Minor Healing Potion
 000004CC,Minor Mana Potion
-000001CF,Saber (1)
-000001D0,Saber (2)
-000001D1,Saber (3)
-000001D2,Saber (4)
-000001D3,Saber (Sacred)
-00000193,Maul (1)
-00000194,Maul (2)
-00000195,Maul (3)
-00000196,Maul (4)
-00000197,Maul (Sacred)
-000003FE,Parma (1)
-000003FF,Parma (2)
-00000400,Parma (3)
-00000401,Parma (4)
-00000402,Parma (Sacred)
-00000175,Maiden Javelin (1)
-00000176,Maiden Javelin (2)
-00000177,Maiden Javelin (3)
-00000178,Maiden Javelin (4)
-00000179,Maiden Javelin (Sacred)
-0000011B,Heavy Crossbow (1)
-0000011C,Heavy Crossbow (2)
-0000011D,Heavy Crossbow (3)
-0000011E,Heavy Crossbow (4)
-0000011F,Heavy Crossbow (Sacred)
-000000E9,Grand Scepter (1)
-000000EA,Grand Scepter (2)
-000000EB,Grand Scepter (3)
-000000EC,Grand Scepter (4)
-000000ED,Grand Scepter (Sacred)
-000000D5,Giant Sword (1)
-000000D6,Giant Sword (2)
-000000D7,Giant Sword (3)
-000000D8,Giant Sword (4)
-000000D9,Giant Sword (Sacred)
+000004D3,Apple
+0000053D,Ol Rune
+000006BE,Arcane Shards (1)
+000006BF,Arcane Shards (2)
+000006C0,Arcane Shards (3)
+000006C3,Arcane Cluster
+000006C4,Catalyst of Learning
+000006C5,Catalyst of Disenchantment
+000006C6,Catalyst of Jewelcraft
+000006FE,Optical Detector
+00000700,Visions of Akarat
+00000702,Laser Focus Crystal
+00000703,The Butcher's Tooth
+00000705,Idol of Vanity
+00000707,Horazon's Focus
+0000070A,Zakarum's Ear
+00000711,Sunstone of the Gods
+00000715,Legacy of Blood
+0000071C,Eye of Divinity
+00000728,Sunstone of the Twin Seas
+0000079D,Key of Lies
+0000079E,Key of Sin
+0000080D,Riftwalker's Eye
+0000085E,Corrupted Shards (1)
+0000085F,Corrupted Shards (2)
+00000860,Corrupted Shards (3)
+00000861,Corrupted Shards (4)
+00000876,Catalyst of Transference
+0000070C,Moon of the Spider
+00000701,Scroll of Kings
+000007A4,The Black Road
+0000070B,Spirit Trance Herb
+000006FF,Azmodan's Heart
+00000704,Sacred Worldstone Key
+0000071E,Crystalline Flame Medallion
+00000727,Soul of Kabraxis
+00000720,Silver Seal of Ureh
+0000070D,Eternal Bone Pile
+00000723,Demonsbane
+0000072A,Umbaru Treasure
+000007A9,Weather Control
+0000071F,Fool's Gold
+00000709,Six Angel Bag
+0000072E,Corrupted Wormhole
+000007AA,Spirit of Creation
+00000722,The Book of Lies
+00000721,Astrogha's Venom Stinger
+0000072D,Xazax's Illusion
+00000871,Bone Chimes
+000007A6,Lylia's Curse
+00000716,Paragon's Hammer
+000007A7,Dragon Claw
+000004BB,Relic
+00000724,Cold Fusion Schematics
+0000072B,The Sleep
+0000072C,The Ancient Repositories
+00000729,Neutrality Pact
+00000730,Books of Kalan
+000004CB,Super Healing Potion

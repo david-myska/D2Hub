@@ -169,6 +169,14 @@ namespace D2::Data
             }
         }
 
+        void SetValue(Stat::Id aStat, int32_t aValue)
+        {
+            if (Has(aStat))
+            {
+                m_stats[static_cast<uint32_t>(aStat)] = aValue;
+            }
+        }
+
         bool Has(Stat::Id aStat) const { return Has(static_cast<uint32_t>(aStat)); }
 
         bool Has(uint32_t aStatId) const { return m_stats.contains(aStatId); }
@@ -212,7 +220,7 @@ namespace D2::Data
 
         virtual ~Unit() = default;
 
-        const Stats m_stats;
+        Stats m_stats;
         const Position m_pos;
         const GUID m_id;
         const uint32_t m_class;
@@ -408,7 +416,7 @@ namespace D2::Data
 
     struct Monsters : public Units<Monster>
     {
-        Monsters(const Raw::UnitData<Raw::MonsterData>* const aRaw[128])
+        Monsters(const Raw::UnitData<Raw::MonsterData>* const aRaw[128], const Raw::Game* aServerGame)
             : Units(aRaw)
         {
             for (const auto& [id, mon] : m_units)
@@ -420,6 +428,27 @@ namespace D2::Data
                 else
                 {
                     m_dead[id] = mon;
+                }
+            }
+            if (aServerGame)
+            {
+                Units<Monster> serverMonsters(aServerGame->m_pMonsterList);
+                for (const auto& [id, mon] : serverMonsters.Get())
+                {
+                    if (!m_units.contains(id))
+                    {
+                        continue;
+                    }
+                    auto& stats = const_cast<Monster*>(m_units[id])->m_stats;
+                    auto& serverStats = const_cast<Monster*>(serverMonsters.GetById(id))->m_stats;
+                    if (auto v = serverStats.GetValue(Stat::Id::Life))
+                    {
+                        stats.SetValue(Stat::Id::Life, *v);
+                    }
+                    if (auto v = serverStats.GetValue(Stat::Id::MaxLife))
+                    {
+                        stats.SetValue(Stat::Id::MaxLife, *v);
+                    }
                 }
             }
         }
@@ -719,7 +748,6 @@ namespace D2::Data
             , m_difficulty(
                   Difficulty::Normal)  // static_cast<Difficulty>(m_dataAccess->Get<Raw::Game>("Game")->m_difficultyLevel))
             , m_gameType(GameType{})   // TODO
-            //, m_localPlayerName("xxx")
             , m_localPlayerName(reinterpret_cast<const char*>(
                   m_dataAccess->Get<GameUtilsLayout>("GameUtils")->m_localPlayer->m_pUnitData->m_name))
         {
@@ -771,7 +799,8 @@ namespace D2::Data
             FrameData(const GE::DataAccessor& aDataAccess, size_t aFrame = 0)
                 : m_players(aDataAccess.Get<Raw::ClientUnits>("ClientUnits", aFrame)->m_pPlayerList,
                             aDataAccess.Get<GameUtilsLayout>("GameUtils", aFrame)->m_localPlayer->m_GUID)
-                , m_monsters(aDataAccess.Get<Raw::ClientUnits>("ClientUnits", aFrame)->m_pMonsterList)
+                , m_monsters(aDataAccess.Get<Raw::ClientUnits>("ClientUnits", aFrame)->m_pMonsterList,
+                             aDataAccess.Get<Raw::Game>("Game", aFrame))
                 , m_items(aDataAccess.Get<Raw::ClientUnits>("ClientUnits", aFrame)->m_pItemList)
                 , m_misc(*aDataAccess.Get<GameUtilsLayout>("GameUtils")->m_zone)
             {

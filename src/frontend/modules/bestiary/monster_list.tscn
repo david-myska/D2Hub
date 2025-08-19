@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://3va25k83n445"]
+
+[ext_resource type="Script" uid="uid://bihcil3gt5yiu" path="res://modules/bestiary/monster_list.gd" id="1_3vcge"]
+
+[node name="MonsterList" type="GridContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 4
+script = ExtResource("1_3vcge")

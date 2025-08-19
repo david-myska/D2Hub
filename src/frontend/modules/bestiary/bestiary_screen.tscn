@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://cwiyi5jgu0ich"]
+
+[ext_resource type="Script" uid="uid://dumtg20o4ds67" path="res://modules/bestiary/bestiary_screen.gd" id="1_fwtlc"]
+[ext_resource type="PackedScene" uid="uid://3va25k83n445" path="res://modules/bestiary/monster_list.tscn" id="2_lbmfk"]
+
+[node name="BestiaryScreen" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fwtlc")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="MonsterList" parent="ScrollContainer" instance=ExtResource("2_lbmfk")]
+unique_name_in_owner = true
+layout_mode = 2
