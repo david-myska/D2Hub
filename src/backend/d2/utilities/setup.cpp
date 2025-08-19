@@ -146,6 +146,10 @@ namespace D2
         };
         gameUtilsCallbacks.m_enabler = [](const GE::DataAccessor& aDataAccess, GE::Enabler& aEnabler) {
             auto guLayout = aDataAccess.Get<GameUtilsLayout>("GameUtils");
+            if (!guLayout)
+            {
+                return;
+            }
             if (guLayout->m_localPlayer->m_GUID == 1)  // Player is host (either single player or host in LAN), not online
             {
                 aEnabler.Enable("Game");

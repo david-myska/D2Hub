@@ -182,8 +182,12 @@ namespace godot
         std::unique_ptr<TimedOccurence<uint32_t>> m_uniqueItems;
         uint32_t m_totalUniqueItems = 0;
 
-        std::unique_ptr<TimedOccurence<uint64_t>> m_dmgPer5Sec;
         uint64_t m_totalDmg = 0;
+        std::unique_ptr<TimedOccurence<uint64_t>> m_burstDmg;
+        uint64_t m_burstDmgRecord = 0;
+        static constexpr uint64_t c_stableDpsInterval = 60;  // seconds
+        std::unique_ptr<TimedOccurence<uint64_t>> m_stableDps;
+        uint64_t m_stableDpsRecord = 0;
 
         void UpdateExperience(const D2::Data::DataAccess& aDataAccess);
         void UpdateItems(const D2::Data::SharedData& aSharedData);

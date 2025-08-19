@@ -73,10 +73,14 @@ void StatisticsModule::UpdateDmg(const D2::Data::DataAccess& aDataAccess)
 
     if (currDmg == 0)
     {
-        m_dmgPer5Sec->Cleanup();
+        m_burstDmg->Cleanup();
+        m_stableDps->Cleanup();
         return;
     }
-    m_dmgPer5Sec->Update(currDmg);
+    m_burstDmg->Update(currDmg);
+    m_burstDmgRecord = std::max(m_burstDmgRecord, m_burstDmg->GetSummedValue());
+    m_stableDps->Update(currDmg);
+    m_stableDpsRecord = std::max(m_stableDpsRecord, m_stableDps->GetSummedValue());
     m_totalDmg += currDmg;
 }
 
@@ -149,14 +153,18 @@ Dictionary StatisticsModule::get_dmg_stats() const
 {
     Dictionary d;
     d["dmg_total"] = m_totalDmg;
-    d["dps"] = m_dmgPer5Sec->GetSummedValue() / 5;
+    d["dmg_burst"] = m_burstDmg->GetSummedValue();
+    d["dmg_burst_record"] = m_burstDmgRecord;
+    d["dps_stable"] = m_stableDps->GetSummedValue() / c_stableDpsInterval;
+    d["dps_stable_record"] = m_stableDpsRecord / c_stableDpsInterval;
     return d;
 }
 
 void StatisticsModule::reset_dmg_stats()
 {
-    m_dmgPer5Sec = std::make_unique<TimedOccurence<uint64_t>>(std::chrono::seconds(5));
     m_totalDmg = 0;
+    m_burstDmg = std::make_unique<TimedOccurence<uint64_t>>(std::chrono::seconds(3));
+    m_stableDps = std::make_unique<TimedOccurence<uint64_t>>(std::chrono::seconds(c_stableDpsInterval));
     call_deferred("emit_signal", "dmg_changed");
 }
 
