@@ -25,7 +25,7 @@ namespace godot
     {
         GDCLASS(BestiaryModule, Module)
 
-        Array m_monsters;
+        Dictionary m_monsters;
 
         void UpdateInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData) override;
 
@@ -35,6 +35,6 @@ namespace godot
     public:
         static Ref<BestiaryModule> Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier);
 
-        Array get_monsters() const;
+        Dictionary get_monsters() const;
     };
 }

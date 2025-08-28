@@ -14,6 +14,7 @@ using namespace D2::Data;
 Dictionary CreateMonsterDict(const Monster* aMonster)
 {
     Dictionary dict;
+    dict["id"] = aMonster->m_id;
     dict["name"] = String(aMonster->m_name.c_str());
     dict["level"] = aMonster->m_stats.GetValue(Stat::Id::CharLevel).value_or(0);
     dict["max_life"] = aMonster->m_stats.GetValue(Stat::Id::MaxLife).value_or(0);
@@ -42,11 +43,16 @@ Dictionary CreateMonsterDict(const Monster* aMonster)
 
 void BestiaryModule::UpdateInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData)
 {
-    m_monsters.clear();
-
-    for (const auto& [_, monster] : aDataAccess.GetMonsters().Get())
+    if (aSharedData.GetOutMonsters().empty() && aSharedData.GetInMonsters().empty())
     {
-        m_monsters.push_back(CreateMonsterDict(monster));
+        return;
+    }
+    m_monsters.clear();
+    for (const auto& [id, monster] : aDataAccess.GetMonsters().Get())
+    {
+        String name(monster->m_name.c_str());
+        Dictionary idDict = m_monsters.get_or_add(name, Dictionary());
+        idDict[id] = CreateMonsterDict(monster);
     }
     call_deferred("emit_signal", "monsters_changed");
 }
@@ -68,7 +74,7 @@ Ref<BestiaryModule> BestiaryModule::Create(std::shared_ptr<spdlog::logger> aLogg
     return module;
 }
 
-Array BestiaryModule::get_monsters() const
+Dictionary BestiaryModule::get_monsters() const
 {
     return m_monsters;
 }

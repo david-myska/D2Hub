@@ -1,14 +1,22 @@
 extends GridContainer
 
-func fill(monsters : Array):
+func fill(monsters : Dictionary):
 	for c in get_children():
 		c.queue_free()
 	for m in monsters:
-		add_entry(m)
+		add_entry(_preprocess_monsters(monsters[m]))
+
+func _preprocess_monsters(named_monsters : Dictionary) -> Dictionary:
+	var result := {}
+	var mon = named_monsters.values()[0]
+	for k in mon:
+		result[k] = mon[k]
+	result["count"] = named_monsters.size()
+	return result
 
 func add_entry(d : Dictionary):
 	var name_lbl := Label.new()
-	name_lbl.text = d["name"]
+	name_lbl.text = "%s (%s)" % [d["name"], d["count"]]
 	add_child(name_lbl)
 	var level_lbl := Label.new()
 	level_lbl.text = str(d["level"])

@@ -26,7 +26,7 @@ namespace D2
         auto gameLayout = GE::Layout::MakeConsecutive()
                               ->SetTotalSize(sizeof(Raw::Game))
                               //.AddPointerOffsets(0x1120u + 0 * 128 * 4, "UnitData", 128)  // Players
-                              .AddPointerOffsets(0x1120u + 1 * 128 * 4, "UnitData", 128)  // Monsters
+                              .AddPointerOffsets(0x1120u + 1 * 128 * 4, "StatUnitData", 128)  // Monsters
                               //.AddPointerOffsets(0x1120u + 3 * 128 * 4, "UnitData", 128)  // Items, 3 is correct here
                               .Build();
         auto clientUnitsLayout = GE::Layout::MakeConsecutive()
@@ -90,6 +90,11 @@ namespace D2
                               .AddPointerOffsets(0x60u, "Inventory")
                               .AddPointerOffsets(0xE4u, "UnitData")
                               .Build();
+        auto statUnitLayout = GE::Layout::MakeConsecutive()
+                              ->SetTotalSize(sizeof(Raw::UnitData<>))
+                              .AddPointerOffsets(0x5Cu, "StatListEx")
+                              .AddPointerOffsets(0xE4u, "UnitData")
+                              .Build();
         auto gameUtilsLayout = GE::Layout::MakeScattered()
                                    ->SetTotalSize(sizeof(GameUtilsLayout))
                                    .AddPointerOffsets(PMA::MultiLevelPointer{0x11C078u, 0x34u, 0x70u}, sizeof(D2::Data::Zone))
@@ -108,6 +113,7 @@ namespace D2
         aMemoryProcessor.RegisterLayout("StatList", std::move(statlistLayout));
         aMemoryProcessor.RegisterLayout("StatListEx", std::move(statlistExLayout));
         aMemoryProcessor.RegisterLayout("UnitData", std::move(unitLayout));
+        aMemoryProcessor.RegisterLayout("StatUnitData", std::move(statUnitLayout));
         aMemoryProcessor.RegisterLayout("GameUtils", std::move(gameUtilsLayout));
     }
 

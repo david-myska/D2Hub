@@ -6,6 +6,7 @@
 #include <optional>
 #include <set>
 #include <unordered_map>
+#include <functional>
 
 #include "raw.h"
 #include "stats.h"
@@ -145,6 +146,8 @@ namespace D2::Data
 
     struct Stats
     {
+        Stats() = default;
+
         Stats(const Raw::StatListEx* raw)
         {
             auto& stats = CP(raw)->m_fullStats;
@@ -336,6 +339,39 @@ namespace D2::Data
 
     template <typename UnitType>
         requires std::is_base_of_v<Unit, UnitType>
+    void IterateThroughUnits(const Raw::UnitData<typename UnitType::Raw>* aUnit,
+                             const std::function<void(const Raw::UnitData<typename UnitType::Raw>*)>& aFunc)
+    {
+        if (!aUnit)
+        {
+            return;
+        }
+        try
+        {
+            aFunc(aUnit);
+            // aOutput[aUnit->m_GUID] = std::make_unique<UnitType>(aUnit);
+        }
+        catch (...)
+        {
+            // Empty, allowing to skip invalid units
+            throw;
+        }
+        IterateThroughUnits<UnitType>(aUnit->m_pPrevUnit, aFunc);
+    }
+
+    template <typename UnitType>
+        requires std::is_base_of_v<Unit, UnitType>
+    void IterateThroughUnits(const Raw::UnitData<typename UnitType::Raw>* const aRaw[128],
+                             const std::function<void(const Raw::UnitData<typename UnitType::Raw>*)>& aFunc)
+    {
+        for (uint32_t i = 0; i < 128; ++i)
+        {
+            IterateThroughUnits<UnitType>(aRaw[i], aFunc);
+        }
+    }
+
+    template <typename UnitType>
+        requires std::is_base_of_v<Unit, UnitType>
     class Units
     {
         const std::map<GUID, std::unique_ptr<UnitType>> m_theUnits;
@@ -346,30 +382,10 @@ namespace D2::Data
         static auto InitializeUnits(const Raw::UnitData<typename UnitType::Raw>* const aRaw[128])
         {
             std::map<GUID, std::unique_ptr<UnitType>> result;
-            for (uint32_t i = 0; i < 128; ++i)
-            {
-                IterateThroughUnits(aRaw[i], result);
-            }
+            IterateThroughUnits<UnitType>(aRaw, [&result](const Raw::UnitData<typename UnitType::Raw>* aUnit) {
+                result[aUnit->m_GUID] = std::make_unique<UnitType>(aUnit);
+            });
             return result;
-        }
-
-        static void IterateThroughUnits(const Raw::UnitData<typename UnitType::Raw>* aUnit,
-                                        std::map<GUID, std::unique_ptr<UnitType>>& aOutput)
-        {
-            if (!aUnit)
-            {
-                return;
-            }
-            try
-            {
-                aOutput[aUnit->m_GUID] = std::make_unique<UnitType>(aUnit);
-            }
-            catch (...)
-            {
-                // Empty, allowing to skip invalid units
-                throw;
-            }
-            IterateThroughUnits(aUnit->m_pPrevUnit, aOutput);
         }
 
     public:
@@ -426,15 +442,18 @@ namespace D2::Data
             }
             if (aServerGame)
             {
-                Units<Monster> serverMonsters(aServerGame->m_pMonsterList);
-                for (const auto& [id, mon] : serverMonsters.Get())
+                std::map<GUID, Stats> serverMonstersStats;
+                IterateThroughUnits<Monster>(aServerGame->m_pMonsterList,
+                                    [&serverMonstersStats](const Raw::UnitData<Raw::MonsterData>* aUnit) {
+                                        serverMonstersStats[aUnit->m_GUID] = Stats(aUnit->m_pStatListEx);
+                                    });
+                for (const auto& [id, serverStats] : serverMonstersStats)
                 {
                     if (!m_units.contains(id))
                     {
                         continue;
                     }
                     auto& stats = const_cast<Monster*>(m_units[id])->m_stats;
-                    auto& serverStats = const_cast<Monster*>(serverMonsters.GetById(id))->m_stats;
                     if (auto v = serverStats.GetValue(Stat::Id::Life))
                     {
                         stats.SetValue(Stat::Id::Life, *v);
@@ -838,6 +857,7 @@ namespace D2::Data
             m_newMonsters = m_dataAccess->GetMonsters().Get() - m_dataAccess->m_allMonsters;
             m_deadMonsters = m_dataAccess->GetMonsters().GetDead() & m_dataAccess->GetMonsters(1).GetAlive();
             m_outMonsters = m_dataAccess->GetMonsters(1).GetAlive() - m_dataAccess->GetMonsters().GetAlive();
+            m_inMonsters = m_dataAccess->GetMonsters().GetAlive() - m_dataAccess->GetMonsters(1).GetAlive();
 
             // Update all items on ground
             auto pickedItems = m_dataAccess->GetItems(1).GetAt(Dropped) &
@@ -870,6 +890,8 @@ namespace D2::Data
 
         const std::map<GUID, const Monster*>& GetOutMonsters() const { return m_outMonsters; }
 
+        const std::map<GUID, const Monster*>& GetInMonsters() const { return m_inMonsters; }
+
     private:
         std::shared_ptr<DataAccess> m_dataAccess;
 
@@ -884,5 +906,6 @@ namespace D2::Data
         std::map<GUID, const Monster*> m_newMonsters;
         std::map<GUID, const Monster*> m_deadMonsters;
         std::map<GUID, const Monster*> m_outMonsters;
+        std::map<GUID, const Monster*> m_inMonsters;
     };
 }
