@@ -4,7 +4,7 @@
 
 namespace D2::Achi::Rifts::Easy::TheSecretCowLevel::PeacefulGathering
 {
-    constexpr auto c_requiredCows = 222;
+    constexpr auto c_requiredCows = 333;
 
     struct PD : public GE::BaseProgressData
     {
@@ -16,7 +16,9 @@ namespace D2::Achi::Rifts::Easy::TheSecretCowLevel::PeacefulGathering
 
     D2Achi Create()
     {
-        return AB<PD>({.m_name = "Peaceful Gathering", .m_description = "Herd 222 cows into the view. Nothing can die.", .m_category = "Rifts"},
+        return AB<PD>({.m_name = "Peaceful Gathering",
+                       .m_description = std::format("Herd {} cows into the view. Nothing can die.", c_requiredCows),
+                       .m_category = "Rifts"},
                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                           aTrackers[GE::ConditionType::Activator].insert(&aPD.m_inZone);
                           aTrackers[GE::ConditionType::Completer].insert(&aPD.m_cowsGathered);
@@ -37,7 +39,7 @@ namespace D2::Achi::Rifts::Easy::TheSecretCowLevel::PeacefulGathering
             //           })
             .Update(GE::Status::Active,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
-                        //aPD.m_timer.Update();
+                        // aPD.m_timer.Update();
                         aPD.m_cowsGathered = aDataAccess.GetMonsters().Get().size();
                         aPD.m_somethingDied = aS.GetDeadMonsters().size() > 0;
                     })
