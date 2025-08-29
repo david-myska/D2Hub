@@ -12,14 +12,18 @@
 #include "achievements/act1/test_persistance.h"
 #include "achievements/act1/tristram_clear.h"
 #include "achievements/dungeons/easy/binding_of_baal_kill_at_most_4_minions.h"
+#include "achievements/dungeons/moderate/black_road_no_minion_in_circle.h"
 #include "achievements/dungeons/moderate/heart_of_sin_negative_fire_res.h"
 #include "achievements/dungeons/very_easy/death_projector_high_health.h"
 #include "achievements/rifts/easy/island_of_the_sunless_sea_gold_farm.h"
 #include "achievements/rifts/easy/the_secret_cow_level_peaceful_gathering.h"
 #include "achievements/rifts/moderate/kurast_3000ba_kill_all_totems_timed.h"
+#include "achievements/rifts/moderate/tran_athulua_kill_all_priestesses_simultaneously.h"
 
 namespace D2
 {
+    using namespace Achi;
+
     std::map<uint32_t, D2Achi> CreateAchievements()
     {
         std::map<uint32_t, D2Achi> result;
@@ -27,21 +31,23 @@ namespace D2
         result.emplace(100, D2::Achi::TestPersistance::Create());  // just testing
                                                                    // Act1
         uint32_t id = 1;
-        result.emplace(id++, D2::Achi::TristramClear::Create());
-        result.emplace(id++, D2::Achi::AndarielNoHit::Create());
-        result.emplace(id++, D2::Achi::AndarielNoLeave::Create());
-        result.emplace(id++, D2::Achi::BloodRavenWalkDistance::Create());
-        result.emplace(id++, D2::Achi::CountessGoldSteal::Create());
-        result.emplace(id++, D2::Achi::LeoricLast::Create());
-        result.emplace(id++, D2::Achi::Act1Speedrun::Create());
+        result.emplace(id++, TristramClear::Create());
+        result.emplace(id++, AndarielNoHit::Create());
+        result.emplace(id++, AndarielNoLeave::Create());
+        result.emplace(id++, BloodRavenWalkDistance::Create());
+        result.emplace(id++, CountessGoldSteal::Create());
+        result.emplace(id++, LeoricLast::Create());
+        result.emplace(id++, Act1Speedrun::Create());
         // Dungeons
-        result.emplace(id++, D2::Achi::Dungeons::VeryEasy::DeathProjector::HighHealth::Create());
-        result.emplace(id++, D2::Achi::Dungeons::Easy::BindingOfBaal::KillAtMostFourMinions::Create());
-        result.emplace(id++, D2::Achi::Dungeons::Moderate::HeartOfSin::NegativeFireRes::Create());
+        result.emplace(id++, Dungeons::VeryEasy::DeathProjector::HighHealth::Create());
+        result.emplace(id++, Dungeons::Easy::BindingOfBaal::KillAtMostFourMinions::Create());
+        result.emplace(id++, Dungeons::Moderate::HeartOfSin::NegativeFireRes::Create());
+        result.emplace(id++, Dungeons::Moderate::BlackRoad::NoMinionInCircle::Create());
         // Rifts
-        result.emplace(id++, D2::Achi::Rifts::Easy::IslandOfTheSunlessSea::GoldFarm::Create());
-        result.emplace(id++, D2::Achi::Rifts::Easy::TheSecretCowLevel::PeacefulGathering::Create());
-        result.emplace(id++, D2::Achi::Rifts::Moderate::Kurast3000BA::KillAllTotemsTimed::Create());
+        result.emplace(id++, Rifts::Easy::IslandOfTheSunlessSea::GoldFarm::Create());
+        result.emplace(id++, Rifts::Easy::TheSecretCowLevel::PeacefulGathering::Create());
+        result.emplace(id++, Rifts::Moderate::Kurast3000BA::KillAllTotemsTimed::Create());
+        result.emplace(id++, Rifts::Moderate::TranAthulua::KillAllPriestessesSimultaneously::Create());
 
         return result;
     }

@@ -57,7 +57,9 @@ set(SOURCE_FILES
 				"d2/achievements/achievements/rifts/easy/the_secret_cow_level_peaceful_gathering.cpp"
 				# Moderate
 				"d2/achievements/achievements/dungeons/moderate/heart_of_sin_negative_fire_res.cpp"
+				"d2/achievements/achievements/dungeons/moderate/black_road_no_minion_in_circle.cpp"
 				"d2/achievements/achievements/rifts/moderate/kurast_3000ba_kill_all_totems_timed.cpp"
+				"d2/achievements/achievements/rifts/moderate/tran_athulua_kill_all_priestesses_simultaneously.cpp"
 				# Hard
 				# Very Hard
 				"d2/achievements/achievements/dungeons/very_hard/xazax_start_at_15_kill_before_30_pentients.cpp"

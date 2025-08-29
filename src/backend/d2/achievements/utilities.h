@@ -85,14 +85,26 @@ namespace D2::Achi::Utils
     std::string FindStr(const char* aName);
     std::string KillStr(const char* aName);
     std::string InStr(Data::Zone aZone);
+    std::string EnterFromStr(Data::Zone aFrom, Data::Zone aTo);
 
     bool MonsterNearby(std::string_view aName, const Data::DataAccess& aDataAccess, Data::GUID& aGuid);
+    bool EnsureMonsterId(std::string_view aName, const Data::DataAccess& aDataAccess, Data::GUID& aGuid);
+    bool InZone(Data::Zone aZone, const D2::Data::DataAccess& aDataAccess);
+    bool EnteredZoneFrom(Data::Zone aFrom, const D2::Data::DataAccess& aDataAccess);
+
+    template <typename PD>
+    auto EnteredZoneFrom(Data::Zone aFrom, Data::Zone aTo, GE::ProgressTrackerBool PD::* aTracker)
+    {
+        return [aFrom, aTo, aTracker](const D2::Data::DataAccess& aData, const D2::Data::SharedData& aCache, PD& aPD) {
+            aPD.*aTracker = InZone(aTo, aData) && EnteredZoneFrom(aFrom, aData);
+        };
+    }
 
     template <typename PD>
     auto InZone(Data::Zone aZone, GE::ProgressTrackerBool PD::* aTracker)
     {
         return [aZone, aTracker](const D2::Data::DataAccess& aData, const D2::Data::SharedData& aCache, PD& aPD) {
-            aPD.*aTracker = aData.GetMisc().GetZone() == aZone;
+            aPD.*aTracker = InZone(aZone, aData);
         };
     }
 
@@ -121,4 +133,10 @@ namespace D2::Achi::Utils
             aPD.*aTracker = MonsterNearby(aName, aData, aPD.*aTargetId);
         };
     }
+
+    bool OutOfArea(Data::Position aPosition, Data::Position aTarget, float targetRadius);
+    bool InArea(const Data::Position& aPosition, Data::Position aTarget, float targetRadius);
+
+    bool OutOfArea(Data::Position aPosition, Data::Position aLowerCorner, Data::Position aHigherCorner);
+    bool InArea(Data::Position aPosition, Data::Position aLowerCorner, Data::Position aHigherCorner);
 }
