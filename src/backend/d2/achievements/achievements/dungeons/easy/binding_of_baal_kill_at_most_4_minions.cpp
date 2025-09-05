@@ -33,8 +33,8 @@ namespace D2::Achi::Dungeons::Easy::BindingOfBaal::KillAtMostFourMinions
             .OnEntering(GE::Status::Active, Utils::BossNearby(TalRashaUpper, &PD::m_targetKilled, &PD::m_targetId))// TODO
             .Update(GE::Status::Active,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
-                        aPD.m_targetKilled = aS.GetDeadMonsters().contains(aPD.m_targetId);
-                        aPD.m_minionsKilled += aS.GetDeadMonsters().size();
+                        aPD.m_targetKilled = aS.GetDeadNpcs().contains(aPD.m_targetId);
+                        aPD.m_minionsKilled += aS.GetDeadNpcs().size();
                     })
             .Build();
     }

@@ -28,7 +28,7 @@ namespace D2::Achi::TestPersistance
                     })
             .Update(GE::Status::Active,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
-                        aPD.m_killed += aS.GetDeadMonsters().size();
+                        aPD.m_killed += aS.GetDeadNpcs().size();
                     })
             .Build();
     }

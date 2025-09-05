@@ -37,10 +37,10 @@ namespace D2::Achi::LeoricLast
                     })
             .Update(GE::Status::Active,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
-                        aPD.m_leoricKilled = aS.GetDeadMonsters().contains(aPD.m_leoricId);
-                        if (aDataAccess.GetMonsters().GetAlive().contains(aPD.m_leoricId))
+                        aPD.m_leoricKilled = aS.GetDeadNpcs().contains(aPD.m_leoricId);
+                        if (aDataAccess.GetNpcs().GetAlive().contains(aPD.m_leoricId))
                         {
-                            aPD.m_killedNearLeoric += aS.GetDeadMonsters().size();
+                            aPD.m_killedNearLeoric += aS.GetDeadNpcs().size();
                         }
                     })
             .Build();

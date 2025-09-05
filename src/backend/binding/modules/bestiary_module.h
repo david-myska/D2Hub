@@ -18,7 +18,7 @@ namespace godot
         static void _bind_methods();
 
     public:
-        static Ref<MonsterData> From(const D2::Data::Monster* aMonster);
+        static Ref<MonsterData> From(const D2::Data::Npc* aNpc);
     };
 
     class BestiaryModule : public Module

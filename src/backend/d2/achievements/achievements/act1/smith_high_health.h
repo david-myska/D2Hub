@@ -17,13 +17,13 @@ namespace D2::Achi::SmithHighHealth
     auto Create()
     {
         return AB<PD>({.m_name = "Smith High Health",
-                        .m_description = "Kill Smith while staying above 80% life",
-                        .m_category = "Act 1"},
-                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
-                           aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inLocation);
-                           aTrackers[GE::ConditionType::Activator].insert(&aPD.m_smithMet);
-                           aTrackers[GE::ConditionType::Completer].insert(&aPD.m_smithKilled);
-                       })
+                       .m_description = "Kill Smith while staying above 80% life",
+                       .m_category = "Act 1"},
+                      [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
+                          aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inLocation);
+                          aTrackers[GE::ConditionType::Activator].insert(&aPD.m_smithMet);
+                          aTrackers[GE::ConditionType::Completer].insert(&aPD.m_smithKilled);
+                      })
             .Update(GE::Status::All,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
                         // aPD.m_inLocation = aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_CatacombsLevel4;
@@ -34,7 +34,7 @@ namespace D2::Achi::SmithHighHealth
                     })
             .Update(GE::Status::Active,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
-                        aPD.m_smithKilled = aS.GetDeadMonsters().contains(aPD.m_smithId);
+                        aPD.m_smithKilled = aS.GetDeadNpcs().contains(aPD.m_smithId);
                         // auto currentLife = aDataAccess.GetPlayers().GetLocal()->m_stats.GetValue(Data::StatType::Life);
                         // auto maxLife = aDataAccess.GetPlayers().GetLocal()->m_stats.GetValue(Data::StatType::MaxLife);
                         //  aPD.m_life??

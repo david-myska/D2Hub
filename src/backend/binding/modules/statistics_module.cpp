@@ -58,11 +58,11 @@ void StatisticsModule::UpdateItems(const D2::Data::SharedData& aSharedData)
 void StatisticsModule::UpdateDmg(const D2::Data::DataAccess& aDataAccess)
 {
     uint64_t currDmg = 0;
-    const auto& prevMonsters = aDataAccess.GetMonsters(1);
-    auto relevantMonsters = aDataAccess.GetMonsters().Get() & prevMonsters.GetAlive();
+    const auto& prevMonsters = aDataAccess.GetNpcs(1).GetMonsters();
+    auto relevantMonsters = aDataAccess.GetNpcs().GetMonsters() & (prevMonsters & aDataAccess.GetNpcs(1).GetAlive());
     for (const auto& [guid, currMon] : relevantMonsters)
     {
-        auto prevMon = prevMonsters.GetById(guid);
+        auto prevMon = prevMonsters.at(guid);
         auto dmgTaken = prevMon->m_stats.GetValue(Stat::Id::Life).value_or(0) -
                         currMon->m_stats.GetValue(Stat::Id::Life).value_or(0);
         if (dmgTaken > 0)

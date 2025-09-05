@@ -36,7 +36,7 @@ namespace D2::Achi::BloodRavenWalkDistance
                     })
             .Update(GE::Status::Active,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
-                        aPD.m_bloodRavenKilled = aS.GetDeadMonsters().contains(aPD.m_bloodRavenId);
+                        aPD.m_bloodRavenKilled = aS.GetDeadNpcs().contains(aPD.m_bloodRavenId);
 
                         {
                             auto previousPos = aDataAccess.GetPlayers(1).GetLocal()->m_pos;
@@ -49,8 +49,8 @@ namespace D2::Achi::BloodRavenWalkDistance
                                 aPD.m_steps += playerStepsChange;
                             }
                         }
-                        auto prevRaven = aDataAccess.GetMonsters(1).GetById(aPD.m_bloodRavenId);
-                        auto newRaven = aDataAccess.GetMonsters().GetById(aPD.m_bloodRavenId);
+                        auto prevRaven = aDataAccess.GetNpcs(1).GetById(aPD.m_bloodRavenId);
+                        auto newRaven = aDataAccess.GetNpcs().GetById(aPD.m_bloodRavenId);
                         if (prevRaven && newRaven)
                         {
                             auto previousPos = prevRaven->m_pos;

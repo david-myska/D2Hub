@@ -67,7 +67,7 @@ namespace D2::Achi::Act1Speedrun
                             }
                             else
                             {
-                                aPD.m_killBloodRaven = aS.GetDeadMonsters().contains(aPD.m_bloodRavenId);
+                                aPD.m_killBloodRaven = aS.GetDeadNpcs().contains(aPD.m_bloodRavenId);
                             }
                         }
                         if (aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_Tristram)
@@ -78,7 +78,7 @@ namespace D2::Achi::Act1Speedrun
                             }
                             else
                             {
-                                aPD.m_killGriswold = aS.GetDeadMonsters().contains(aPD.m_griswoldId);
+                                aPD.m_killGriswold = aS.GetDeadNpcs().contains(aPD.m_griswoldId);
                             }
                         }
                         if (aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_Bloodthrone)
@@ -89,7 +89,7 @@ namespace D2::Achi::Act1Speedrun
                             }
                             else
                             {
-                                aPD.m_killCountess = aS.GetDeadMonsters().contains(aPD.m_countessId);
+                                aPD.m_killCountess = aS.GetDeadNpcs().contains(aPD.m_countessId);
                             }
                         }
                         if (aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_Barracks)
@@ -100,7 +100,7 @@ namespace D2::Achi::Act1Speedrun
                             }
                             else
                             {
-                                aPD.m_killSmith = aS.GetDeadMonsters().contains(aPD.m_smithId);
+                                aPD.m_killSmith = aS.GetDeadNpcs().contains(aPD.m_smithId);
                             }
                         }
                         if (aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_InnerCloister ||
@@ -112,7 +112,7 @@ namespace D2::Achi::Act1Speedrun
                             }
                             else
                             {
-                                aPD.m_killLeoric = aS.GetDeadMonsters().contains(aPD.m_leoricId);
+                                aPD.m_killLeoric = aS.GetDeadNpcs().contains(aPD.m_leoricId);
                             }
                         }
                         if (aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_CatacombsLevel4)
@@ -123,7 +123,7 @@ namespace D2::Achi::Act1Speedrun
                             }
                             else
                             {
-                                aPD.m_killAndariel = aS.GetDeadMonsters().contains(aPD.m_andarielId);
+                                aPD.m_killAndariel = aS.GetDeadNpcs().contains(aPD.m_andarielId);
                             }
                         }
                         // TODO timer

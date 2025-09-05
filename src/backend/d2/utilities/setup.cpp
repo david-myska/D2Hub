@@ -38,7 +38,7 @@ namespace D2
         auto inventoryLayout = GE::Layout::MakeConsecutive()->SetTotalSize(sizeof(Raw::Inventory)).Build();
         auto itemLayout = GE::Layout::MakeConsecutive()->SetTotalSize(sizeof(Raw::ItemData)).Build();
         auto monsterLayout =
-            GE::Layout::MakeConsecutive()->SetTotalSize(sizeof(Raw::MonsterData)).AddPointerOffsets(0x2Cu, 300).Build();
+            GE::Layout::MakeConsecutive()->SetTotalSize(sizeof(Raw::NpcData)).AddPointerOffsets(0x2Cu, 300).Build();
         auto playerDataLayout = GE::Layout::MakeConsecutive()->SetTotalSize(sizeof(Raw::PlayerData)).Build();
         auto staticPathLayout = GE::Layout::MakeConsecutive()->SetTotalSize(sizeof(Raw::StaticPath)).Build();
         auto statlistLayout = GE::Layout::MakeConsecutive()->SetTotalSize(sizeof(Raw::StatList)).Build();

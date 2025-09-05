@@ -46,7 +46,7 @@ namespace D2::Achi::Rifts::Moderate::Kurast3000BA::KillAllTotemsTimed
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
                         aPD.m_timer.Update();
                         uint32_t totemsKilled = 0;
-                        for (const auto& [_, monster] : aS.GetDeadMonsters())
+                        for (const auto& [_, monster] : aS.GetDeadNpcs())
                         {
                             if (monster->m_name == TotemUpper)
                             {

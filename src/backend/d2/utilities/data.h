@@ -201,11 +201,12 @@ namespace D2::Data
 
     struct Unit
     {
-        Unit(const Raw::StatListEx* aStatList, uint16_t x, uint16_t y, uint32_t id, uint32_t unitClass)
+        Unit(const Raw::StatListEx* aStatList, uint16_t x, uint16_t y, uint32_t id, uint32_t unitClass, GUID ownerId)
             : m_stats(aStatList)
             , m_pos({x, y})
             , m_id(id)
             , m_class(unitClass)
+            , m_ownerId(ownerId)
         {
         }
 
@@ -219,12 +220,14 @@ namespace D2::Data
         const Position m_pos;
         const GUID m_id;
         const uint32_t m_class;
+        const GUID m_ownerId;
     };
 
     struct Item : public Unit
     {
         Item(const Raw::UnitData<Raw::ItemData>* aRaw)
-            : Unit(aRaw->m_pStatListEx, CP(aRaw->m_pPath)->m_xPos, CP(aRaw->m_pPath)->m_yPos, aRaw->m_GUID, aRaw->m_unitClass)
+            : Unit(aRaw->m_pStatListEx, CP(aRaw->m_pPath)->m_xPos, CP(aRaw->m_pPath)->m_yPos, aRaw->m_GUID, aRaw->m_unitClass,
+                   aRaw->m_ownerGUID)
             , m_location(FigureOutLocation(aRaw))
             , m_quality(QualityFromRaw(CP(aRaw->m_pUnitData)->m_quality))
             , m_itemLevel(CP(aRaw->m_pUnitData)->m_itemLvl)
@@ -299,8 +302,9 @@ namespace D2::Data
     struct Player : public Unit
     {
         Player(const Raw::UnitData<Raw::PlayerData>* aRaw)
-            : Unit(aRaw->m_pStatListEx, CP(aRaw->m_pPath)->m_xPos, CP(aRaw->m_pPath)->m_yPos, aRaw->m_GUID, aRaw->m_unitClass)
-            , m_act(static_cast<Act>(aRaw->m_actNo))
+            : Unit(aRaw->m_pStatListEx, CP(aRaw->m_pPath)->m_xPos, CP(aRaw->m_pPath)->m_yPos, aRaw->m_GUID, aRaw->m_unitClass,
+                   aRaw->m_ownerGUID)
+            , m_act{static_cast<Act>(aRaw->m_actNo)}
         {
         }
 
@@ -308,15 +312,16 @@ namespace D2::Data
         const Data::Act m_act;
     };
 
-    struct Monster : public Unit
+    struct Npc : public Unit
     {
-        Monster(const Raw::UnitData<Raw::MonsterData>* aRaw)
-            : Unit(aRaw->m_pStatListEx, CP(aRaw->m_pPath)->m_xPos, CP(aRaw->m_pPath)->m_yPos, aRaw->m_GUID, aRaw->m_unitClass)
+        Npc(const Raw::UnitData<Raw::NpcData>* aRaw)
+            : Unit(aRaw->m_pStatListEx, CP(aRaw->m_pPath)->m_xPos, CP(aRaw->m_pPath)->m_yPos, aRaw->m_GUID, aRaw->m_unitClass,
+                   aRaw->m_ownerGUID)
             , m_name(ConvertName(CP(CP(aRaw->m_pUnitData)->m_pMonNameOrAiParams)))
         {
         }
 
-        using Raw = Raw::MonsterData;
+        using Raw = Raw::NpcData;
 
         const std::string m_name;
 
@@ -424,38 +429,48 @@ namespace D2::Data
         const GUID m_localPlayerGuid;
     };
 
-    struct Monsters : public Units<Monster>
+    struct Npcs : public Units<Npc>
     {
-        using Map = std::map<GUID, const Monster*>;
+        using Map = std::map<GUID, const Npc*>;
 
-        Monsters(const Raw::UnitData<Raw::MonsterData>* const aRaw[128], const Raw::Game* aServerGame)
+        Npcs(const Raw::UnitData<Raw::NpcData>* const aRaw[128], const Raw::Game* aServerGame)
             : Units(aRaw)
         {
-            for (const auto& [id, mon] : m_units)
+            for (const auto& [id, npc] : m_units)
             {
-                if (mon->IsAlive())
+                if (npc->m_ownerId == 0)
                 {
-                    m_alive[id] = mon;
+                    m_monsters[id] = npc;
                 }
                 else
                 {
-                    m_dead[id] = mon;
+                    m_companions[id] = npc;
+                }
+
+                if (npc->IsAlive())
+                {
+                    m_alive[id] = npc;
+                }
+                else
+                {
+                    m_dead[id] = npc;
                 }
             }
             if (aServerGame)
             {
-                std::map<GUID, Stats> serverMonstersStats;
-                IterateThroughUnits<Monster>(aServerGame->m_pMonsterList,
-                                             [&serverMonstersStats](const Raw::UnitData<Raw::MonsterData>* aUnit) {
-                                                 serverMonstersStats[aUnit->m_GUID] = Stats(aUnit->m_pStatListEx);
-                                             });
-                for (const auto& [id, serverStats] : serverMonstersStats)
+                std::map<GUID, Stats> serverNpcStats;
+                IterateThroughUnits<Npc>(aServerGame->m_pMonsterList,
+                                         [&serverNpcStats](const Raw::UnitData<Raw::NpcData>* aUnit) {
+                                             serverNpcStats[aUnit->m_GUID] = Stats(aUnit->m_pStatListEx);
+                                         });
+                for (const auto& [id, serverStats] : serverNpcStats)
                 {
                     if (!m_units.contains(id))
                     {
                         continue;
                     }
-                    auto& stats = const_cast<Monster*>(m_units[id])->m_stats;
+                    auto& stats = const_cast<Npc*>(m_units[id])->m_stats;
+                    auto& serverStats = serverNpcStats.at(id);
                     if (auto v = serverStats.GetValue(Stat::Id::Life))
                     {
                         stats.SetValue(Stat::Id::Life, *v);
@@ -472,12 +487,16 @@ namespace D2::Data
 
         const Map& GetDead() const { return m_dead; }
 
-        Map GetByName(std::string_view aName) const { return Monsters::GetByName(aName, m_units); }
+        const Map& GetMonsters() const { return m_monsters; }
 
-        static Map GetByName(std::string_view aName, const Map& aMonsters)
+        const Map& GetCompanions() const { return m_companions; }
+
+        Map GetByName(std::string_view aName) const { return Npcs::GetByName(aName, m_units); }
+
+        static Map GetByName(std::string_view aName, const Map& aNpcs)
         {
-            std::map<GUID, const Monster*> result;
-            for (const auto& [id, unit] : aMonsters)
+            Map result;
+            for (const auto& [id, unit] : aNpcs)
             {
                 if (unit->m_name == aName)
                 {
@@ -487,9 +506,14 @@ namespace D2::Data
             return result;
         }
 
+        std::optional<const Npc*> GetMercenary() const { return m_mercenary; }
+
     private:
         Map m_alive;
         Map m_dead;
+        Map m_monsters;
+        Map m_companions;
+        std::optional<const Npc*> m_mercenary;
     };
 
     struct Items : public Units<Item>
@@ -778,7 +802,7 @@ namespace D2::Data
         void AdvanceFrame()
         {
             // Trying out how it will work with allMonsters being updated 1 frame later
-            for (const auto& mon : m_frames.back()->m_monsters.Get())
+            for (const auto& mon : m_frames.back()->m_npcs.Get())
             {
                 m_allMonsters.insert(mon.first);
             }
@@ -798,7 +822,7 @@ namespace D2::Data
 
         const Players& GetPlayers(size_t aFrame = 0) const { return m_frames.at(aFrame)->m_players; }
 
-        const Monsters& GetMonsters(size_t aFrame = 0) const { return m_frames.at(aFrame)->m_monsters; }
+        const Npcs& GetNpcs(size_t aFrame = 0) const { return m_frames.at(aFrame)->m_npcs; }
 
         const Items& GetItems(size_t aFrame = 0) const { return m_frames.at(aFrame)->m_items; }
 
@@ -816,15 +840,15 @@ namespace D2::Data
             FrameData(const GE::DataAccessor& aDataAccess, size_t aFrame = 0)
                 : m_players(aDataAccess.Get<Raw::ClientUnits>("ClientUnits", aFrame)->m_pPlayerList,
                             aDataAccess.Get<GameUtilsLayout>("GameUtils", aFrame)->m_localPlayer->m_GUID)
-                , m_monsters(aDataAccess.Get<Raw::ClientUnits>("ClientUnits", aFrame)->m_pMonsterList,
-                             aDataAccess.Get<Raw::Game>("Game", aFrame))
+                , m_npcs(aDataAccess.Get<Raw::ClientUnits>("ClientUnits", aFrame)->m_pMonsterList,
+                         aDataAccess.Get<Raw::Game>("Game", aFrame))
                 , m_items(aDataAccess.Get<Raw::ClientUnits>("ClientUnits", aFrame)->m_pItemList)
                 , m_misc(*aDataAccess.Get<GameUtilsLayout>("GameUtils")->m_zone)
             {
             }
 
             Players m_players;
-            Monsters m_monsters;
+            Npcs m_npcs;
             Items m_items;
             Misc m_misc;
         };
@@ -858,10 +882,10 @@ namespace D2::Data
             m_equippedItems = m_dataAccess->GetItems().GetAt(Equipped) - m_dataAccess->GetItems(1).GetAt(Equipped);
             m_unequippedItems = m_dataAccess->GetItems(1).GetAt(Equipped) - m_dataAccess->GetItems().GetAt(Equipped);
 
-            m_newMonsters = m_dataAccess->GetMonsters().Get() - m_dataAccess->m_allMonsters;
-            m_deadMonsters = m_dataAccess->GetMonsters().GetDead() & m_dataAccess->GetMonsters(1).GetAlive();
-            m_outMonsters = m_dataAccess->GetMonsters(1).GetAlive() - m_dataAccess->GetMonsters().GetAlive();
-            m_inMonsters = m_dataAccess->GetMonsters().GetAlive() - m_dataAccess->GetMonsters(1).GetAlive();
+            m_newNpcs = m_dataAccess->GetNpcs().Get() - m_dataAccess->m_allMonsters;
+            m_deadNpcs = m_dataAccess->GetNpcs().GetDead() & m_dataAccess->GetNpcs(1).GetAlive();
+            m_outNpcs = m_dataAccess->GetNpcs(1).GetAlive() - m_dataAccess->GetNpcs().GetAlive();
+            m_inNpcs = m_dataAccess->GetNpcs().GetAlive() - m_dataAccess->GetNpcs(1).GetAlive();
 
             // Update all items on ground
             auto pickedItems = m_dataAccess->GetItems(1).GetAt(Dropped) &
@@ -888,13 +912,13 @@ namespace D2::Data
 
         const std::map<GUID, const Item*>& GetUnequippedItems() const { return m_unequippedItems; }
 
-        const std::map<GUID, const Monster*>& GetNewMonsters() const { return m_newMonsters; }
+        const Npcs::Map& GetNewNpcs() const { return m_newNpcs; }
 
-        const std::map<GUID, const Monster*>& GetDeadMonsters() const { return m_deadMonsters; }
+        const Npcs::Map& GetDeadNpcs() const { return m_deadNpcs; }
 
-        const std::map<GUID, const Monster*>& GetOutMonsters() const { return m_outMonsters; }
+        const Npcs::Map& GetOutNpcs() const { return m_outNpcs; }
 
-        const std::map<GUID, const Monster*>& GetInMonsters() const { return m_inMonsters; }
+        const Npcs::Map& GetInNpcs() const { return m_inNpcs; }
 
     private:
         std::shared_ptr<DataAccess> m_dataAccess;
@@ -906,10 +930,10 @@ namespace D2::Data
         std::map<GUID, const Item*> m_unequippedItems;
         std::set<ItemIdentifier> m_allItemsOnGround;
 
-        // Monsters
-        std::map<GUID, const Monster*> m_newMonsters;
-        std::map<GUID, const Monster*> m_deadMonsters;
-        std::map<GUID, const Monster*> m_outMonsters;
-        std::map<GUID, const Monster*> m_inMonsters;
+        // Npcs
+        Npcs::Map m_newNpcs;
+        Npcs::Map m_deadNpcs;
+        Npcs::Map m_outNpcs;
+        Npcs::Map m_inNpcs;
     };
 }

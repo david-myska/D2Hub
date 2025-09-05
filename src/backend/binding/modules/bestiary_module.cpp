@@ -11,7 +11,7 @@
 using namespace godot;
 using namespace D2::Data;
 
-Dictionary CreateMonsterDict(const Monster* aMonster)
+Dictionary CreateMonsterDict(const Npc* aMonster)
 {
     Dictionary dict;
     dict["id"] = aMonster->m_id;
@@ -43,12 +43,12 @@ Dictionary CreateMonsterDict(const Monster* aMonster)
 
 void BestiaryModule::UpdateInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData)
 {
-    if (aSharedData.GetOutMonsters().empty() && aSharedData.GetInMonsters().empty())
+    if (aSharedData.GetOutNpcs().empty() && aSharedData.GetInNpcs().empty())
     {
         return;
     }
     m_monsters.clear();
-    for (const auto& [id, monster] : aDataAccess.GetMonsters().Get())
+    for (const auto& [id, monster] : aDataAccess.GetNpcs().Get())
     {
         String name(monster->m_name.c_str());
         Dictionary idDict = m_monsters.get_or_add(name, Dictionary());
@@ -81,7 +81,7 @@ Dictionary BestiaryModule::get_monsters() const
 
 void MonsterData::_bind_methods() {}
 
-Ref<MonsterData> MonsterData::From(const Monster* aMonster)
+Ref<MonsterData> MonsterData::From(const Npc* aNpc)
 {
     auto obj = memnew(MonsterData);
     return obj;

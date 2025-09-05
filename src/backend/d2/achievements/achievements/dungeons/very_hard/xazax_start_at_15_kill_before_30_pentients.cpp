@@ -40,7 +40,7 @@ namespace D2::Achi::Dungeons::VeryHard::Xazax::StartAfter15KillBefore30Pentients
             .Update(GE::Status::Inactive, Utils::BossNearby(XazaxUpper, &PD::m_targetFound, &PD::m_targetId))
             .Update(GE::Status::Active,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
-                        for (const auto& pentient : aS.GetNewMonsters())
+                        for (const auto& pentient : aS.GetNewNpcs())
                         {
                             if (pentient.second->m_name == PentientUpper)
                             {
@@ -50,7 +50,7 @@ namespace D2::Achi::Dungeons::VeryHard::Xazax::StartAfter15KillBefore30Pentients
                         if (!aPD.m_initialPentients.IsCompleted())
                         {
                             aPD.m_initialPentients = aPD.m_pentients.size();
-                            auto xazax = aDataAccess.GetMonsters().GetById(aPD.m_targetId);
+                            auto xazax = aDataAccess.GetNpcs().GetById(aPD.m_targetId);
                             if (xazax)
                             {
                                 aPD.m_notHealthy = *xazax->m_stats.GetValue(Data::Stat::Id::Life) <
@@ -58,7 +58,7 @@ namespace D2::Achi::Dungeons::VeryHard::Xazax::StartAfter15KillBefore30Pentients
                             }
                         }
                         aPD.m_finalPentients = aPD.m_pentients.size();
-                        aPD.m_targetKilled = aS.GetDeadMonsters().contains(aPD.m_targetId);
+                        aPD.m_targetKilled = aS.GetDeadNpcs().contains(aPD.m_targetId);
                     })
             .Build();
     }

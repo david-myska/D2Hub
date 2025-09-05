@@ -55,15 +55,15 @@ namespace D2::Achi::Rifts::Moderate::TranAthulua::KillAllPriestessesSimultaneous
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
                         if (Utils::EnsureMonsterId(FirePriestessUpper, aDataAccess, aPD.m_firePriestessId))
                         {
-                            aPD.m_fireKilled = aS.GetDeadMonsters().contains(aPD.m_firePriestessId);
+                            aPD.m_fireKilled = aS.GetDeadNpcs().contains(aPD.m_firePriestessId);
                         }
                         if (Utils::EnsureMonsterId(ColdPriestessUpper, aDataAccess, aPD.m_coldPriestessId))
                         {
-                            aPD.m_coldKilled = aS.GetDeadMonsters().contains(aPD.m_coldPriestessId);
+                            aPD.m_coldKilled = aS.GetDeadNpcs().contains(aPD.m_coldPriestessId);
                         }
                         if (Utils::EnsureMonsterId(LightningPriestessUpper, aDataAccess, aPD.m_lightningPriestessId))
                         {
-                            aPD.m_lightningKilled = aS.GetDeadMonsters().contains(aPD.m_lightningPriestessId);
+                            aPD.m_lightningKilled = aS.GetDeadNpcs().contains(aPD.m_lightningPriestessId);
                         }
                         if (!aPD.m_timer.IsRunning() && (aPD.m_fireKilled.GetCurrent() || aPD.m_coldKilled.GetCurrent() ||
                                                          aPD.m_lightningKilled.GetCurrent()))

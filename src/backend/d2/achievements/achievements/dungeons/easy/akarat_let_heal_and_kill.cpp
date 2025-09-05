@@ -49,7 +49,7 @@ namespace D2::Achi::Dungeons::Easy::Akarat::LetHealAndKill
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
                         if (aPD.m_stage == Stage::FullHealth)
                         {
-                            auto boss = aDataAccess.GetMonsters().GetById(aPD.m_targetId);
+                            auto boss = aDataAccess.GetNpcs().GetById(aPD.m_targetId);
                             if (boss->m_stats.GetValue(Data::Stat::Id::Life).value_or(0) <
                                 boss->m_stats.GetValue(Data::Stat::Id::MaxLife).value_or(0))
                             {
@@ -66,12 +66,12 @@ namespace D2::Achi::Dungeons::Easy::Akarat::LetHealAndKill
                         }
                         else if (aPD.m_stage == Stage::Healed)
                         {
-                            if (aS.GetDeadMonsters().contains(aPD.m_targetId))
+                            if (aS.GetDeadNpcs().contains(aPD.m_targetId))
                             {
                                 aPD.m_stage = Stage::ToKill;
                             }
                         }
-                        aPD.m_targetKilled = aS.GetDeadMonsters().contains(aPD.m_targetId);
+                        aPD.m_targetKilled = aS.GetDeadNpcs().contains(aPD.m_targetId);
                     })
             .OnEntering(GE::Status::Failed,
                         [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {

@@ -51,7 +51,7 @@ namespace D2::Raw
     uint32_t m_pPrevious              = {}; //  +034 - pPrevious - previous list overall
     uint32_t m_functionExpireCallback = {}; //  +038 - fpStatExpires(); - function to call when the list is removed (void * __fastcall)(pUnit,stateNo,BOOL);
     uint32_t m_pNext                  = {}; //  +03C - pNext - next list overall
-                             // clang-format on
+                                // clang-format on
     };
 
     struct StatListEx
@@ -75,7 +75,7 @@ namespace D2::Raw
     uint32_t m_pStatFlags       = {}; //  +058 - StatFlags[] (pointer to array)
     uint32_t m_functionCallback = {}; //  +05C - fCallback (function to call by SetStat, AddStat when a fcallback stat changes)
     uint32_t m_pGame            = {}; //  +060 - pGame (on server)
-                             // clang-format on
+                                // clang-format on
     };
 
 #pragma pack(pop)
@@ -98,7 +98,7 @@ namespace D2::Raw
     uint32_t m_filledSocketsCount = {}; //  +028 - nFilledSockets
     uint32_t m_pFirstCorpse       = {}; //  +034 - pFirstCorpse - ptr to first corpse structure
     uint32_t m_nextCorpseGUID     = {}; //  +03C - NextCorpseGUID
-                                      // clang-format on
+                                         // clang-format on
     };
 
     struct StaticPath
@@ -115,7 +115,7 @@ namespace D2::Raw
     uint16_t m_yPos            = {};  //  +010 - y position in the world/in the inventory/(when equipped is 0)
     uint16_t m_unknown7        = {};  //  +012 - always zero
     uint8_t  m_unknown8[12]    = {};  //  +014
-                                   // clang-format on
+                                      // clang-format on
     };
 
     struct DynamicPath
@@ -144,7 +144,7 @@ namespace D2::Raw
                                       //  moving without collision, only 1 is active
     uint8_t m_unknown11[114]    = {}; //  +02A
     uint16_t m_pathNodes[16][2] = {}; //  +09C - pathNode is struct of {xPos, yPos}
-                                        // clang-format on
+                                           // clang-format on
     };
 
     struct ItemData
@@ -203,7 +203,7 @@ namespace D2::Raw
         // clang-format on
     };
 
-    struct MonsterData
+    struct NpcData
     {
         using Path = DynamicPath;
         // clang-format off
@@ -259,7 +259,7 @@ namespace D2::Raw
     uint8_t m_townPortalId            = {}; //+48	Object UniqueID for TownPortals
     uint8_t m_unknown5[0x53]          = {}; //+49
     uint32_t m_pNetClient             = {}; //+9C	ptClient
-                                  // clang-format on
+                                     // clang-format on
     };
 
     struct NoData
@@ -389,13 +389,13 @@ namespace D2::Raw
     uint32_t m_pPrevUnitInRoom = {}; //  +0E8 - pPrevUnitInRoom - the previous unit in the current room
     uint32_t m_pMsgFirst       = {}; //  +0EC - pMsgFirst
     uint32_t m_pMsgLast        = {}; //  +0F0 - pMsgLast
-                                // clang-format on
+                                   // clang-format on
     };
 
     struct ClientUnits
     {
         UnitData<PlayerData>* m_pPlayerList[128] = {};
-        UnitData<MonsterData>* m_pMonsterList[128] = {};
+        UnitData<NpcData>* m_pMonsterList[128] = {};
         UnitData<>* m_pObjectList[128] = {};
         UnitData<>* m_pMissileList[128] = {};
         UnitData<ItemData>* m_pItemList[128] = {};  // For client units, the items/missiles are actually in the correct order
@@ -433,7 +433,7 @@ namespace D2::Raw
     uint32_t m_questControl         = {};  //  +10F4 - pQuestControl - a controller holding all quest info
     uint32_t m_pUnitNodes[10]       = {};  //  +10F8 - pUnitNodes[10] - ten lists of unit node lists, this is used by the AI target seeking code (and other stuff)
     UnitData<PlayerData>* m_pPlayerList[128]    = {};  //  +1120 - pUnitList[eType][128] - 5 lists of 128 lists of units (see pUnit documentation)
-    UnitData<MonsterData>* m_pMonsterList[128]    = {};
+    UnitData<NpcData>* m_pMonsterList[128]    = {};
     UnitData<>* m_pObjectList[128]    = {};
     UnitData<ItemData>* m_pItemList[128]    = {};
     UnitData<>* m_pMissileList[128]    = {};
@@ -451,7 +451,7 @@ namespace D2::Raw
     uint32_t m_bUberBaal             = {}; //  +1DE8 - bUberBaal - killed uber baal
     uint32_t m_bUberDiablo           = {}; //  +1DEC - bUberDiablo - killed uber diablo
     uint32_t m_bUberMephisto         = {}; //  +1DF0 - bUberMephisto - killed uber mephisto
-                                     // clang-format on
+                                        // clang-format on
     };
 
 #pragma pack(pop)

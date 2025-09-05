@@ -34,12 +34,12 @@ namespace D2::Achi::Dungeons::Hard::Toraja::Max5Edyrem
                 GE::Status::Active,
                 [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
                     aPD.m_edyremDied = static_cast<int>(
-                                           Data::Monsters::GetByName(EdyremUpper, aDataAccess.GetMonsters().GetAlive()).size()) -
+                                           Data::Npcs::GetByName(EdyremUpper, aDataAccess.GetNpcs().GetAlive()).size()) -
                                        static_cast<int>(
-                                           Data::Monsters::GetByName(EdyremUpper, aDataAccess.GetMonsters(1).GetAlive()).size());
+                                           Data::Npcs::GetByName(EdyremUpper, aDataAccess.GetNpcs(1).GetAlive()).size());
                     if (Utils::EnsureMonsterId(LilithUpper, aDataAccess, aPD.m_targetId))
                     {
-                        aPD.m_targetKilled = aS.GetDeadMonsters().contains(aPD.m_targetId);
+                        aPD.m_targetKilled = aS.GetDeadNpcs().contains(aPD.m_targetId);
                     }
                 })
             .Build();

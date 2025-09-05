@@ -40,7 +40,7 @@ namespace D2::Achi::Dungeons::Moderate::HeartOfSin::NegativeFireRes
             .Update(GE::Status::Inactive, Utils::BossNearby(AzmodanUpper, &PD::m_targetFound, &PD::m_targetId))
             .Update(GE::Status::Active,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
-                        aPD.m_targetKilled = aS.GetDeadMonsters().contains(aPD.m_targetId);
+                        aPD.m_targetKilled = aS.GetDeadNpcs().contains(aPD.m_targetId);
                         aPD.m_nonNegativeFireResist = *aDataAccess.GetPlayers().GetLocal()->m_stats.GetValue(
                                                           Data::Stat::Id::Fire_Resist) >= 0;
                         aPD.m_nonZeroFireAbsorb = *aDataAccess.GetPlayers().GetLocal()->m_stats.GetValue(

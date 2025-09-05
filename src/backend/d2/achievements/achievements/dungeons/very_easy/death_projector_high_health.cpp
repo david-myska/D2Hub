@@ -33,7 +33,7 @@ namespace D2::Achi::Dungeons::VeryEasy::DeathProjector::HighHealth
             .Update(GE::Status::Inactive, Utils::BossNearby(DeathProjectorUpper, &PD::m_targetFound, &PD::m_targetId))
             .Update(GE::Status::Active,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
-                        aPD.m_targetKilled = aS.GetDeadMonsters().contains(aPD.m_targetId);
+                        aPD.m_targetKilled = aS.GetDeadNpcs().contains(aPD.m_targetId);
                         auto currentLife = *aDataAccess.GetPlayers().GetLocal()->m_stats.GetValue(Data::Stat::Id::Life);
                         auto maxLife = *aDataAccess.GetPlayers().GetLocal()->m_stats.GetValue(Data::Stat::Id::MaxLife);
                         aPD.m_notHealthy = currentLife < 0.9 * maxLife;

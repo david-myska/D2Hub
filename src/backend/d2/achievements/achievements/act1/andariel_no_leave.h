@@ -39,7 +39,7 @@ namespace D2::Achi::AndarielNoLeave
                     })
             .Update(GE::Status::Active,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
-                        aPD.m_andarielKilled = aS.GetDeadMonsters().contains(aPD.m_andarielId);
+                        aPD.m_andarielKilled = aS.GetDeadNpcs().contains(aPD.m_andarielId);
                         // auto currentPos = aDataAccess.GetPlayers().GetLocal()->m_pos;
                         // aPD.m_leftRoom = IsIn(currentPos, Rectangle(...));
                     })

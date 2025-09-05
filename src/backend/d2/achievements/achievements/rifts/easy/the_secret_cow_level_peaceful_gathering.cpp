@@ -40,8 +40,8 @@ namespace D2::Achi::Rifts::Easy::TheSecretCowLevel::PeacefulGathering
             .Update(GE::Status::Active,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
                         // aPD.m_timer.Update();
-                        aPD.m_cowsGathered = aDataAccess.GetMonsters().Get().size();
-                        aPD.m_somethingDied = aS.GetDeadMonsters().size() > 0;
+                        aPD.m_cowsGathered = aDataAccess.GetNpcs().Get().size();
+                        aPD.m_somethingDied = aS.GetDeadNpcs().size() > 0;
                     })
             .Build();
     }

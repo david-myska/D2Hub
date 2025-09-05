@@ -21,15 +21,15 @@ namespace D2::Achi::CountessGoldSteal
     auto Create()
     {
         return AB<PD>({.m_name = "Fort Boyard",
-                        .m_description = "Kill The Countess in 30s after entering the Bloodthrone while looting 1000 gold",
-                        .m_category = "Act 1"},
-                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
-                           aTrackers[GE::ConditionType::Activator].insert(&aPD.m_inLocation);
-                           aTrackers[GE::ConditionType::Completer].insert(&aPD.m_countessKilled);
-                           aTrackers[GE::ConditionType::Validator].insert(&aPD.m_goldCollected);
-                           aTrackers[GE::ConditionType::Failer].insert(&aPD.m_notInLocation);
-                           aTrackers[GE::ConditionType::Failer].insert(&aPD.m_timer);
-                       })
+                       .m_description = "Kill The Countess in 30s after entering the Bloodthrone while looting 1000 gold",
+                       .m_category = "Act 1"},
+                      [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
+                          aTrackers[GE::ConditionType::Activator].insert(&aPD.m_inLocation);
+                          aTrackers[GE::ConditionType::Completer].insert(&aPD.m_countessKilled);
+                          aTrackers[GE::ConditionType::Validator].insert(&aPD.m_goldCollected);
+                          aTrackers[GE::ConditionType::Failer].insert(&aPD.m_notInLocation);
+                          aTrackers[GE::ConditionType::Failer].insert(&aPD.m_timer);
+                      })
             .Update(GE::Status::Inactive,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
                         aPD.m_inLocation = aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_Bloodthrone;
@@ -60,7 +60,7 @@ namespace D2::Achi::CountessGoldSteal
                         }
                         if (aPD.m_countessId)
                         {
-                            aPD.m_countessKilled = aS.GetDeadMonsters().contains(aPD.m_countessId);
+                            aPD.m_countessKilled = aS.GetDeadNpcs().contains(aPD.m_countessId);
                         }
                         aPD.m_notInLocation = aDataAccess.GetMisc().GetZone() != Data::Zone::Act1_Bloodthrone;
                         aPD.m_goldCollected += *aDataAccess.GetPlayers().GetLocal()->m_stats.GetValue(Data::Stat::Id::Gold) -

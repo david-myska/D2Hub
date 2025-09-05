@@ -37,9 +37,9 @@ namespace D2::Achi::Dungeons::Easy::HorazonsSanctum::NoPortalKillHave10Portals
             .Update(GE::Status::Inactive, Utils::BossNearby(CreatureOfFlameUpper, &PD::m_targetFound, &PD::m_targetId))
             .Update(GE::Status::Active,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
-                        aPD.m_targetKilled = aS.GetDeadMonsters().contains(aPD.m_targetId);
-                        aPD.m_portalsSpawned += aDataAccess.GetMonsters().GetByName(c_portalUpper).size();
-                        aPD.m_portalKilled = std::ranges::any_of(aS.GetDeadMonsters(), [&](const auto& m) {
+                        aPD.m_targetKilled = aS.GetDeadNpcs().contains(aPD.m_targetId);
+                        aPD.m_portalsSpawned += aDataAccess.GetNpcs().GetByName(c_portalUpper).size();
+                        aPD.m_portalKilled = std::ranges::any_of(aS.GetDeadNpcs(), [&](const auto& m) {
                             return m.second->m_name == c_portalUpper;
                         });
                     })

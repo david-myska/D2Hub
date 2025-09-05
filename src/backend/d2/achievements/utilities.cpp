@@ -4,7 +4,7 @@ namespace D2::Achi::Utils
 {
     bool MonsterNearby(std::string_view aName, const Data::DataAccess& aData, Data::GUID& aGuid)
     {
-        auto mons = aData.GetMonsters().GetByName(aName);
+        auto mons = aData.GetNpcs().GetByName(aName);
         if (mons.empty())
         {
             return false;

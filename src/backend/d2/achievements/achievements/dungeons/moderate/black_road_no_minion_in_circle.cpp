@@ -55,10 +55,10 @@ namespace D2::Achi::Dungeons::Moderate::BlackRoad::NoMinionInCircle
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
                         if (Utils::EnsureMonsterId(BuyardCholikUpper, aDataAccess, aPD.m_targetId))
                         {
-                            aPD.m_targetKilled = aS.GetDeadMonsters().contains(aPD.m_targetId);
+                            aPD.m_targetKilled = aS.GetDeadNpcs().contains(aPD.m_targetId);
                         }
                         aPD.m_minionInCircle = std::ranges::any_of(
-                            aDataAccess.GetMonsters().GetByName(MinionUpper), [&](const auto& m) {
+                            aDataAccess.GetNpcs().GetByName(MinionUpper), [&](const auto& m) {
                                 return Utils::InArea(m.second->m_pos, aPD.m_circlePosition, CircleRadius);
                             });
                     })
