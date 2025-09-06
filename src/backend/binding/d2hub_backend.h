@@ -53,6 +53,7 @@ namespace godot
 
         Array m_modules;
 
+        void InitializeModuleDependencies();
         void InitializeBackend();
         bool CanUpdate() const;
         void Update();

@@ -2,6 +2,7 @@
 
 #include "module.h"
 
+#include "binding/modules/statistics_module.h"
 #include "d2/achievements/achievements.h"
 #include "d2/achievements/base.h"
 #include "game_enhancer/achis/achievement_manager.h"
@@ -55,12 +56,15 @@ namespace godot
     {
         GDCLASS(AchievementsModule, Module)
 
+        StatisticsModule* m_statisticsModule = nullptr;
+
         std::unique_ptr<GE::AchievementManager<D2::D2Achi::element_type>> m_achievementManager;
         Array m_achievements;
 
         void UpdateInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData) override;
         void InitializeInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData) override;
         void UninitializeInternal() override;
+        void SetIfDependency(Module* aModule) override;
 
     protected:
         static void _bind_methods();

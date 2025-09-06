@@ -161,6 +161,8 @@ void Module::DisableProgramatically(bool aDisable, String aReason)
     ResolveStatus();
 }
 
+void Module::SetIfDependency(Module* aModule) {}
+
 int Module::get_status() const
 {
     return static_cast<int>(m_status.load());

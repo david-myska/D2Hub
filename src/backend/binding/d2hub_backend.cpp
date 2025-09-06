@@ -152,6 +152,7 @@ D2HubBackend::D2HubBackend()
 {
     D2::Data::LoadStats();
     D2::Data::LoadItems();
+    InitializeModuleDependencies();
     InitializeBackend();
     m_achievementsModule->LoadAchievements({}, false);
     m_lootfilterModule->Load();
@@ -242,6 +243,17 @@ void D2HubBackend::enable_auto_attach(bool enable)
         m_startOnAttachedToken.reset();
         m_logger->info("Disabling auto-attach to target process");
         stop_auto_attach();
+    }
+}
+
+void D2HubBackend::InitializeModuleDependencies()
+{
+    for (auto module : m_modules)
+    {
+        for (auto other_module : m_modules)
+        {
+            Object::cast_to<Module>(module)->SetIfDependency(Object::cast_to<Module>(other_module));
+        }
     }
 }
 

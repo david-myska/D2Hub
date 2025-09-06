@@ -144,6 +144,14 @@ void AchievementsModule::InitializeInternal(const D2::Data::DataAccess& aDataAcc
 
 void AchievementsModule::UninitializeInternal() {}
 
+void AchievementsModule::SetIfDependency(Module* aModule)
+{
+    if (auto statistics = dynamic_cast<StatisticsModule*>(aModule))
+    {
+        m_statisticsModule = static_cast<StatisticsModule*>(aModule);
+    }
+}
+
 void AchievementsModule::LoadAchievements(std::optional<std::string> aId, bool aActivate)
 {
     m_achievements.clear();

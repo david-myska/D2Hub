@@ -51,6 +51,7 @@ namespace godot
     public:
         void Update(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData);
         void DisableProgramatically(bool aDisable, String aReason = "");
+        virtual void SetIfDependency(Module* aModule);
 
         bool can_be_disabled_manually();
         void disable_manually(bool aDisable);
