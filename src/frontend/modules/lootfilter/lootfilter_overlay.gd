@@ -9,6 +9,6 @@ func update_items():
 	
 	for item in Backend.get_lootfilter_module().get_passing_loot():
 		var lbl := Label.new()
-		lbl.text = "%s %s" % [item["name"], str(item["position"])]
+		lbl.text = item["name"]
 		lbl.modulate = Utils.ItemColor(item)
 		add_child(lbl)

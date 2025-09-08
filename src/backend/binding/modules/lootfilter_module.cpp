@@ -265,9 +265,9 @@ namespace
 
 void LootFilterModule::UpdateInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData)
 {
-    auto itemsOfInterest = aDataAccess.GetItems().GetAt(ItemLocation::Dropped) +
-                           aDataAccess.GetItems().GetAt(ItemLocation::Vendor) +
-                           aDataAccess.GetItems().GetAt(ItemLocation::Gamble);
+    auto itemsOfInterest = aDataAccess.GetItems().GetAt(ItemLocation::Dropped);
+    //+ aDataAccess.GetItems().GetAt(ItemLocation::Vendor) +
+    // aDataAccess.GetItems().GetAt(ItemLocation::Gamble);
 
     auto activeFilters = std::ranges::filter_view(m_metaFilters, [](const Ref<MetaFilter>& metaFilter) {
         return metaFilter->get_metadata()->is_active();
@@ -355,24 +355,29 @@ Ref<LootFilterModule> LootFilterModule::Create(std::shared_ptr<spdlog::logger> a
     return module;
 }
 
-void LootFilterModule::add_filter(Ref<FilterMetadata> metadata, Array filters)
+void LootFilterModule::add_filter(Ref<FilterMetadata> metadata, Dictionary filters)
 {
     if (metadata->get_name().is_empty())
     {
-        m_logger->warn("Filter name cannot be empty");
+        m_logger->error("Filter name cannot be empty");
         return;
     }
 
-    m_logger->info("Adding filter: {} with {} subfilters", metadata->get_name().utf8().get_data(), filters.size());
+    Dictionary statFilters = filters["stat_filters"];
+    // stat_filters == Dict (== FilterGroup) - ["predicate"], ["filters" => Array of Dict (== Filter/Group)]
+    // - stat_id, stat_type??, op, value
+    Dictionary categoryFilters = filters["category_filters"];
+    // category_filters == Dict (== FilterGroup) - ["predicate"], ["filters" => Array of Dict (== Filter/Group)]
+    // - category_id, op
+    Dictionary specialFilters = filters["special_filters"];
+    // special_filters == Dict (== FilterGroup) - ["predicate"], ["filters" => Array of Dict (== Filter/Group)]
+    // - special_id, op, value??
 
-    std::vector<std::unique_ptr<IFilter>> subfilters;
-    for (auto& v : filters)
-    {
-        Dictionary d = v;
-        subfilters.push_back(Filter<uint32_t>::Create(StatId(d["stat_id"], d["stat_type"]), d["op"], d["value"]));
-    }
+    m_logger->info("Adding filter '{}' with {} stat_filters, {} category_filters, {} special_filters",
+                   metadata->get_name().utf8().get_data(), statFilters.size(), categoryFilters.size(), specialFilters.size());
 
-    m_metaFilters.push_back(MetaFilter::Create(metadata, FilterGroup::AllOf(std::move(subfilters))));
+    m_metaFilters.push_back(
+        MetaFilter::Create(metadata, std::move(statFilters), std::move(categoryFilters), std::move(specialFilters)));
     call_deferred("emit_signal", "filters_changed");
 }
 
@@ -443,6 +448,88 @@ Array LootFilterModule::get_passing_loot() const
     return result;
 }
 
+std::unique_ptr<IFilter> MetaFilter::MakeStatFilter()
+{
+    Array filters = m_statFilters["filters"];
+    std::vector<std::unique_ptr<IFilter>> subfilters;
+    for (auto& v : filters)
+    {
+        Dictionary d = v;
+        subfilters.push_back(Filter<uint32_t>::Create(StatId(d["stat_id"], d["stat_type"]), d["op"], d["value"]));
+    }
+    return {};
+}
+
+std::unique_ptr<IFilter> MetaFilter::MakeCategoryFilter()
+{
+    return {};
+}
+
+std::unique_ptr<IFilter> MetaFilter::MakeSpecialFilter()
+{
+    return {};
+}
+
+void MetaFilter::MakeExecutableFilter()
+{
+    m_executableFilter = FilterGroup::AllOf({MakeSpecialFilter(), MakeCategoryFilter(), MakeStatFilter()});
+}
+
+void MetaFilter::SerializeFilter(GE::BinWriter& aBw, const Dictionary& aFilter) const
+{
+    aBw.Write(0u);
+    // TODO
+}
+
+Dictionary MetaFilter::DeserializeFilter(GE::BinReader& aBr)
+{
+    // TODO ^^
+    return Dictionary();
+}
+
+void MetaFilter::SerializeGroup(GE::BinWriter& aBw, const Dictionary& aGroup) const
+{
+    aBw.Write(1u);
+    aBw.Write(static_cast<int>(aGroup["predicate"]));
+    Array filters = aGroup["filters"];
+    aBw.Write(filters.size());
+    for (Dictionary d : filters)
+    {
+        if (d.has("predicate"))
+        {
+            SerializeGroup(aBw, d);
+        }
+        else
+        {
+            SerializeFilter(aBw, d);
+        }
+    }
+}
+
+Dictionary MetaFilter::DeserializeGroup(GE::BinReader& aBr)
+{
+    int predicate = aBr.Read<int>();
+    int64_t filterCount = aBr.Read<int64_t>();
+    Array filters;
+    for (int i = 0; i < filterCount; ++i)
+    {
+        filters.push_back(DeserializeGroupOrFilter(aBr));
+    }
+    Dictionary result;
+    result["predicate"] = predicate;
+    result["filters"] = filters;
+    return result;
+}
+
+Dictionary MetaFilter::DeserializeGroupOrFilter(GE::BinReader& aBr)
+{
+    if (aBr.Read<uint32_t>() == 0u)
+    {
+        return MetaFilter::DeserializeFilter(aBr);
+    }
+    return MetaFilter::DeserializeGroup(aBr);
+}
+
 void MetaFilter::_bind_methods()
 {
     ClassDB::bind_method(D_METHOD("get_metadata"), &MetaFilter::get_metadata);
@@ -472,25 +559,34 @@ void MetaFilter::_bind_methods()
     ClassDB::bind_integer_constant("MetaFilter", "Quality", "TAMPERED", static_cast<int>(ItemQuality::Tampered));
 }
 
-Ref<MetaFilter> MetaFilter::Create(Ref<FilterMetadata> filterMetadata, std::unique_ptr<IFilter> filter)
+Ref<MetaFilter> MetaFilter::Create(Ref<FilterMetadata> filterMetadata, Dictionary statFilters, Dictionary categoryFilters,
+                                   Dictionary specialFilters)
 {
     auto obj = memnew(MetaFilter);
     obj->m_metadata = filterMetadata;
-    obj->m_filter = std::move(filter);
+    obj->m_statFilters = std::move(statFilters);
+    obj->m_categoryFilters = std::move(categoryFilters);
+    obj->m_specialFilters = std::move(specialFilters);
+    obj->MakeExecutableFilter();
     return obj;
 }
 
 void MetaFilter::Serialize(GE::BinWriter& aBw) const
 {
     m_metadata->Serialize(aBw);
-    m_filter->Serialize(aBw);
+    SerializeGroup(aBw, m_statFilters);
+    SerializeGroup(aBw, m_categoryFilters);
+    SerializeGroup(aBw, m_specialFilters);
 }
 
 Ref<MetaFilter> MetaFilter::Deserialize(GE::BinReader& aBr)
 {
     auto mf = memnew(MetaFilter);
     mf->m_metadata = FilterMetadata::Deserialize(aBr);
-    mf->m_filter = DeserializeFilter(aBr);
+    mf->m_statFilters = MetaFilter::DeserializeGroup(aBr);
+    mf->m_categoryFilters = MetaFilter::DeserializeGroup(aBr);
+    mf->m_specialFilters = MetaFilter::DeserializeGroup(aBr);
+    mf->MakeExecutableFilter();
     return mf;
 }
 

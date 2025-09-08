@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dmod3lecx8gwi"]
 
-[ext_resource type="Script" uid="uid://bkwb21lsjktm7" path="res://modules/lootfilter/filter.gd" id="1_ruwl2"]
+[ext_resource type="Script" uid="uid://dx3vkygiyxkyx" path="res://modules/lootfilter/filter.gd" id="1_ruwl2"]
 
 [node name="Filter" type="HBoxContainer"]
 script = ExtResource("1_ruwl2")
@@ -18,8 +18,14 @@ text = "Active"
 [node name="VSeparator" type="VSeparator" parent="."]
 layout_mode = 2
 
+[node name="ModifyBtn" type="Button" parent="."]
+layout_mode = 2
+text = "Modify"
+
 [node name="DeleteBtn" type="Button" parent="."]
 layout_mode = 2
 text = "Remove"
 
+[connection signal="toggled" from="ActiveCheckBtn" to="." method="_on_active_check_btn_toggled"]
+[connection signal="pressed" from="ModifyBtn" to="." method="_on_modify_btn_pressed"]
 [connection signal="pressed" from="DeleteBtn" to="." method="_on_delete_btn_pressed"]

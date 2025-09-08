@@ -77,23 +77,36 @@ namespace godot
         GDCLASS(MetaFilter, RefCounted)
 
         Ref<FilterMetadata> m_metadata;
-        std::unique_ptr<IFilter> m_filter;
+        Dictionary m_statFilters;
+        Dictionary m_categoryFilters;
+        Dictionary m_specialFilters;
+
+        std::unique_ptr<IFilter> m_executableFilter;
+
+        std::unique_ptr<IFilter> MakeStatFilter();
+        std::unique_ptr<IFilter> MakeCategoryFilter();
+        std::unique_ptr<IFilter> MakeSpecialFilter();
+        void MakeExecutableFilter();
+
+        void SerializeFilter(GE::BinWriter& aBw, const Dictionary& aFilter) const;
+        static Dictionary DeserializeFilter(GE::BinReader& aBr);
+        void SerializeGroup(GE::BinWriter& aBw, const Dictionary& aGroup) const;
+        static Dictionary DeserializeGroup(GE::BinReader& aBr);
+        static Dictionary DeserializeGroupOrFilter(GE::BinReader& aBr);
 
     protected:
         static void _bind_methods();
 
     public:
-        static Ref<MetaFilter> Create(Ref<FilterMetadata> filterMetadata, std::unique_ptr<IFilter> filter);
+        static Ref<MetaFilter> Create(Ref<FilterMetadata> filterMetadata, Dictionary statFilters, Dictionary categoryFilters,
+                                      Dictionary specialFilters);
 
         void Serialize(GE::BinWriter& aBw) const;
         static Ref<MetaFilter> Deserialize(GE::BinReader& aBr);
 
         Ref<FilterMetadata> get_metadata() const;
 
-        bool Check(const D2::Data::Item& aItem) const { return m_filter->Check(aItem); }
-
-        // void serialize(const std::string& pathWithoutFilename) const;
-        // static std::unique_ptr<MetaFilter> deserialize(const std::string& file);
+        bool Check(const D2::Data::Item& aItem) const { return m_executableFilter->Check(aItem); }
     };
 
     class LootFilterModule : public Module
@@ -114,8 +127,9 @@ namespace godot
         void Save() const;
         void Load();
 
-        void add_filter(Ref<FilterMetadata> metadata, Array filters);
+        void add_filter(Ref<FilterMetadata> metadata, Dictionary filters);
         void remove_filter(int index);
+        void modify_filter(int index, Ref<FilterMetadata> metadata, Dictionary filters);
         Array get_filters() const;
         Dictionary get_filter_categories() const;
 

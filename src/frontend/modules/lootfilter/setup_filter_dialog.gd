@@ -1,6 +1,7 @@
 extends AcceptDialog
 
 var m_stat_data : Dictionary = {}
+var m_modify : bool = false
 
 func _ready() -> void:
 	m_stat_data = Backend.get_lootfilter_module().get_filter_categories()
@@ -8,7 +9,7 @@ func _ready() -> void:
 	visibility_changed.connect(self.reset)
 
 func reset():
-	if not visible:
+	if visible:
 		return
 	for c in %AttributeFilters.get_children():
 		c.remove_safely()
@@ -18,7 +19,10 @@ func reset():
 	
 	%FilterName.clear()
 	%NameLabel.modulate = Color.WHITE
+	m_modify = false
 
+func open_for_modify(filter : MetaFilter):
+	m_modify = true
 
 func _on_add_filter_btn_pressed() -> void:
 	var f = preload("res://modules/lootfilter/attribute_filter.tscn").instantiate()

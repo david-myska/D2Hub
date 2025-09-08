@@ -15,6 +15,7 @@ func _update_filters():
 		f.m_metadata = mf.get_metadata()
 		f.m_metadata.notification_path = f.m_metadata.name# TMP for testing
 		f.delete_requested.connect(Backend.get_lootfilter_module().remove_filter.bind(i))
+		f.modify_requested.connect(%SetupFilterDialog.open_for_modify.bind())
 		%FilterList.add_child(f)
 		i += 1
 
