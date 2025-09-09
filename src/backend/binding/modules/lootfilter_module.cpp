@@ -127,7 +127,7 @@ namespace
             return false;
         }
 
-        bool CheckOther(const D2::Data::Item& aItem) const
+        bool CheckSpecial(const D2::Data::Item& aItem) const
         {
             if (m_statId.m_statId == 0)
             {
@@ -165,8 +165,8 @@ namespace
             {
             case FilterType::Stat:
                 return CheckStats(aItem);
-            case FilterType::Other:
-                return CheckOther(aItem);
+            case FilterType::Special:
+                return CheckSpecial(aItem);
             default:
                 return false;
             }
@@ -220,6 +220,11 @@ namespace
             return std::make_unique<FilterGroup>(std::move(filters), Predicate::All);
         }
 
+        static std::unique_ptr<IFilter> Create(std::vector<std::unique_ptr<IFilter>> filters, uint32_t predicate)
+        {
+            return static_cast<Predicate>(predicate) == Predicate::All ? AllOf(std::move(filters)) : AnyOf(std::move(filters));
+        }
+
         bool Check(const D2::Data::Item& aItem) const override
         {
             auto f = [&](const std::unique_ptr<IFilter>& filter) {
@@ -261,6 +266,28 @@ namespace
         }
         return FilterGroup::Deserialize(aBr);
     }
+
+    std::unique_ptr<IFilter> MakeFilter(const Dictionary& aFilter, FilterType aFilterType)
+    {
+        if (aFilter.is_empty())
+        {
+            return FilterGroup::AllOf({});
+        }
+
+        if (!aFilter.has("predicate"))
+        {
+            return Filter<uint32_t>::Create(StatId(aFilter["id"], aFilterType), aFilter["op"], aFilter["value"]);
+        }
+
+        Array filters = aFilter["filters"];
+        std::vector<std::unique_ptr<IFilter>> subfilters;
+        for (auto& f : filters)
+        {
+            subfilters.push_back(MakeFilter(f, aFilterType));
+        }
+        return FilterGroup::Create(std::move(subfilters), aFilter["predicate"]);
+    }
+
 }
 
 void LootFilterModule::UpdateInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData)
@@ -334,7 +361,10 @@ void LootFilterModule::Load()
 void LootFilterModule::_bind_methods()
 {
     ClassDB::bind_method(D_METHOD("add_filter", "p_metadata", "p_filters"), &LootFilterModule::add_filter);
-    ClassDB::bind_method(D_METHOD("remove_filter", "p_index"), &LootFilterModule::remove_filter);
+    ClassDB::bind_method(D_METHOD("remove_filter", "index"), &LootFilterModule::remove_filter);
+    ClassDB::bind_method(D_METHOD("modify_filter", "index", "p_metadata", "p_filters"), &LootFilterModule::modify_filter);
+    ClassDB::bind_method(D_METHOD("get_filter", "index"), &LootFilterModule::get_filter);
+
     ClassDB::bind_method(D_METHOD("get_filters"), &LootFilterModule::get_filters);
     ClassDB::bind_method(D_METHOD("get_filter_categories"), &LootFilterModule::get_filter_categories);
 
@@ -387,6 +417,34 @@ void LootFilterModule::remove_filter(int index)
     call_deferred("emit_signal", "filters_changed");
 }
 
+void LootFilterModule::modify_filter(int index, Ref<FilterMetadata> metadata, Dictionary filters)
+{
+    try
+    {
+        m_logger->info("Modifying filter at index {}", index);
+        m_metaFilters.at(index) = MetaFilter::Create(metadata, filters["stat_filters"], filters["category_filters"],
+                                                     filters["special_filters"]);
+        call_deferred("emit_signal", "filters_changed");
+    }
+    catch (const std::exception& ex)
+    {
+        m_logger->error("Failed to modify filter at index {}: {}", index, ex.what());
+    }
+}
+
+Ref<MetaFilter> LootFilterModule::get_filter(int index)
+{
+    try
+    {
+        return m_metaFilters.at(index);
+    }
+    catch (const std::exception& ex)
+    {
+        m_logger->error("Failed to get filter at index {}: {}", index, ex.what());
+        return nullptr;
+    }
+}
+
 Array LootFilterModule::get_filters() const
 {
     Array res;
@@ -397,7 +455,7 @@ Array LootFilterModule::get_filters() const
     return res;
 }
 
-Dictionary LootFilterModule::get_filter_categories() const
+Dictionary LootFilterModule::get_stat_filter_categories() const
 {
     auto [count, ids] = D2::Data::GetStatIds();
 
@@ -409,10 +467,10 @@ Dictionary LootFilterModule::get_filter_categories() const
         d["stat_type"] = static_cast<int>(FilterType::Stat);
         stats[D2::Data::GetStatName(ids[i])] = std::move(d);
     }
-    Dictionary d;
-    d["stat_id"] = 1;
-    d["stat_type"] = static_cast<int>(FilterType::Other);
-    stats["ItemLevel"] = std::move(d);
+    //Dictionary d;
+    //d["stat_id"] = 1;
+    //d["stat_type"] = static_cast<int>(FilterType::Special);
+    //stats["ItemLevel"] = std::move(d);
 
     return stats;
 }
@@ -448,43 +506,30 @@ Array LootFilterModule::get_passing_loot() const
     return result;
 }
 
-std::unique_ptr<IFilter> MetaFilter::MakeStatFilter()
-{
-    Array filters = m_statFilters["filters"];
-    std::vector<std::unique_ptr<IFilter>> subfilters;
-    for (auto& v : filters)
-    {
-        Dictionary d = v;
-        subfilters.push_back(Filter<uint32_t>::Create(StatId(d["stat_id"], d["stat_type"]), d["op"], d["value"]));
-    }
-    return {};
-}
-
-std::unique_ptr<IFilter> MetaFilter::MakeCategoryFilter()
-{
-    return {};
-}
-
-std::unique_ptr<IFilter> MetaFilter::MakeSpecialFilter()
-{
-    return {};
-}
-
 void MetaFilter::MakeExecutableFilter()
 {
-    m_executableFilter = FilterGroup::AllOf({MakeSpecialFilter(), MakeCategoryFilter(), MakeStatFilter()});
+    std::vector<std::unique_ptr<IFilter>> filters;
+    filters.push_back(MakeFilter(m_specialFilters, FilterType::Special));
+    filters.push_back(MakeFilter(m_specialFilters, FilterType::Category));
+    filters.push_back(MakeFilter(m_specialFilters, FilterType::Stat));
+    m_executableFilter = FilterGroup::AllOf(std::move(filters));
 }
 
 void MetaFilter::SerializeFilter(GE::BinWriter& aBw, const Dictionary& aFilter) const
 {
     aBw.Write(0u);
-    // TODO
+    aBw.Write(static_cast<uint32_t>(aFilter["id"]));
+    aBw.Write(static_cast<uint32_t>(aFilter["op"]));
+    aBw.Write(static_cast<int32_t>(aFilter["value"]));
 }
 
 Dictionary MetaFilter::DeserializeFilter(GE::BinReader& aBr)
 {
-    // TODO ^^
-    return Dictionary();
+    Dictionary d;
+    d["id"] = aBr.Read<uint32_t>();
+    d["op"] = aBr.Read<uint32_t>();
+    d["value"] = aBr.Read<int32_t>();
+    return d;
 }
 
 void MetaFilter::SerializeGroup(GE::BinWriter& aBw, const Dictionary& aGroup) const
@@ -544,7 +589,8 @@ void MetaFilter::_bind_methods()
     ClassDB::bind_integer_constant("MetaFilter", "Is", "PRESENT", static_cast<int>(Filter<uint32_t>::Is::Present));
 
     ClassDB::bind_integer_constant("MetaFilter", "FilterType", "ATTRIBUTE", static_cast<int>(FilterType::Stat));
-    ClassDB::bind_integer_constant("MetaFilter", "FilterType", "OTHER", static_cast<int>(FilterType::Other));
+    ClassDB::bind_integer_constant("MetaFilter", "FilterType", "CATEGORY", static_cast<int>(FilterType::Category));
+    ClassDB::bind_integer_constant("MetaFilter", "FilterType", "SPECIAL", static_cast<int>(FilterType::Special));
 
     // TMP
     ClassDB::bind_integer_constant("MetaFilter", "Quality", "INVALID", static_cast<int>(ItemQuality::Invalid));
@@ -593,6 +639,21 @@ Ref<MetaFilter> MetaFilter::Deserialize(GE::BinReader& aBr)
 Ref<FilterMetadata> MetaFilter::get_metadata() const
 {
     return m_metadata;
+}
+
+Dictionary MetaFilter::get_stat_filters() const
+{
+    return m_statFilters;
+}
+
+Dictionary MetaFilter::get_category_filiters() const
+{
+    return m_categoryFilters;
+}
+
+Dictionary MetaFilter::get_special_filters() const
+{
+    return m_specialFilters;
 }
 
 void FilterMetadata::_bind_methods()

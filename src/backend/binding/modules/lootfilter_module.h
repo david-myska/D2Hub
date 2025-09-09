@@ -13,7 +13,8 @@ namespace godot
     enum class FilterType
     {
         Stat,
-        Other
+        Category,
+        Special
     };
 
     struct StatId
@@ -83,9 +84,6 @@ namespace godot
 
         std::unique_ptr<IFilter> m_executableFilter;
 
-        std::unique_ptr<IFilter> MakeStatFilter();
-        std::unique_ptr<IFilter> MakeCategoryFilter();
-        std::unique_ptr<IFilter> MakeSpecialFilter();
         void MakeExecutableFilter();
 
         void SerializeFilter(GE::BinWriter& aBw, const Dictionary& aFilter) const;
@@ -105,6 +103,9 @@ namespace godot
         static Ref<MetaFilter> Deserialize(GE::BinReader& aBr);
 
         Ref<FilterMetadata> get_metadata() const;
+        Dictionary get_stat_filters() const;
+        Dictionary get_category_filiters() const;
+        Dictionary get_special_filters() const;
 
         bool Check(const D2::Data::Item& aItem) const { return m_executableFilter->Check(aItem); }
     };
@@ -130,8 +131,12 @@ namespace godot
         void add_filter(Ref<FilterMetadata> metadata, Dictionary filters);
         void remove_filter(int index);
         void modify_filter(int index, Ref<FilterMetadata> metadata, Dictionary filters);
+        Ref<MetaFilter> get_filter(int index);
+
         Array get_filters() const;
-        Dictionary get_filter_categories() const;
+        Dictionary get_stat_filter_categories() const;
+        Dictionary get_category_filter_categories() const;
+        Dictionary get_special_filter_categories() const;
 
         Array get_passing_loot() const;
     };
