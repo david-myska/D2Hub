@@ -55,8 +55,8 @@ func _fill_quality(q : int):
 
 func _make_quality_filter():
 	var d := {}
-	d["stat_id"] = 0
-	d["stat_type"] = MetaFilter.FilterType.OTHER
+	d["id"] = 0
+	d["type"] = MetaFilter.FilterType.SPECIAL
 	d["value"] = 0
 	if %Qualities/Normal.button_pressed:
 		d["value"] += MetaFilter.Quality.NORMAL
@@ -78,7 +78,6 @@ func _make_quality_filter():
 					+ MetaFilter.Quality.RARE\
 					+ MetaFilter.Quality.SET\
 					+ MetaFilter.Quality.UNIQUE
-	
 	return d
 
 func _on_confirmed() -> void:
@@ -96,16 +95,15 @@ func _on_confirmed() -> void:
 	var metadata := FilterMetadata.new()
 	metadata.name = %FilterName.text
 	var filters := {
-		"stat_filters": {},
-		"category_filters": {},
-		"special_filters": {},
+		"stat_filters": {"predicate": 0, "filters": []},
+		"category_filters": {"predicate": 0, "filters": []},
+		"special_filters": {"predicate": 0, "filters": []},
 	}
-	filters["special_filters"]["predicate"] = 0
-	filters["special_filters"]["filters"] = [_make_quality_filter()]
+	filters["special_filters"]["filters"].append(_make_quality_filter())
 	for f in %AttributeFilters.get_children():
 		var s : Dictionary = f.get_selection()
 		s.merge(m_stat_data[s["stat_name"]])
-		filters.append(s)
+		filters["stat_filters"]["filters"].append(s)
 	if m_modify_idx < 0:
 		Backend.get_lootfilter_module().add_filter(metadata, filters)
 	else:

@@ -366,7 +366,7 @@ void LootFilterModule::_bind_methods()
     ClassDB::bind_method(D_METHOD("get_filter", "index"), &LootFilterModule::get_filter);
 
     ClassDB::bind_method(D_METHOD("get_filters"), &LootFilterModule::get_filters);
-    ClassDB::bind_method(D_METHOD("get_filter_categories"), &LootFilterModule::get_filter_categories);
+    ClassDB::bind_method(D_METHOD("get_stat_filter_categories"), &LootFilterModule::get_stat_filter_categories);
 
     ClassDB::bind_method(D_METHOD("get_passing_loot"), &LootFilterModule::get_passing_loot);
 
@@ -463,14 +463,14 @@ Dictionary LootFilterModule::get_stat_filter_categories() const
     for (auto i = 0; i < count; ++i)
     {
         Dictionary d;
-        d["stat_id"] = ids[i];
-        d["stat_type"] = static_cast<int>(FilterType::Stat);
+        d["id"] = ids[i];
+        d["type"] = static_cast<int>(FilterType::Stat);
         stats[D2::Data::GetStatName(ids[i])] = std::move(d);
     }
-    //Dictionary d;
-    //d["stat_id"] = 1;
-    //d["stat_type"] = static_cast<int>(FilterType::Special);
-    //stats["ItemLevel"] = std::move(d);
+    // Dictionary d;
+    // d["stat_id"] = 1;
+    // d["stat_type"] = static_cast<int>(FilterType::Special);
+    // stats["ItemLevel"] = std::move(d);
 
     return stats;
 }
@@ -578,6 +578,9 @@ Dictionary MetaFilter::DeserializeGroupOrFilter(GE::BinReader& aBr)
 void MetaFilter::_bind_methods()
 {
     ClassDB::bind_method(D_METHOD("get_metadata"), &MetaFilter::get_metadata);
+    ClassDB::bind_method(D_METHOD("get_stat_filters"), &MetaFilter::get_stat_filters);
+    ClassDB::bind_method(D_METHOD("get_special_filters"), &MetaFilter::get_special_filters);
+    ClassDB::bind_method(D_METHOD("get_category_filters"), &MetaFilter::get_category_filiters);
 
     ClassDB::bind_integer_constant("MetaFilter", "Is", "EQUAL", static_cast<int>(Filter<uint32_t>::Is::Equal));
     ClassDB::bind_integer_constant("MetaFilter", "Is", "NOT_EQUAL", static_cast<int>(Filter<uint32_t>::Is::NotEqual));

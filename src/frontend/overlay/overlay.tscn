@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://d3ro1b34mcrhu"]
 
-[ext_resource type="Script" uid="uid://b5d8of5655302" path="res://overlay/overlay.gd" id="1_cj75p"]
+[ext_resource type="Script" uid="uid://bero7q4x6yf6b" path="res://overlay/overlay.gd" id="1_cj75p"]
 
 [node name="Overlay" type="Window"]
 auto_translate_mode = 1
