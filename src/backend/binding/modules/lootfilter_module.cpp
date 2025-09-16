@@ -349,7 +349,7 @@ void LootFilterModule::Load()
     {
         try
         {
-            m_metaFilters.push_back(MetaFilter::Deserialize(br));
+            m_metaFilters.push_back(MetaFilter::Deserialize(br, *m_logger));
         }
         catch (std::exception& e)
         {
@@ -459,20 +459,25 @@ Dictionary LootFilterModule::get_stat_filter_categories() const
 {
     auto [count, ids] = D2::Data::GetStatIds();
 
-    Dictionary stats;
+    Dictionary byName;
+    Dictionary byId;
     for (auto i = 0; i < count; ++i)
     {
         Dictionary d;
         d["id"] = ids[i];
         d["type"] = static_cast<int>(FilterType::Stat);
-        stats[D2::Data::GetStatName(ids[i])] = std::move(d);
+        byName[D2::Data::GetStatName(ids[i])] = std::move(d);
+        byId[ids[i]] = String(D2::Data::GetStatName(ids[i]));
     }
     // Dictionary d;
     // d["stat_id"] = 1;
     // d["stat_type"] = static_cast<int>(FilterType::Special);
     // stats["ItemLevel"] = std::move(d);
 
-    return stats;
+    Dictionary result;
+    result["by_name"] = std::move(byName);
+    result["by_id"] = std::move(byId);
+    return result;
 }
 
 Dictionary MakeItemDictionary(const D2::Data::Item& aItem)
@@ -523,12 +528,15 @@ void MetaFilter::SerializeFilter(GE::BinWriter& aBw, const Dictionary& aFilter) 
     aBw.Write(static_cast<int32_t>(aFilter["value"]));
 }
 
-Dictionary MetaFilter::DeserializeFilter(GE::BinReader& aBr)
+Dictionary MetaFilter::DeserializeFilter(GE::BinReader& aBr, spdlog::logger& l)
 {
     Dictionary d;
     d["id"] = aBr.Read<uint32_t>();
+    l.info("id: {}", static_cast<uint32_t>(d["id"]));
     d["op"] = aBr.Read<uint32_t>();
+    l.info("op: {}", static_cast<uint32_t>(d["op"]));
     d["value"] = aBr.Read<int32_t>();
+    l.info("value: {}", static_cast<int32_t>(d["value"]));
     return d;
 }
 
@@ -551,14 +559,16 @@ void MetaFilter::SerializeGroup(GE::BinWriter& aBw, const Dictionary& aGroup) co
     }
 }
 
-Dictionary MetaFilter::DeserializeGroup(GE::BinReader& aBr)
+Dictionary MetaFilter::DeserializeGroup(GE::BinReader& aBr, spdlog::logger& l)
 {
     int predicate = aBr.Read<int>();
+    l.info("predicate: {}", predicate);
     int64_t filterCount = aBr.Read<int64_t>();
+    l.info("filterCount: {}", filterCount);
     Array filters;
     for (int i = 0; i < filterCount; ++i)
     {
-        filters.push_back(DeserializeGroupOrFilter(aBr));
+        filters.push_back(DeserializeGroupOrFilter(aBr, l));
     }
     Dictionary result;
     result["predicate"] = predicate;
@@ -566,13 +576,15 @@ Dictionary MetaFilter::DeserializeGroup(GE::BinReader& aBr)
     return result;
 }
 
-Dictionary MetaFilter::DeserializeGroupOrFilter(GE::BinReader& aBr)
+Dictionary MetaFilter::DeserializeGroupOrFilter(GE::BinReader& aBr, spdlog::logger& l)
 {
     if (aBr.Read<uint32_t>() == 0u)
     {
-        return MetaFilter::DeserializeFilter(aBr);
+        l.info("is filter");
+        return MetaFilter::DeserializeFilter(aBr, l);
     }
-    return MetaFilter::DeserializeGroup(aBr);
+    l.info("is group");
+    return MetaFilter::DeserializeGroup(aBr, l);
 }
 
 void MetaFilter::_bind_methods()
@@ -580,7 +592,7 @@ void MetaFilter::_bind_methods()
     ClassDB::bind_method(D_METHOD("get_metadata"), &MetaFilter::get_metadata);
     ClassDB::bind_method(D_METHOD("get_stat_filters"), &MetaFilter::get_stat_filters);
     ClassDB::bind_method(D_METHOD("get_special_filters"), &MetaFilter::get_special_filters);
-    ClassDB::bind_method(D_METHOD("get_category_filters"), &MetaFilter::get_category_filiters);
+    ClassDB::bind_method(D_METHOD("get_category_filters"), &MetaFilter::get_category_filters);
 
     ClassDB::bind_integer_constant("MetaFilter", "Is", "EQUAL", static_cast<int>(Filter<uint32_t>::Is::Equal));
     ClassDB::bind_integer_constant("MetaFilter", "Is", "NOT_EQUAL", static_cast<int>(Filter<uint32_t>::Is::NotEqual));
@@ -606,6 +618,9 @@ void MetaFilter::_bind_methods()
     ClassDB::bind_integer_constant("MetaFilter", "Quality", "UNIQUE", static_cast<int>(ItemQuality::Unique));
     ClassDB::bind_integer_constant("MetaFilter", "Quality", "CRAFTED", static_cast<int>(ItemQuality::Crafted));
     ClassDB::bind_integer_constant("MetaFilter", "Quality", "TAMPERED", static_cast<int>(ItemQuality::Tampered));
+
+    ClassDB::bind_integer_constant("MetaFilter", "Predicate", "ALL", 0);
+    ClassDB::bind_integer_constant("MetaFilter", "Predicate", "ANY", 1);
 }
 
 Ref<MetaFilter> MetaFilter::Create(Ref<FilterMetadata> filterMetadata, Dictionary statFilters, Dictionary categoryFilters,
@@ -628,13 +643,13 @@ void MetaFilter::Serialize(GE::BinWriter& aBw) const
     SerializeGroup(aBw, m_specialFilters);
 }
 
-Ref<MetaFilter> MetaFilter::Deserialize(GE::BinReader& aBr)
+Ref<MetaFilter> MetaFilter::Deserialize(GE::BinReader& aBr, spdlog::logger& l)
 {
     auto mf = memnew(MetaFilter);
-    mf->m_metadata = FilterMetadata::Deserialize(aBr);
-    mf->m_statFilters = MetaFilter::DeserializeGroup(aBr);
-    mf->m_categoryFilters = MetaFilter::DeserializeGroup(aBr);
-    mf->m_specialFilters = MetaFilter::DeserializeGroup(aBr);
+    mf->m_metadata = FilterMetadata::Deserialize(aBr, l);
+    mf->m_statFilters = MetaFilter::DeserializeGroupOrFilter(aBr, l);
+    mf->m_categoryFilters = MetaFilter::DeserializeGroupOrFilter(aBr, l);
+    mf->m_specialFilters = MetaFilter::DeserializeGroupOrFilter(aBr, l);
     mf->MakeExecutableFilter();
     return mf;
 }
@@ -649,7 +664,7 @@ Dictionary MetaFilter::get_stat_filters() const
     return m_statFilters;
 }
 
-Dictionary MetaFilter::get_category_filiters() const
+Dictionary MetaFilter::get_category_filters() const
 {
     return m_categoryFilters;
 }
@@ -697,24 +712,29 @@ void FilterMetadata::Serialize(GE::BinWriter& aBw) const
     aBw.Write(m_notifSE.utf8().get_data(), m_notifSE.length());
 }
 
-Ref<FilterMetadata> FilterMetadata::Deserialize(GE::BinReader& aBr)
+Ref<FilterMetadata> FilterMetadata::Deserialize(GE::BinReader& aBr, spdlog::logger& l)
 {
     auto fm = memnew(FilterMetadata);
     aBr.Read(fm->m_active);
+    l.info("active: {}", fm->m_active);
     aBr.Read(fm->m_muted);
+    l.info("muted: {}", fm->m_muted);
     aBr.Read(fm->m_volume);
+    l.info("volume: {}", fm->m_volume);
 
     decltype(fm->m_name.length()) nameLength = 0;
     aBr.Read(nameLength);
     std::string nameBuffer(nameLength, '\0');
     aBr.Read(nameBuffer.data(), nameLength);
     fm->m_name = nameBuffer.c_str();
+    l.info("name: {}", nameBuffer);
 
     decltype(fm->m_notifSE.length()) notifLength = 0;
     aBr.Read(notifLength);
     std::string notifBuffer(notifLength, '\0');
     aBr.Read(notifBuffer.data(), notifLength);
     fm->m_notifSE = notifBuffer.c_str();
+    l.info("notif: {}", notifBuffer);
 
     return fm;
 }

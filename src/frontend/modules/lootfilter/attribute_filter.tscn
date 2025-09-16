@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://vjsbn5xk7tuo"]
 
-[ext_resource type="Script" uid="uid://b85mchlaf6bx4" path="res://modules/lootfilter/attribute_filter.gd" id="1_18uai"]
+[ext_resource type="Script" uid="uid://d003d1dtg0s6b" path="res://modules/lootfilter/attribute_filter.gd" id="1_18uai"]
 
 [node name="AttributeFilter" type="HBoxContainer"]
 anchors_preset = 15

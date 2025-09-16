@@ -1,12 +1,16 @@
 extends AcceptDialog
 
-var m_stat_data : Dictionary = {}
+var m_by_name_stat_data : Dictionary = {}
+var m_by_id_stat_data : Dictionary = {}
 var m_modify_idx : int = -1
 
 func _ready() -> void:
-	m_stat_data = Backend.get_lootfilter_module().get_stat_filter_categories()
-	$AutoCompleteAssistant.load_terms(m_stat_data.keys())
+	var stats = Backend.get_lootfilter_module().get_stat_filter_categories()
+	m_by_name_stat_data = stats["by_name"]
+	m_by_id_stat_data = stats["by_id"]
+	$AutoCompleteAssistant.load_terms(m_by_name_stat_data.keys())
 	visibility_changed.connect(self.reset)
+	hide()
 
 func reset():
 	if visible:
@@ -21,12 +25,20 @@ func reset():
 	%NameLabel.modulate = Color.WHITE
 	m_modify_idx = -1
 
+func open_for_add():
+	ok_button_text = "Create"
+	show()
+
 func open_for_modify(index : int, filter : MetaFilter):
 	m_modify_idx = index
+	ok_button_text = "Modify"
+	%FilterName.text = filter.get_metadata().name
+	show()
+	# Weird bug with Autocomplete shit, would crash if _fill_attr* called before showing
+	await get_tree().create_timer(0.05).timeout
 	_fill_attribute_filters(filter.get_stat_filters())
 	_fill_category_filters(filter.get_category_filters())
 	_fill_special_filters(filter.get_special_filters())
-	show()
 
 func _on_add_filter_btn_pressed() -> void:
 	var f = preload("res://modules/lootfilter/attribute_filter.tscn").instantiate()
@@ -34,7 +46,11 @@ func _on_add_filter_btn_pressed() -> void:
 	%AttributeFilters.add_child(f)
 
 func _fill_attribute_filters(sf : Dictionary):
-	pass
+	for f in sf["filters"]:
+		var af = preload("res://modules/lootfilter/attribute_filter.tscn").instantiate()
+		af.m_autocomplete = $AutoCompleteAssistant
+		%AttributeFilters.add_child(af)
+		af.set_selection(m_by_id_stat_data[f["id"]], f["op"], f["value"])
 
 func _fill_category_filters(sf : Dictionary):
 	pass
@@ -57,6 +73,7 @@ func _make_quality_filter():
 	var d := {}
 	d["id"] = 0
 	d["type"] = MetaFilter.FilterType.SPECIAL
+	d["op"] = 0 # Necessary to fulfill contract
 	d["value"] = 0
 	if %Qualities/Normal.button_pressed:
 		d["value"] += MetaFilter.Quality.NORMAL
@@ -88,7 +105,7 @@ func _on_confirmed() -> void:
 	else:
 		%NameLabel.modulate = Color.WHITE
 	for af in %AttributeFilters.get_children():
-		if not af.validate(m_stat_data):
+		if not af.validate(m_by_name_stat_data):
 			valid = false
 	if not valid:
 		return
@@ -102,7 +119,7 @@ func _on_confirmed() -> void:
 	filters["special_filters"]["filters"].append(_make_quality_filter())
 	for f in %AttributeFilters.get_children():
 		var s : Dictionary = f.get_selection()
-		s.merge(m_stat_data[s["stat_name"]])
+		s.merge(m_by_name_stat_data[s["stat_name"]])
 		filters["stat_filters"]["filters"].append(s)
 	if m_modify_idx < 0:
 		Backend.get_lootfilter_module().add_filter(metadata, filters)

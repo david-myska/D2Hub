@@ -1,13 +1,13 @@
 [gd_scene load_steps=3 format=3 uid="uid://17ycg4gdkitd"]
 
-[ext_resource type="Script" uid="uid://by8a74rch4gap" path="res://modules/lootfilter/setup_filter_dialog.gd" id="1_4q6tv"]
-[ext_resource type="Script" uid="uid://bobvnbsyb8m3a" path="res://addons/auto_complete_menu_node/Scripts/auto_complete_assistant.gd" id="2_aqmqs"]
+[ext_resource type="Script" uid="uid://b6k57kfepn86m" path="res://modules/lootfilter/setup_filter_dialog.gd" id="1_4q6tv"]
+[ext_resource type="Script" uid="uid://c4cbmvvluyu82" path="res://addons/auto_complete_menu_node/Scripts/auto_complete_assistant.gd" id="2_aqmqs"]
 
 [node name="SetupFilterDialog" type="AcceptDialog"]
 title = "Filter Setup"
 initial_position = 2
 size = Vector2i(400, 400)
-ok_button_text = "Create Filter"
+ok_button_text = "Create"
 dialog_hide_on_ok = false
 script = ExtResource("1_4q6tv")
 

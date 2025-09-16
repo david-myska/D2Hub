@@ -19,6 +19,11 @@ func get_selection():
 		"value": %Value.value,
 	}
 
+func set_selection(stat_name : String, op : int, value : float):
+	%Attribute.text = stat_name
+	%Comparators.selected = op
+	%Value.value = value
+
 func remove_safely():
 	if m_autocomplete and %Attribute:
 		m_autocomplete.remove_edit(%Attribute)

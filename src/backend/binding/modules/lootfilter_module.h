@@ -59,7 +59,7 @@ namespace godot
         static Ref<FilterMetadata> Create(String name);
 
         void Serialize(GE::BinWriter& aBw) const;
-        static Ref<FilterMetadata> Deserialize(GE::BinReader& aBr);
+        static Ref<FilterMetadata> Deserialize(GE::BinReader& aBr, spdlog::logger& l);
 
         void set_active(bool active);
         bool is_active() const;
@@ -87,10 +87,10 @@ namespace godot
         void MakeExecutableFilter();
 
         void SerializeFilter(GE::BinWriter& aBw, const Dictionary& aFilter) const;
-        static Dictionary DeserializeFilter(GE::BinReader& aBr);
+        static Dictionary DeserializeFilter(GE::BinReader& aBr, spdlog::logger& l);
         void SerializeGroup(GE::BinWriter& aBw, const Dictionary& aGroup) const;
-        static Dictionary DeserializeGroup(GE::BinReader& aBr);
-        static Dictionary DeserializeGroupOrFilter(GE::BinReader& aBr);
+        static Dictionary DeserializeGroup(GE::BinReader& aBr, spdlog::logger& l);
+        static Dictionary DeserializeGroupOrFilter(GE::BinReader& aBr, spdlog::logger& l);
 
     protected:
         static void _bind_methods();
@@ -100,11 +100,11 @@ namespace godot
                                       Dictionary specialFilters);
 
         void Serialize(GE::BinWriter& aBw) const;
-        static Ref<MetaFilter> Deserialize(GE::BinReader& aBr);
+        static Ref<MetaFilter> Deserialize(GE::BinReader& aBr, spdlog::logger& l);
 
         Ref<FilterMetadata> get_metadata() const;
         Dictionary get_stat_filters() const;
-        Dictionary get_category_filiters() const;
+        Dictionary get_category_filters() const;
         Dictionary get_special_filters() const;
 
         bool Check(const D2::Data::Item& aItem) const { return m_executableFilter->Check(aItem); }

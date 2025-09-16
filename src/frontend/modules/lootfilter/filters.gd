@@ -20,4 +20,4 @@ func _update_filters():
 		i += 1
 
 func _on_add_filter_pressed() -> void:
-	%SetupFilterDialog.show()
+	%SetupFilterDialog.open_for_add()
