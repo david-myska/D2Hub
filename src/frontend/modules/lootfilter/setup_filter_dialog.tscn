@@ -6,7 +6,8 @@
 [node name="SetupFilterDialog" type="AcceptDialog"]
 title = "Filter Setup"
 initial_position = 2
-size = Vector2i(400, 400)
+size = Vector2i(500, 500)
+visible = true
 ok_button_text = "Create"
 dialog_hide_on_ok = false
 script = ExtResource("1_4q6tv")
@@ -14,8 +15,8 @@ script = ExtResource("1_4q6tv")
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 offset_left = 8.0
 offset_top = 8.0
-offset_right = 392.0
-offset_bottom = 351.0
+offset_right = 492.0
+offset_bottom = 451.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -150,6 +151,21 @@ layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
+
+[node name="GroupHeader" type="HBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="StatGroupPredicate" type="OptionButton" parent="VBoxContainer/ScrollContainer/VBoxContainer/VBoxContainer/GroupHeader"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+selected = 0
+item_count = 2
+popup/item_0/text = "All of"
+popup/item_0/id = 0
+popup/item_1/text = "Any of"
+popup/item_1/id = 1
 
 [node name="AttributeFilters" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer/VBoxContainer"]
 unique_name_in_owner = true

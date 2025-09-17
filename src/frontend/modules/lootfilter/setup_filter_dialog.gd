@@ -46,6 +46,7 @@ func _on_add_filter_btn_pressed() -> void:
 	%AttributeFilters.add_child(f)
 
 func _fill_attribute_filters(sf : Dictionary):
+	%StatGroupPredicate.selected = sf["predicate"]
 	for f in sf["filters"]:
 		var af = preload("res://modules/lootfilter/attribute_filter.tscn").instantiate()
 		af.m_autocomplete = $AutoCompleteAssistant
@@ -112,7 +113,7 @@ func _on_confirmed() -> void:
 	var metadata := FilterMetadata.new()
 	metadata.name = %FilterName.text
 	var filters := {
-		"stat_filters": {"predicate": 0, "filters": []},
+		"stat_filters": {"predicate": %StatGroupPredicate.selected, "filters": []},
 		"category_filters": {"predicate": 0, "filters": []},
 		"special_filters": {"predicate": 0, "filters": []},
 	}
