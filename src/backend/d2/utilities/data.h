@@ -1,12 +1,12 @@
 #pragma once
 
 #include <algorithm>
+#include <functional>
 #include <map>
 #include <memory>
 #include <optional>
 #include <set>
 #include <unordered_map>
-#include <functional>
 
 #include "raw.h"
 #include "stats.h"
@@ -426,6 +426,8 @@ namespace D2::Data
 
     struct Monsters : public Units<Monster>
     {
+        using Map = std::map<GUID, const Monster*>;
+
         Monsters(const Raw::UnitData<Raw::MonsterData>* const aRaw[128], const Raw::Game* aServerGame)
             : Units(aRaw)
         {
@@ -444,9 +446,9 @@ namespace D2::Data
             {
                 std::map<GUID, Stats> serverMonstersStats;
                 IterateThroughUnits<Monster>(aServerGame->m_pMonsterList,
-                                    [&serverMonstersStats](const Raw::UnitData<Raw::MonsterData>* aUnit) {
-                                        serverMonstersStats[aUnit->m_GUID] = Stats(aUnit->m_pStatListEx);
-                                    });
+                                             [&serverMonstersStats](const Raw::UnitData<Raw::MonsterData>* aUnit) {
+                                                 serverMonstersStats[aUnit->m_GUID] = Stats(aUnit->m_pStatListEx);
+                                             });
                 for (const auto& [id, serverStats] : serverMonstersStats)
                 {
                     if (!m_units.contains(id))
@@ -466,14 +468,16 @@ namespace D2::Data
             }
         }
 
-        const std::map<GUID, const Monster*>& GetAlive() const { return m_alive; }
+        const Map& GetAlive() const { return m_alive; }
 
-        const std::map<GUID, const Monster*>& GetDead() const { return m_dead; }
+        const Map& GetDead() const { return m_dead; }
 
-        std::map<GUID, const Monster*> GetByName(std::string_view aName) const
+        Map GetByName(std::string_view aName) const { return Monsters::GetByName(aName, m_units); }
+
+        static Map GetByName(std::string_view aName, const Map& aMonsters)
         {
             std::map<GUID, const Monster*> result;
-            for (const auto& [id, unit] : m_units)
+            for (const auto& [id, unit] : aMonsters)
             {
                 if (unit->m_name == aName)
                 {
@@ -484,8 +488,8 @@ namespace D2::Data
         }
 
     private:
-        std::map<GUID, const Monster*> m_alive;
-        std::map<GUID, const Monster*> m_dead;
+        Map m_alive;
+        Map m_dead;
     };
 
     struct Items : public Units<Item>

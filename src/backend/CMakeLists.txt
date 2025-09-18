@@ -61,6 +61,7 @@ set(SOURCE_FILES
 				"d2/achievements/achievements/rifts/moderate/kurast_3000ba_kill_all_totems_timed.cpp"
 				"d2/achievements/achievements/rifts/moderate/tran_athulua_kill_all_priestesses_simultaneously.cpp"
 				# Hard
+				"d2/achievements/achievements/dungeons/hard/toraja_max_5_edyrem.cpp"
 				# Very Hard
 				"d2/achievements/achievements/dungeons/very_hard/xazax_start_at_15_kill_before_30_pentients.cpp"
 )
