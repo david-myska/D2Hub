@@ -7,7 +7,9 @@
 #include <optional>
 #include <set>
 #include <unordered_map>
+#include <unordered_set>
 
+#include "loaded_data.h"
 #include "raw.h"
 #include "stats.h"
 #include "zone.h"
@@ -201,7 +203,7 @@ namespace D2::Data
 
     struct Unit
     {
-        Unit(const Raw::StatListEx* aStatList, uint16_t x, uint16_t y, uint32_t id, uint32_t unitClass, GUID ownerId)
+        Unit(const Raw::StatListEx* aStatList, uint16_t x, uint16_t y, GUID id, uint32_t unitClass, GUID ownerId)
             : m_stats(aStatList)
             , m_pos({x, y})
             , m_id(id)
@@ -436,15 +438,18 @@ namespace D2::Data
         Npcs(const Raw::UnitData<Raw::NpcData>* const aRaw[128], const Raw::Game* aServerGame)
             : Units(aRaw)
         {
+            auto minions = GetMinionIds();
+            auto companionClasses = std::unordered_set<GUID>(minions.m_ids, minions.m_ids + minions.m_count);
             for (const auto& [id, npc] : m_units)
             {
-                if (npc->m_ownerId == 0)
+                // if (npc->m_ownerId != 0)// NOT WORKING, median does not set this value
+                if (companionClasses.contains(npc->m_class))
                 {
-                    m_monsters[id] = npc;
+                    m_companions[id] = npc;
                 }
                 else
                 {
-                    m_companions[id] = npc;
+                    m_monsters[id] = npc;
                 }
 
                 if (npc->IsAlive())
@@ -561,6 +566,31 @@ namespace D2::Data
         }
 
         Zone GetZone() const { return m_zone; }
+
+        bool InTown() const
+        {
+            switch (m_zone)
+            {
+            case Zone::Act1_RogueEncampment:
+                [[fallthrough]];
+            case Zone::Act2_LutGholein:
+                [[fallthrough]];
+            case Zone::Act3_KurastDocks:
+                [[fallthrough]];
+            case Zone::Act4_PandemoniumFortress:
+                [[fallthrough]];
+            case Zone::Act5_Harrogath:
+                [[fallthrough]];
+            case Zone::MXL_Caldeum:
+                [[fallthrough]];
+            case Zone::MXL_SilverCity:
+                [[fallthrough]];
+            case Zone::MXL_TurDulra:
+                return true;
+            default:
+                return false;
+            }
+        }
 
     private:
         const Zone m_zone;

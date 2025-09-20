@@ -17,11 +17,18 @@ namespace
     constexpr auto c_customStatIdsFile = "custom_stat_ids.txt";
     constexpr auto c_itemIdsFile = "item_ids.txt";
     constexpr auto c_customItemIdsFile = "custom_item_ids.txt";
+    constexpr auto c_minionIdsFile = "minion_ids.txt";
+    constexpr auto c_customMinionIdsFile = "custom_minion_ids.txt";
+
     constexpr auto c_unknownName = "{[( Unknown )]}";
 
     struct StatMetadata
     {
         std::string name;
+    };
+
+    struct MinionData
+    {
     };
 
     std::vector<uint32_t> g_statIds;
@@ -32,8 +39,16 @@ namespace
     std::map<uint32_t, std::string> g_itemNames;
     std::set<uint32_t> g_customItemIds;
 
+    std::vector<uint32_t> g_minionIds;
+    std::map<uint32_t, MinionData> g_minionData;
+    std::set<uint32_t> g_customMinionIds;
+
     std::vector<std::string> LoadFile(const std::filesystem::path& aFilePath)
     {
+        if (!std::filesystem::exists(aFilePath))
+        {
+            return {};
+        }
         std::vector<std::string> lines;
         std::ifstream in(aFilePath);
         std::string line;
@@ -99,6 +114,23 @@ namespace
             throw std::runtime_error(std::format("Fields cannot be empty: Id '{}', Name '{}'", aItemId, aItemName));
         }
         aFile << std::format("{:08X},{}\n", aItemId, aItemName);
+    }
+
+    auto ParseMinionLine(std::string_view aLine)
+    {
+        auto minionIdStr = aLine;
+        if (minionIdStr.empty())
+        {
+            throw std::runtime_error(std::format("Fields cannot be empty: Id '{}'", minionIdStr));
+        }
+        uint32_t itemId = 0;
+        std::from_chars(minionIdStr.data(), minionIdStr.data() + minionIdStr.size(), itemId, 16);
+        return std::make_pair(itemId, MinionData{});
+    }
+
+    void WriteMinionLine(std::ofstream& aFile, uint32_t aMinionId, [[maybe_unused]] const MinionData& aMinionData)
+    {
+        aFile << std::format("{:08X}\n", aMinionId);
     }
 }
 
@@ -248,5 +280,90 @@ namespace D2::Data
                 WriteItemLine(file, id, g_itemNames[id]);
             }
         }
+    }
+
+    void OverrideCustomMinionFile()
+    {
+        std::ofstream file(c_customMinionIdsFile);
+        for (auto id : g_customMinionIds)
+        {
+            WriteMinionLine(file, id, g_minionData[id]);
+        }
+    }
+
+    void SaveCustomMinion(uint32_t aMinionId)
+    {
+        auto [it, newMinion] = g_minionData.insert_or_assign(aMinionId, MinionData{});
+        auto [y, newCustomMinion] = g_customMinionIds.insert(aMinionId);
+
+        if (newMinion)
+        {
+            g_minionIds.push_back(aMinionId);
+        }
+        if (newCustomMinion)
+        {
+            std::ofstream file(c_customMinionIdsFile, std::ios::app);
+            WriteMinionLine(file, aMinionId, it->second);
+        }
+        else
+        {
+            OverrideCustomMinionFile();
+        }
+    }
+
+    bool LoadMinions()
+    {
+        g_minionIds.clear();
+        g_minionData.clear();
+        g_customMinionIds.clear();
+
+        auto lines = LoadFile(c_minionIdsFile);
+        for (const auto& line : lines)
+        {
+            try
+            {
+                g_minionData.insert(ParseMinionLine(line));
+            }
+            catch (const std::exception& e)
+            {
+                // TODO log parsing error
+            }
+        }
+        lines = LoadFile(c_customMinionIdsFile);
+        for (const auto& line : lines)
+        {
+            try
+            {
+                auto [minionId, minionData] = ParseMinionLine(line);
+                g_minionData.insert_or_assign(minionId, std::move(minionData));
+                g_customMinionIds.insert(minionId);
+            }
+            catch (const std::exception& e)
+            {
+                // TODO log parsing error
+            }
+        }
+        for (const auto& [minionId, _] : g_minionData)
+        {
+            g_minionIds.push_back(minionId);
+        }
+        return true;
+    }
+
+    Ids GetMinionIds()
+    {
+        return {static_cast<uint32_t>(g_minionIds.size()), g_minionIds.data()};
+    }
+
+    void RemoveCustomMinion(uint32_t aMinionId)
+    {
+        if (!g_minionData.contains(aMinionId))
+        {
+            return;
+        }
+        g_minionData.erase(aMinionId);
+        g_customMinionIds.erase(aMinionId);
+        g_minionIds.erase(std::ranges::find(g_minionIds, aMinionId));
+        OverrideCustomMinionFile();
     }
 }

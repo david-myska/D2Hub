@@ -152,6 +152,7 @@ D2HubBackend::D2HubBackend()
 {
     D2::Data::LoadStats();
     D2::Data::LoadItems();
+    D2::Data::LoadMinions();
     InitializeModuleDependencies();
     InitializeBackend();
     m_achievementsModule->LoadAchievements({}, false);

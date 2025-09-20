@@ -11,11 +11,12 @@
 using namespace godot;
 using namespace D2::Data;
 
-Dictionary CreateMonsterDict(const Npc* aMonster)
+Dictionary CreateNpcDict(const Npc* aMonster)
 {
     Dictionary dict;
     dict["id"] = aMonster->m_id;
     dict["name"] = String(aMonster->m_name.c_str());
+    dict["class"] = aMonster->m_class;
     dict["level"] = aMonster->m_stats.GetValue(Stat::Id::CharLevel).value_or(0);
     dict["max_life"] = aMonster->m_stats.GetValue(Stat::Id::MaxLife).value_or(0);
     // Defense
@@ -41,27 +42,56 @@ Dictionary CreateMonsterDict(const Npc* aMonster)
     return dict;
 }
 
-void BestiaryModule::UpdateInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData)
+void BestiaryModule::UpdateInternal(const DataAccess& aDataAccess, const SharedData& aSharedData)
 {
     if (aSharedData.GetOutNpcs().empty() && aSharedData.GetInNpcs().empty())
     {
         return;
     }
     m_monsters.clear();
-    for (const auto& [id, monster] : aDataAccess.GetNpcs().Get())
+    for (const auto& [id, monster] : aDataAccess.GetNpcs().GetMonsters())
     {
         String name(monster->m_name.c_str());
         Dictionary idDict = m_monsters.get_or_add(name, Dictionary());
-        idDict[id] = CreateMonsterDict(monster);
+        idDict[id] = CreateNpcDict(monster);
     }
-    call_deferred("emit_signal", "monsters_changed");
+    m_companions.clear();
+    for (const auto& [id, companion] : aDataAccess.GetNpcs().GetCompanions())
+    {
+        String name(companion->m_name.c_str());
+        Dictionary idDict = m_companions.get_or_add(name, Dictionary());
+        idDict[id] = CreateNpcDict(companion);
+    }
+    call_deferred("emit_signal", "npcs_changed");
+
+    CheckNewCompanions(aDataAccess, aSharedData);
+}
+
+void BestiaryModule::CheckNewCompanions(const DataAccess& aDataAccess, const SharedData& aSharedData) const
+{
+    if (!aDataAccess.GetMisc().InTown())
+    {
+        return;
+    }
+    auto newCompanions = aSharedData.GetNewNpcs() & aDataAccess.GetNpcs().GetMonsters();
+    // TODO minus townfolks
+    if (newCompanions.empty())
+    {
+        return;
+    }
+    m_notifier->Push(Notifier::NotificationType::Info, "New companion? Visit bestiary module!");
 }
 
 void BestiaryModule::_bind_methods()
 {
     ClassDB::bind_method(D_METHOD("get_monsters"), &BestiaryModule::get_monsters);
+    ClassDB::bind_method(D_METHOD("get_companions"), &BestiaryModule::get_companions);
+    ClassDB::bind_method(D_METHOD("change_npc_affinity", "npc_class", "affinity"), &BestiaryModule::change_npc_affinity);
 
-    ADD_SIGNAL(MethodInfo("monsters_changed"));
+    ClassDB::bind_integer_constant("BestiaryModule", "Affinity", "MONSTERS", static_cast<int>(Affinity::Monsters));
+    ClassDB::bind_integer_constant("BestiaryModule", "Affinity", "COMPANIONS", static_cast<int>(Affinity::Companions));
+
+    ADD_SIGNAL(MethodInfo("npcs_changed"));
 }
 
 Ref<BestiaryModule> BestiaryModule::Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier)
@@ -77,6 +107,29 @@ Ref<BestiaryModule> BestiaryModule::Create(std::shared_ptr<spdlog::logger> aLogg
 Dictionary BestiaryModule::get_monsters() const
 {
     return m_monsters;
+}
+
+Dictionary BestiaryModule::get_companions() const
+{
+    return m_companions;
+}
+
+void BestiaryModule::change_npc_affinity(uint32_t npc_class, uint32_t affinity)
+{
+    switch (static_cast<Affinity>(affinity))
+    {
+    case Affinity::Monsters:
+        RemoveCustomMinion(npc_class);
+        break;
+    case Affinity::Companions:
+        SaveCustomMinion(npc_class);
+        break;
+    default:
+        m_logger->warn("Cannot change npc (class: '{}') affinity: Unknown affinity {}", npc_class, affinity);
+        return;
+    }
+
+    call_deferred("emit_signal", "npcs_changed");
 }
 
 void MonsterData::_bind_methods() {}

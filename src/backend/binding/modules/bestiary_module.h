@@ -25,9 +25,17 @@ namespace godot
     {
         GDCLASS(BestiaryModule, Module)
 
+        enum class Affinity : uint32_t
+        {
+            Monsters,
+            Companions
+        };
+
         Dictionary m_monsters;
+        Dictionary m_companions;
 
         void UpdateInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData) override;
+        void CheckNewCompanions(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData) const;
 
     protected:
         static void _bind_methods();
@@ -36,5 +44,7 @@ namespace godot
         static Ref<BestiaryModule> Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier);
 
         Dictionary get_monsters() const;
+        Dictionary get_companions() const;
+        void change_npc_affinity(uint32_t npc_id, uint32_t affinity);
     };
 }
