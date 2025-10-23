@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://dkdpqvp728664"]
+
+[ext_resource type="PackedScene" uid="uid://b5n3xe1wk02u1" path="res://utils/open_link_button.tscn" id="1_q8qgo"]
+[ext_resource type="Texture2D" uid="uid://d1l77vscmrvrx" path="res://assets/github.png" id="2_ducxj"]
+
+[node name="GithubButton" instance=ExtResource("1_q8qgo")]
+text = "Github"
+icon = ExtResource("2_ducxj")
+m_link = "github.com/david-myska/D2Hub"

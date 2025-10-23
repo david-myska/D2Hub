@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bqf7qwn3ji4q2"]
+
+[ext_resource type="PackedScene" uid="uid://b5n3xe1wk02u1" path="res://utils/open_link_button.tscn" id="1_si42n"]
+[ext_resource type="Texture2D" uid="uid://b0m155gui7373" path="res://assets/donate.png" id="2_004he"]
+
+[node name="DonateButton" instance=ExtResource("1_si42n")]
+modulate = Color(0.870588, 0.0862745, 0.0862745, 1)
+text = "DONATE"
+icon = ExtResource("2_004he")
+m_link = "buymeacoffee.com/davidmyska"

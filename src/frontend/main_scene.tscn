@@ -1,8 +1,8 @@
 [gd_scene load_steps=10 format=3 uid="uid://c5ca2tajwu10l"]
 
 [ext_resource type="PackedScene" uid="uid://dyreym3cio3mc" path="res://modules/achievements/achievement_screen.tscn" id="1_0f027"]
-[ext_resource type="Script" uid="uid://4bodvwv2o1ym" path="res://main_scene.gd" id="1_gyfs4"]
-[ext_resource type="PackedScene" uid="uid://b5n3xe1wk02u1" path="res://utils/donate.tscn" id="3_8mm7a"]
+[ext_resource type="Script" uid="uid://b8mcr6oqu1aqb" path="res://main_scene.gd" id="1_gyfs4"]
+[ext_resource type="PackedScene" uid="uid://b5n3xe1wk02u1" path="res://utils/open_link_button.tscn" id="3_8mm7a"]
 [ext_resource type="PackedScene" uid="uid://bxbty8fetvnll" path="res://modules/settings/settings_screen.tscn" id="3_hq1ik"]
 [ext_resource type="PackedScene" uid="uid://c6y5wmgcenk6x" path="res://modules/lootfilter/lootfilter_screen.tscn" id="3_nfk4m"]
 [ext_resource type="PackedScene" uid="uid://cwqls6dvtnjfm" path="res://modules/statistics/statistics_screen.tscn" id="4_7ycvg"]

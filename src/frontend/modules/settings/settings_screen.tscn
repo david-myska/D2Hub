@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bxbty8fetvnll"]
 
 [ext_resource type="Script" uid="uid://cxsy6b6jkajwi" path="res://modules/settings/settings_screen.gd" id="1_00yke"]
-[ext_resource type="PackedScene" uid="uid://b5n3xe1wk02u1" path="res://utils/donate.tscn" id="2_pfwel"]
+[ext_resource type="PackedScene" uid="uid://b5n3xe1wk02u1" path="res://utils/open_link_button.tscn" id="2_pfwel"]
 
 [node name="SettingsScreen" type="MarginContainer"]
 anchors_preset = 15
@@ -101,7 +101,7 @@ text = "Find"
 [node name="AutoBackup" type="CheckButton" parent="HBoxContainer/Left/Backup/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-tooltip_text = "Automatically tries to detect and attach to the Diablo II game instance"
+tooltip_text = "Creates a backup of the save folder when entering the game from the main menu"
 text = "Auto-Backup"
 
 [node name="RemoveAllBackups" type="Button" parent="HBoxContainer/Left/Backup/VBoxContainer"]
@@ -148,7 +148,8 @@ layout_mode = 2
 [node name="Label2" type="Label" parent="HBoxContainer/Right/Overlay/VBoxContainer"]
 modulate = Color(1, 0.337255, 0, 1)
 layout_mode = 2
-text = "Overlay is visible only when the game is in windowed mode. (windowed fullscreen is fine)"
+text = "Overlay is visible only in windowed or borderless (windowed fullscreen) mode.
+The default MedianXL graphics settings are compatible, but custom renderers may cause issues."
 
 [node name="EnableOverlay" type="CheckButton" parent="HBoxContainer/Right/Overlay/VBoxContainer"]
 unique_name_in_owner = true

@@ -11,10 +11,13 @@ config_version=5
 [application]
 
 config/name="D2Hub"
+config/version="0.9.0-beta"
 run/main_scene="uid://cd0c33t2j2w3l"
+run/print_header=false
 config/custom_user_dir_name="D2Hub"
 config/features=PackedStringArray("4.4", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="res://assets/icon.ico"
+config/windows_native_icon="res://assets/icon.ico"
 
 [autoload]
 
