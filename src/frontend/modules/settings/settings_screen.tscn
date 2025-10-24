@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://bxbty8fetvnll"]
+[gd_scene load_steps=2 format=3 uid="uid://bxbty8fetvnll"]
 
 [ext_resource type="Script" uid="uid://cxsy6b6jkajwi" path="res://modules/settings/settings_screen.gd" id="1_00yke"]
-[ext_resource type="PackedScene" uid="uid://b5n3xe1wk02u1" path="res://utils/open_link_button.tscn" id="2_pfwel"]
 
 [node name="SettingsScreen" type="MarginContainer"]
 anchors_preset = 15
@@ -189,12 +188,6 @@ Sigma 2.11.x
 
 [url=https://github.com/david-myska/D2MXL-Enhanced]D2Hub[/url]: v0.8 (beta)"
 fit_content = true
-
-[node name="HSeparator2" type="HSeparator" parent="HBoxContainer/Right/About/VBoxContainer"]
-layout_mode = 2
-
-[node name="Donate" parent="HBoxContainer/Right/About/VBoxContainer" instance=ExtResource("2_pfwel")]
-layout_mode = 2
 
 [node name="DirDialog" type="FileDialog" parent="."]
 title = "Open a Directory"

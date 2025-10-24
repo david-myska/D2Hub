@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://srhgtmgbv76q"]
+
+[ext_resource type="Texture2D" uid="uid://csv85qs674kw7" path="res://assets/discord.png" id="1_aj7j8"]
+[ext_resource type="Script" uid="uid://bie43g47vkecw" path="res://utils/discord_button.gd" id="2_pqgif"]
+
+[node name="DiscordButton" type="Button"]
+custom_minimum_size = Vector2(111, 2.08189e-12)
+offset_right = 8.0
+offset_bottom = 8.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Discord"
+icon = ExtResource("1_aj7j8")
+flat = true
+expand_icon = true
+script = ExtResource("2_pqgif")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

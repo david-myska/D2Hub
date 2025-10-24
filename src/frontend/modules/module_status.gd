@@ -1,4 +1,4 @@
-extends VBoxContainer
+extends PanelContainer
 
 var m_module : Module
 
@@ -12,3 +12,7 @@ func from_module(module : Module) -> void:
 
 func _on_manual_disable_toggled(toggled_on: bool) -> void:
 	m_module.disable_manually(toggled_on)
+
+
+func _on_show_hide_btn_toggled(toggled_on: bool) -> void:
+	%ExpandedStatus.visible = toggled_on

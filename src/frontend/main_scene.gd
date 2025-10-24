@@ -86,7 +86,3 @@ func _on_load_backup_btn_pressed() -> void:
 
 func _on_create_backup_btn_pressed() -> void:
 	Backend.get_backup_module().manual_backup(%BackupNameLineEdit.text)
-
-
-func _on_exception_btn_pressed() -> void:
-	Backend.send_unhandled_exception()
