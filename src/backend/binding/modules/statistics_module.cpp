@@ -111,7 +111,7 @@ Ref<StatisticsModule> StatisticsModule::Create(std::shared_ptr<spdlog::logger> a
     auto module = memnew(StatisticsModule);
     module->m_logger = std::move(aLogger);
     module->m_notifier = std::move(aNotifier);
-    module->m_logView = std::move(aLogView);
+    //module->m_logView = std::move(aLogView);
     module->m_name = "Statistics";
     module->SetUserDir("statistics");
     module->reset();

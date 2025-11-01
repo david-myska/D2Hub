@@ -323,7 +323,7 @@ void LootFilterModule::UpdateInternal(const D2::Data::DataAccess& aDataAccess, c
 
 void LootFilterModule::Save() const
 {
-    m_logView->Log(*m_logger, "Saving loot filters");
+    //m_logView->Log(*m_logger, "Saving loot filters");
     auto outStream = std::ofstream(m_moduleUserDir / "filters", std::ios::binary);
     GE::BinWriter bw(outStream);
     bw.Write(m_metaFilters.size());
@@ -335,11 +335,11 @@ void LootFilterModule::Save() const
 
 void LootFilterModule::Load()
 {
-    m_logView->Log(*m_logger, "Loading loot filters");
+    //m_logView->Log(*m_logger, "Loading loot filters");
     auto filtersFile = m_moduleUserDir / "filters";
     if (!std::filesystem::exists(filtersFile))
     {
-        m_logView->Log(*m_logger, std::format("Skipping load - No filters file found at: {}", filtersFile.string().c_str()));
+        //m_logView->Log(*m_logger, std::format("Skipping load - No filters file found at: {}", filtersFile.string().c_str()));
         return;
     }
     auto inStream = std::ifstream(filtersFile, std::ios::binary);
@@ -353,7 +353,7 @@ void LootFilterModule::Load()
         }
         catch (std::exception& e)
         {
-            m_logView->Log(*m_logger, std::format("Failed to deserialize filter at index {}: {}", i, e.what()));
+            //m_logView->Log(*m_logger, std::format("Failed to deserialize filter at index {}: {}", i, e.what()));
         }
     }
 }
@@ -381,7 +381,7 @@ Ref<LootFilterModule> LootFilterModule::Create(std::shared_ptr<spdlog::logger> a
     auto module = memnew(LootFilterModule);
     module->m_logger = std::move(aLogger);
     module->m_notifier = std::move(aNotifier);
-    module->m_logView = std::move(aLogView);
+    //module->m_logView = std::move(aLogView);
     module->m_name = "LootFilter";
     module->SetUserDir("lootfilter");
     return module;
@@ -430,7 +430,7 @@ void LootFilterModule::modify_filter(int index, Ref<FilterMetadata> metadata, Di
     }
     catch (const std::exception& ex)
     {
-        m_logView->Log(*m_logger, std::format("Failed to modify filter at index {}: {}", index, ex.what()), MessageType::Error);
+        //m_logView->Log(*m_logger, std::format("Failed to modify filter at index {}: {}", index, ex.what()), MessageType::Error);
     }
 }
 

@@ -190,7 +190,7 @@ Ref<AchievementsModule> AchievementsModule::Create(std::shared_ptr<spdlog::logge
     auto module = memnew(AchievementsModule);
     module->m_logger = aLogger;
     module->m_notifier = std::move(aNotifier);
-    module->m_logView = std::move(aLogView);
+    //module->m_logView = std::move(aLogView);
     module->m_name = "Achievements";
     module->SetUserDir("achievements");
     module->m_achievementManager = std::make_unique<decltype(module->m_achievementManager)::element_type>(

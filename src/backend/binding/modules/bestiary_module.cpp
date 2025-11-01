@@ -100,7 +100,7 @@ Ref<BestiaryModule> BestiaryModule::Create(std::shared_ptr<spdlog::logger> aLogg
     auto module = memnew(BestiaryModule);
     module->m_logger = std::move(aLogger);
     module->m_notifier = std::move(aNotifier);
-    module->m_logView = std::move(aLogView);
+    //module->m_logView = std::move(aLogView);
     module->m_name = "Bestiary";
     module->SetUserDir("bestiary");
     return module;
