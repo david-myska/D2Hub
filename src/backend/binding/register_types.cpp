@@ -16,6 +16,7 @@ void initialize_backend_module(ModuleInitializationLevel p_level)
         return;
     }
 
+    GDREGISTER_RUNTIME_CLASS(LogView);
     GDREGISTER_RUNTIME_CLASS(Notifier);
     GDREGISTER_RUNTIME_CLASS(Module);
     GDREGISTER_RUNTIME_CLASS(AchievementConditions);

@@ -31,9 +31,8 @@ void D2HubBackend::Update()
     }
     catch (const std::exception& e)
     {
-        auto msg = fmt::format("Error during update: {}", e.what());
-        m_logger->error(msg);
-        m_notifier->Push(Notifier::NotificationType::Error, msg);
+        auto msg = std::format("Error during update: {}", e.what());
+        m_notifier->Push(MessageType::Error, msg);
     }
 }
 
@@ -51,7 +50,7 @@ void D2HubBackend::StartMemoryProcessor()
 {
     if (m_memoryProcessor->IsRunning())
     {
-        m_logger->warn("Memory processor is already running.");
+        m_logView->Log(*m_logger, "Memory processor is already running.", MessageType::Warning);
         return;
     }
 
@@ -67,12 +66,13 @@ void D2HubBackend::StartMemoryProcessor()
 
     if (m_targetProcess->IsAttached())
     {
-        m_logger->info("Starting memory processor: keep {} memory scans and scan {}x/second", c_framesToKeep, m_updatesPerSecond);
+        m_logView->Log(*m_logger, std::format("Starting memory processor: keep {} memory scans and scan {}x/second",
+                                              c_framesToKeep, m_updatesPerSecond));
         m_memoryProcessor->RequestStart(m_targetProcess->GetMemoryAccess());
     }
     else
     {
-        m_logger->warn("Cannot start memory processor: TargetProcess is not attached.");
+        m_logView->Log(*m_logger, "Cannot start memory processor: TargetProcess is not attached.", MessageType::Warning);
     }
 }
 
@@ -140,13 +140,14 @@ D2HubBackend::D2HubBackend()
     : m_logLevel(ParseLogLevel())
     , m_commonFileSink(MakeLoggerSink())
     , m_logger(MakeLogger("d2hub_backend"))
-    , m_notifier(Notifier::Create(MakeLogger("notifier")))
-    , m_achievementsModule(AchievementsModule::Create(MakeLogger("achievements_module"), m_notifier))
-    , m_backupModule(BackupModule::Create(MakeLogger("backup_module"), m_notifier))
-    , m_bestiaryModule(BestiaryModule::Create(MakeLogger("bestiary_module"), m_notifier))
-    , m_developerModule(DeveloperModule::Create(MakeLogger("developer_module"), m_notifier))
-    , m_lootfilterModule(LootFilterModule::Create(MakeLogger("lootfilter_module"), m_notifier))
-    , m_statisticsModule(StatisticsModule::Create(MakeLogger("statistics_module"), m_notifier))
+    , m_logView(LogView::Create(MakeLogger("frontend")))
+    , m_notifier(Notifier::Create(MakeLogger("notifier"), m_logView))
+    , m_achievementsModule(AchievementsModule::Create(MakeLogger("achievements_module"), m_notifier, m_logView))
+    , m_backupModule(BackupModule::Create(MakeLogger("backup_module"), m_notifier, m_logView))
+    , m_bestiaryModule(BestiaryModule::Create(MakeLogger("bestiary_module"), m_notifier, m_logView))
+    , m_developerModule(DeveloperModule::Create(MakeLogger("developer_module"), m_notifier, m_logView))
+    , m_lootfilterModule(LootFilterModule::Create(MakeLogger("lootfilter_module"), m_notifier, m_logView))
+    , m_statisticsModule(StatisticsModule::Create(MakeLogger("statistics_module"), m_notifier, m_logView))
     , m_modules(
           {m_achievementsModule, m_backupModule, m_bestiaryModule, m_developerModule, m_lootfilterModule, m_statisticsModule})
 {
@@ -215,7 +216,7 @@ void D2HubBackend::set_update_rate(uint32_t updates_per_second)
 {
     if (updates_per_second == 0)
     {
-        m_logger->warn("Update rate cannot be zero.");
+        m_logView->Log(*m_logger, "Update rate cannot be zero.", MessageType::Warning);
         return;
     }
     m_updatesPerSecond = updates_per_second;
@@ -236,13 +237,13 @@ void D2HubBackend::enable_auto_attach(bool enable)
             }
         });
 
-        m_logger->info("Enabling auto-attach to target process");
+        m_logView->Log(*m_logger, "Enabling auto-attach to target process");
         start_auto_attach();
     }
     else
     {
+        m_logView->Log(*m_logger, "Disabling auto-attach to target process");
         m_startOnAttachedToken.reset();
-        m_logger->info("Disabling auto-attach to target process");
         stop_auto_attach();
     }
 }
@@ -347,7 +348,7 @@ void D2HubBackend::start_memory_processor()
     }
     catch (const std::exception& e)
     {
-        m_logger->warn("Failed to start memory processor: {}", e.what());
+        m_logView->Log(*m_logger, std::format("Failed to start memory processor: {}", e.what()), MessageType::Error);
     }
 }
 
@@ -359,7 +360,7 @@ void D2HubBackend::stop_memory_processor()
     }
     catch (const std::exception& e)
     {
-        m_logger->warn("Failed to stop memory processor: {}", e.what());
+        m_logView->Log(*m_logger, std::format("Failed to stop memory processor: {}", e.what()), MessageType::Error);
     }
 }
 

@@ -38,6 +38,7 @@ set(SOURCE_FILES
 				"binding/modules/lootfilter_module.cpp"
 				"binding/modules/statistics_module.cpp"
 				"binding/notifier.cpp"
+				"binding/log_view.cpp"
 				"binding/d2hub_backend.cpp"
 				"binding/register_types.cpp"
 				"d2/achievements/achievements.cpp"

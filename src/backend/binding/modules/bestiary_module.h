@@ -41,7 +41,8 @@ namespace godot
         static void _bind_methods();
 
     public:
-        static Ref<BestiaryModule> Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier);
+        static Ref<BestiaryModule> Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier,
+                                          Ref<LogView> aLogView);
 
         Dictionary get_monsters() const;
         Dictionary get_companions() const;

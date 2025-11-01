@@ -198,7 +198,7 @@ namespace godot
         static void _bind_methods();
 
     public:
-        static Ref<StatisticsModule> Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier);
+        static Ref<StatisticsModule> Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier, Ref<LogView> aLogView);
 
         Dictionary get_statistics() const;
         void reset();

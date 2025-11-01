@@ -1,5 +1,6 @@
 #pragma once
 
+#include "log_view.h"
 #include "notifier.h"
 
 #include "d2/achievements/base.h"
@@ -42,6 +43,7 @@ namespace godot
         std::shared_ptr<D2::Data::DataAccess> m_dataAccess;
         std::shared_ptr<D2::Data::SharedData> m_sharedData;
 
+        Ref<LogView> m_logView;
         Ref<Notifier> m_notifier;
 
         Ref<AchievementsModule> m_achievementsModule;

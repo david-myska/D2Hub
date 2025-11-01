@@ -18,11 +18,13 @@ void DeveloperModule::_bind_methods()
     ClassDB::bind_method(D_METHOD("save_custom_item", "item_class", "p_item_name"), &DeveloperModule::save_custom_item);
 }
 
-Ref<DeveloperModule> DeveloperModule::Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier)
+Ref<DeveloperModule> DeveloperModule::Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier,
+                                             Ref<LogView> aLogView)
 {
     auto module = memnew(DeveloperModule);
     module->m_logger = std::move(aLogger);
     module->m_notifier = std::move(aNotifier);
+    module->m_logView = std::move(aLogView);
     module->m_name = "Developer";
     module->SetUserDir("developer");
     return module;
@@ -104,13 +106,11 @@ Array DeveloperModule::get_items_from(int location) const
     catch (const std::exception& e)
     {
         auto msg = std::format("Error getting items from location {}: {}", location, e.what());
-        m_logger->error(msg);
-        m_notifier->Push(Notifier::NotificationType::Error, msg);
+        m_notifier->Push(MessageType::Error, msg);
     }
     catch (...)
     {
-        m_logger->error("Unknown error getting items from location {}", location);
-        m_notifier->Push(Notifier::NotificationType::Error, "Unknown error getting items");
+        m_notifier->Push(MessageType::Error, std::format("Unknown error getting items from location {}", location));
     }
     return result;
 }

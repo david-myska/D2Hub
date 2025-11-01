@@ -2,6 +2,7 @@
 
 #include <filesystem>
 
+#include "binding/log_view.h"
 #include "binding/notifier.h"
 #include "d2/utilities/data.h"
 #include "spdlog/spdlog.h"
@@ -26,6 +27,7 @@ namespace godot
         std::string m_name;
         std::filesystem::path m_moduleUserDir;
         std::shared_ptr<spdlog::logger> m_logger;
+        Ref<LogView> m_logView;
 
         Ref<Notifier> m_notifier;
 

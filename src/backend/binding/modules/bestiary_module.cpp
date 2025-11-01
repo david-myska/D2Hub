@@ -79,7 +79,7 @@ void BestiaryModule::CheckNewCompanions(const DataAccess& aDataAccess, const Sha
     {
         return;
     }
-    m_notifier->Push(Notifier::NotificationType::Info, "New companion? Visit bestiary module!");
+    m_notifier->Push(MessageType::Info, "New companion? Visit bestiary module!");
 }
 
 void BestiaryModule::_bind_methods()
@@ -94,11 +94,13 @@ void BestiaryModule::_bind_methods()
     ADD_SIGNAL(MethodInfo("npcs_changed"));
 }
 
-Ref<BestiaryModule> BestiaryModule::Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier)
+Ref<BestiaryModule> BestiaryModule::Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier,
+                                           Ref<LogView> aLogView)
 {
     auto module = memnew(BestiaryModule);
     module->m_logger = std::move(aLogger);
     module->m_notifier = std::move(aNotifier);
+    module->m_logView = std::move(aLogView);
     module->m_name = "Bestiary";
     module->SetUserDir("bestiary");
     return module;

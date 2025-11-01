@@ -323,7 +323,7 @@ void LootFilterModule::UpdateInternal(const D2::Data::DataAccess& aDataAccess, c
 
 void LootFilterModule::Save() const
 {
-    m_logger->info("Saving loot filters");
+    m_logView->Log(*m_logger, "Saving loot filters");
     auto outStream = std::ofstream(m_moduleUserDir / "filters", std::ios::binary);
     GE::BinWriter bw(outStream);
     bw.Write(m_metaFilters.size());
@@ -335,11 +335,11 @@ void LootFilterModule::Save() const
 
 void LootFilterModule::Load()
 {
-    m_logger->info("Loading loot filters");
+    m_logView->Log(*m_logger, "Loading loot filters");
     auto filtersFile = m_moduleUserDir / "filters";
     if (!std::filesystem::exists(filtersFile))
     {
-        m_logger->info("Skipping load - No filters file found at: {}", filtersFile.string().c_str());
+        m_logView->Log(*m_logger, std::format("Skipping load - No filters file found at: {}", filtersFile.string().c_str()));
         return;
     }
     auto inStream = std::ifstream(filtersFile, std::ios::binary);
@@ -353,7 +353,7 @@ void LootFilterModule::Load()
         }
         catch (std::exception& e)
         {
-            m_logger->error("Failed to deserialize filter at index {}: {}", i, e.what());
+            m_logView->Log(*m_logger, std::format("Failed to deserialize filter at index {}: {}", i, e.what()));
         }
     }
 }
@@ -375,11 +375,13 @@ void LootFilterModule::_bind_methods()
     ADD_SIGNAL(MethodInfo("new_loot_notification", PropertyInfo(Variant::STRING, "p_sound_effect")));
 }
 
-Ref<LootFilterModule> LootFilterModule::Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier)
+Ref<LootFilterModule> LootFilterModule::Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier,
+                                               Ref<LogView> aLogView)
 {
     auto module = memnew(LootFilterModule);
     module->m_logger = std::move(aLogger);
     module->m_notifier = std::move(aNotifier);
+    module->m_logView = std::move(aLogView);
     module->m_name = "LootFilter";
     module->SetUserDir("lootfilter");
     return module;
@@ -428,7 +430,7 @@ void LootFilterModule::modify_filter(int index, Ref<FilterMetadata> metadata, Di
     }
     catch (const std::exception& ex)
     {
-        m_logger->error("Failed to modify filter at index {}: {}", index, ex.what());
+        m_logView->Log(*m_logger, std::format("Failed to modify filter at index {}: {}", index, ex.what()), MessageType::Error);
     }
 }
 

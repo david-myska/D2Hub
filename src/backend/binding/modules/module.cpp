@@ -60,14 +60,12 @@ void Module::Initialize(const D2::Data::DataAccess& aDataAccess, const D2::Data:
     catch (const std::exception& e)
     {
         auto msg = std::format("Error initializing module '{}': {}", m_name, e.what());
-        m_logger->error(msg);
-        m_notifier->Push(Notifier::NotificationType::Error, msg);
+        m_notifier->Push(MessageType::Error, msg);
     }
     catch (...)
     {
         auto msg = std::format("Unknown error initializing module '{}'", m_name);
-        m_logger->error(msg);
-        m_notifier->Push(Notifier::NotificationType::Error, msg);
+        m_notifier->Push(MessageType::Error, msg);
     }
 }
 
@@ -81,14 +79,12 @@ void Module::Uninitialize()
     catch (const std::exception& e)
     {
         auto msg = std::format("Error uninitializing module '{}': {}", m_name, e.what());
-        m_logger->error(msg);
-        m_notifier->Push(Notifier::NotificationType::Error, msg);
+        m_notifier->Push(MessageType::Error, msg);
     }
     catch (...)
     {
         auto msg = std::format("Unknown error uninitializing module '{}'", m_name);
-        m_logger->error(msg);
-        m_notifier->Push(Notifier::NotificationType::Error, msg);
+        m_notifier->Push(MessageType::Error, msg);
     }
 }
 
@@ -119,14 +115,12 @@ void Module::Update(const D2::Data::DataAccess& aDataAccess, const D2::Data::Sha
     catch (const std::exception& e)
     {
         auto msg = std::format("Error updating module '{}': {}", m_name, e.what());
-        m_logger->error(msg);
-        m_notifier->Push(Notifier::NotificationType::Error, msg);
+        m_notifier->Push(MessageType::Error, msg);
     }
     catch (...)
     {
         auto msg = std::format("Unknown error updating module '{}'", m_name);
-        m_logger->error(msg);
-        m_notifier->Push(Notifier::NotificationType::Error, msg);
+        m_notifier->Push(MessageType::Error, msg);
     }
 }
 
@@ -139,11 +133,11 @@ void Module::disable_manually(bool aDisable)
 {
     if (m_disabledManually == aDisable)
     {
-        m_logger->info("Module '{}' already {} manually", m_name, aDisable ? "disabled" : "enabled");
+        m_logger->info(std::format("Module '{}' already {} manually", m_name, aDisable ? "disabled" : "enabled"));
         return;
     }
     m_disabledManually = aDisable;
-    m_logger->info("Module '{}' {} manually", m_name, aDisable ? "disabled" : "enabled");
+    m_logView->Log(*m_logger, std::format("Module '{}' {} manually", m_name, aDisable ? "disabled" : "enabled"));
     ResolveStatus();
 }
 
@@ -152,12 +146,12 @@ void Module::DisableProgramatically(bool aDisable, String aReason)
     m_disableReason = std::move(aReason);
     if (m_disabledProgramatically == aDisable)
     {
-        m_logger->info("Module '{}' already {} programmatically", m_name, aDisable ? "disabled" : "enabled");
+        m_logger->info(std::format("Module '{}' already {} programmatically", m_name, aDisable ? "disabled" : "enabled"));
         return;
     }
     m_disabledProgramatically = aDisable;
-    m_logger->info("Module '{}' {} programmatically: {}", m_name, aDisable ? "disabled" : "enabled",
-                   m_disableReason.utf8().get_data());
+    m_logView->Log(*m_logger, std::format("Module '{}' {} programmatically: {}", m_name, aDisable ? "disabled" : "enabled",
+                                          m_disableReason.utf8().get_data()));
     ResolveStatus();
 }
 

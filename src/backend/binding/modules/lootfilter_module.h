@@ -123,7 +123,8 @@ namespace godot
         static void _bind_methods();
 
     public:
-        static Ref<LootFilterModule> Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier);
+        static Ref<LootFilterModule> Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier,
+                                            Ref<LogView> aLogView);
 
         void Save() const;
         void Load();

@@ -70,7 +70,8 @@ namespace godot
         static void _bind_methods();
 
     public:
-        static Ref<AchievementsModule> Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier);
+        static Ref<AchievementsModule> Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier,
+                                              Ref<LogView> aLogView);
 
         void LoadAchievements(std::optional<std::string> aId = {}, bool aActivate = true);
         void SaveAchievements(const std::string& aId);

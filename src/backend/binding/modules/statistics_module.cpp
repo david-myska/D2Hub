@@ -105,11 +105,13 @@ void StatisticsModule::_bind_methods()
     ADD_SIGNAL(MethodInfo("dmg_changed"));
 }
 
-Ref<StatisticsModule> StatisticsModule::Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier)
+Ref<StatisticsModule> StatisticsModule::Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier,
+                                               Ref<LogView> aLogView)
 {
     auto module = memnew(StatisticsModule);
     module->m_logger = std::move(aLogger);
     module->m_notifier = std::move(aNotifier);
+    module->m_logView = std::move(aLogView);
     module->m_name = "Statistics";
     module->SetUserDir("statistics");
     module->reset();

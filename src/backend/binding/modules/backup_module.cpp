@@ -5,11 +5,12 @@
 
 using namespace godot;
 
-Ref<BackupModule> BackupModule::Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier)
+Ref<BackupModule> BackupModule::Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier, Ref<LogView> aLogView)
 {
     auto module = memnew(BackupModule);
     module->m_logger = std::move(aLogger);
     module->m_notifier = std::move(aNotifier);
+    module->m_logView = std::move(aLogView);
     module->m_name = "Backup";
     module->SetUserDir("backup");
     return module;
@@ -36,7 +37,7 @@ void BackupModule::DoBackup(const std::optional<std::string>& aBackupName, bool 
     }
     catch (const std::exception& e)
     {
-        m_logger->warn("Failed to create backup: {}", e.what());
+        m_logView->Log(*m_logger, std::format("Failed to create backup: {}", e.what()), MessageType::Warning);
         call_deferred("emit_signal", "show_popup", "Failed to create backup");
         return;
     }
@@ -60,7 +61,7 @@ void BackupModule::initialize(const String& target_dir)
     }
     catch (const std::exception& e)
     {
-        m_logger->warn("Failed to initialize saves backup: {}", e.what());
+        m_logView->Log(*m_logger, std::format("Failed to initialize saves backup: {}", e.what()), MessageType::Warning);
         m_savesBackup.reset();
     }
 }
@@ -93,8 +94,7 @@ void BackupModule::recover_from_backup(const String& backup_name)
     }
     catch (const std::exception& e)
     {
-        m_logger->warn("Failed to recover from backup: {}", e.what());
-        call_deferred("emit_signal", "show_popup", "Failed to recover from backup");
+        m_logView->Log(*m_logger, std::format("Failed to recover from backup: {}", e.what()));
         return;
     }
 }
@@ -127,8 +127,7 @@ void BackupModule::delete_all_backups()
     }
     catch (const std::exception& e)
     {
-        m_logger->warn("Failed to remove all backups: {}", e.what());
-        call_deferred("emit_signal", "show_popup", "Failed to create backup");
+        m_logView->Log(*m_logger, std::format("Failed to remove all backups: {}", e.what()));
         return;
     }
 }

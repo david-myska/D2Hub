@@ -1,5 +1,7 @@
 #pragma once
 
+#include "binding/constants.h"
+#include "binding/log_view.h"
 #include "game_enhancer/backup/backup_engine.h"
 #include "spdlog/spdlog.h"
 
@@ -13,17 +15,12 @@ namespace godot
         GDCLASS(Notifier, RefCounted)
 
         std::shared_ptr<spdlog::logger> m_logger;
+        Ref<LogView> m_logView;
 
     protected:
         static void _bind_methods();
 
     public:
-        enum class NotificationType
-        {
-            Info,
-            Warning,
-            Error
-        };
         enum class Target : uint8_t
         {
             Overlay = 1 << 0,
@@ -32,12 +29,11 @@ namespace godot
             All = Overlay | BottomBar | Popup
         };
 
-        static Ref<Notifier> Create(std::shared_ptr<spdlog::logger> aLogger);
+        static Ref<Notifier> Create(std::shared_ptr<spdlog::logger> aLogger, Ref<LogView> aLogView);
 
-        void Push(NotificationType aNotificationType, const std::string& aMessage, Target aTargets = Target::All,
-                  float aDuration = 5.0);
+        void Push(MessageType aMessageType, const std::string& aMessage, Target aTargets = Target::All, float aDuration = 5.0);
 
-        void push(int notification_type, const String& message, int targets = static_cast<int>(Target::All),
+        void _push(int notification_type, const String& message, int targets = static_cast<int>(Target::All),
                   float duration = 5.0);
     };
 
