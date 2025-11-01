@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://c5ca2tajwu10l"]
+[gd_scene load_steps=12 format=3 uid="uid://c5ca2tajwu10l"]
 
 [ext_resource type="PackedScene" uid="uid://dyreym3cio3mc" path="res://modules/achievements/achievement_screen.tscn" id="1_0f027"]
 [ext_resource type="Script" uid="uid://b8mcr6oqu1aqb" path="res://main_scene.gd" id="1_gyfs4"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://cwiyi5jgu0ich" path="res://modules/bestiary/bestiary_screen.tscn" id="5_7ycvg"]
 [ext_resource type="PackedScene" uid="uid://dsd2jshumefwu" path="res://utils/notifications/message_popup.tscn" id="6_hq1ik"]
 [ext_resource type="PackedScene" uid="uid://d3ro1b34mcrhu" path="res://overlay/overlay.tscn" id="7_nfk4m"]
+[ext_resource type="PackedScene" uid="uid://cqbqjhty3ibtx" path="res://non_module_pages/log_view/log_view.tscn" id="7_qwutr"]
 [ext_resource type="PackedScene" uid="uid://dkdpqvp728664" path="res://utils/github_button.tscn" id="7_wr18j"]
 [ext_resource type="PackedScene" uid="uid://bqf7qwn3ji4q2" path="res://utils/donate_button.tscn" id="8_qwutr"]
 
@@ -201,6 +202,11 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 metadata/_tab_index = 4
+
+[node name="LogView" parent="MarginContainer/VBoxContainer/Body/MainPanel/TabContainer" instance=ExtResource("7_qwutr")]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 5
 
 [node name="Footer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2

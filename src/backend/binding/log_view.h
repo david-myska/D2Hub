@@ -11,7 +11,7 @@ namespace godot
     {
         GDCLASS(LogView, RefCounted)
 
-        std::shared_ptr<spdlog::logger> m_frontendLogger;
+        //std::shared_ptr<spdlog::logger> m_frontendLogger;
 
     protected:
         static void _bind_methods();

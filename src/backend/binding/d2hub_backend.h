@@ -74,6 +74,7 @@ namespace godot
         D2HubBackend();
         ~D2HubBackend();
 
+        Ref<LogView> get_logview() const;
         Ref<Notifier> get_notifier() const;
 
         Ref<AchievementsModule> get_achievements_module();

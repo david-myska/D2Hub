@@ -114,6 +114,7 @@ void D2HubBackend::_bind_methods()
     ClassDB::bind_method(D_METHOD("start_memory_processor"), &D2HubBackend::start_memory_processor);
     ClassDB::bind_method(D_METHOD("stop_memory_processor"), &D2HubBackend::stop_memory_processor);
 
+    ClassDB::bind_method(D_METHOD("get_logview"), &D2HubBackend::get_logview);
     ClassDB::bind_method(D_METHOD("get_notifier"), &D2HubBackend::get_notifier);
 
     ClassDB::bind_method(D_METHOD("get_achievements_module"), &D2HubBackend::get_achievements_module);
@@ -165,6 +166,11 @@ D2HubBackend::~D2HubBackend()
     m_logger->info("Destroying D2Hub backend");
     m_lootfilterModule->Save();
     m_commonFileSink->flush();
+}
+
+Ref<LogView> D2HubBackend::get_logview() const
+{
+    return m_logView;
 }
 
 Ref<Notifier> D2HubBackend::get_notifier() const
