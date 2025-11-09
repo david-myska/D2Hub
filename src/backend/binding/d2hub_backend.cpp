@@ -114,7 +114,7 @@ void D2HubBackend::_bind_methods()
     ClassDB::bind_method(D_METHOD("start_memory_processor"), &D2HubBackend::start_memory_processor);
     ClassDB::bind_method(D_METHOD("stop_memory_processor"), &D2HubBackend::stop_memory_processor);
 
-    ClassDB::bind_method(D_METHOD("get_logview"), &D2HubBackend::get_logview);
+    // ClassDB::bind_method(D_METHOD("get_logview"), &D2HubBackend::get_logview);
     ClassDB::bind_method(D_METHOD("get_notifier"), &D2HubBackend::get_notifier);
 
     ClassDB::bind_method(D_METHOD("get_achievements_module"), &D2HubBackend::get_achievements_module);
@@ -135,13 +135,32 @@ void D2HubBackend::_bind_methods()
     ADD_SIGNAL(MethodInfo("target_process_existence_changed", PropertyInfo(Variant::BOOL, "exists")));
     ADD_SIGNAL(MethodInfo("target_process_attached", PropertyInfo(Variant::BOOL, "attached")));
     ADD_SIGNAL(MethodInfo("memory_processor_running", PropertyInfo(Variant::BOOL, "processing")));
+
+    // TMP
+    ClassDB::bind_method(D_METHOD("log", "p_message", "msg_type"), &D2HubBackend::_log,
+                         DEFVAL(static_cast<int>(MessageType::Info)));
+
+    ClassDB::bind_integer_constant("D2HubBackend", "MsgType", "INFO", static_cast<int>(MessageType::Info));
+    ClassDB::bind_integer_constant("D2HubBackend", "MsgType", "WARNING", static_cast<int>(MessageType::Warning));
+    ClassDB::bind_integer_constant("D2HubBackend", "MsgType", "ERROR", static_cast<int>(MessageType::Error));
+
+    ADD_SIGNAL(MethodInfo("add_log_entry", PropertyInfo(Variant::STRING, "message"), PropertyInfo(Variant::INT, "message_type")));
+}
+
+void D2HubBackend::_log(const String& message, int msg_type)
+{
+    m_logView->_log(message, msg_type);
 }
 
 D2HubBackend::D2HubBackend()
     : m_logLevel(ParseLogLevel())
     , m_commonFileSink(MakeLoggerSink())
     , m_logger(MakeLogger("d2hub_backend"))
-    , m_logView(LogView::Create(MakeLogger("frontend")))
+    , m_logView(LogView::Create(MakeLogger("frontend"),
+                                // TMP
+                                [this](const String& msg, int type) {
+                                    call_deferred("emit_signal", "add_log_entry", msg, type);
+                                }))
     , m_notifier(Notifier::Create(MakeLogger("notifier"), m_logView))
     , m_achievementsModule(AchievementsModule::Create(MakeLogger("achievements_module"), m_notifier, m_logView))
     , m_backupModule(BackupModule::Create(MakeLogger("backup_module"), m_notifier, m_logView))
@@ -166,11 +185,6 @@ D2HubBackend::~D2HubBackend()
     m_logger->info("Destroying D2Hub backend");
     m_lootfilterModule->Save();
     m_commonFileSink->flush();
-}
-
-Ref<LogView> D2HubBackend::get_logview() const
-{
-    return m_logView;
 }
 
 Ref<Notifier> D2HubBackend::get_notifier() const

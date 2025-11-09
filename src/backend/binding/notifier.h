@@ -15,7 +15,7 @@ namespace godot
         GDCLASS(Notifier, RefCounted)
 
         std::shared_ptr<spdlog::logger> m_logger;
-        Ref<LogView> m_logView;
+        std::shared_ptr<LogView> m_logView;
 
     protected:
         static void _bind_methods();
@@ -29,7 +29,7 @@ namespace godot
             All = Overlay | BottomBar | Popup
         };
 
-        static Ref<Notifier> Create(std::shared_ptr<spdlog::logger> aLogger, Ref<LogView> aLogView);
+        static Ref<Notifier> Create(std::shared_ptr<spdlog::logger> aLogger, std::shared_ptr<LogView> aLogView);
 
         void Push(MessageType aMessageType, const std::string& aMessage, Target aTargets = Target::All, float aDuration = 5.0);
 

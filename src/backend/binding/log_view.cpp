@@ -40,20 +40,25 @@ void LogView::_bind_methods()
 
 void LogView::Log(spdlog::logger& logger, const std::string& aMessage, MessageType aMessageType)
 {
-    // details::Log(logger, aMessage, aMessageType);
-    // String message = aMessage.c_str();
+    details::Log(logger, aMessage, aMessageType);
+    String message = aMessage.c_str();
     // call_deferred("emit_signal", "add_log_entry", message, static_cast<int>(aMessageType));
+    m_emitter(message, static_cast<int>(aMessageType));
 }
 
 void LogView::_log(const String& message, int msg_type)
 {
-    // details::Log(*m_frontendLogger, message.utf8().get_data(), static_cast<MessageType>(msg_type));
+    details::Log(*m_frontendLogger, message.utf8().get_data(), static_cast<MessageType>(msg_type));
     // call_deferred("emit_signal", "add_log_entry", message, msg_type);
+    m_emitter(message, msg_type);
 }
 
-Ref<LogView> LogView::Create(std::shared_ptr<spdlog::logger> aLogger)
+std::shared_ptr<LogView> LogView::Create(std::shared_ptr<spdlog::logger> aLogger,
+                                         const std::function<void(const String&, int)>& aEmitter)
 {
-    auto module = memnew(LogView);
-    //module->m_frontendLogger = std::move(aLogger);
+    // auto module = memnew(LogView);
+    auto module = std::make_shared<LogView>();
+    module->m_frontendLogger = std::move(aLogger);
+    module->m_emitter = aEmitter;
     return module;
 }

@@ -185,12 +185,12 @@ void AchievementsModule::_bind_methods()
 }
 
 Ref<AchievementsModule> AchievementsModule::Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier,
-                                                   Ref<LogView> aLogView)
+                                                   std::shared_ptr<LogView> aLogView)
 {
     auto module = memnew(AchievementsModule);
     module->m_logger = aLogger;
     module->m_notifier = std::move(aNotifier);
-    //module->m_logView = std::move(aLogView);
+    module->m_logView = std::move(aLogView);
     module->m_name = "Achievements";
     module->SetUserDir("achievements");
     module->m_achievementManager = std::make_unique<decltype(module->m_achievementManager)::element_type>(

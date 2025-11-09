@@ -137,7 +137,7 @@ void Module::disable_manually(bool aDisable)
         return;
     }
     m_disabledManually = aDisable;
-    //m_logView->Log(*m_logger, std::format("Module '{}' {} manually", m_name, aDisable ? "disabled" : "enabled"));
+    m_logView->Log(*m_logger, std::format("Module '{}' {} manually", m_name, aDisable ? "disabled" : "enabled"));
     ResolveStatus();
 }
 
@@ -150,8 +150,8 @@ void Module::DisableProgramatically(bool aDisable, String aReason)
         return;
     }
     m_disabledProgramatically = aDisable;
-    //m_logView->Log(*m_logger, std::format("Module '{}' {} programmatically: {}", m_name, aDisable ? "disabled" : "enabled",
-                                          //m_disableReason.utf8().get_data()));
+    m_logView->Log(*m_logger, std::format("Module '{}' {} programmatically: {}", m_name, aDisable ? "disabled" : "enabled",
+                                          m_disableReason.utf8().get_data()));
     ResolveStatus();
 }
 

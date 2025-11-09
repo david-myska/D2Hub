@@ -43,7 +43,7 @@ namespace godot
         std::shared_ptr<D2::Data::DataAccess> m_dataAccess;
         std::shared_ptr<D2::Data::SharedData> m_sharedData;
 
-        Ref<LogView> m_logView;
+        std::shared_ptr<LogView> m_logView;
         Ref<Notifier> m_notifier;
 
         Ref<AchievementsModule> m_achievementsModule;
@@ -74,7 +74,7 @@ namespace godot
         D2HubBackend();
         ~D2HubBackend();
 
-        Ref<LogView> get_logview() const;
+        std::shared_ptr<LogView> get_logview() const;
         Ref<Notifier> get_notifier() const;
 
         Ref<AchievementsModule> get_achievements_module();
@@ -104,6 +104,9 @@ namespace godot
         void fucking_flush() const;
 
         void send_unhandled_exception();
+
+        // TMP
+        void _log(const String& message, int msg_type);
     };
 
 }

@@ -42,7 +42,7 @@ namespace godot
 
     public:
         static Ref<BestiaryModule> Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier,
-                                          Ref<LogView> aLogView);
+                                          std::shared_ptr<LogView> aLogView);
 
         Dictionary get_monsters() const;
         Dictionary get_companions() const;

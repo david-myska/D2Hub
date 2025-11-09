@@ -19,12 +19,12 @@ void DeveloperModule::_bind_methods()
 }
 
 Ref<DeveloperModule> DeveloperModule::Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier,
-                                             Ref<LogView> aLogView)
+                                             std::shared_ptr<LogView> aLogView)
 {
     auto module = memnew(DeveloperModule);
     module->m_logger = std::move(aLogger);
     module->m_notifier = std::move(aNotifier);
-    //module->m_logView = std::move(aLogView);
+    module->m_logView = std::move(aLogView);
     module->m_name = "Developer";
     module->SetUserDir("developer");
     return module;

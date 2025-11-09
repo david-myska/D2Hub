@@ -16,20 +16,24 @@ void initialize_backend_module(ModuleInitializationLevel p_level)
         return;
     }
 
-    GDREGISTER_RUNTIME_CLASS(LogView);
-    GDREGISTER_RUNTIME_CLASS(Notifier);
-    GDREGISTER_RUNTIME_CLASS(Module);
-    GDREGISTER_RUNTIME_CLASS(AchievementConditions);
-    GDREGISTER_RUNTIME_CLASS(Achievement);
-    GDREGISTER_RUNTIME_CLASS(AchievementsModule);
-    GDREGISTER_RUNTIME_CLASS(BackupModule);
-    GDREGISTER_RUNTIME_CLASS(BestiaryModule);
-    GDREGISTER_RUNTIME_CLASS(DeveloperModule);
-    GDREGISTER_RUNTIME_CLASS(FilterMetadata);
-    GDREGISTER_RUNTIME_CLASS(MetaFilter);
-    GDREGISTER_RUNTIME_CLASS(LootFilterModule);
-    GDREGISTER_RUNTIME_CLASS(StatisticsModule);
-    GDREGISTER_RUNTIME_CLASS(D2HubBackend);
+    // Seems to help with problems with initialization... TODO
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
+    // 13 seems to be the limit, check on newer versions
+    // GDREGISTER_CLASS(LogView);
+    GDREGISTER_CLASS(Notifier);
+    GDREGISTER_CLASS(Module);
+    GDREGISTER_CLASS(AchievementConditions);
+    GDREGISTER_CLASS(Achievement);
+    GDREGISTER_CLASS(AchievementsModule);
+    GDREGISTER_CLASS(BackupModule);
+    GDREGISTER_CLASS(BestiaryModule);
+    GDREGISTER_CLASS(DeveloperModule);
+    GDREGISTER_CLASS(FilterMetadata);
+    GDREGISTER_CLASS(MetaFilter);
+    GDREGISTER_CLASS(LootFilterModule);
+    GDREGISTER_CLASS(StatisticsModule);
+    GDREGISTER_CLASS(D2HubBackend);
 }
 
 void uninitialize_backend_module(ModuleInitializationLevel p_level)

@@ -124,7 +124,7 @@ namespace godot
 
     public:
         static Ref<LootFilterModule> Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier,
-                                            Ref<LogView> aLogView);
+                                            std::shared_ptr<LogView> aLogView);
 
         void Save() const;
         void Load();

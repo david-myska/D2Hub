@@ -24,7 +24,7 @@ namespace godot
         static void _bind_methods();
 
     public:
-        static Ref<BackupModule> Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier, Ref<LogView> aLogView);
+        static Ref<BackupModule> Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier, std::shared_ptr<LogView> aLogView);
 
         void AutoBackup();
 

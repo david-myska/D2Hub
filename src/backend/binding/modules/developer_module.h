@@ -22,7 +22,7 @@ namespace godot
 
     public:
         static Ref<DeveloperModule> Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier,
-                                           Ref<LogView> aLogView);
+                                           std::shared_ptr<LogView>);
 
         Vector2i get_player_position() const;
         uint16_t get_location_id() const;

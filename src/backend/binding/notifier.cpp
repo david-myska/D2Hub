@@ -5,7 +5,7 @@
 
 using namespace godot;
 
-Ref<Notifier> Notifier::Create(std::shared_ptr<spdlog::logger> aLogger, Ref<LogView> aLogView)
+Ref<Notifier> Notifier::Create(std::shared_ptr<spdlog::logger> aLogger, std::shared_ptr<LogView> aLogView)
 {
     auto notifier = memnew(Notifier);
     notifier->m_logger = std::move(aLogger);
