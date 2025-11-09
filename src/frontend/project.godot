@@ -14,10 +14,10 @@ config/name="D2Hub"
 config/version="0.9.0-beta"
 run/main_scene="uid://cd0c33t2j2w3l"
 run/print_header=false
-config/custom_user_dir_name="D2Hub"
+config/use_custom_user_dir=true
 config/features=PackedStringArray("4.4", "Forward Plus")
-config/icon="res://assets/icon.ico"
-config/windows_native_icon="res://assets/icon.ico"
+config/icon="res://assets/d2hub_icon.ico"
+config/windows_native_icon="res://assets/d2hub_icon.ico"
 
 [autoload]
 

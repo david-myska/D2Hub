@@ -6,3 +6,7 @@ func _ready() -> void:
 func _add_log_entry(msg : String, type : int):
 	var type_text := "INFO" if type == Backend.INFO else "WARN" if type == Backend.WARNING else "ERROR"
 	$RichTextLabel.append_text("[%s]\t %s\n" % [type_text, msg])
+
+
+func _on_open_log_folder_btn_pressed() -> void:
+	OS.shell_open(ProjectSettings.globalize_path("user://logs"))

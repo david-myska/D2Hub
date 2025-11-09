@@ -15,4 +15,22 @@ layout_mode = 2
 focus_mode = 2
 bbcode_enabled = true
 scroll_following = true
+vertical_alignment = 2
 selection_enabled = true
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="OpenLogFolderBtn" type="Button" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = "Open Log Folder"
+
+[connection signal="pressed" from="MarginContainer/OpenLogFolderBtn" to="." method="_on_open_log_folder_btn_pressed"]

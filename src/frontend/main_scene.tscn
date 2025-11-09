@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://c5ca2tajwu10l"]
+[gd_scene load_steps=13 format=3 uid="uid://c5ca2tajwu10l"]
 
 [ext_resource type="PackedScene" uid="uid://dyreym3cio3mc" path="res://modules/achievements/achievement_screen.tscn" id="1_0f027"]
 [ext_resource type="Script" uid="uid://b8mcr6oqu1aqb" path="res://main_scene.gd" id="1_gyfs4"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://cqbqjhty3ibtx" path="res://non_module_pages/log_view/log_view.tscn" id="7_qwutr"]
 [ext_resource type="PackedScene" uid="uid://dkdpqvp728664" path="res://utils/github_button.tscn" id="7_wr18j"]
 [ext_resource type="PackedScene" uid="uid://bqf7qwn3ji4q2" path="res://utils/donate_button.tscn" id="8_qwutr"]
+[ext_resource type="PackedScene" uid="uid://cc18a06qmr4u2" path="res://utils/bug_report_button.tscn" id="10_671wp"]
 
 [node name="MainScene" type="Control"]
 layout_mode = 3
@@ -219,32 +220,30 @@ size_flags_horizontal = 3
 layout_mode = 2
 alignment = 2
 
-[node name="VSeparator3" type="VSeparator" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/HBoxContainer"]
-layout_mode = 2
-
-[node name="GithubButton" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/HBoxContainer" instance=ExtResource("7_wr18j")]
-layout_mode = 2
-
-[node name="VSeparator2" type="VSeparator" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/HBoxContainer"]
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/HBoxContainer"]
 layout_mode = 2
 
 [node name="DonateButton" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/HBoxContainer" instance=ExtResource("8_qwutr")]
 layout_mode = 2
 
-[node name="VSeparator" type="VSeparator" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/HBoxContainer"]
+[node name="VSeparator2" type="VSeparator" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="GithubButton" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/HBoxContainer" instance=ExtResource("7_wr18j")]
+layout_mode = 2
+
+[node name="VSeparator3" type="VSeparator" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="BugReportButton" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/HBoxContainer" instance=ExtResource("10_671wp")]
+layout_mode = 2
+
+[node name="VSeparator4" type="VSeparator" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/HBoxContainer"]
 layout_mode = 2
 
 [node name="Spacer" type="Control" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/HBoxContainer"]
 custom_minimum_size = Vector2(100, 2.08189e-12)
 layout_mode = 2
-
-[node name="ReportBug" type="Button" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/HBoxContainer"]
-layout_mode = 2
-text = "Report Bug"
-
-[node name="ShowLogs" type="Button" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/HBoxContainer"]
-layout_mode = 2
-text = "Show Logs"
 
 [node name="DiscoverTimer" type="Timer" parent="."]
 wait_time = 0.5
@@ -258,5 +257,4 @@ autostart = true
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/CreateBackup/CreateBackupBtn" to="." method="_on_create_backup_btn_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/LoadBackup/BackupOption" to="." method="_on_backup_option_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/LoadBackup/LoadBackupBtn" to="." method="_on_load_backup_btn_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Footer/PanelContainer/HBoxContainer/ShowLogs" to="." method="_on_show_logs_pressed"]
 [connection signal="timeout" from="DiscoverTimer" to="." method="_on_discover_timer_timeout"]

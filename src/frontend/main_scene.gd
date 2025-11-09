@@ -3,7 +3,7 @@ extends Control
 @onready var discover_timer := $DiscoverTimer
 
 var m_overlay_hwnd : int = 0
-
+# TODO add overlay indicator
 func _ready() -> void:
 	var cmd_args := OS.get_cmdline_args()
 	if "--developer" in cmd_args:
@@ -63,10 +63,6 @@ func _on_manual_start_pressed() -> void:
 		Backend.stop_memory_processor()
 		Backend.attach_to_target_process(false)
 		%ManualStart.text = "Start"
-
-
-func _on_show_logs_pressed() -> void:
-	OS.shell_open(ProjectSettings.globalize_path("user://logs"))
 
 func _disable_backup(disable : bool) -> void:
 	$MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/CreateBackup/CreateBackupBtn.disabled = disable

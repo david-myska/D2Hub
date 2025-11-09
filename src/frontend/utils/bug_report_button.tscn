@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://cc18a06qmr4u2"]
+
+[ext_resource type="PackedScene" uid="uid://b5n3xe1wk02u1" path="res://utils/open_link_button.tscn" id="1_8er6n"]
+[ext_resource type="Texture2D" uid="uid://w5is6pc37kv0" path="res://assets/bug_report.png" id="2_fv444"]
+
+[node name="BugReportButton" instance=ExtResource("1_8er6n")]
+custom_minimum_size = Vector2(133, 2.08189e-12)
+text = "Report Bug"
+icon = ExtResource("2_fv444")
+m_link = "https://forms.gle/zv2eg3n6JoShdotW7"
