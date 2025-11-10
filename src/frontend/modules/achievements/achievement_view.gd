@@ -26,5 +26,6 @@ func _recolor(status : Achievement.Status) -> void:
 			$Background.color = Color.ROYAL_BLUE
 		Achievement.Status.COMPLETED:
 			$Background.color = Color.DARK_GOLDENROD
+			%Icon.texture = preload("res://assets/gul_rune.png")
 		Achievement.Status.FAILED:
 			$Background.color = Color.DARK_RED

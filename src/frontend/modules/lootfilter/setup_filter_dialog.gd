@@ -53,7 +53,7 @@ func _fill_attribute_filters(sf : Dictionary):
 		%AttributeFilters.add_child(af)
 		af.set_selection(m_by_id_stat_data[f["id"]], f["op"], f["value"])
 
-func _fill_category_filters(sf : Dictionary):
+func _fill_category_filters(_sf : Dictionary):
 	pass
 
 func _fill_special_filters(sf : Dictionary):
