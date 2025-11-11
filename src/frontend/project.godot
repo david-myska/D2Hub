@@ -15,7 +15,7 @@ config/version="0.9.0-beta"
 run/main_scene="uid://cd0c33t2j2w3l"
 run/print_header=false
 config/use_custom_user_dir=true
-config/features=PackedStringArray("4.4", "Forward Plus")
+config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://assets/d2hub_icon.ico"
 config/windows_native_icon="res://assets/d2hub_icon.ico"
 

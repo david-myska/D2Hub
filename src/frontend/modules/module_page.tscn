@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://bsqglw8g8higc"]
+[gd_scene load_steps=3 format=3 uid="uid://bsqglw8g8higc"]
 
-[ext_resource type="Script" uid="uid://bibmox1gnsk7o" path="res://modules/module_page.gd" id="1_bpeom"]
+[ext_resource type="Script" uid="uid://bcy36eawrxupp" path="res://modules/module_page.gd" id="1_bpeom"]
+[ext_resource type="PackedScene" uid="uid://cloy1lv51vhsr" path="res://modules/module_status.tscn" id="2_6uou5"]
 
 [node name="ModulePage" type="MarginContainer"]
 anchors_preset = 15
@@ -9,3 +10,19 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_bpeom")
+
+[node name="PageContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+
+[node name="StatusContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ModuleStatus" parent="StatusContainer" instance=ExtResource("2_6uou5")]
+unique_name_in_owner = true
+layout_mode = 2

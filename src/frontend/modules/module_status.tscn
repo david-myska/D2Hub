@@ -1,51 +1,39 @@
-[gd_scene load_steps=2 format=3 uid="uid://c386q5lpfxq5c"]
+[gd_scene load_steps=2 format=3 uid="uid://cloy1lv51vhsr"]
 
-[ext_resource type="Script" uid="uid://dmftrdanuadrp" path="res://modules/module_status.gd" id="1_7xumw"]
+[ext_resource type="Script" uid="uid://b0a1lu6dnh8ke" path="res://modules/module_status.gd" id="1_7xumw"]
 
-[node name="ModuleStatus" type="PanelContainer"]
-offset_right = 168.0
-offset_bottom = 93.0
-size_flags_horizontal = 0
+[node name="ModuleStatus" type="FoldableContainer"]
+custom_minimum_size = Vector2(250, 200)
+offset_right = 250.0
+offset_bottom = 200.0
+title = "Module Status"
 script = ExtResource("1_7xumw")
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2"]
-layout_mode = 2
-
-[node name="ShowHideBtn" type="Button" parent="VBoxContainer2/HBoxContainer"]
+[node name="DisableBtn" type="CheckButton" parent="MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-toggle_mode = true
-text = "Module Status"
+text = "Disable"
 
-[node name="Label" type="Label" parent="VBoxContainer2/HBoxContainer"]
-modulate = Color(0, 0.870588, 0, 1)
-layout_mode = 2
-size_flags_horizontal = 3
-text = "ON"
-horizontal_alignment = 2
-
-[node name="ExpandedStatus" type="VBoxContainer" parent="VBoxContainer2"]
+[node name="RestartBtn" type="Button" parent="MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 0
+text = "Restart Module"
 
-[node name="ManualDisable" type="CheckButton" parent="VBoxContainer2/ExpandedStatus"]
+[node name="Reason" type="Label" parent="MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
-text = "Disable Module"
+autowrap_mode = 2
 
-[node name="Running" type="CheckButton" parent="VBoxContainer2/ExpandedStatus"]
-unique_name_in_owner = true
-layout_mode = 2
-disabled = true
-text = "Running"
-
-[node name="Reason" type="Label" parent="VBoxContainer2/ExpandedStatus"]
-unique_name_in_owner = true
-layout_mode = 2
-
-[connection signal="toggled" from="VBoxContainer2/HBoxContainer/ShowHideBtn" to="." method="_on_show_hide_btn_toggled"]
-[connection signal="toggled" from="VBoxContainer2/ExpandedStatus/ManualDisable" to="." method="_on_manual_disable_toggled"]
+[connection signal="toggled" from="MarginContainer/VBoxContainer/DisableBtn" to="." method="_on_disable_btn_toggled"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/RestartBtn" to="." method="_on_restart_btn_pressed"]
