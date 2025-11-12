@@ -1,0 +1,11 @@
+[gd_scene load_steps=4 format=3 uid="uid://cdluunvq5yn2d"]
+
+[ext_resource type="PackedScene" uid="uid://bsqglw8g8higc" path="res://modules/module_page.tscn" id="1_jw2ae"]
+[ext_resource type="Script" uid="uid://bocrm1gk0dol8" path="res://modules/lootfilter/lootfilter.gd" id="2_p75r0"]
+[ext_resource type="PackedScene" uid="uid://c6y5wmgcenk6x" path="res://modules/lootfilter/lootfilter_screen.tscn" id="3_3m7m3"]
+
+[node name="LootFilter" instance=ExtResource("1_jw2ae")]
+script = ExtResource("2_p75r0")
+
+[node name="LootfilterScreen" parent="." index="0" instance=ExtResource("3_3m7m3")]
+layout_mode = 2

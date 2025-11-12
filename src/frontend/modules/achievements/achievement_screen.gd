@@ -21,7 +21,6 @@ func _ready() -> void:
 	fill_achievements()
 	var achi_module = Backend.get_achievements_module()
 	achi_module.new_achievements_loaded.connect(fill_achievements)
-	$VBoxContainer/TMP/ModuleStatus.from_module(achi_module)
 	m_categories.get_child(0).button_pressed = true
 	m_statuses.get_child(0).button_pressed = true
 

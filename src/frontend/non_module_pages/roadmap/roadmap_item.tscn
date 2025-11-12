@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bpvhgybsvqcbs"]
 
-[ext_resource type="Script" uid="uid://i4c5xqrch50r" path="res://modules/roadmap/roadmap_item.gd" id="1_tywqp"]
+[ext_resource type="Script" uid="uid://i4c5xqrch50r" path="res://non_module_pages/roadmap/roadmap_item.gd" id="1_tywqp"]
 
 [node name="RoadmapItem" type="MarginContainer"]
 anchors_preset = 15

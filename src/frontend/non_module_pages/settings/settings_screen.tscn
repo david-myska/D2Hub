@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bxbty8fetvnll"]
 
-[ext_resource type="Script" uid="uid://cxsy6b6jkajwi" path="res://modules/settings/settings_screen.gd" id="1_00yke"]
+[ext_resource type="Script" uid="uid://cxsy6b6jkajwi" path="res://non_module_pages/settings/settings_screen.gd" id="1_00yke"]
 
 [node name="SettingsScreen" type="MarginContainer"]
 anchors_preset = 15

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dq3hwkn4kqrcw"]
 
-[ext_resource type="PackedScene" uid="uid://bpvhgybsvqcbs" path="res://modules/roadmap/roadmap_item.tscn" id="1_epo26"]
+[ext_resource type="PackedScene" uid="uid://bpvhgybsvqcbs" path="res://non_module_pages/roadmap/roadmap_item.tscn" id="1_epo26"]
 
 [node name="RoadmapScreen" type="MarginContainer"]
 anchors_preset = 15

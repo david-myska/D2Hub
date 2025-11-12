@@ -6,10 +6,11 @@ var m_header_label : Label = null
 func _ready() -> void:
 	assert(m_module)
 	var lbl := Label.new()
-	lbl.text = "ON"
-	lbl.modulate = Color.GREEN
+	lbl.text = "OFF"
+	lbl.modulate = Color.RED
 	add_title_bar_control(lbl)
 	m_header_label = lbl
+	fold()
 	
 	if not m_module.can_be_disabled_manually():
 		%DisableBtn.disabled = true

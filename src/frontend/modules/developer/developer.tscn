@@ -1,0 +1,11 @@
+[gd_scene load_steps=4 format=3 uid="uid://bi0xm2euiks7h"]
+
+[ext_resource type="PackedScene" uid="uid://bsqglw8g8higc" path="res://modules/module_page.tscn" id="1_43g77"]
+[ext_resource type="Script" uid="uid://dvimv8dt3aqbx" path="res://modules/developer/developer.gd" id="2_pmky6"]
+[ext_resource type="PackedScene" uid="uid://dqc3266nl801d" path="res://modules/developer/developer_screen.tscn" id="2_ynipf"]
+
+[node name="Developer" instance=ExtResource("1_43g77")]
+script = ExtResource("2_pmky6")
+
+[node name="DeveloperScreen" parent="." index="0" instance=ExtResource("2_ynipf")]
+layout_mode = 2

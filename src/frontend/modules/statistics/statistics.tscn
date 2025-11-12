@@ -1,0 +1,11 @@
+[gd_scene load_steps=4 format=3 uid="uid://dh3wc4u412a4l"]
+
+[ext_resource type="PackedScene" uid="uid://bsqglw8g8higc" path="res://modules/module_page.tscn" id="1_bvjo7"]
+[ext_resource type="Script" uid="uid://chtpwo7j5fdp0" path="res://modules/statistics/statistics.gd" id="2_2tbux"]
+[ext_resource type="PackedScene" uid="uid://cwqls6dvtnjfm" path="res://modules/statistics/statistics_screen.tscn" id="2_tdale"]
+
+[node name="Statistics" instance=ExtResource("1_bvjo7")]
+script = ExtResource("2_2tbux")
+
+[node name="StatisticsScreen" parent="." index="0" instance=ExtResource("2_tdale")]
+layout_mode = 2
