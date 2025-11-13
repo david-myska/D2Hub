@@ -54,13 +54,18 @@
 ### Getting Started
 
 1. Download the latest release from the [Releases](#) page.
-2. Start MedianXL & D2Hub (*in any order*).
-3. Go through the initial setup in D2Hub.
-4. Attach D2Hub to the game process.
+2. Extract & start D2Hub.
+3. Go through the initial setup.
+4. Start MedianXL.
+5. Attach D2Hub to the game process.
    - Either manually or via auto-attach setting.
-5. Setup Overlay
+6. Setup Overlay from Settings tab.
    - Overlay works only when the game is in windowed mode. (default MedianXL fullscreen works fine)
-   - Highly dependent on your chosen graphics driver. (default MedianXL setting works fine)
+   - Highly dependent on your chosen graphics driver. (default MedianXL setting works fine.
+7. Enjoy!
+
+> [!NOTE]
+> Overlay is visible only when the game window is in focus.
 
 **Missing:**  
 - Screenshots or UI examples
