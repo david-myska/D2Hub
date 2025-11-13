@@ -1,5 +1,22 @@
 # D2Hub
 
+[![Buy Me a Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoffee.com/davidmyska)
+[![License](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
+
+
+## Table of Contents
+
+- [For Users](#for-users)
+  - [Features](#features)
+  - [Important Notice](#important-notice)
+  - [Getting Started](#getting-started)
+- [For Developers](#for-developers)
+  - [Requirements](#requirements)
+  - [Building](#building)
+  - [Code Structure](#code-structure)
+- [License](#license)
+- [Why Godot for the UI?](#why-godot-for-the-ui)
+
 ## For Users
 
 **D2Hub** is an external tool that adds advanced features to the Diablo II mod [MedianXL](https://www.median-xl.com/):
@@ -57,6 +74,7 @@
 - CMake 3.16+
 - [Godot](https://godotengine.org/) (for UI integration)
   - minimal version 4.5
+  - 32bit (required since it is accessing memory of Diablo 2 which is 32bit)
 - C++20 compatible compiler
 
 Following dependencies are fetched automatically by CMake during the build process:
@@ -67,19 +85,26 @@ Following dependencies are fetched automatically by CMake during the build proce
 
 ### Building
 
-1. Clone this repository and its dependencies.
+1. Clone this repository.
+   ```
+   git clone https://github.com/david-myska/D2Hub.git
+   ```
 2. Run CMake to configure the backend:
    
-   ```
-   cmake -S . -B build
-   cmake --build build
+   ```bash
+   # Enter the project directory
+   cd D2Hub
+   
+   # Choose one preset:
+   #   Debug32, Release32
+
+   cmake --preset <preset>
+   cmake --build build/<preset>
+   cmake --install build/<preset>
    ```
    
    - This builds the C++ backend plugin and deploys it to folder where frontend expects it.
 3. Build the frontend using the Godot editor (manual process for now).
-
-**Missing:**  
-- for Diablo II build as 32bit!!!
 
 ### Code Structure
 
