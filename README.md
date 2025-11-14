@@ -81,6 +81,7 @@
   - minimal version 4.5
   - 32bit (required since it is accessing memory of Diablo 2 which is 32bit)
 - C++20 compatible compiler
+- Python 3.4+ (required by godot-cpp for binding generation)
 
 Following dependencies are fetched automatically by CMake during the build process:
 - [godot-cpp](https://github.com/godotengine/godot-cpp)
