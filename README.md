@@ -85,7 +85,7 @@
 Following dependencies are fetched automatically by CMake during the build process:
 - [godot-cpp](https://github.com/godotengine/godot-cpp)
 - [spdlog](https://github.com/gabime/spdlog)
-- [GameEnhancer](https://github.com/david-myska/GameEnhancer)
+- [GameExtSuite](https://github.com/david-myska/GameExtSuite)
 - [ProcessMemoryAccess](https://github.com/david-myska/ProcessMemoryAccess)
 
 ### Building
