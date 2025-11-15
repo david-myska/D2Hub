@@ -30,8 +30,9 @@ void Module::SetUserDir(const std::filesystem::path& aRelative)
 void Module::ResolveStatus()
 {
     using enum ModuleStatus;
-    m_status = m_disabledManually ? ManuallyDisabled : m_disabledProgramatically ? Disabled : Enabled;
+    auto newStatus = m_disabledManually ? ManuallyDisabled : m_disabledProgramatically ? Disabled : Enabled;
     String reason = m_disabledManually ? "Manually disabled" : m_disabledProgramatically ? m_disableReason : "";
+    m_status = newStatus == Enabled && m_status.load() == Running ? Running : newStatus;
     call_deferred("emit_signal", "status_changed", static_cast<int>(m_status.load()), reason);
 }
 
@@ -98,6 +99,7 @@ void Module::Update(const D2::Data::DataAccess& aDataAccess, const D2::Data::Sha
         {
             Initialize(aDataAccess, aSharedData);
             m_status.compare_exchange_strong(status, Running);
+            ResolveStatus();
         }
         else
         {

@@ -17,7 +17,7 @@ func _ready() -> void:
 		%DisableBtn.tooltip_text = "This module cannot be disabled manually"
 	
 	m_module.status_changed.connect(func(status : Module.Status, reason : String):
-		if status == Module.Status.RUNNING:
+		if status == Module.Status.RUNNING || status == Module.Status.ENABLED:
 			m_header_label.text = "ON"
 			m_header_label.modulate = Color.GREEN
 		else:
