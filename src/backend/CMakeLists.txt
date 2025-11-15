@@ -22,11 +22,11 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(spdlog)
 
 FetchContent_Declare(
-  game_enhancer
-  GIT_REPOSITORY https://github.com/david-myska/GameEnhancer.git
+  game_ext_suite
+  GIT_REPOSITORY https://github.com/david-myska/GameExtSuite.git
   GIT_TAG        master
 )
-FetchContent_MakeAvailable(game_enhancer)
+FetchContent_MakeAvailable(game_ext_suite)
 
 
 set(SOURCE_FILES
@@ -69,8 +69,9 @@ set(SOURCE_FILES
 
 add_library(d2hub_backend SHARED ${SOURCE_FILES})
 
-target_include_directories(d2hub_backend PUBLIC ${CMAKE_CURRENT_LIST_DIR} ${godot-cpp_SOURCE_DIR}/include PUBLIC ${spdlog_SOURCE_DIR}/include PUBLIC ${game_enhancer_SOURCE_DIR}/include)
-target_link_libraries(d2hub_backend PUBLIC godot-cpp game_enhancer spdlog::spdlog)
+message(STATUS "GameExtSuite path: ${game_ext_suite_SOURCE_DIR}")
+target_include_directories(d2hub_backend PUBLIC ${CMAKE_CURRENT_LIST_DIR} ${godot-cpp_SOURCE_DIR}/include PUBLIC ${spdlog_SOURCE_DIR}/include)
+target_link_libraries(d2hub_backend PUBLIC godot-cpp game_ext_suite spdlog::spdlog)
 
 install(TARGETS d2hub_backend DESTINATION ${D2E_INSTALL_LIB_DIR})
 install(FILES $<TARGET_FILE:d2hub_backend> DESTINATION ${D2E_FRONTEND_REQ_DIR})

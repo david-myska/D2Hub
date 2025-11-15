@@ -2,7 +2,6 @@
 
 #include "binding/constants.h"
 #include "binding/log_view.h"
-#include "game_enhancer/backup/backup_engine.h"
 #include "spdlog/spdlog.h"
 
 #include <godot_cpp/classes/ref_counted.hpp>
