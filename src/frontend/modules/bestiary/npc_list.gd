@@ -33,6 +33,9 @@ func add_entry(d : Dictionary):
 	add_child(max_life_lbl)
 	var def_stats = _make_defense_stats(d)
 	add_child(def_stats)
+	var control := Control.new()
+	control.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	add_child(control)
 	var switch_btn := Button.new()
 	switch_btn.text = "This is %s" % m_change_string
 	switch_btn.pressed.connect(func():

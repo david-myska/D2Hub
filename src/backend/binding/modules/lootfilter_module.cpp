@@ -517,8 +517,8 @@ void MetaFilter::MakeExecutableFilter()
 {
     std::vector<std::unique_ptr<IFilter>> filters;
     filters.push_back(MakeFilter(m_specialFilters, FilterType::Special));
-    filters.push_back(MakeFilter(m_specialFilters, FilterType::Category));
-    filters.push_back(MakeFilter(m_specialFilters, FilterType::Stat));
+    filters.push_back(MakeFilter(m_categoryFilters, FilterType::Category));
+    filters.push_back(MakeFilter(m_statFilters, FilterType::Stat));
     m_executableFilter = FilterGroup::AllOf(std::move(filters));
 }
 
