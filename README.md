@@ -88,9 +88,6 @@
 > [!NOTE]
 > Overlay is visible only when the game window is in focus.
 
-**Missing:**  
-- Screenshots or UI examples
-
 ---
 
 ## For Developers
