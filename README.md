@@ -1,4 +1,4 @@
-# D2Hub
+# <img src="docs/images/d2hub_icon.png" width="32"> D2Hub
 
 [![Buy Me a Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoffee.com/davidmyska)
 [![License](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
@@ -6,6 +6,7 @@
 
 ## Table of Contents
 
+- [Screenshots](#screenshots)
 - [For Users](#for-users)
   - [Features](#features)
   - [Important Notice](#important-notice)
@@ -16,6 +17,26 @@
   - [Code Structure](#code-structure)
 - [License](#license)
 - [Why Godot for the UI?](#why-godot-for-the-ui)
+
+## Screenshots
+
+<p float="left">
+  <img src="docs/images/achievements_all_off.png" width="49%">
+  <img src="docs/images/filters_d2_on.png" width="49%">
+  <img src="docs/images/overlay_active.png" width="49%">
+  <img src="docs/images/overlay_settings.png" width="49%">
+</p>
+
+<details>
+  <summary>More screenshots</summary>
+  
+  ![Achievements Tab](docs/images/achievements_all_off.png)
+  ![LootFilter Tab](docs/images/filters_d2_on.png)
+  ![Bestiary Tab](docs/images/bestiary_all_on.png)
+  ![Overlay Active](docs/images/overlay_active.png)
+  ![Overlay Settings](docs/images/overlay_settings.png)
+  ![MXL Launcher Setup](docs/images/median_launcher.png)
+</details>
 
 ## For Users
 
