@@ -74,7 +74,7 @@
 
 ### Getting Started
 
-1. Download the latest release from the [Releases](#) page.
+1. Download the latest release from the [Releases](https://github.com/david-myska/D2Hub/releases) page.
 2. Extract & start D2Hub.
 3. Go through the initial setup.
 4. Start MedianXL.
