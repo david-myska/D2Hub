@@ -69,7 +69,6 @@ set(SOURCE_FILES
 
 add_library(d2hub_backend SHARED ${SOURCE_FILES})
 
-message(STATUS "GameExtSuite path: ${game_ext_suite_SOURCE_DIR}")
 target_include_directories(d2hub_backend PUBLIC ${CMAKE_CURRENT_LIST_DIR} ${godot-cpp_SOURCE_DIR}/include PUBLIC ${spdlog_SOURCE_DIR}/include)
 target_link_libraries(d2hub_backend PUBLIC godot-cpp game_ext_suite spdlog::spdlog)
 
