@@ -3,7 +3,13 @@
 [![Buy Me a Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoffee.com/davidmyska)
 [![License](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
 
-
+<h2 align="center">
+  <a href="https://github.com/david-myska/D2Hub/releases/latest/download/D2Hub.zip">>>> Download Latest <<<</a>
+</h2>
+<p align="center">
+  <a href="https://github.com/david-myska/D2Hub/releases">>>> Browse older versions <<<</a>
+</p>
+      
 ## Table of Contents
 
 - [Screenshots](#screenshots)
