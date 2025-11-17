@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://c5ca2tajwu10l"]
+[gd_scene load_steps=14 format=3 uid="uid://c5ca2tajwu10l"]
 
 [ext_resource type="Script" uid="uid://b8mcr6oqu1aqb" path="res://main_scene.gd" id="1_gyfs4"]
 [ext_resource type="PackedScene" uid="uid://daatjqtd4sckv" path="res://modules/achievements/achievements.tscn" id="2_671wp"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://d3ro1b34mcrhu" path="res://overlay/overlay.tscn" id="7_nfk4m"]
 [ext_resource type="PackedScene" uid="uid://cqbqjhty3ibtx" path="res://non_module_pages/log_view/log_view.tscn" id="7_qwutr"]
 [ext_resource type="PackedScene" uid="uid://dkdpqvp728664" path="res://utils/github_button.tscn" id="7_wr18j"]
+[ext_resource type="PackedScene" uid="uid://bdkewm263illh" path="res://utils/update_checker.tscn" id="8_mo76n"]
 [ext_resource type="PackedScene" uid="uid://bqf7qwn3ji4q2" path="res://utils/donate_button.tscn" id="8_qwutr"]
 [ext_resource type="PackedScene" uid="uid://cc18a06qmr4u2" path="res://utils/bug_report_button.tscn" id="10_671wp"]
 
@@ -37,6 +38,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
@@ -217,34 +222,64 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Footer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/Footer/PanelContainer"]
 layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="Buttons" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/MarginContainer/HBoxContainer/Buttons"]
+layout_mode = 2
+
+[node name="DonateButton" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/MarginContainer/HBoxContainer/Buttons" instance=ExtResource("8_qwutr")]
+layout_mode = 2
+
+[node name="VSeparator2" type="VSeparator" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/MarginContainer/HBoxContainer/Buttons"]
+layout_mode = 2
+
+[node name="GithubButton" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/MarginContainer/HBoxContainer/Buttons" instance=ExtResource("7_wr18j")]
+layout_mode = 2
+
+[node name="VSeparator3" type="VSeparator" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/MarginContainer/HBoxContainer/Buttons"]
+layout_mode = 2
+
+[node name="BugReportButton" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/MarginContainer/HBoxContainer/Buttons" instance=ExtResource("10_671wp")]
+layout_mode = 2
+m_link = "https://tally.so/r/QKK0rG"
+
+[node name="VSeparator4" type="VSeparator" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/MarginContainer/HBoxContainer/Buttons"]
+layout_mode = 2
+
+[node name="Versions" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
 alignment = 2
 
-[node name="VSeparator" type="VSeparator" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/HBoxContainer"]
+[node name="UpdateChecker" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/MarginContainer/HBoxContainer/Versions" instance=ExtResource("8_mo76n")]
 layout_mode = 2
 
-[node name="DonateButton" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/HBoxContainer" instance=ExtResource("8_qwutr")]
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/MarginContainer/HBoxContainer/Versions"]
 layout_mode = 2
 
-[node name="VSeparator2" type="VSeparator" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/HBoxContainer"]
+[node name="VersionLbl" type="Label" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/MarginContainer/HBoxContainer/Versions"]
+unique_name_in_owner = true
+modulate = Color(0.5882353, 0.5882353, 0.5882353, 1)
 layout_mode = 2
-
-[node name="GithubButton" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/HBoxContainer" instance=ExtResource("7_wr18j")]
-layout_mode = 2
-
-[node name="VSeparator3" type="VSeparator" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/HBoxContainer"]
-layout_mode = 2
-
-[node name="BugReportButton" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/HBoxContainer" instance=ExtResource("10_671wp")]
-layout_mode = 2
-
-[node name="VSeparator4" type="VSeparator" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/HBoxContainer"]
-layout_mode = 2
-
-[node name="Spacer" type="Control" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/HBoxContainer"]
-custom_minimum_size = Vector2(100, 2.08189e-12)
-layout_mode = 2
+text = "Version x.y.z"
 
 [node name="DiscoverTimer" type="Timer" parent="."]
 wait_time = 0.5

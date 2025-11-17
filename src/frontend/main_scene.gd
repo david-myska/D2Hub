@@ -4,12 +4,15 @@ extends Control
 
 var m_overlay_hwnd : int = 0
 # TODO add overlay indicator
+
 func _ready() -> void:
 	var cmd_args := OS.get_cmdline_args()
 	if "--developer" in cmd_args:
 		var dev_screen = preload("res://modules/developer/developer.tscn").instantiate()
 		$MarginContainer/VBoxContainer/Body/MainPanel/TabContainer.add_child(dev_screen)
-		# TODO disable achievements when in developer mode
+	
+	%VersionLbl.text = "Version %s" % ProjectSettings.get_setting("application/config/version")
+	
 	Backend.target_process_existence_changed.connect(func(exists : bool):
 		%D2Discovered.text = "ON" if exists else "OFF"
 		%D2Discovered.modulate = Color.GREEN if exists else Color.RED
