@@ -65,6 +65,8 @@ set(SOURCE_FILES
 				"d2/achievements/achievements/dungeons/hard/toraja_max_5_edyrem.cpp"
 				# Very Hard
 				"d2/achievements/achievements/dungeons/very_hard/xazax_start_at_15_kill_before_30_pentients.cpp"
+				# Extreme
+				"d2/achievements/achievements/dungeons/extreme/the_void_kill_inarius_before_lilith.cpp"
 )
 
 add_library(d2hub_backend SHARED ${SOURCE_FILES})

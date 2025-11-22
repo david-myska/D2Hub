@@ -61,6 +61,11 @@ namespace D2::Achi::Act1Speedrun
                         aPD.m_timer.Update();
                         if (aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_BurialGrounds)
                         {
+                            if (aPD.m_killBloodRaven.GetCurrent())
+                            {
+                                return;
+                            }
+
                             if (aPD.m_bloodRavenId == 0)
                             {
                                 Utils::MonsterNearby("BLOOD RAVEN", aDataAccess, aPD.m_bloodRavenId);
@@ -126,7 +131,6 @@ namespace D2::Achi::Act1Speedrun
                                 aPD.m_killAndariel = aS.GetDeadNpcs().contains(aPD.m_andarielId);
                             }
                         }
-                        // TODO timer
                     })
             .Build();
     }
