@@ -69,7 +69,8 @@ void BestiaryModule::UpdateInternal(const DataAccess& aDataAccess, const SharedD
 
 void BestiaryModule::CheckNewCompanions(const DataAccess& aDataAccess, const SharedData& aSharedData) const
 {
-    if (!aDataAccess.GetMisc().InTown())
+    // Check it for 2 frames to avoid accidental notifications when memory read is not stable
+    if (!aDataAccess.GetMisc().InTown() || !aDataAccess.GetMisc(1).InTown())
     {
         return;
     }
