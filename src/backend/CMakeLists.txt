@@ -61,6 +61,7 @@ set(SOURCE_FILES
 				"d2/achievements/achievements/dungeons/moderate/black_road_no_minion_in_circle.cpp"
 				"d2/achievements/achievements/dungeons/moderate/bull_prince_rodeo_high_roll_charm.cpp"
 				"d2/achievements/achievements/dungeons/moderate/heart_of_sin_negative_fire_res.cpp"
+				"d2/achievements/achievements/dungeons/moderate/legacy_of_blood_kill_after_death.cpp"
 				"d2/achievements/achievements/rifts/moderate/kurast_3000ba_kill_all_totems_timed.cpp"
 				"d2/achievements/achievements/rifts/moderate/tran_athulua_kill_all_priestesses_simultaneously.cpp"
 				# Hard
@@ -68,7 +69,7 @@ set(SOURCE_FILES
 				# Very Hard
 				"d2/achievements/achievements/dungeons/very_hard/xazax_start_at_15_kill_before_30_pentients.cpp"
 				# Extreme
-				"d2/achievements/achievements/dungeons/extreme/the_void_kill_inarius_before_lilith.cpp"
+				"d2/achievements/achievements/dungeons/extreme/the_void_kill_lilith_before_inarius.cpp"
 )
 
 add_library(d2hub_backend SHARED ${SOURCE_FILES})

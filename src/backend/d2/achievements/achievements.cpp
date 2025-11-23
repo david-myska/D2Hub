@@ -16,11 +16,12 @@
 #include "achievements/dungeons/easy/binding_of_baal_kill_at_most_4_minions.h"
 #include "achievements/dungeons/easy/horazons_sanctum_no_portal_kill_have_10_portals.h"
 #include "achievements/dungeons/easy/horror_under_tristram_kill_with_only_magic_items.h"
-#include "achievements/dungeons/extreme/the_void_kill_inarius_before_lilith.h"
+#include "achievements/dungeons/extreme/the_void_kill_lilith_before_inarius.h"
 #include "achievements/dungeons/hard/toraja_max_5_edyrem.h"
 #include "achievements/dungeons/moderate/black_road_no_minion_in_circle.h"
-#include "achievements/dungeons/moderate/heart_of_sin_negative_fire_res.h"
 #include "achievements/dungeons/moderate/bull_prince_rodeo_high_roll_charm.h"
+#include "achievements/dungeons/moderate/heart_of_sin_negative_fire_res.h"
+#include "achievements/dungeons/moderate/legacy_of_blood_kill_after_death.h"
 #include "achievements/dungeons/very_easy/death_projector_high_health.h"
 #include "achievements/dungeons/very_hard/xazax_start_at_15_kill_before_30_pentients.h"
 // Rifts
@@ -58,12 +59,13 @@ namespace D2
         result.emplace(id++, Dungeons::Moderate::BullPrinceRodeo::HighRollCharm::Create());
         result.emplace(id++, Dungeons::Moderate::BlackRoad::NoMinionInCircle::Create());
         result.emplace(id++, Dungeons::Moderate::HeartOfSin::NegativeFireRes::Create());
+        result.emplace(id++, Dungeons::Moderate::LegacyOfBlood::KillAfterDeath::Create());
 
         result.emplace(id++, Dungeons::Hard::Toraja::Max5Edyrem::Create());
 
         result.emplace(id++, Dungeons::VeryHard::Xazax::StartAfter15KillBefore30Pentients::Create());
 
-        result.emplace(id++, Dungeons::Extreme::TheVoid::KillInariusBeforeLilith::Create());
+        result.emplace(id++, Dungeons::Extreme::TheVoid::KillLilithBeforeInarius::Create());
         // Rifts
         result.emplace(id++, Rifts::Easy::IslandOfTheSunlessSea::GoldFarm::Create());
         result.emplace(id++, Rifts::Easy::TheSecretCowLevel::PeacefulGathering::Create());
