@@ -1,8 +1,8 @@
-#include "the_void_kill_inarius_before_lilith.h"
+#include "the_void_kill_lilith_before_inarius.h"
 
 #include "d2/achievements/utilities.h"
 
-namespace D2::Achi::Dungeons::Extreme::TheVoid::KillInariusBeforeLilith
+namespace D2::Achi::Dungeons::Extreme::TheVoid::KillLilithBeforeInarius
 {
     constexpr auto Lilith = "Lilith";
     constexpr auto LilithUpper = "LILITH";
