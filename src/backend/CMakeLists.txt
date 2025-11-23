@@ -54,11 +54,13 @@ set(SOURCE_FILES
 				"d2/achievements/achievements/dungeons/easy/binding_of_baal_kill_at_most_4_minions.cpp"
 				"d2/achievements/achievements/dungeons/easy/akarat_let_heal_and_kill.cpp"
 				"d2/achievements/achievements/dungeons/easy/horazons_sanctum_no_portal_kill_have_10_portals.cpp"
+				"d2/achievements/achievements/dungeons/easy/horror_under_tristram_kill_with_only_magic_items.cpp"
 				"d2/achievements/achievements/rifts/easy/island_of_the_sunless_sea_gold_farm.cpp"
 				"d2/achievements/achievements/rifts/easy/the_secret_cow_level_peaceful_gathering.cpp"
 				# Moderate
-				"d2/achievements/achievements/dungeons/moderate/heart_of_sin_negative_fire_res.cpp"
 				"d2/achievements/achievements/dungeons/moderate/black_road_no_minion_in_circle.cpp"
+				"d2/achievements/achievements/dungeons/moderate/bull_prince_rodeo_high_roll_charm.cpp"
+				"d2/achievements/achievements/dungeons/moderate/heart_of_sin_negative_fire_res.cpp"
 				"d2/achievements/achievements/rifts/moderate/kurast_3000ba_kill_all_totems_timed.cpp"
 				"d2/achievements/achievements/rifts/moderate/tran_athulua_kill_all_priestesses_simultaneously.cpp"
 				# Hard
