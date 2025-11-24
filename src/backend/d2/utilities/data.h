@@ -203,12 +203,13 @@ namespace D2::Data
 
     struct Unit
     {
-        Unit(const Raw::StatListEx* aStatList, uint16_t x, uint16_t y, GUID id, uint32_t unitClass, GUID ownerId)
+        Unit(const Raw::StatListEx* aStatList, uint16_t x, uint16_t y, GUID id, uint32_t unitClass, GUID ownerId, bool moving = false)
             : m_stats(aStatList)
             , m_pos({x, y})
             , m_id(id)
             , m_class(unitClass)
             , m_ownerId(ownerId)
+            , m_moving(moving)
         {
         }
 
@@ -223,6 +224,7 @@ namespace D2::Data
         const GUID m_id;
         const uint32_t m_class;
         const GUID m_ownerId;
+        const bool m_moving;
     };
 
     struct Item : public Unit
@@ -305,7 +307,7 @@ namespace D2::Data
     {
         Player(const Raw::UnitData<Raw::PlayerData>* aRaw)
             : Unit(aRaw->m_pStatListEx, CP(aRaw->m_pPath)->m_xPos, CP(aRaw->m_pPath)->m_yPos, aRaw->m_GUID, aRaw->m_unitClass,
-                   aRaw->m_ownerGUID)
+                   aRaw->m_ownerGUID, CP(aRaw->m_pPath)->m_activePathNodes > 0)
             , m_act{static_cast<Act>(aRaw->m_actNo)}
         {
         }
@@ -318,7 +320,7 @@ namespace D2::Data
     {
         Npc(const Raw::UnitData<Raw::NpcData>* aRaw)
             : Unit(aRaw->m_pStatListEx, CP(aRaw->m_pPath)->m_xPos, CP(aRaw->m_pPath)->m_yPos, aRaw->m_GUID, aRaw->m_unitClass,
-                   aRaw->m_ownerGUID)
+                   aRaw->m_ownerGUID, CP(aRaw->m_pPath)->m_activePathNodes > 0)
             , m_name(ConvertName(CP(CP(aRaw->m_pUnitData)->m_pMonNameOrAiParams)))
         {
         }
