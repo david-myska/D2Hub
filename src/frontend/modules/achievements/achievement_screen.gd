@@ -34,7 +34,8 @@ func status_to_str(s : Achievement.Status) -> String:
 	return "Unknown"
 
 func _report_status(status : Achievement.Status, achi : Achievement):
-	print("%s - Changed status to -> %s" % [achi.get_metadata()["name"], status_to_str(status)])
+	Backend.get_notifier().push(
+		Notifier.INFO, "%s -> %s" % [achi.get_metadata()["name"], status_to_str(status)])
 
 func filter_achis_by_category(category : String) -> void:
 	m_category_filter = category

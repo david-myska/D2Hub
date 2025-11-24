@@ -4,8 +4,8 @@
 
 namespace D2::Achi::Dungeons::Moderate::BullPrinceRodeo::HighRollCharm
 {
-    constexpr auto Bull = "Bull Prince Rodeo";
-    constexpr auto BullUpper = "BULL PRINCE RODEO";
+    constexpr auto Bull = "Bull Prince";
+    constexpr auto BullUpper = "BULL PRINCE";
 
     struct PD : public GE::BaseProgressData
     {

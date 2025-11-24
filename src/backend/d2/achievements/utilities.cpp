@@ -52,11 +52,16 @@ namespace D2::Achi::Utils
         return aDataAccess.GetMisc(1).GetZone() == aFrom;
     }
 
-    bool OutOfArea(Data::Position aPosition, Data::Position aTarget, float targetRadius)
+    uint16_t DistanceSquared(Data::Position aPosition, Data::Position aTarget)
     {
         auto xLength = aPosition.x - aTarget.x;
         auto yLength = aPosition.y - aTarget.y;
-        return (xLength * xLength + yLength * yLength) > targetRadius * targetRadius;
+        return xLength * xLength + yLength * yLength;
+    }
+
+    bool OutOfArea(Data::Position aPosition, Data::Position aTarget, float targetRadius)
+    {
+        return DistanceSquared(aPosition, aTarget) > targetRadius * targetRadius;
     }
 
     bool InArea(const Data::Position& aPosition, Data::Position aTarget, float targetRadius)
