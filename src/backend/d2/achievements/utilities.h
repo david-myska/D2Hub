@@ -134,6 +134,7 @@ namespace D2::Achi::Utils
         };
     }
 
+    uint16_t DistanceSquared(Data::Position aPosition, Data::Position aTarget);
     bool OutOfArea(Data::Position aPosition, Data::Position aTarget, float targetRadius);
     bool InArea(const Data::Position& aPosition, Data::Position aTarget, float targetRadius);
 
