@@ -72,5 +72,10 @@ add_library(d2hub_backend SHARED ${SOURCE_FILES})
 target_include_directories(d2hub_backend PUBLIC ${CMAKE_CURRENT_LIST_DIR} ${godot-cpp_SOURCE_DIR}/include PUBLIC ${spdlog_SOURCE_DIR}/include)
 target_link_libraries(d2hub_backend PUBLIC godot-cpp game_ext_suite spdlog::spdlog)
 
-install(TARGETS d2hub_backend DESTINATION ${D2E_INSTALL_LIB_DIR})
-install(FILES $<TARGET_FILE:d2hub_backend> DESTINATION ${D2E_FRONTEND_REQ_DIR})
+add_custom_target(backend_copy ALL
+    DEPENDS d2hub_backend
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        $<TARGET_FILE:d2hub_backend>
+        ${D2HUB_FRONTEND_REQ_DIR}/$<TARGET_FILE_NAME:d2hub_backend>
+    COMMENT "Copying backend DLL to frontend bin directory"
+)
