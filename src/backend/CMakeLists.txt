@@ -69,7 +69,9 @@ set(SOURCE_FILES
 				# Hard
 				"d2/achievements/achievements/dungeons/hard/toraja_max_5_edyrem.cpp"
 				# Very Hard
+				"d2/achievements/achievements/dungeons/very_hard/lord_of_lies_kill_only_the_real_one.cpp"
 				"d2/achievements/achievements/dungeons/very_hard/xazax_start_at_15_kill_before_30_pentients.cpp"
+				"d2/achievements/achievements/dungeons/very_hard/yshari_sanctum_no_miss_valthek.cpp"
 				# Extreme
 				"d2/achievements/achievements/dungeons/extreme/the_void_kill_lilith_before_inarius.cpp"
 )

@@ -25,7 +25,9 @@
 #include "achievements/dungeons/moderate/legacy_of_blood_kill_after_death.h"
 #include "achievements/dungeons/moderate/the_veiled_prophet_destroy_orb_in_5_seconds.h"
 #include "achievements/dungeons/very_easy/death_projector_high_health.h"
+#include "achievements/dungeons/very_hard/lord_of_lies_kill_only_the_real_one.h"
 #include "achievements/dungeons/very_hard/xazax_start_at_15_kill_before_30_pentients.h"
+#include "achievements/dungeons/very_hard/yshari_sanctum_no_miss_valthek.h"
 // Rifts
 #include "achievements/rifts/easy/island_of_the_sunless_sea_gold_farm.h"
 #include "achievements/rifts/easy/the_secret_cow_level_peaceful_gathering.h"
@@ -67,7 +69,9 @@ namespace D2
 
         result.emplace(id++, Dungeons::Hard::Toraja::Max5Edyrem::Create());
 
+        result.emplace(id++, Dungeons::VeryHard::LordOfLies::KillOnlyTheRealOne::Create());
         result.emplace(id++, Dungeons::VeryHard::Xazax::StartAfter15KillBefore30Pentients::Create());
+        result.emplace(id++, Dungeons::VeryHard::YshariSanctum::NoMissValthek::Create());
 
         result.emplace(id++, Dungeons::Extreme::TheVoid::KillLilithBeforeInarius::Create());
         // Rifts
