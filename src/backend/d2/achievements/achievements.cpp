@@ -18,6 +18,7 @@
 #include "achievements/dungeons/easy/horror_under_tristram_kill_with_only_magic_items.h"
 #include "achievements/dungeons/easy/infernal_machine_stay_in_range.h"
 #include "achievements/dungeons/extreme/the_void_kill_lilith_before_inarius.h"
+#include "achievements/dungeons/hard/banisher_of_light_no_quick_teleports.h"
 #include "achievements/dungeons/hard/toraja_max_5_edyrem.h"
 #include "achievements/dungeons/moderate/black_road_no_minion_in_circle.h"
 #include "achievements/dungeons/moderate/bull_prince_rodeo_high_roll_charm.h"
@@ -67,6 +68,7 @@ namespace D2
         result.emplace(id++, Dungeons::Moderate::LegacyOfBlood::KillAfterDeath::Create());
         result.emplace(id++, Dungeons::Moderate::TheVeiledProphet::DestroyOrbBeforeFirstLightningEnds::Create());
 
+        result.emplace(id++, Dungeons::Hard::BanisherOfLight::NoQuickTeleports::Create());
         result.emplace(id++, Dungeons::Hard::Toraja::Max5Edyrem::Create());
 
         result.emplace(id++, Dungeons::VeryHard::LordOfLies::KillOnlyTheRealOne::Create());

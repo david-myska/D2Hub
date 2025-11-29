@@ -137,16 +137,16 @@ Dictionary StatisticsModule::get_statistics() const
 
 void StatisticsModule::reset()
 {
-    m_exp = std::make_unique<TimedOccurence<uint32_t>>(std::chrono::minutes(1), std::chrono::minutes(2));
+    m_exp = std::make_unique<D2::TimedOccurence<uint32_t>>(std::chrono::minutes(1), std::chrono::minutes(2));
     m_initialExp = 0;
     m_totalExp = 0;
-    m_items = std::make_unique<TimedOccurence<uint32_t>>(std::chrono::minutes(1), std::chrono::minutes(2));
+    m_items = std::make_unique<D2::TimedOccurence<uint32_t>>(std::chrono::minutes(1), std::chrono::minutes(2));
     m_totalItems = 0;
-    m_rareItems = std::make_unique<TimedOccurence<uint32_t>>(std::chrono::minutes(1), std::chrono::minutes(2));
+    m_rareItems = std::make_unique<D2::TimedOccurence<uint32_t>>(std::chrono::minutes(1), std::chrono::minutes(2));
     m_totalRareItems = 0;
-    m_setItems = std::make_unique<TimedOccurence<uint32_t>>(std::chrono::minutes(1), std::chrono::minutes(2));
+    m_setItems = std::make_unique<D2::TimedOccurence<uint32_t>>(std::chrono::minutes(1), std::chrono::minutes(2));
     m_totalSetItems = 0;
-    m_uniqueItems = std::make_unique<TimedOccurence<uint32_t>>(std::chrono::minutes(1), std::chrono::minutes(2));
+    m_uniqueItems = std::make_unique<D2::TimedOccurence<uint32_t>>(std::chrono::minutes(1), std::chrono::minutes(2));
     m_totalUniqueItems = 0;
     call_deferred("emit_signal", "statistics_changed");
 }
@@ -165,8 +165,8 @@ Dictionary StatisticsModule::get_dmg_stats() const
 void StatisticsModule::reset_dmg_stats()
 {
     m_totalDmg = 0;
-    m_burstDmg = std::make_unique<TimedOccurence<uint64_t>>(std::chrono::seconds(3));
-    m_stableDps = std::make_unique<TimedOccurence<uint64_t>>(std::chrono::seconds(c_stableDpsInterval));
+    m_burstDmg = std::make_unique<D2::TimedOccurence<uint64_t>>(std::chrono::seconds(3));
+    m_stableDps = std::make_unique<D2::TimedOccurence<uint64_t>>(std::chrono::seconds(c_stableDpsInterval));
     call_deferred("emit_signal", "dmg_changed");
 }
 
