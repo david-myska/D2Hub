@@ -67,6 +67,7 @@ set(SOURCE_FILES
 				"d2/achievements/achievements/rifts/moderate/kurast_3000ba_kill_all_totems_timed.cpp"
 				"d2/achievements/achievements/rifts/moderate/tran_athulua_kill_all_priestesses_simultaneously.cpp"
 				# Hard
+				"d2/achievements/achievements/dungeons/hard/banisher_of_light_no_quick_teleports.cpp"
 				"d2/achievements/achievements/dungeons/hard/toraja_max_5_edyrem.cpp"
 				# Very Hard
 				"d2/achievements/achievements/dungeons/very_hard/lord_of_lies_kill_only_the_real_one.cpp"
