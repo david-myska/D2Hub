@@ -76,6 +76,6 @@ add_custom_target(backend_copy ALL
     DEPENDS d2hub_backend
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
         $<TARGET_FILE:d2hub_backend>
-        ${D2HUB_FRONTEND_REQ_DIR}/$<TARGET_FILE_NAME:d2hub_backend>
+        ${D2HUB_FRONTEND_BIN_DIR}/$<TARGET_FILE_NAME:d2hub_backend>
     COMMENT "Copying backend DLL to frontend bin directory"
 )
