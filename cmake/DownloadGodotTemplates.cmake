@@ -1,0 +1,54 @@
+cmake_minimum_required(VERSION 3.20)
+
+if(NOT DEFINED GODOT_VERSION OR GODOT_VERSION STREQUAL "")
+    message(FATAL_ERROR "GODOT_VERSION must be provided")
+endif()
+
+if(NOT DEFINED GODOT_RELEASE OR GODOT_RELEASE STREQUAL "")
+    message(FATAL_ERROR "GODOT_RELEASE must be provided")
+endif()
+
+if(NOT DEFINED GODOT_TEMPLATES_DIR OR GODOT_TEMPLATES_DIR STREQUAL "")
+    message(FATAL_ERROR "GODOT_TEMPLATES_DIR must be provided")
+endif()
+
+set(GODOT_TEMPLATES_ARCHIVE "Godot_v${GODOT_VERSION}-${GODOT_RELEASE}_export_templates.tpz")
+set(GODOT_TEMPLATES_URL "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-${GODOT_RELEASE}/${GODOT_TEMPLATES_ARCHIVE}")
+set(GODOT_TEMPLATES_ARCHIVE_PATH "${GODOT_TEMPLATES_DIR}/${GODOT_TEMPLATES_ARCHIVE}")
+set(GODOT_TEMPLATES_EXTRACT_DIR "${GODOT_TEMPLATES_DIR}/${GODOT_VERSION}.${GODOT_RELEASE}")
+set(GODOT_TEMPLATES_EXTRACTED_DIR "${GODOT_TEMPLATES_DIR}/templates")
+
+file(MAKE_DIRECTORY "${GODOT_TEMPLATES_DIR}")
+
+if(EXISTS "${GODOT_TEMPLATES_EXTRACT_DIR}")
+    message(STATUS "Godot export templates already present at ${GODOT_TEMPLATES_EXTRACT_DIR}")
+    return()
+endif()
+
+message(STATUS "Downloading Godot export templates from ${GODOT_TEMPLATES_URL}")
+file(DOWNLOAD "${GODOT_TEMPLATES_URL}" "${GODOT_TEMPLATES_ARCHIVE_PATH}" STATUS DOWNLOAD_STATUS SHOW_PROGRESS)
+list(GET DOWNLOAD_STATUS 0 DOWNLOAD_RESULT)
+list(GET DOWNLOAD_STATUS 1 DOWNLOAD_MESSAGE)
+if(NOT DOWNLOAD_RESULT EQUAL 0)
+    message(FATAL_ERROR "Failed to download Godot export templates: ${DOWNLOAD_MESSAGE}")
+endif()
+
+message(STATUS "Extracting Godot export templates")
+execute_process(
+    COMMAND ${CMAKE_COMMAND} -E tar xvf "${GODOT_TEMPLATES_ARCHIVE}"
+    WORKING_DIRECTORY "${GODOT_TEMPLATES_DIR}"
+    RESULT_VARIABLE EXTRACT_RESULT
+)
+if(NOT EXTRACT_RESULT EQUAL 0)
+    message(FATAL_ERROR "Failed to extract Godot templates archive ${GODOT_TEMPLATES_ARCHIVE_PATH}")
+endif()
+
+if(EXISTS "${GODOT_TEMPLATES_EXTRACTED_DIR}")
+    file(RENAME "${GODOT_TEMPLATES_EXTRACTED_DIR}" "${GODOT_TEMPLATES_EXTRACT_DIR}")
+endif()
+
+if(NOT EXISTS "${GODOT_TEMPLATES_EXTRACT_DIR}")
+    message(FATAL_ERROR "Expected templates directory not found at ${GODOT_TEMPLATES_EXTRACT_DIR}")
+endif()
+
+message(STATUS "Godot export templates are ready at ${GODOT_TEMPLATES_EXTRACT_DIR}")
