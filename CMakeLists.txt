@@ -11,6 +11,7 @@ set(D2E_INSTALL_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 set(D2E_INSTALL_BIN_DIR ${PROJECT_SOURCE_DIR}/bin)
 set(D2E_INSTALL_LIB_DIR ${PROJECT_SOURCE_DIR}/lib)
 set(D2HUB_FRONTEND_BIN_DIR ${PROJECT_SOURCE_DIR}/src/frontend/bin)
+set(BUILD_TOOLS_DIR ${PROJECT_SOURCE_DIR}/build/tools)
 
 add_subdirectory(src)
 
@@ -22,24 +23,12 @@ set(GODOT_EXPORT_PRESET "D2Hub export")
 set(GODOT_EDITOR_VERSION "4.5.1" CACHE STRING "Godot editor version used for automated download")
 set(GODOT_EDITOR_RELEASE "stable" CACHE STRING "Godot editor release channel used for automated download")
 set(GODOT_EDITOR_ARCH "win32" CACHE STRING "Godot editor architecture suffix (win32, win64, windows_arm64)")
-set(GODOT_EDITOR_DOWNLOAD_DIR "${GODOT_EXPORT_DIR}/tools/godot" CACHE PATH "Directory where the downloaded Godot editor is stored")
-set(GODOT_TEMPLATES_DOWNLOAD_DIR "${GODOT_EXPORT_DIR}/tools/Godot/export_templates" CACHE PATH "Directory where Godot export templates are cached")
-set(GODOT_LEGACY_TEMPLATES_DOWNLOAD_DIR "${GODOT_EXPORT_DIR}/tools/godot/templates")
-if(NOT GODOT_TEMPLATES_DOWNLOAD_DIR OR GODOT_TEMPLATES_DOWNLOAD_DIR STREQUAL GODOT_LEGACY_TEMPLATES_DOWNLOAD_DIR)
-    set(GODOT_TEMPLATES_DOWNLOAD_DIR "${GODOT_EXPORT_DIR}/tools/Godot/export_templates" CACHE PATH "Directory where Godot export templates are cached" FORCE)
-endif()
-set(GODOT_DOWNLOADED_EDITOR_PATH "${GODOT_EDITOR_DOWNLOAD_DIR}/Godot_v${GODOT_EDITOR_VERSION}-${GODOT_EDITOR_RELEASE}_${GODOT_EDITOR_ARCH}.exe")
-set(GODOT_LEGACY_WIN32_EDITOR_PATH "${GODOT_EDITOR_DOWNLOAD_DIR}/Godot_v${GODOT_EDITOR_VERSION}-${GODOT_EDITOR_RELEASE}_win32.exe")
-set(GODOT_LEGACY_WIN64_EDITOR_PATH "${GODOT_EDITOR_DOWNLOAD_DIR}/Godot_v${GODOT_EDITOR_VERSION}-${GODOT_EDITOR_RELEASE}_win64.exe")
-set(GODOT_LEGACY_ARM64_EDITOR_PATH "${GODOT_EDITOR_DOWNLOAD_DIR}/Godot_v${GODOT_EDITOR_VERSION}-${GODOT_EDITOR_RELEASE}_windows_arm64.exe")
+set(GODOT_EDITOR_DOWNLOAD_DIR "${BUILD_TOOLS_DIR}/godot" CACHE PATH "Directory where the downloaded Godot editor is stored")
+set(GODOT_TEMPLATES_DOWNLOAD_DIR "${BUILD_TOOLS_DIR}/godot/export_templates" CACHE PATH "Directory where Godot export templates are cached")
+set(GODOT_DOWNLOADED_EDITOR_PATH "${GODOT_EDITOR_DOWNLOAD_DIR}/godot_v${GODOT_EDITOR_VERSION}-${GODOT_EDITOR_RELEASE}_${GODOT_EDITOR_ARCH}.exe")
+
 set(GODOT_EDITOR_PATH "${GODOT_DOWNLOADED_EDITOR_PATH}" CACHE FILEPATH "Path to the Godot editor executable")
-if(NOT GODOT_EDITOR_PATH
-   OR GODOT_EDITOR_PATH STREQUAL GODOT_LEGACY_WIN32_EDITOR_PATH
-   OR GODOT_EDITOR_PATH STREQUAL GODOT_LEGACY_WIN64_EDITOR_PATH
-   OR GODOT_EDITOR_PATH STREQUAL GODOT_LEGACY_ARM64_EDITOR_PATH)
-    set(GODOT_EDITOR_PATH "${GODOT_DOWNLOADED_EDITOR_PATH}" CACHE FILEPATH "Path to the Godot editor executable" FORCE)
-endif()
-set(GODOT_CONSOLE_EDITOR_PATH "${GODOT_EDITOR_DOWNLOAD_DIR}/Godot_v${GODOT_EDITOR_VERSION}-${GODOT_EDITOR_RELEASE}_${GODOT_EDITOR_ARCH}_console.exe")
+set(GODOT_CONSOLE_EDITOR_PATH "${GODOT_EDITOR_DOWNLOAD_DIR}/godot_v${GODOT_EDITOR_VERSION}-${GODOT_EDITOR_RELEASE}_${GODOT_EDITOR_ARCH}_console.exe")
 set(GODOT_EXPORT_RUNNER_PATH "${GODOT_EDITOR_PATH}")
 if(GODOT_EDITOR_PATH STREQUAL GODOT_DOWNLOADED_EDITOR_PATH AND EXISTS "${GODOT_CONSOLE_EDITOR_PATH}")
     set(GODOT_EXPORT_RUNNER_PATH "${GODOT_CONSOLE_EDITOR_PATH}")
@@ -77,7 +66,7 @@ add_custom_target(frontend_export
         "-DASSERT_PATH=${GODOT_EDITOR_PATH}"
         "-DASSERT_LABEL=Godot editor"
         -P ${PROJECT_SOURCE_DIR}/cmake/AssertFileExists.cmake
-    COMMAND ${CMAKE_COMMAND} -E env "APPDATA=${GODOT_EXPORT_DIR}/tools" "${GODOT_EXPORT_RUNNER_PATH}" --headless --path ${GODOT_PROJECT_DIR} --export-release "${GODOT_EXPORT_PRESET}" ${GODOT_EXPORT_PATH}
+    COMMAND ${CMAKE_COMMAND} -E env "APPDATA=${BUILD_TOOLS_DIR}" "${GODOT_EXPORT_RUNNER_PATH}" --headless --path ${GODOT_PROJECT_DIR} --export-release "${GODOT_EXPORT_PRESET}" ${GODOT_EXPORT_PATH}
     COMMAND ${CMAKE_COMMAND}
         "-DASSERT_PATH=${GODOT_EXPORT_PATH}"
         "-DASSERT_LABEL=Exported binary"
@@ -90,24 +79,36 @@ add_custom_target(frontend_export
 set(MANIFEST_FILE ${PROJECT_SOURCE_DIR}/admin.manifest)
 
 add_custom_target(add_manifest
-    COMMAND mt.exe -manifest ${MANIFEST_FILE} -outputresource:${GODOT_EXPORT_PATH};1
+    COMMAND mt.exe -manifest ${MANIFEST_FILE} -outputresource:${GODOT_EXPORT_PATH}\\;1
     COMMENT "Embedding admin manifest into EXE"
     DEPENDS frontend_export
 )
 
 set(PACKAGE_OUTPUT ${GODOT_EXPORT_DIR}/D2Hub.zip)
+set(PACKAGE_DIR ${GODOT_EXPORT_DIR}/tmp_package)
+
+# to make the zip content flat with no weird subdirectories
+add_custom_target(package_prep
+    COMMAND ${CMAKE_COMMAND} -E rm -rf ${PACKAGE_DIR}
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${PACKAGE_DIR}
+
+    COMMAND ${CMAKE_COMMAND} -E copy ${GODOT_EXPORT_PATH} ${PACKAGE_DIR}
+    COMMAND ${CMAKE_COMMAND} -E copy ${GODOT_EXPORT_DIR}/d2hub_backend.dll ${PACKAGE_DIR}
+    COMMAND ${CMAKE_COMMAND} -E copy ${GODOT_PROJECT_DIR}/stat_ids.txt ${PACKAGE_DIR}
+    COMMAND ${CMAKE_COMMAND} -E copy ${GODOT_PROJECT_DIR}/custom_stat_ids.txt ${PACKAGE_DIR}
+    COMMAND ${CMAKE_COMMAND} -E copy ${GODOT_PROJECT_DIR}/item_ids.txt ${PACKAGE_DIR}
+    COMMAND ${CMAKE_COMMAND} -E copy ${GODOT_PROJECT_DIR}/custom_item_ids.txt ${PACKAGE_DIR}
+    COMMAND ${CMAKE_COMMAND} -E copy ${GODOT_PROJECT_DIR}/custom_minion_ids.txt ${PACKAGE_DIR}
+
+    COMMENT "Preparing package directory"
+    DEPENDS add_manifest
+)
 
 add_custom_target(package
-    COMMAND ${CMAKE_COMMAND} -E tar "cfv" ${PACKAGE_OUTPUT} --format=zip --
-        ${GODOT_EXPORT_PATH}
-        ${GODOT_EXPORT_DIR}/d2hub_backend.dll
-        ${GODOT_PROJECT_DIR}/stat_ids.txt
-        ${GODOT_PROJECT_DIR}/custom_stat_ids.txt
-        ${GODOT_PROJECT_DIR}/item_ids.txt
-        ${GODOT_PROJECT_DIR}/custom_item_ids.txt
-        ${GODOT_PROJECT_DIR}/custom_minion_ids.txt
+    COMMAND ${CMAKE_COMMAND} -E tar "cfv" ${PACKAGE_OUTPUT} --format=zip -- .
+    WORKING_DIRECTORY ${PACKAGE_DIR}
     COMMENT "Zipping final output for distribution"
-    DEPENDS add_manifest
+    DEPENDS package_prep
 )
 
 add_custom_target(full
