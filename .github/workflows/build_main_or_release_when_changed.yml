@@ -19,7 +19,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-
+    
+    - name: Setup MSVC environment
+      uses: ilammy/msvc-dev-cmd@v1
+      with:
+        arch: x86
+    
     - name: Cache Godot Build Tools
       uses: actions/cache@v4
       with:
