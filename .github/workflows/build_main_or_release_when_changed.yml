@@ -1,0 +1,36 @@
+name: Build main or release when changed
+
+on:
+  push:
+    branches:
+    - "main"
+    - "release/*"
+  pull_request:
+    branches:
+    - "main"
+    - "release/*"
+
+env:
+  BUILD_TYPE: Release32
+
+jobs:
+  build:
+    runs-on: windows-2022
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Cache Godot Build Tools
+      uses: actions/cache@v4
+      with:
+        path: build/tools/godot
+        key: godot-4.5.1_build_tools
+
+    - name: Configure CMake
+      run: cmake --preset ${{env.BUILD_TYPE}}
+
+    - name: Build
+      run: cmake --build --preset ${{env.BUILD_TYPE}} --target frontend_export
+
+
+
