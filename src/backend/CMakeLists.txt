@@ -75,6 +75,9 @@ set(SOURCE_FILES
 				"d2/achievements/achievements/dungeons/very_hard/yshari_sanctum_no_miss_valthek.cpp"
 				# Extreme
 				"d2/achievements/achievements/dungeons/extreme/the_void_kill_lilith_before_inarius.cpp"
+
+				# Global
+				"d2/achievements/achievements/global/kill_million_monsters.cpp"
 )
 
 add_library(d2hub_backend SHARED ${SOURCE_FILES})
