@@ -119,8 +119,7 @@ Following dependencies are fetched automatically by CMake during the build proce
    ```
    git clone https://github.com/david-myska/D2Hub.git
    ```
-2. Run CMake to configure the backend:
-   
+2. Run CMake to configure:
    ```bash
    # Enter the project directory
    cd D2Hub
@@ -129,12 +128,27 @@ Following dependencies are fetched automatically by CMake during the build proce
    #   Debug32, Release32
 
    cmake --preset <preset>
-   cmake --build build/<preset>
-   cmake --install build/<preset>
    ```
-   
+3. Run CMake to build *backend*:
+   ```bash
+   cmake --build build/<preset> --target backend
+   ```
    - This builds the C++ backend plugin and deploys it to folder where frontend expects it.
-3. Build the frontend using the Godot editor (manual process for now).
+   - This is useful during development for quick feedback loop
+
+4. Run CMake to export *frontend*:
+   ```bash
+   cmake --build build/<preset> --target frontend
+   ```
+   - This creates executable in the *bin* folder
+
+> [!NOTE]
+> First time exporting frontend takes a long time because it needs to download Godot's required dependencies.
+  
+5. Run CMake to package everything into a *zip* archive:
+   ```bash
+   cmake --build build/<preset> --target package
+   ```
 
 ### Code Structure
 
