@@ -88,7 +88,7 @@
    - Either manually or via auto-attach setting.
 6. Setup Overlay from Settings tab.
    - Overlay works only when the game is in windowed mode. (default MedianXL fullscreen works fine)
-   - Highly dependent on your chosen graphics driver. (default MedianXL setting works fine.
+   - Highly dependent on your chosen graphics driver. (default MedianXL setting works fine)
 7. Enjoy!
 
 > [!NOTE]
