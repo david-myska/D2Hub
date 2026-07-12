@@ -56,9 +56,28 @@ func _update_rel2(to_point : Vector2i):
 func _on_relative_pos_btn_2_pressed() -> void:
 	_update_rel2(m_dev.get_player_position())
 
+func _to_slot_string(slot : int) -> String:
+	match slot:
+		1: return "Helm"
+		2: return "Amulet"
+		3: return "Body Armor"
+		4: return "MainHand"
+		5: return "OffHand"
+		6: return "Left Ring"
+		7: return "Right Ring"
+		8: return "Belt"
+		9: return "Boots"
+		10: return "Gloves"
+		11: return "(Swap) MainHand"
+		12: return "(Swap) OffHand"
+		_: return "Unknown - %s" % slot
+
 func _refresh_item_stats(item : Dictionary):
 	for c in %ItemStatsFlow.get_children():
 		c.queue_free()
+	var slot_label := Label.new()
+	slot_label.text = "Slot: %s" % _to_slot_string(item["slot"])
+	%ItemStatsFlow.add_child(slot_label)
 	for stat in item["stats"]:
 		var fixable_stat := preload("res://modules/developer/fixable_stat.tscn").instantiate()
 		fixable_stat.from_stat(stat)
@@ -125,3 +144,8 @@ func _on_auto_refresh_btn_toggled(toggled_on: bool) -> void:
 
 func _on_zone_id_btn_pressed() -> void:
 	$HBoxContainer/GridContainer/ZoneId.text = str(m_dev.get_location_id())
+
+
+func _on_load_equipped_items_btn_pressed() -> void:
+	_refresh_items(m_dev.get_items_from(6)) # 6 == Equipped
+	m_last_pressed_fnc = _on_load_equipped_items_btn_pressed

@@ -132,7 +132,19 @@ namespace D2::Data
 
     enum class ItemSlot
     {
-        // TODO
+        Invalid,
+        Helm,
+        Amulet,
+        BodyArmor,
+        MainHand,
+        Offhand,
+        LeftRing,
+        RightRing,
+        Belt,
+        Boots,
+        Gloves,
+        SwapMainHand,
+        SwapOffhand,
     };
 
     using GUID = uint32_t;
@@ -238,6 +250,7 @@ namespace D2::Data
             , m_quality(QualityFromRaw(CP(aRaw->m_pUnitData)->m_quality))
             , m_itemLevel(CP(aRaw->m_pUnitData)->m_itemLvl)
             , m_act(static_cast<uint8_t>(aRaw->m_actNo))
+            , m_slot(static_cast<ItemSlot>(aRaw->m_pUnitData->m_bodyLoc))
         {
         }
 
@@ -247,6 +260,7 @@ namespace D2::Data
         const ItemQuality m_quality;
         const uint16_t m_itemLevel;
         const uint8_t m_act;
+        const ItemSlot m_slot;
 
     private:
         static ItemQuality QualityFromRaw(uint32_t aRawQuality)

@@ -158,6 +158,11 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Inventory"
 
+[node name="LoadEquippedItemsBtn" type="Button" parent="HBoxContainer/FixItems/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Equipped"
+
 [node name="HSeparator" type="HSeparator" parent="HBoxContainer/FixItems"]
 layout_mode = 2
 
@@ -217,3 +222,4 @@ theme_override_constants/v_separation = 15
 [connection signal="pressed" from="HBoxContainer/FixItems/HBoxContainer/LoadGambleItemsBtn" to="." method="_on_load_gamble_items_btn_pressed"]
 [connection signal="pressed" from="HBoxContainer/FixItems/HBoxContainer/LoadItemInHandBtn" to="." method="_on_load_item_in_hand_btn_pressed"]
 [connection signal="pressed" from="HBoxContainer/FixItems/HBoxContainer/LoadInventoryItemsBtn" to="." method="_on_load_inventory_items_btn_pressed"]
+[connection signal="pressed" from="HBoxContainer/FixItems/HBoxContainer/LoadEquippedItemsBtn" to="." method="_on_load_equipped_items_btn_pressed"]

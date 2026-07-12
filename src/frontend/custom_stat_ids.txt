@@ -72,3 +72,4 @@
 01E80000,% Bonus to Spell Focus
 01F50000,ContainerQuantity
 006101D9,Supernova (oskill)
+01270000,Mana on Melee Attack
