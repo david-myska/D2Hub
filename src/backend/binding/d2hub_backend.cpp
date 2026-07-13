@@ -26,6 +26,7 @@ void D2HubBackend::Update()
         m_achievementsModule->Update(*m_dataAccess, *m_sharedData);
         m_bestiaryModule->Update(*m_dataAccess, *m_sharedData);
         m_lootfilterModule->Update(*m_dataAccess, *m_sharedData);
+        m_notesModule->Update(*m_dataAccess, *m_sharedData);
         m_statisticsModule->Update(*m_dataAccess, *m_sharedData);
         m_developerModule->Update(*m_dataAccess, *m_sharedData);
     }
@@ -180,6 +181,7 @@ D2HubBackend::D2HubBackend()
     InitializeBackend();
     m_achievementsModule->LoadAchievements({}, false);
     m_lootfilterModule->Load();
+    m_notesModule->Load();
 }
 
 D2HubBackend::~D2HubBackend()

@@ -9,7 +9,9 @@ using namespace D2::Data;
 
 void NotesModule::_bind_methods()
 {
-    // TODO
+    ClassDB::bind_method(D_METHOD("get_visible_notes"), &NotesModule::get_visible_notes);
+
+    ADD_SIGNAL(MethodInfo("notes_changed"));
 }
 
 Ref<NotesModule> NotesModule::Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier,
@@ -24,15 +26,60 @@ Ref<NotesModule> NotesModule::Create(std::shared_ptr<spdlog::logger> aLogger, Re
     return module;
 }
 
-void NotesModule::InitializeInternal(const DataAccess& aData, const SharedData& aShared)
+Dictionary MakeNoteDictionary(const NoteEntry& aNoteEntry)
 {
-    m_data = &aData;
-    m_shared = &aShared;
+    Dictionary entryDict;
+    entryDict["text"] = String(aNoteEntry.m_note.c_str());
+    if (aNoteEntry.m_isChecked.has_value())
+    {
+        entryDict["is_checked"] = *aNoteEntry.m_isChecked;
+    }
+    return entryDict;
 }
 
-void NotesModule::UninitializeInternal()
+Dictionary MakeNoteGroupDictionary(const NoteGroup& aNoteGroup)
 {
-    m_data = nullptr;
-    m_shared = nullptr;
+    Dictionary groupDict;
+    groupDict["name"] = String(aNoteGroup.m_name.c_str());
+    Array notesArray;
+    for (const auto& note : aNoteGroup.m_notes)
+    {
+        notesArray.push_back(MakeNoteDictionary(note));
+    }
+    groupDict["entries"] = notesArray;
+    return groupDict;
+}
+
+Array NotesModule::get_visible_notes() const
+{
+    Array result;
+    for (const auto& group : m_visibleNoteGroups)
+    {
+        result.push_back(MakeNoteGroupDictionary(*group));
+    }
+    return result;
+}
+
+void NotesModule::Load()
+{
+    m_allNoteGroups.clear();
+    m_visibleNoteGroups.clear();
+    //for (const auto& group : loadedData->m_noteGroups)
+    //{
+    //    m_allNoteGroups.push_back(std::make_shared<NoteGroup>(group));
+    //}
+}
+
+void NotesModule::UpdateInternal(const DataAccess& aData, const SharedData& aShared)
+{
+    m_visibleNoteGroups.clear();
+    for (const auto& group : m_allNoteGroups)
+    {
+        if (group->m_isVisible())
+        {
+            m_visibleNoteGroups.push_back(group);
+        }
+    }
+    call_deferred("emit_signal", "notes_changed");
 }
 

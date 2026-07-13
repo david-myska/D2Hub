@@ -7,21 +7,37 @@
 
 namespace godot
 {
+    struct NoteEntry
+    {
+        std::string m_note;
+        std::optional<bool> m_isChecked;
+    };
+
+    struct NoteGroup
+    {
+        std::string m_name;
+        std::function<bool()> m_isVisible;
+        std::vector<NoteEntry> m_notes;
+    };
+
     class NotesModule : public Module
     {
         GDCLASS(NotesModule, Module)
 
-        const D2::Data::DataAccess* m_data;
-        const D2::Data::SharedData* m_shared;
+        std::vector<std::shared_ptr<NoteGroup>> m_allNoteGroups;
+        std::vector<std::shared_ptr<NoteGroup>> m_visibleNoteGroups;
 
-        void InitializeInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData) override;
-        void UninitializeInternal() override;
+        void UpdateInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData) override;
 
     protected:
         static void _bind_methods();
 
     public:
+        Array get_visible_notes() const;
+
+        void Load();
+
         static Ref<NotesModule> Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier,
-                                           std::shared_ptr<LogView>);
+                                       std::shared_ptr<LogView>);
     };
 }
