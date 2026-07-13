@@ -48,6 +48,7 @@ func _ready() -> void:
 	$Overlay.add_panel("Notifications", preload("res://utils/notifications/notification_overlay.tscn").instantiate())
 	%Achievements.fill_overlay_panels($Overlay.add_panel)
 	%LootFilter.fill_overlay_panels($Overlay.add_panel)
+	%Notes.fill_overlay_panels($Overlay.add_panel)
 	%Statistics.fill_overlay_panels($Overlay.add_panel)
 
 

@@ -1,9 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://c5ca2tajwu10l"]
+[gd_scene load_steps=15 format=3 uid="uid://c5ca2tajwu10l"]
 
 [ext_resource type="Script" uid="uid://b8mcr6oqu1aqb" path="res://main_scene.gd" id="1_gyfs4"]
 [ext_resource type="PackedScene" uid="uid://daatjqtd4sckv" path="res://modules/achievements/achievements.tscn" id="2_671wp"]
 [ext_resource type="PackedScene" uid="uid://bxbty8fetvnll" path="res://non_module_pages/settings/settings_screen.tscn" id="3_hq1ik"]
 [ext_resource type="PackedScene" uid="uid://cdluunvq5yn2d" path="res://modules/lootfilter/lootfilter.tscn" id="3_mo76n"]
+[ext_resource type="PackedScene" uid="uid://bs3cjvncmrevb" path="res://modules/notes/notes.tscn" id="4_2jcla"]
 [ext_resource type="PackedScene" uid="uid://dm3citw1h4lct" path="res://modules/bestiary/bestiary.tscn" id="4_42l1d"]
 [ext_resource type="PackedScene" uid="uid://dh3wc4u412a4l" path="res://modules/statistics/statistics.tscn" id="5_2jcla"]
 [ext_resource type="PackedScene" uid="uid://dsd2jshumefwu" path="res://utils/notifications/message_popup.tscn" id="6_hq1ik"]
@@ -192,28 +193,34 @@ visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
-[node name="Bestiary" parent="MarginContainer/VBoxContainer/Body/MainPanel/TabContainer" instance=ExtResource("4_42l1d")]
+[node name="Notes" parent="MarginContainer/VBoxContainer/Body/MainPanel/TabContainer" instance=ExtResource("4_2jcla")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
-[node name="Statistics" parent="MarginContainer/VBoxContainer/Body/MainPanel/TabContainer" instance=ExtResource("5_2jcla")]
+[node name="Bestiary" parent="MarginContainer/VBoxContainer/Body/MainPanel/TabContainer" instance=ExtResource("4_42l1d")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 metadata/_tab_index = 3
 
-[node name="Settings" parent="MarginContainer/VBoxContainer/Body/MainPanel/TabContainer" instance=ExtResource("3_hq1ik")]
+[node name="Statistics" parent="MarginContainer/VBoxContainer/Body/MainPanel/TabContainer" instance=ExtResource("5_2jcla")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 metadata/_tab_index = 4
 
-[node name="LogView" parent="MarginContainer/VBoxContainer/Body/MainPanel/TabContainer" instance=ExtResource("7_qwutr")]
+[node name="Settings" parent="MarginContainer/VBoxContainer/Body/MainPanel/TabContainer" instance=ExtResource("3_hq1ik")]
+unique_name_in_owner = true
 visible = false
 layout_mode = 2
 metadata/_tab_index = 5
+
+[node name="LogView" parent="MarginContainer/VBoxContainer/Body/MainPanel/TabContainer" instance=ExtResource("7_qwutr")]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 6
 
 [node name="Footer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2

@@ -64,10 +64,17 @@ void NotesModule::Load()
 {
     m_allNoteGroups.clear();
     m_visibleNoteGroups.clear();
-    //for (const auto& group : loadedData->m_noteGroups)
-    //{
-    //    m_allNoteGroups.push_back(std::make_shared<NoteGroup>(group));
-    //}
+
+    // TMP
+    m_allNoteGroups.push_back(std::make_shared<NoteGroup>(NoteGroup{
+        "Test Group 1",
+        []() { return true; },
+        {
+            {"Note 1", std::nullopt},
+            {"Note 2", true},
+            {"Note 3", false},
+        },
+    }));
 }
 
 void NotesModule::UpdateInternal(const DataAccess& aData, const SharedData& aShared)
