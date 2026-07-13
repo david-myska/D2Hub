@@ -32,6 +32,7 @@ void initialize_backend_module(ModuleInitializationLevel p_level)
     GDREGISTER_CLASS(FilterMetadata);
     GDREGISTER_CLASS(MetaFilter);
     GDREGISTER_CLASS(LootFilterModule);
+    GDREGISTER_CLASS(NotesModule);
     GDREGISTER_CLASS(StatisticsModule);
     GDREGISTER_CLASS(D2HubBackend);
 }

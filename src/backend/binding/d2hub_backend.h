@@ -10,6 +10,7 @@
 #include "modules/bestiary_module.h"
 #include "modules/developer_module.h"
 #include "modules/lootfilter_module.h"
+#include "modules/notes_module.h"
 #include "modules/statistics_module.h"
 #include "pma/utility/auto_attach.h"
 #include "spdlog/spdlog.h"
@@ -51,6 +52,7 @@ namespace godot
         Ref<BestiaryModule> m_bestiaryModule;
         Ref<DeveloperModule> m_developerModule;
         Ref<LootFilterModule> m_lootfilterModule;
+        Ref<NotesModule> m_notesModule;
         Ref<StatisticsModule> m_statisticsModule;
 
         Array m_modules;
@@ -82,6 +84,7 @@ namespace godot
         Ref<BestiaryModule> get_bestiary_module();
         Ref<DeveloperModule> get_developer_module();
         Ref<LootFilterModule> get_lootfilter_module();
+        Ref<NotesModule> get_notes_module();
         Ref<StatisticsModule> get_statistics_module();
         Array get_modules() const;
 

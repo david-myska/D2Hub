@@ -36,7 +36,7 @@ namespace godot
         bool m_disabledProgramatically = false;
         String m_disableReason;  // TODO possibly vector or set, 1 is not enough
         std::atomic<ModuleStatus> m_status = ModuleStatus::Enabled;
-        bool m_initialized = false;
+        std::atomic_bool m_initialized = false;
 
         static void _bind_methods();
 

@@ -122,6 +122,7 @@ void D2HubBackend::_bind_methods()
     ClassDB::bind_method(D_METHOD("get_bestiary_module"), &D2HubBackend::get_bestiary_module);
     ClassDB::bind_method(D_METHOD("get_developer_module"), &D2HubBackend::get_developer_module);
     ClassDB::bind_method(D_METHOD("get_lootfilter_module"), &D2HubBackend::get_lootfilter_module);
+    ClassDB::bind_method(D_METHOD("get_notes_module"), &D2HubBackend::get_notes_module);
     ClassDB::bind_method(D_METHOD("get_statistics_module"), &D2HubBackend::get_statistics_module);
     ClassDB::bind_method(D_METHOD("get_modules"), &D2HubBackend::get_modules);
 
@@ -167,9 +168,10 @@ D2HubBackend::D2HubBackend()
     , m_bestiaryModule(BestiaryModule::Create(MakeLogger("bestiary_module"), m_notifier, m_logView))
     , m_developerModule(DeveloperModule::Create(MakeLogger("developer_module"), m_notifier, m_logView))
     , m_lootfilterModule(LootFilterModule::Create(MakeLogger("lootfilter_module"), m_notifier, m_logView))
+    , m_notesModule(NotesModule::Create(MakeLogger("notes_module"), m_notifier, m_logView))
     , m_statisticsModule(StatisticsModule::Create(MakeLogger("statistics_module"), m_notifier, m_logView))
     , m_modules(
-          {m_achievementsModule, m_backupModule, m_bestiaryModule, m_developerModule, m_lootfilterModule, m_statisticsModule})
+          {m_achievementsModule, m_backupModule, m_bestiaryModule, m_developerModule, m_lootfilterModule, m_notesModule, m_statisticsModule})
 {
     D2::Data::LoadStats();
     D2::Data::LoadItems();
@@ -215,6 +217,11 @@ Ref<DeveloperModule> D2HubBackend::get_developer_module()
 Ref<LootFilterModule> D2HubBackend::get_lootfilter_module()
 {
     return m_lootfilterModule;
+}
+
+Ref<NotesModule> D2HubBackend::get_notes_module()
+{
+    return m_notesModule;
 }
 
 Ref<StatisticsModule> D2HubBackend::get_statistics_module()

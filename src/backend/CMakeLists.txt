@@ -36,6 +36,7 @@ set(SOURCE_FILES
 				"binding/modules/bestiary_module.cpp"
 				"binding/modules/developer_module.cpp"
 				"binding/modules/lootfilter_module.cpp"
+				"binding/modules/notes_module.cpp"
 				"binding/modules/statistics_module.cpp"
 				"binding/notifier.cpp"
 				"binding/log_view.cpp"
