@@ -181,7 +181,7 @@ D2HubBackend::D2HubBackend()
     InitializeBackend();
     m_achievementsModule->LoadAchievements({}, false);
     m_lootfilterModule->Load();
-    m_notesModule->Load();
+    m_notesModule->load_guide("beginner_guide");
 }
 
 D2HubBackend::~D2HubBackend()

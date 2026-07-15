@@ -10,23 +10,21 @@ namespace godot
 {
     struct NoteEntry
     {
-        std::string m_note;
-        std::optional<bool> m_isChecked;
-    };
-
-    struct NoteGroup
-    {
-        std::string m_name;
         std::function<bool()> m_isVisible;
-        std::vector<NoteEntry> m_notes;
+
+        std::string m_text;
+        std::optional<bool> m_isChecked;
+        std::vector<NoteEntry> m_subNotes;
     };
 
     class NotesModule : public Module
     {
         GDCLASS(NotesModule, Module)
 
-        std::vector<std::shared_ptr<NoteGroup>> m_allNoteGroups;
-        std::vector<std::shared_ptr<NoteGroup>> m_visibleNoteGroups;
+        //std::vector<NoteEntry> m_allNotes;
+        // std::vector<std::shared_ptr<NoteEntry>> m_visibleNotes;
+        Array m_allNotes;
+        Array m_visibleNotes;
 
         std::unique_ptr<expro_wrapper::ExpressionProcessor> m_expressionProcessor;
 
@@ -42,13 +40,17 @@ namespace godot
         D2::Data::Zone GetCurrentZone() const;
         uint32_t GetPlayerLevel() const;
 
+        void InitializeExpressionProcessor();
+
+        void AddVisibleNotes(const Dictionary& aNoteEntry, Array& aVisibleNotes, int aIndentation = 0);
+        bool Check(const String& expr);
+
     protected:
         static void _bind_methods();
 
     public:
         Array get_visible_notes() const;
-
-        void Load();
+        void load_guide(const String& guide_name);
 
         static Ref<NotesModule> Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier,
                                        std::shared_ptr<LogView>);
