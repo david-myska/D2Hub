@@ -70,7 +70,7 @@ namespace D2::Data
         return aPtr;
     }
 
-    enum class Difficulty
+    enum class Difficulty : uint8_t
     {
         Normal,
         Nightmare,
@@ -824,9 +824,7 @@ namespace D2::Data
     {
         DataAccess(std::shared_ptr<GE::DataAccessor> aDataAccess)
             : m_dataAccess(std::move(aDataAccess))
-            , m_difficulty(
-                  Difficulty::Normal)  // static_cast<Difficulty>(m_dataAccess->Get<Raw::Game>("Game")->m_difficultyLevel))
-            , m_gameType(GameType{})   // TODO
+            , m_gameType(GameType{})  // TODO
             , m_localPlayerName(reinterpret_cast<const char*>(
                   m_dataAccess->Get<GameUtilsLayout>("GameUtils")->m_localPlayer->m_pUnitData->m_name))
         {
@@ -849,7 +847,14 @@ namespace D2::Data
         }
 
         // Frame independent
-        Difficulty GetDifficulty() const { return m_difficulty; }
+        Difficulty GetDifficulty() const
+        {
+            if (auto gamePtr = m_dataAccess->Get<Raw::Game>("Game"))
+            {
+                return static_cast<Difficulty>(gamePtr->m_difficultyLevel);
+            }
+            return Difficulty::Normal;
+        }
 
         GameType GetGameType() const { return m_gameType; }
 
@@ -869,7 +874,6 @@ namespace D2::Data
     private:
         std::shared_ptr<GE::DataAccessor> m_dataAccess;
 
-        const Difficulty m_difficulty;
         const GameType m_gameType;
         const std::string m_localPlayerName;
 

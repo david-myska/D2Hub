@@ -15,7 +15,7 @@ void NotesModule::_bind_methods()
 }
 
 Ref<NotesModule> NotesModule::Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier,
-                                             std::shared_ptr<LogView> aLogView)
+                                     std::shared_ptr<LogView> aLogView)
 {
     auto module = memnew(NotesModule);
     module->m_logger = std::move(aLogger);
@@ -24,6 +24,18 @@ Ref<NotesModule> NotesModule::Create(std::shared_ptr<spdlog::logger> aLogger, Re
     module->m_name = "InteractiveNotes";
     module->SetUserDir("interactive_notes");
     return module;
+}
+
+void NotesModule::InitializeInternal(const DataAccess& aData, const SharedData& aShared)
+{
+    m_data = &aData;
+    m_shared = &aShared;
+}
+
+void NotesModule::UninitializeInternal()
+{
+    m_data = nullptr;
+    m_shared = nullptr;
 }
 
 Dictionary MakeNoteDictionary(const NoteEntry& aNoteEntry)
@@ -65,15 +77,39 @@ void NotesModule::Load()
     m_allNoteGroups.clear();
     m_visibleNoteGroups.clear();
 
+    auto getDifficulty = [this](void*) {
+        return static_cast<uint32_t>(GetGameDifficulty());
+    };
+    auto getAct = [this](void*) {
+        return static_cast<uint32_t>(GetCurrentAct());
+    };
+    auto getZone = [this](void*) {
+        return static_cast<uint32_t>(GetCurrentZone());
+    };
+    auto getPlayerLevel = [this](void*) {
+        return static_cast<uint32_t>(GetPlayerLevel());
+    };
+
+    expro_wrapper::SymbolDefinitions symbols;
+    symbols.AddFunction("difficulty", std::function(getDifficulty));
+    symbols.AddFunction("act", std::function(getAct));
+    symbols.AddFunction("zone", std::function(getZone));
+    symbols.AddFunction("player_level", std::function(getPlayerLevel));
+    m_expressionProcessor = std::make_unique<expro_wrapper::ExpressionProcessor>(symbols.ExtractRawSymbols());
+
     // TMP
     m_allNoteGroups.push_back(std::make_shared<NoteGroup>(NoteGroup{
         "Test Group 1",
-        []() { return true; },
+        [this]() {
+            std::string expression = "zone() == 1";
+
+            return m_expressionProcessor->Evaluate<bool>(expression);
+                  },
         {
-            {"Note 1", std::nullopt},
-            {"Note 2", true},
-            {"Note 3", false},
-        },
+                  {"Note 1", std::nullopt},
+                  {"Note 2", true},
+                  {"Note 3", false},
+                  },
     }));
 }
 
@@ -90,3 +126,22 @@ void NotesModule::UpdateInternal(const DataAccess& aData, const SharedData& aSha
     call_deferred("emit_signal", "notes_changed");
 }
 
+D2::Data::Difficulty NotesModule::GetGameDifficulty() const
+{
+    return m_data->GetDifficulty();
+}
+
+D2::Data::Act NotesModule::GetCurrentAct() const
+{
+    return m_data->GetPlayers().GetLocal()->m_act;
+}
+
+D2::Data::Zone NotesModule::GetCurrentZone() const
+{
+    return m_data->GetMisc().GetZone();
+}
+
+uint32_t NotesModule::GetPlayerLevel() const
+{
+    return m_data->GetPlayers().GetLocal()->m_stats.GetValue(Stat::Id::CharLevel).value_or(0);
+}

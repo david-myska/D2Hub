@@ -42,6 +42,7 @@ set(SOURCE_FILES
 				"binding/log_view.cpp"
 				"binding/d2hub_backend.cpp"
 				"binding/register_types.cpp"
+				"expro_wrapper/expro_wrapper.cpp"
 				"d2/achievements/achievements.cpp"
 				"d2/achievements/utilities.cpp"
 				"d2/utilities/data.cpp"
@@ -85,8 +86,21 @@ set(SOURCE_FILES
 
 add_library(d2hub_backend SHARED ${SOURCE_FILES})
 
-target_include_directories(d2hub_backend PUBLIC ${CMAKE_CURRENT_LIST_DIR} ${godot-cpp_SOURCE_DIR}/include PUBLIC ${spdlog_SOURCE_DIR}/include)
-target_link_libraries(d2hub_backend PUBLIC godot-cpp game_ext_suite spdlog::spdlog)
+add_library(expro SHARED IMPORTED)
+
+set_target_properties(expro PROPERTIES
+    IMPORTED_LOCATION
+        ${CMAKE_SOURCE_DIR}/lib/expro.dll
+
+    IMPORTED_IMPLIB
+        ${CMAKE_SOURCE_DIR}/lib/expro.dll.lib
+
+    #INTERFACE_INCLUDE_DIRECTORIES
+    #    ${CMAKE_SOURCE_DIR}/third_party/expro/include
+)
+
+target_include_directories(d2hub_backend PUBLIC ${CMAKE_CURRENT_LIST_DIR} ${D2E_INSTALL_INCLUDE_DIR} ${godot-cpp_SOURCE_DIR}/include PUBLIC ${spdlog_SOURCE_DIR}/include)
+target_link_libraries(d2hub_backend PUBLIC godot-cpp game_ext_suite spdlog::spdlog PRIVATE expro)
 
 add_custom_target(backend_copy ALL
     DEPENDS d2hub_backend

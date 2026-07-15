@@ -138,6 +138,7 @@ namespace D2
                 g_invalidStart = false;
                 aEnabler.Disable("GameUtils");
                 aEnabler.Disable("ClientUnits");
+                aEnabler.Disable("Game");
             }
         };
 
@@ -145,12 +146,12 @@ namespace D2
         gameUtilsCallbacks.m_baseLocator = [](PMA::MemoryAccessPtr aMemoryAccess, const std::optional<PMA::MemoryAddress>&) {
             return aMemoryAccess->GetBaseAddress("D2Client.dll");
         };
-        gameUtilsCallbacks.m_onReady = [aInGameReady](std::shared_ptr<GE::DataAccessor> aDataAccessor) {
-            aInGameReady(aDataAccessor);
-        };
-        gameUtilsCallbacks.m_onDisabled = [aInGameDisabled](const GE::DataAccessor&) {
-            aInGameDisabled();
-        };
+        //gameUtilsCallbacks.m_onReady = [aInGameReady](std::shared_ptr<GE::DataAccessor> aDataAccessor) {
+        //    aInGameReady(aDataAccessor);
+        //};
+        //gameUtilsCallbacks.m_onDisabled = [aInGameDisabled](const GE::DataAccessor&) {
+        //    aInGameDisabled();
+        //};
         gameUtilsCallbacks.m_enabler = [](const GE::DataAccessor& aDataAccess, GE::Enabler& aEnabler) {
             auto guLayout = aDataAccess.Get<GameUtilsLayout>("GameUtils");
             if (!guLayout)
@@ -171,6 +172,12 @@ namespace D2
         clientUnitsCallbacks.m_baseLocator = [](PMA::MemoryAccessPtr aMemoryAccess, const std::optional<PMA::MemoryAddress>&) {
             return aMemoryAccess->GetBaseAddress("D2Client.dll") + 0x10A608;
         };
+        clientUnitsCallbacks.m_onReady = [aInGameReady](std::shared_ptr<GE::DataAccessor> aDataAccessor) {
+            aInGameReady(aDataAccessor);
+        };
+        clientUnitsCallbacks.m_onDisabled = [aInGameDisabled](const GE::DataAccessor&) {
+            aInGameDisabled();
+        };
 
         GE::MainLayoutCallbacks inGameCallbacks;
         inGameCallbacks.m_baseLocator = [](PMA::MemoryAccessPtr aMemoryAccess, const std::optional<PMA::MemoryAddress>&) {
@@ -178,13 +185,13 @@ namespace D2
             aMemoryAccess->Read("D2Client.dll", 0x12236C, PMA::mem_cast(address), sizeof(size_t));
             return address;
         };
-        inGameCallbacks.m_onReady = [aInGameReady](std::shared_ptr<GE::DataAccessor> aDataAccessor) {
-            aInGameReady(aDataAccessor);
-        };
-        inGameCallbacks.m_onDisabled = [aInGameDisabled](const GE::DataAccessor&) {
-            aInGameDisabled();
-        };
-
+        //inGameCallbacks.m_onReady = [aInGameReady](std::shared_ptr<GE::DataAccessor> aDataAccessor) {
+        //    aInGameReady(aDataAccessor);
+        //};
+        //inGameCallbacks.m_onDisabled = [aInGameDisabled](const GE::DataAccessor&) {
+        //    aInGameDisabled();
+        //};
+        
         aMemoryProcessor.AddMainLayout("Base", baseCallbacks);
         aMemoryProcessor.AddMainLayout("GameUtils", gameUtilsCallbacks);
         aMemoryProcessor.AddMainLayout("ClientUnits", clientUnitsCallbacks);

@@ -216,7 +216,7 @@ namespace D2::Data
         MXL_EdyremsPath_BloodRaven,  // Moreina the Corrupted
         MXL_EdyremsPath_Countess,    // The Dark Countess
         MXL_EdyremsPath_Radament,    // Radament the Fallen
-        MXL_EdyremsPath_Summoner,    // Jazreth the Deveived
+        MXL_EdyremsPath_Summoner,    // Jazreth the Deceived
         MXL_EdyremsPath_Something1,
         MXL_EdyremsPath_Something2,
         MXL_EdyremsPath_Something3,
