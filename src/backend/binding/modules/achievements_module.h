@@ -57,6 +57,7 @@ namespace godot
         GDCLASS(AchievementsModule, Module)
 
         StatisticsModule* m_statisticsModule = nullptr;
+        std::string m_currentCharacterName;
 
         std::unique_ptr<GE::AchievementManager<D2::D2Achi::element_type>> m_achievementManager;
         Array m_achievements;

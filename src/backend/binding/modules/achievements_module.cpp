@@ -139,10 +139,14 @@ void AchievementsModule::UpdateInternal(const D2::Data::DataAccess& aDataAccess,
 
 void AchievementsModule::InitializeInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData)
 {
-    LoadAchievements(aDataAccess.GetLocalPlayerName(), !D2::InvalidStart());
+    m_currentCharacterName = aDataAccess.GetLocalPlayerName();
+    LoadAchievements(m_currentCharacterName, !D2::InvalidStart());
 }
 
-void AchievementsModule::UninitializeInternal() {}
+void AchievementsModule::UninitializeInternal() {
+    SaveAchievements(m_currentCharacterName);
+    m_currentCharacterName.clear();
+}
 
 void AchievementsModule::SetIfDependency(Module* aModule)
 {
