@@ -31,6 +31,8 @@ namespace godot
         const D2::Data::DataAccess* m_data;
         const D2::Data::SharedData* m_shared;
 
+        std::unordered_map<uint32_t, bool> m_onceMap;
+
         void InitializeInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData) override;
         void UninitializeInternal() override;
         void UpdateInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData) override;
@@ -41,6 +43,12 @@ namespace godot
         uint32_t GetPlayerLevel() const;
 
         void InitializeExpressionProcessor();
+        void InitDifficultySymbols(expro_wrapper::SymbolDefinitions& aSymbols);
+        void InitActSymbols(expro_wrapper::SymbolDefinitions& aSymbols);
+        void InitZoneSymbols(expro_wrapper::SymbolDefinitions& aSymbols);
+        void InitPlayerSymbols(expro_wrapper::SymbolDefinitions& aSymbols);
+        void InitItemSymbols(expro_wrapper::SymbolDefinitions& aSymbols);
+        void InitUtilitySymbols(expro_wrapper::SymbolDefinitions& aSymbols);
 
         void AddVisibleNotes(const Dictionary& aNoteEntry, Array& aVisibleNotes, int aIndentation = 0);
         bool Check(const String& expr);

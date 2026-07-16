@@ -12,6 +12,7 @@ using namespace D2::Data;
 void NotesModule::_bind_methods()
 {
     ClassDB::bind_method(D_METHOD("get_visible_notes"), &NotesModule::get_visible_notes);
+    ClassDB::bind_method(D_METHOD("load_guide", "guide_name"), &NotesModule::load_guide);
 
     ADD_SIGNAL(MethodInfo("notes_changed"));
 }
@@ -41,6 +42,9 @@ void NotesModule::UninitializeInternal()
 {
     m_data = nullptr;
     m_shared = nullptr;
+
+    m_visibleNotes.clear();
+    call_deferred("emit_signal", "notes_changed");
 }
 
 bool NotesModule::Check(const String& expr)
@@ -55,13 +59,16 @@ void NotesModule::AddVisibleNotes(const Dictionary& aNote, Array& aVisibleNotes,
         return;
     }
     Dictionary noteDict;
-    noteDict["text"] = aNote["text"];
     noteDict["indent"] = aIndentation;
     if (aNote.has("checked_when"))
     {
-        noteDict["is_checked"] = aNote["checked_when"];
+        noteDict["is_checked"] = Check(aNote["checked_when"]);
     }
-    aVisibleNotes.push_back(noteDict);
+    if (aNote.has("text"))
+    {
+        noteDict["text"] = aNote["text"];
+        aVisibleNotes.push_back(noteDict);
+    }
     for (const auto& subNote : Array(aNote.get("subnotes", Array{})))
     {
         AddVisibleNotes(subNote, aVisibleNotes, aIndentation + 2);
@@ -88,7 +95,8 @@ void NotesModule::load_guide(const String& guide_name)
 
     if (file.is_null())
     {
-        m_notifier->Push(MessageType::Error, std::format("Failed to open guide file: {}", guide_path.string()), Notifier::Target::Popup);
+        m_notifier->Push(MessageType::Error, std::format("Failed to open guide file: {}", guide_path.string()),
+                         Notifier::Target::Popup);
         return;
     }
 
@@ -143,23 +151,126 @@ uint32_t NotesModule::GetPlayerLevel() const
 
 void NotesModule::InitializeExpressionProcessor()
 {
+    expro_wrapper::SymbolDefinitions symbols;
+    InitDifficultySymbols(symbols);
+    InitActSymbols(symbols);
+    InitZoneSymbols(symbols);
+    InitPlayerSymbols(symbols);
+    InitItemSymbols(symbols);
+
+    m_expressionProcessor = std::make_unique<expro_wrapper::ExpressionProcessor>(symbols.ExtractRawSymbols());
+}
+
+void NotesModule::InitDifficultySymbols(expro_wrapper::SymbolDefinitions& aSymbols)
+{
     auto getDifficulty = [this](void*) {
         return static_cast<uint32_t>(GetGameDifficulty());
     };
+    auto getDifficultyNormal = [this](void*) {
+        return static_cast<uint32_t>(Difficulty::Normal);
+    };
+    auto getDifficultyNightmare = [this](void*) {
+        return static_cast<uint32_t>(Difficulty::Nightmare);
+    };
+    auto getDifficultyHell = [this](void*) {
+        return static_cast<uint32_t>(Difficulty::Hell);
+    };
+    auto inDifficulty = [this](void*, uint32_t difficulty) {
+        return static_cast<uint32_t>(GetGameDifficulty()) == difficulty;
+    };
+
+    aSymbols.AddFunction("difficulty", std::function(getDifficulty));
+    aSymbols.AddFunction("in_difficulty", std::function(inDifficulty));
+    aSymbols.AddFunction("c_normal", std::function(getDifficultyNormal));
+    aSymbols.AddFunction("c_nightmare", std::function(getDifficultyNightmare));
+    aSymbols.AddFunction("c_hell", std::function(getDifficultyHell));
+}
+
+void NotesModule::InitActSymbols(expro_wrapper::SymbolDefinitions& aSymbols)
+{
     auto getAct = [this](void*) {
         return static_cast<uint32_t>(GetCurrentAct());
     };
+    auto inAct = [this](void*, uint32_t act) {
+        return static_cast<uint32_t>(GetCurrentAct()) == act;
+    };
+    auto getAct1 = [this](void*) {
+        return static_cast<uint32_t>(Act::Act1);
+    };
+    auto getAct2 = [this](void*) {
+        return static_cast<uint32_t>(Act::Act2);
+    };
+    auto getAct3 = [this](void*) {
+        return static_cast<uint32_t>(Act::Act3);
+    };
+    auto getAct4 = [this](void*) {
+        return static_cast<uint32_t>(Act::Act4);
+    };
+    auto getAct5 = [this](void*) {
+        return static_cast<uint32_t>(Act::Act5);
+    };
+
+    aSymbols.AddFunction("act", std::function(getAct));
+    aSymbols.AddFunction("in_act", std::function(inAct));
+    aSymbols.AddFunction("c_act1", std::function(getAct1));
+    aSymbols.AddFunction("c_act2", std::function(getAct2));
+    aSymbols.AddFunction("c_act3", std::function(getAct3));
+    aSymbols.AddFunction("c_act4", std::function(getAct4));
+    aSymbols.AddFunction("c_act5", std::function(getAct5));
+}
+
+void NotesModule::InitZoneSymbols(expro_wrapper::SymbolDefinitions& aSymbols)
+{
     auto getZone = [this](void*) {
         return static_cast<uint32_t>(GetCurrentZone());
     };
+    auto inZone = [this](void*, uint32_t zone) {
+        return static_cast<uint32_t>(GetCurrentZone()) == zone;
+    };
+
+    aSymbols.AddFunction("zone", std::function(getZone));
+    aSymbols.AddFunction("in_zone", std::function(inZone));
+}
+
+void NotesModule::InitPlayerSymbols(expro_wrapper::SymbolDefinitions& aSymbols)
+{
     auto getPlayerLevel = [this](void*) {
         return static_cast<uint32_t>(GetPlayerLevel());
     };
+    auto playerLevelIn = [this](void*, uint32_t from, uint32_t to) {
+        uint32_t level = static_cast<uint32_t>(GetPlayerLevel());
+        if (from > to)
+        {
+            std::swap(from, to);
+        }
+        return from <= level && level <= to;
+    };
+    auto getPlayerStat = [this](void*, uint32_t statId) {
+        return m_data->GetPlayers().GetLocal()->m_stats.GetValue(statId).value_or(0);
+    };
 
-    expro_wrapper::SymbolDefinitions symbols;
-    symbols.AddFunction("difficulty", std::function(getDifficulty));
-    symbols.AddFunction("act", std::function(getAct));
-    symbols.AddFunction("zone", std::function(getZone));
-    symbols.AddFunction("player_level", std::function(getPlayerLevel));
-    m_expressionProcessor = std::make_unique<expro_wrapper::ExpressionProcessor>(symbols.ExtractRawSymbols());
+    aSymbols.AddFunction("player_level", std::function(getPlayerLevel));
+    aSymbols.AddFunction("player_level_in", std::function(playerLevelIn));
+    aSymbols.AddFunction("player_stat", std::function(getPlayerStat));
+}
+
+void NotesModule::InitItemSymbols(expro_wrapper::SymbolDefinitions& aSymbols)
+{
+    auto itemPicked = [this](void*, uint32_t itemTypeId) {
+        return static_cast<uint32_t>(GetPlayerLevel());
+    };
+}
+
+void NotesModule::InitUtilitySymbols(expro_wrapper::SymbolDefinitions& aSymbols)
+{
+    auto onceHappened = [this](void*, bool current, uint32_t onceId) {
+        auto& succeeded = m_onceMap[onceId];
+        if (!succeeded)
+        {
+            succeeded = current;
+        }
+        return succeeded;
+    };
+
+    aSymbols.AddFunction("once_happened", std::function(onceHappened));
 }

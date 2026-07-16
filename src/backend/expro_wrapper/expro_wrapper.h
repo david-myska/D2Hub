@@ -111,13 +111,23 @@ namespace expro_wrapper
             using LocalContext = FncContext<UserData, Ret, Args...>;
             auto ctx = new LocalContext{.userData = aUserData, .callback = aFunction};  // TMP known memory leak
             auto convertedFnc = [](void* userData, const ExproValue* args, uintptr_t argCount) -> ExproValue {
-                return InvokeImpl(static_cast<LocalContext*>(userData), args, std::index_sequence_for<Args...>{});
+                try
+                {
+                    return InvokeImpl(static_cast<LocalContext*>(userData), args, std::index_sequence_for<Args...>{});
+                }
+                catch (const std::exception& e)
+                {
+                    ExproValue errorVal;
+                    errorVal.tag = ExproValueTag::Error;
+                    errorVal.value.str_value = e.what();
+                    return errorVal;
+                }
             };
 
             std::array<ExproValueTag, sizeof...(Args)> argTypes = {GetExproValueTag<Args>()...};
 
             if (!expro_symbol_definitions_add_function(m_symbols, aName.c_str(), argTypes.data(), argTypes.size(),
-                                                  GetExproValueTag<Ret>(), convertedFnc, ctx))
+                                                       GetExproValueTag<Ret>(), convertedFnc, ctx))
             {
                 throw std::runtime_error("Failed to add function: " + aName);
             }
