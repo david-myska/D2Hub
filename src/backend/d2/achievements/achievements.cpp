@@ -35,6 +35,7 @@
 #include "achievements/rifts/moderate/kurast_3000ba_kill_all_totems_timed.h"
 #include "achievements/rifts/moderate/tran_athulua_kill_all_priestesses_simultaneously.h"
 // Global
+#include "achievements/global/collect_all_tiered_uniques.h"
 #include "achievements/global/kill_million_monsters.h"
 
 namespace D2
@@ -85,6 +86,7 @@ namespace D2
         result.emplace(id++, Rifts::Moderate::TranAthulua::KillAllPriestessesSimultaneously::Create());
 
         // Global
+        //result.emplace(id++, Global::CollectAllTieredUniques::Create());
         result.emplace(id++, Global::KillMillionMonsters::Create());
         // Kill every boss in the game (persistent)
         // Finish campaign in style (kill Hell Baal with full class set)

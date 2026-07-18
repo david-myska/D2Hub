@@ -197,10 +197,10 @@ namespace D2::Data
         MXL_KingdomOfShadow,
         MXL_RealmOfLies,  // Belial, Lord of Lies
         MXL_SpecterOfHatred,
-        MXL_SpecterOfSomething2,
-        MXL_SpecterOfSomething3,
-        MXL_SpecterOfSomething4,
-        MXL_SpecterOfSomething5,
+        MXL_DreamOfAnguish,
+        MXL_PhantasmOfTerror,
+        MXL_FigmentOfPain,
+        MXL_SnareOfDestruction,
         MXL_YshariSanctum,  // Valthek, the Archmage
         MXL_MaggotPassage,
         MXL_MaggotDepths,

@@ -99,6 +99,7 @@ namespace D2
                                    ->SetTotalSize(sizeof(GameUtilsLayout))
                                    .AddPointerOffsets(PMA::MultiLevelPointer{0x11C078u, 0x34u, 0x70u}, sizeof(D2::Data::Zone))
                                    .AddPointerOffsets(PMA::MultiLevelPointer{0x11B800u, 0x0u}, "UnitData")
+                                   .AddPointerOffsets(0xFADA8u, sizeof(bool))
                                    .Build();
 
         aMemoryProcessor.RegisterLayout("Base", std::move(baseLayout));

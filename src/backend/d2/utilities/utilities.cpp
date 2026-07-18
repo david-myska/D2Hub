@@ -350,14 +350,14 @@ namespace D2
                 return "Realm of Lies";
             case MXL_SpecterOfHatred:
                 return "Specter of Hatred";
-            case MXL_SpecterOfSomething2:
-                return "Specter of Something2";
-            case MXL_SpecterOfSomething3:
-                return "SpecterOfSomething3";
-            case MXL_SpecterOfSomething4:
-                return "SpecterOfSomething4";
-            case MXL_SpecterOfSomething5:
-                return "SpecterOfSomething5";
+            case MXL_DreamOfAnguish:
+                return "Dream of Anguish";
+            case MXL_PhantasmOfTerror:
+                return "Phantasm of Terror";
+            case MXL_FigmentOfPain:
+                return "Figment of Pain";
+            case MXL_SnareOfDestruction:
+                return "Snare of Destruction";
             case MXL_YshariSanctum:
                 return "Yshari Sanctum";
             case MXL_MaggotPassage:

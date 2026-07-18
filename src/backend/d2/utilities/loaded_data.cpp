@@ -37,6 +37,7 @@ namespace
 
     std::vector<uint32_t> g_itemIds;
     std::map<uint32_t, std::string> g_itemNames;
+    std::map<uint32_t, std::string> g_itemCategories;
     std::set<uint32_t> g_customItemIds;
 
     std::vector<uint32_t> g_minionIds;
@@ -91,20 +92,26 @@ namespace
 
     auto ParseItemLine(std::string_view aLine)
     {
-        auto sep = aLine.find(',');
-        if (sep == std::string_view::npos)
+        auto sep1 = aLine.find(',');
+        if (sep1 == std::string_view::npos)
         {
             throw std::runtime_error("Invalid item line format: " + std::string(aLine));
         }
-        auto itemIdStr = aLine.substr(0, sep);
-        auto itemName = aLine.substr(sep + 1);
+        auto sep2 = aLine.find(',', sep1 + 1);
+        auto itemIdStr = aLine.substr(0, sep1);
+        auto itemName = aLine.substr(sep1 + 1, sep2);
+        std::string_view itemCategories;
+        if (sep2 != std::string_view::npos)
+        {
+            itemCategories = aLine.substr(sep2 + 1);
+        }
         if (itemName.empty() || itemIdStr.empty())
         {
             throw std::runtime_error(std::format("Fields cannot be empty: Id '{}', Name '{}'", itemIdStr, itemName));
         }
         uint32_t itemId = 0;
         std::from_chars(itemIdStr.data(), itemIdStr.data() + itemIdStr.size(), itemId, 16);
-        return std::make_pair(itemId, std::string{itemName});
+        return std::make_tuple(itemId, std::string{itemName}, std::string(itemCategories));
     }
 
     void WriteItemLine(std::ofstream& aFile, uint32_t aItemId, std::string_view aItemName)
@@ -200,7 +207,9 @@ namespace D2::Data
         {
             try
             {
-                g_itemNames.insert(ParseItemLine(line));
+                auto [itemId, itemName, itemCat] = ParseItemLine(line);
+                g_itemNames.insert({itemId, itemName});
+                g_itemCategories.insert({itemId, itemCat});
             }
             catch (const std::exception& e)
             {
@@ -212,8 +221,9 @@ namespace D2::Data
         {
             try
             {
-                auto [itemId, itemName] = ParseItemLine(line);
+                auto [itemId, itemName, itemCat] = ParseItemLine(line);
                 g_itemNames.insert_or_assign(itemId, std::move(itemName));
+                g_itemCategories.insert_or_assign(itemId, std::move(itemCat));
                 g_customItemIds.insert(itemId);
             }
             catch (const std::exception& e)
@@ -240,6 +250,15 @@ namespace D2::Data
             return it->second.c_str();
         }
         return c_unknownName;
+    }
+
+    const char* GetCategories(uint32_t aItemId)
+    {
+        if (auto it = g_itemCategories.find(aItemId); it != g_itemCategories.end())
+        {
+            return it->second.c_str();
+        }
+        return "";
     }
 
     void SaveCustomStat(uint32_t aStatId, const char* aStatName)

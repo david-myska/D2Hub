@@ -20,6 +20,7 @@ namespace D2::Data
     void SaveCustomItem(uint32_t aItemId, const char* aItemName);
     Ids GetItemIds();
     const char* GetItemName(uint32_t aItemId);
+    const char* GetCategories(uint32_t aItemId);
 
     bool LoadMinions();
     void SaveCustomMinion(uint32_t aMinionId);

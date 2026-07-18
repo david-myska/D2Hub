@@ -25,6 +25,7 @@ struct GameUtilsLayout
 {
     D2::Data::Zone* m_zone;
     D2::Raw::UnitData<D2::Raw::PlayerData>* m_localPlayer;
+    bool* m_mapActive;
 };
 
 namespace D2::Data
@@ -203,7 +204,8 @@ namespace D2::Data
 
     struct Unit
     {
-        Unit(const Raw::StatListEx* aStatList, uint16_t x, uint16_t y, GUID id, uint32_t unitClass, GUID ownerId, bool moving = false)
+        Unit(const Raw::StatListEx* aStatList, uint16_t x, uint16_t y, GUID id, uint32_t unitClass, GUID ownerId,
+             bool moving = false)
             : m_stats(aStatList)
             , m_pos({x, y})
             , m_id(id)
@@ -562,8 +564,9 @@ namespace D2::Data
 
     struct Misc
     {
-        Misc(Zone aZone)
-            : m_zone(aZone)
+        Misc(const GameUtilsLayout* aGameUtils)
+            : m_zone(*aGameUtils->m_zone)
+            , m_mapActive(*aGameUtils->m_mapActive)
         {
         }
 
@@ -594,8 +597,11 @@ namespace D2::Data
             }
         }
 
+        bool IsMapActive() const { return m_mapActive; }
+
     private:
         const Zone m_zone;
+        const bool m_mapActive;
     };
 
     template <typename T>
@@ -875,7 +881,7 @@ namespace D2::Data
                 , m_npcs(aDataAccess.Get<Raw::ClientUnits>("ClientUnits", aFrame)->m_pMonsterList,
                          aDataAccess.Get<Raw::Game>("Game", aFrame))
                 , m_items(aDataAccess.Get<Raw::ClientUnits>("ClientUnits", aFrame)->m_pItemList)
-                , m_misc(*aDataAccess.Get<GameUtilsLayout>("GameUtils")->m_zone)
+                , m_misc(aDataAccess.Get<GameUtilsLayout>("GameUtils"))
             {
             }
 

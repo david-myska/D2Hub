@@ -1,15 +1,13 @@
-#include "kill_million_monsters.h"
+#include "collect_all_tiered_uniques.h"
 
 #include "d2/achievements/utilities.h"
 
-namespace D2::Achi::Global::KillMillionMonsters
+namespace D2::Achi::Global::CollectAllTieredUniques
 {
-    constexpr auto c_monstersToKill = 1'000'000;
 
     struct PD : public GE::PersistentData, public GE::BaseProgressData
     {
         GE::ProgressTrackerBool m_activate = {this, "Activate", true};
-        GE::ProgressTrackerInt<> m_killed = {this, "Killed", c_monstersToKill};
 
         void Serialize(GE::BinWriter aOut) const override { aOut.Write(m_killed.GetCurrent()); }
 
