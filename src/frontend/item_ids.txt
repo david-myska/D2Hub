@@ -1,851 +1,1163 @@
-Bone Helm (1),2de
-Bone Helm (2),2df
-Bone Helm (3),2e0
-Bone Helm (4),2e1
-Bone Helm (Sacred),2e2
-Chain Gloves (1),315
-Chain Gloves (2),316
-Chain Gloves (3),317
-Chain Gloves (4),318
-Chain Gloves (Sacred),319
-Two-handed Sword (1),256
-Two-handed Sword (2),257
-Two-handed Sword (3),258
-Two-handed Sword (4),259
-Two-handed Sword (Sacred),25a
-Dirk (1),a3
-Dirk (2),a4
-Dirk (3),a5
-Dirk (4),a6
-Dirk (Sacred),a7
-Zombie Head (1),46e
-Zombie Head (2),46f
-Zombie Head (3),470
-Zombie Head (4),471
-Zombie Head (Sacred),472
-Gargoyle Head (1),360
-Gargoyle Head (2),361
-Gargoyle Head (3),362
-Gargoyle Head (4),363
-Gargoyle Head (Sacred),364
-Light Belt (1),3d3
-Light Belt (2),3d4
-Light Belt (3),3d5
-Light Belt (4),3d6
-Light Belt (Sacred),3d7
-Studded Leather (1),447
-Studded Leather (2),448
-Studded Leather (3),449
-Studded Leather (4),44a
-Studded Leather (Sacred),44b
-Pillum (1),1b6
-Pillum (2),1b7
-Pillum (3),1b8
-Pillum (4),1b9
-Pillum (Sacred),1ba
-Pilum (1),1b6
-Pilum (2),1b7
-Pilum (3),1b8
-Pilum (4),1b9
-Pilum (Sacred),1ba
-Javelin (1),134
-Javelin (2),135
-Javelin (3),136
-Javelin (4),137
-Javelin (Sacred),138
-Trident (1),251
-Trident (2),252
-Trident (3),253
-Trident (4),254
-Trident (Sacred),255
-Signet of Gold,6a2
-Jewel,4a5
-Minor Healing Potion,4b2
-Gold,4a7
-Long Staff (1),161
-Long Staff (2),162
-Long Staff (3),163
-Long Staff (4),164
-Long Staff (Sacred),165
-Throwing Axe (1),23d
-Throwing Axe (2),23e
-Throwing Axe (3),23f
-Throwing Axe (4),240
-Throwing Axe (Sacred),241
-Diadem (1),338
-Diadem (2),339
-Diadem (3),33a
-Diadem (4),33b
-Diadem (Sacred),33c
-Amulet,4a3
-Spear (1),21a
-Spear (2),21b
-Spear (3),21c
-Spear (4),21d
-Spear (Sacred),21e
-Minor Mana Potion,4b7
-Light Healing Potion,4b3
-Raptor Scythe (1),1bb
-Raptor Scythe (2),1bc
-Raptor Scythe (3),1bd
-Raptor Scythe (4),1be
-Raptor Scythe (Sacred),1bf
-Short Bow (1),1f7
-Short Bow (2),1f8
-Short Bow (3),1f9
-Short Bow (4),1fa
-Short Bow (Sacred),1fb
-Quilted Armor (1),40a
-Quilted Armor (2),40b
-Quilted Armor (3),40c
-Quilted Armor (4),40d
-Quilted Armor (Sacred),40e
-Boots (1),2e8
-Boots (2),2e9
-Boots (3),2ea
-Boots (4),2eb
-Boots (Sacred),2ec
-Tir Rune,509
-Sacred Globe (1),1d4
-Sacred Globe (2),1d5
-Sacred Globe (3),1d6
-Sacred Globe (4),1d7
-Sacred Globe (Sacred),1d8
-Circlet (1),31f
-Circlet (2),320
-Circlet (3),321
-Circlet (4),322
-Circlet (Sacred),323
-Tiara (1),451
-Tiara (2),452
-Tiara (3),453
-Tiara (4),454
-Tiara (Sacred),455
-Hundsgugel (1),3ab
-Hundsgugel (2),3ac
-Hundsgugel (3),3ad
-Hundsgugel (4),3ae
-Hundsgugel (Sacred),3af
-Cap (1),301
-Cap (2),302
-Cap (3),303
-Cap (4),304
-Cap (Sacred),305
-Mammen Axe (1),184
-Mammen Axe (2),185
-Mammen Axe (3),186
-Mammen Axe (4),187
-Mammen Axe (Sacred),188
-Targe (1),44c
-Targe (2),44d
-Targe (3),44e
-Targe (4),44f
-Targe (Sacred),450
-Sash (1),419
-Sash (2),41a
-Sash (3),41b
-Sash (4),41c
-Sash (Sacred),41d
-Bronze Shield (1),2f2
-Bronze Shield (2),2f3
-Bronze Shield (3),2f4
-Bronze Shield (4),2f5
-Bronze Shield (Sacred),2f6
-Athulua's Hand (1),2c0
-Athulua's Hand (2),2c1
-Athulua's Hand (3),2c2
-Athulua's Hand (4),2c3
-Athulua's Hand (Sacred),2c4
-Rejuvenation Potion,4bc
-Spiked Club (1),224
-Spiked Club (2),225
-Spiked Club (3),226
-Spiked Club (4),227
-Spiked Club (Sacred),228
-Buckler (1),2f7
-Buckler (2),2f8
-Buckler (3),2f9
-Buckler (4),2fa
-Buckler (Sacred),2fb
-Hand Axe (1),10c
-Hand Axe (2),10d
-Hand Axe (3),10e
-Hand Axe (4),10f
-Hand Axe (Sacred),110
-Needle Crossbow (1),1a7
-Needle Crossbow (2),1a8
-Needle Crossbow (3),1a9
-Needle Crossbow (4),1aa
-Needle Crossbow (Sacred),1ab
-Grim Wand (1),fd
-Grim Wand (2),fe
-Grim Wand (3),ff
-Grim Wand (4),100
-Grim Wand (Sacred),101
-Leather Gloves (1),3ce
-Leather Gloves (2),3cf
-Leather Gloves (3),3d0
-Leather Gloves (4),3d1
-Leather Gloves (Sacred),3d2
-Unraveller Head (1),464
-Unraveller Head (2),465
-Unraveller Head (3),466
-Unraveller Head (4),467
-Unraveller Head (Sacred),468
-Scimitar (1),1de
-Scimitar (2),1df
-Scimitar (3),1e0
-Scimitar (4),1e1
-Scimitar (Sacred),1e2
-Heraldic Shield (1),3a1
-Heraldic Shield (2),3a2
-Heraldic Shield (3),3a3
-Heraldic Shield (4),3a4
-Heraldic Shield (Sacred),3a5
-Hunter's Bow (1),12a
-Hunter's Bow (2),12b
-Hunter's Bow (3),12c
-Hunter's Bow (4),12d
-Hunter's Bow (Sacred),12e
-Hexblade (1),120
-Hexblade (2),121
-Hexblade (3),122
-Hexblade (4),123
-Hexblade (Sacred),124
-Katar (1),139
-Katar (2),13a
-Katar (3),13b
-Katar (4),13c
-Katar (Sacred),13d
-Bone Wand (1),49
-Bone Wand (2),4a
-Bone Wand (3),4b
-Bone Wand (4),4c
-Bone Wand (Sacred),4d
-Throwing Knife (1),242
-Throwing Knife (2),243
-Throwing Knife (3),244
-Throwing Knife (4),245
-Throwing Knife (Sacred),246
-Jawbone Cap (1),3b0
-Jawbone Cap (2),3b1
-Jawbone Cap (3),3b2
-Jawbone Cap (4),3b3
-Jawbone Cap (Sacred),3b4
-Heavy Boots (1),392
-Heavy Boots (2),393
-Heavy Boots (3),394
-Heavy Boots (4),395
-Heavy Boots (Sacred),396
-Hatchet Hands (1),116
-Hatchet Hands (2),117
-Hatchet Hands (3),118
-Hatchet Hands (4),119
-Hatchet Hands (Sacred),11a
-Axe (1),17
-Axe (2),18
-Axe (3),19
-Axe (4),1a
-Axe (Sacred),1b
-Spangenhelm (1),432
-Spangenhelm (2),433
-Spangenhelm (3),434
-Spangenhelm (4),435
-Spangenhelm (Sacred),436
-Short Staff (1),201
-Short Staff (2),202
-Short Staff (3),203
-Short Staff (4),204
-Short Staff (Sacred),205
-Bonebreaker (1),4e
-Bonebreaker (2),4f
-Bonebreaker (3),50
-Bonebreaker (4),51
-Bonebreaker (Sacred),52
-Eld Rune,508
-Ort Rune,50f
-El Rune,507
-Ring,4a4
-Skull Cap (1),428
-Skull Cap (2),429
-Skull Cap (3),42a
-Skull Cap (4),42b
-Skull Cap (Sacred),42c
-Eagle Orb (1),b2
-Eagle Orb (2),b3
-Eagle Orb (3),b4
-Eagle Orb (4),b5
-Eagle Orb (Sacred),b6
-Phoenix Shield (1),3f6
-Phoenix Shield (2),3f7
-Phoenix Shield (3),3f8
-Phoenix Shield (4),3f9
-Phoenix Shield (Sacred),3fa
-Blackguard Helm (1),2d4
-Blackguard Helm (2),2d5
-Blackguard Helm (3),2d6
-Blackguard Helm (4),2d7
-Blackguard Helm (Sacred),2d8
-Gnarled Staff (1),df
-Gnarled Staff (2),e0
-Gnarled Staff (3),e1
-Gnarled Staff (4),e2
-Gnarled Staff (Sacred),e3
-Ono (1),1ac
-Ono (2),1ad
-Ono (3),1ae
-Ono (4),1af
-Ono (Sacred),1b0
-Heavy Gloves (1),397
-Heavy Gloves (2),398
-Heavy Gloves (3),399
-Heavy Gloves (4),39a
-Heavy Gloves (Sacred),39b
-Flail (1),bc
-Flail (2),bd
-Flail (3),be
-Flail (4),bf
-Flail (Sacred),c0
-Bladed Shield (1),2d9
-Bladed Shield (2),2da
-Bladed Shield (3),2db
-Bladed Shield (4),2dc
-Bladed Shield (Sacred),2dd
-Short Sword (1),206
-Short Sword (2),207
-Short Sword (3),208
-Short Sword (4),209
-Short Sword (Sacred),20a
-Rainbow Stone,4f8
-Arrow Quiver,4af
-Wirt's Leg,8
-Preserved Head (1),405
-Preserved Head (2),406
-Preserved Head (3),407
-Preserved Head (4),408
-Preserved Head (Sacred),409
-Dagger (1),99
-Dagger (2),9a
-Dagger (3),9b
-Dagger (4),9c
-Dagger (Sacred),9d
-Gothic Shield (1),374
-Gothic Shield (2),375
-Gothic Shield (3),376
-Gothic Shield (4),377
-Gothic Shield (Sacred),378
-Assault Helmet (1),2bb
-Assault Helmet (2),2bc
-Assault Helmet (3),2bd
-Assault Helmet (4),2be
-Assault Helmet (Sacred),2bf
-Jared's Stone (1),ad
-Jared's Stone (2),ae
-Jared's Stone (3),af
-Jared's Stone (4),b0
-Jared's Stone (Sacred),b1
-Plated Belt (1),400
-Plated Belt (2),401
-Plated Belt (3),402
-Plated Belt (4),403
-Plated Belt (Sacred),404
-Wrist Blade (1),28d
-Wrist Blade (2),28e
-Wrist Blade (3),28f
-Wrist Blade (4),290
-Wrist Blade (Sacred),291
-Winged Feet,458
-Yew Wand (1),292
-Yew Wand (2),293
-Yew Wand (3),294
-Yew Wand (4),295
-Yew Wand (Sacred),296
-Smoked Sphere (1),210
-Smoked Sphere (2),211
-Smoked Sphere (3),212
-Smoked Sphere (4),213
-Smoked Sphere (Sacred),214
-Club (1),80
-Club (2),81
-Club (3),82
-Club (4),83
-Club (Sacred),84
-Scepter (1),1d9
-Scepter (2),1da
-Scepter (3),1db
-Scepter (4),1dc
-Scepter (Sacred),1dd
-Sapphire,4cb
-Totem Shield (1),456
-Totem Shield (2),457
-Totem Shield (3),458
-Totem Shield (4),459
-Totem Shield (Sacred),45a
-Light Mana Potion,4b8
-Military Pick (1),198
-Military Pick (2),199
-Military Pick (3),19a
-Military Pick (4),19b
-Military Pick (Sacred),19c
-Large Shield (1),3c4
-Large Shield (2),3c5
-Large Shield (3),3c6
-Large Shield (4),3c7
-Large Shield (Sacred),3c8
-Gauntlets (1),365
-Gauntlets (2),366
-Gauntlets (3),367
-Gauntlets (4),368
-Gauntlets (Sacred),369
-Mana Potion,4b9
-Aerin Shield (1),2a7
-Aerin Shield (2),2a8
-Aerin Shield (3),2a9
-Aerin Shield (4),2aa
-Aerin Shield (Sacred),2ab
-Coronet (1),324
-Coronet (2),325
-Coronet (3),326
-Coronet (4),327
-Coronet (Sacred),328
-Crossbow (1),8f
-Crossbow (2),90
-Crossbow (3),91
-Crossbow (4),92
-Crossbow (Sacred),93
-Maple Bow (1),189
-Maple Bow (2),18a
-Maple Bow (3),18b
-Maple Bow (4),18c
-Maple Bow (Sacred),18d
-Full Plate Mail (1),356
-Full Plate Mail (2),357
-Full Plate Mail (3),358
-Full Plate Mail (4),359
-Full Plate Mail (Sacred),35a
-Small Shield (1),42d
-Small Shield (2),42e
-Small Shield (3),42f
-Small Shield (4),430
-Small Shield (Sacred),431
-Bull Shield (1),2fc
-Bull Shield (2),2fd
-Bull Shield (3),2fe
-Bull Shield (4),2ff
-Bull Shield (Sacred),300
-Battle Staff (1),3a
-Battle Staff (2),3b
-Battle Staff (3),3c
-Battle Staff (4),3d
-Battle Staff (Sacred),3e
-Hard Leather Armor (1),383
-Hard Leather Armor (2),384
-Hard Leather Armor (3),385
-Hard Leather Armor (4),386
-Hard Leather Armor (Sacred),387
-Large Axe (1),14d
-Large Axe (2),14e
-Large Axe (3),14f
-Large Axe (4),150
-Large Axe (Sacred),151
-Wolf Head (1),469
-Wolf Head (2),46a
-Wolf Head (3),46b
-Wolf Head (4),46c
-Wolf Head (Sacred),46d
-Morion (1),3ec
-Morion (2),3ed
-Morion (3),3ee
-Morion (4),3ef
-Morion (Sacred),3f0
-Wand (1),26a
-Wand (2),26b
-Wand (3),26c
-Wand (4),26d
-Wand (Sacred),26e
-Light Crossbow (1),152
-Light Crossbow (2),153
-Light Crossbow (3),154
-Light Crossbow (4),155
-Light Crossbow (Sacred),156
-Lamellar Armor (1),3bf
-Lamellar Armor (2),3c0
-Lamellar Armor (3),3c1
-Lamellar Armor (4),3c2
-Lamellar Armor (Sacred),3c3
-Gambeson (1),35b
-Gambeson (2),35c
-Gambeson (3),35d
-Gambeson (4),35e
-Gambeson (Sacred),35f
-Leather Armor (1),3c9
-Leather Armor (2),3ca
-Leather Armor (3),3cb
-Leather Armor (4),3cc
-Leather Armor (Sacred),3cd
-Flamen Staff (1),c6
-Flamen Staff (2),c7
-Flamen Staff (3),c8
-Flamen Staff (4),c9
-Flamen Staff (Sacred),ca
-Clasped Orb (1),71
-Clasped Orb (2),72
-Clasped Orb (3),73
-Clasped Orb (4),74
-Clasped Orb (Sacred),75
-Rondache (1),414
-Rondache (2),415
-Rondache (3),416
-Rondache (4),417
-Rondache (Sacred),418
-Battle Axe (1),35
-Battle Axe (2),36
-Battle Axe (3),37
-Battle Axe (4),38
-Battle Axe (Sacred),39
-Key,4b1
-Crown (1),329
-Crown (2),32a
-Crown (3),32b
-Crown (4),32c
-Crown (Sacred),32d
-Glaive (1),da
-Glaive (2),db
-Glaive (3),dc
-Glaive (4),dd
-Glaive (Sacred),de
-Demon Head (1),333
-Demon Head (2),334
-Demon Head (3),335
-Demon Head (4),336
-Demon Head (Sacred),337
-Warp Blade (1),288
-Warp Blade (2),289
-Warp Blade (3),28a
-Warp Blade (4),28b
-Warp Blade (Sacred),28c
-Claymore (1),7b
-Claymore (2),7c
-Claymore (3),7d
-Claymore (4),7e
-Claymore (Sacred),7f
-Avenger Guard (1),2c5
-Avenger Guard (2),2c6
-Avenger Guard (3),2c7
-Avenger Guard (4),2c8
-Avenger Guard (Sacred),2c9
-Full Helm (1),351
-Full Helm (2),352
-Full Helm (3),353
-Full Helm (4),354
-Full Helm (Sacred),355
-Throwing Spear (1),247
-Throwing Spear (2),248
-Throwing Spear (3),249
-Throwing Spear (4),24a
-Throwing Spear (Sacred),24b
-Throwing Spear (1),247
-Throwing Spear (2),248
-Throwing Spear (3),249
-Throwing Spear (4),24a
-Throwing Spear (Sacred),24b
-Trebuchet (1),24c
-Trebuchet (2),24d
-Trebuchet (3),24e
-Trebuchet (4),24f
-Trebuchet (Sacred),250
-Dart Thrower (1),9e
-Dart Thrower (2),9f
-Dart Thrower (3),a0
-Dart Thrower (4),a1
-Dart Thrower (Sacred),a2
-Backsword (1),1c
-Backsword (2),1d
-Backsword (3),1e
-Backsword (4),1f
-Backsword (Sacred),20
-Light Plated Boots (1),3e2
-Light Plated Boots (2),3e3
-Light Plated Boots (3),3e4
-Light Plated Boots (4),3e5
-Light Plated Boots (Sacred),3e6
-Broad Sword (1),62
-Broad Sword (2),63
-Broad Sword (3),64
-Broad Sword (4),65
-Broad Sword (Sacred),66
-Falchion (1),b7
-Falchion (2),b8
-Falchion (3),b9
-Falchion (4),ba
-Falchion (Sacred),bb
-Cestus (1),6c
-Cestus (2),6d
-Cestus (3),6e
-Cestus (4),6f
-Cestus (Sacred),70
-Hand of God (1),111
-Hand of God (2),112
-Hand of God (3),113
-Hand of God (4),114
-Hand of God (Sacred),115
-Stag Bow (1),22e
-Stag Bow (2),22f
-Stag Bow (3),230
-Stag Bow (4),231
-Stag Bow (Sacred),232
-Labrys (1),148
-Labrys (2),149
-Labrys (3),14a
-Labrys (4),14b
-Labrys (Sacred),14c
-War Sword (1),283
-War Sword (2),284
-War Sword (3),285
-War Sword (4),286
-War Sword (Sacred),287
-Spiked Shield (1),437
-Spiked Shield (2),438
-Spiked Shield (3),439
-Spiked Shield (4),43a
-Spiked Shield (Sacred),43b
-Parma (1),3f1
-Parma (2),3f2
-Parma (3),3f3
-Parma (4),3f4
-Parma (Sacred),3f5
-Belt (1),2cf
-Belt (2),2d0
-Belt (3),2d1
-Belt (4),2d2
-Belt (Sacred),2d3
-Composite Bow (1),85
-Composite Bow (2),86
-Composite Bow (3),87
-Composite Bow (4),88
-Composite Bow (Sacred),89
-Broad Axe (1),5d
-Broad Axe (2),5e
-Broad Axe (3),5f
-Broad Axe (4),60
-Broad Axe (Sacred),61
-War Hammer (1),274
-War Hammer (2),275
-War Hammer (3),276
-War Hammer (4),277
-War Hammer (Sacred),278
-Spetum (1),21f
-Spetum (2),220
-Spetum (3),221
-Spetum (4),222
-Spetum (Sacred),223
-Mace (1),170
-Mace (2),171
-Mace (3),172
-Mace (4),173
-Mace (Sacred),174
-Spatha (1),215
-Spatha (2),216
-Spatha (3),217
-Spatha (4),218
-Spatha (Sacred),219
-Short Spear (1),1fc
-Short Spear (2),1fd
-Short Spear (3),1fe
-Short Spear (4),1ff
-Short Spear (Sacred),200
-Kriegsmesser (1),13e
-Kriegsmesser (2),13f
-Kriegsmesser (3),140
-Kriegsmesser (4),141
-Kriegsmesser (Sacred),142
-Double Axe (1),a8
-Double Axe (2),a9
-Double Axe (3),aa
-Double Axe (4),ab
-Double Axe (Sacred),ac
-Halberd (1),102
-Halberd (2),103
-Halberd (3),104
-Halberd (4),105
-Halberd (Sacred),106
-Long Bow (1),15c
-Long Bow (2),15d
-Long Bow (3),15e
-Long Bow (4),15f
-Long Bow (Sacred),160
-Short War Bow (1),20b
-Short War Bow (2),20c
-Short War Bow (3),20d
-Short War Bow (4),20e
-Short War Bow (Sacred),20f
-Bronze Sword (1),67
-Bronze Sword (2),68
-Bronze Sword (3),69
-Bronze Sword (4),6a
-Bronze Sword (Sacred),6b
-Crystal Sword (1),94
-Crystal Sword (2),95
-Crystal Sword (3),96
-Crystal Sword (4),97
-Crystal Sword (Sacred),98
-Long Sword (1),166
-Long Sword (2),167
-Long Sword (3),168
-Long Sword (4),169
-Long Sword (Sacred),16a
-Valaska (1),25b
-Valaska (2),25c
-Valaska (3),25d
-Valaska (4),25e
-Valaska (Sacred),25f
-War Scepter (1),279
-War Scepter (2),27a
-War Scepter (3),27b
-War Scepter (4),27c
-War Scepter (Sacred),27d
-Helm (1),39c
-Helm (2),39d
-Helm (3),39e
-Helm (4),39f
-Helm (Sacred),3a0
-Spirit Edge (1),229
-Spirit Edge (2),22a
-Spirit Edge (3),22b
-Spirit Edge (4),22c
-Spirit Edge (Sacred),22d
-Giant Sword (1),d5
-Giant Sword (2),d6
-Giant Sword (3),d7
-Giant Sword (4),d8
-Giant Sword (Sacred),d9
-Maiden Spear (1),17f
-Maiden Spear (2),180
-Maiden Spear (3),181
-Maiden Spear (4),182
-Maiden Spear (Sacred),183
-Heavy Crossbow (1),11b
-Heavy Crossbow (2),11c
-Heavy Crossbow (3),11d
-Heavy Crossbow (4),11e
-Heavy Crossbow (Sacred),11f
-Heavy Belt (1),38d
-Heavy Belt (2),38e
-Heavy Belt (3),38f
-Heavy Belt (4),390
-Heavy Belt (Sacred),391
-Grand Scepter (1),e9
-Grand Scepter (2),ea
-Grand Scepter (3),eb
-Grand Scepter (4),ec
-Grand Scepter (Sacred),ed
-Viper Bow (1),260
-Viper Bow (2),261
-Viper Bow (3),262
-Viper Bow (4),263
-Viper Bow (Sacred),264
-Splint Mail (1),441
-Splint Mail (2),442
-Splint Mail (3),443
-Splint Mail (4),444
-Splint Mail (Sacred),445
-Light Gauntlets (1),3d8
-Light Gauntlets (2),3d9
-Light Gauntlets (3),3da
-Light Gauntlets (4),3db
-Light Gauntlets (Sacred),3dc
-Giant Axe (1),d0
-Giant Axe (2),d1
-Giant Axe (3),d2
-Giant Axe (4),d3
-Giant Axe (Sacred),d4
-Light Place (1),3dd
-Light Place (2),3de
-Light Place (3),3df
-Light Place (4),3e0
-Light Place (Sacred),3e1
-Light Plate (1),3dd
-Light Plate (2),3de
-Light Plate (3),3df
-Light Plate (4),3e0
-Light Plate (Sacred),3e1
-Bone Shield (1),2e3
-Bone Shield (2),2e4
-Bone Shield (3),2e5
-Bone Shield (4),2e6
-Bone Shield (Sacred),2e7
-Tower Shield (1),45f
-Tower Shield (2),460
-Tower Shield (3),461
-Tower Shield (4),462
-Tower Shield (Sacred),463
-Great Sword (1),f8
-Great Sword (2),f9
-Great Sword (3),fa
-Great Sword (4),fb
-Great Sword (Sacred),fc
-Brandistock (1),58
-Brandistock (2),59
-Brandistock (3),5a
-Brandistock (4),5b
-Brandistock (Sacred),5c
-Gothic Plate (1),36f
-Gothic Plate (2),370
-Gothic Plate (3),371
-Gothic Plate (4),372
-Gothic Plate (Sacred),373
-Mask (1),3e7
-Mask (2),3e8
-Mask (3),3e9
-Mask (4),3ea
-Mask (Sacred),3eb
-Bonesplitter (1),53
-Bonesplitter (2),54
-Bonesplitter (3),55
-Bonesplitter (4),56
-Bonesplitter (Sacred),57
-Flying Knife (1),cb
-Flying Knife (2),cc
-Flying Knife (3),cd
-Flying Knife (4),ce
-Flying Knife (Sacred),cf
-Maul (1),193
-Maul (2),194
-Maul (3),195
-Maul (4),196
-Maul (Sacred),197
-Gilded Shield (1),36a
-Gilded Shield (2),36b
-Gilded Shield (3),36c
-Gilded Shield (4),36d
-Gilded Shield (Sacred),36e
-Breast Plate (1),2ed
-Breast Plate (2),2ee
-Breast Plate (3),2ef
-Breast Plate (4),2f0
-Breast Plate (Sacred),2f1
-War Staff (1),27e
-War Staff (2),27f
-War Staff (3),280
-War Staff (4),281
-War Staff (Sacred),282
-Blade Talons (1),44
-Blade Talons (2),45
-Blade Talons (3),46
-Blade Talons (4),47
-Blade Talons (Sacred),48
-Scissors Katar (1),1e3
-Scissors Katar (2),1e4
-Scissors Katar (3),1e5
-Scissors Katar (4),1e6
-Scissors Katar (Sacred),1e7
-Field Plate (1),34c
-Field Plate (2),34d
-Field Plate (3),34e
-Field Plate (4),34f
-Field Plate (Sacred),350
-Balanced Axe (1),21
-Balanced Axe (2),22
-Balanced Axe (3),23
-Balanced Axe (4),24
-Balanced Axe (Sacred),25
+00000012,Angel Star (1),1H Weapon;Mace;Paladin
+00000013,Angel Star (2),1H Weapon;Mace;Paladin
+00000014,Angel Star (3),1H Weapon;Mace;Paladin
+00000015,Angel Star (4),1H Weapon;Mace;Paladin
+00000016,Angel Star (Sacred),1H Weapon;Mace;Paladin
+00000017,Axe (1),1H Weapon;Axe
+00000018,Axe (2),1H Weapon;Axe
+00000019,Axe (3),1H Weapon;Axe
+0000001A,Axe (4),1H Weapon;Axe
+0000001B,Axe (Sacred),1H Weapon;Axe
+0000001C,Backsword (1),1H Weapon;Sword;Barbarian
+0000001D,Backsword (2),1H Weapon;Sword;Barbarian
+0000001E,Backsword (3),1H Weapon;Sword;Barbarian
+0000001F,Backsword (4),1H Weapon;Sword;Barbarian
+00000020,Backsword (Sacred),1H Weapon;Sword;Barbarian
+00000021,Balanced Axe (1),1H Weapon;Throwing Axe;Throwing
+00000022,Balanced Axe (2),1H Weapon;Throwing Axe;Throwing
+00000023,Balanced Axe (3),1H Weapon;Throwing Axe;Throwing
+00000024,Balanced Axe (4),1H Weapon;Throwing Axe;Throwing
+00000025,Balanced Axe (Sacred),1H Weapon;Throwing Axe;Throwing
+00000026,Balanced Knife (1),1H Weapon;Throwing Knife;Throwing
+00000027,Balanced Knife (2),1H Weapon;Throwing Knife;Throwing
+00000028,Balanced Knife (3),1H Weapon;Throwing Knife;Throwing
+00000029,Balanced Knife (4),1H Weapon;Throwing Knife;Throwing
+0000002A,Balanced Knife (Sacred),1H Weapon;Throwing Knife;Throwing
+00000030,Bastard Sword (1),2H Weapon;Sword
+00000031,Bastard Sword (2),2H Weapon;Sword
+00000032,Bastard Sword (3),2H Weapon;Sword
+00000033,Bastard Sword (4),2H Weapon;Sword
+00000034,Bastard Sword (Sacred),2H Weapon;Sword
+00000035,Battle Axe (1),2H Weapon;Axe
+00000036,Battle Axe (2),2H Weapon;Axe
+00000037,Battle Axe (3),2H Weapon;Axe
+00000038,Battle Axe (4),2H Weapon;Axe
+00000039,Battle Axe (Sacred),2H Weapon;Axe
+0000003A,Battle Staff (1),2H Weapon;Staff
+0000003B,Battle Staff (2),2H Weapon;Staff
+0000003C,Battle Staff (3),2H Weapon;Staff
+0000003D,Battle Staff (4),2H Weapon;Staff
+0000003E,Battle Staff (Sacred),2H Weapon;Staff
+0000003F,Blade (1),1H Weapon;Dagger
+00000040,Blade (2),1H Weapon;Dagger
+00000041,Blade (3),1H Weapon;Dagger
+00000042,Blade (4),1H Weapon;Dagger
+00000043,Blade (Sacred),1H Weapon;Dagger
+00000044,Blade Talons (1),1H Weapon;Claws;Assassin
+00000045,Blade Talons (2),1H Weapon;Claws;Assassin
+00000046,Blade Talons (3),1H Weapon;Claws;Assassin
+00000047,Blade Talons (4),1H Weapon;Claws;Assassin
+00000048,Blade Talons (Sacred),1H Weapon;Claws;Assassin
+00000049,Bone Wand (1),1H Weapon;Wand;Necromancer
+0000004A,Bone Wand (2),1H Weapon;Wand;Necromancer
+0000004B,Bone Wand (3),1H Weapon;Wand;Necromancer
+0000004C,Bone Wand (4),1H Weapon;Wand;Necromancer
+0000004D,Bone Wand (Sacred),1H Weapon;Wand;Necromancer
+0000004E,Bonebreaker (1),1H Weapon;Mace;Paladin
+0000004F,Bonebreaker (2),1H Weapon;Mace;Paladin
+00000050,Bonebreaker (3),1H Weapon;Mace;Paladin
+00000051,Bonebreaker (4),1H Weapon;Mace;Paladin
+00000052,Bonebreaker (Sacred),1H Weapon;Mace;Paladin
+00000053,BoneSplitter (1),2H Weapon;Scythe;Necromancer
+00000054,BoneSplitter (2),2H Weapon;Scythe;Necromancer
+00000055,BoneSplitter (3),2H Weapon;Scythe;Necromancer
+00000056,BoneSplitter (4),2H Weapon;Scythe;Necromancer
+00000057,BoneSplitter (Sacred),2H Weapon;Scythe;Necromancer
+00000058,Brandistock (1),2H Weapon;Spear
+00000059,Brandistock (2),2H Weapon;Spear
+0000005A,Brandistock (3),2H Weapon;Spear
+0000005B,Brandistock (4),2H Weapon;Spear
+0000005C,Brandistock (Sacred),2H Weapon;Spear
+0000005D,Broad Axe (1),2H Weapon;Axe
+0000005E,Broad Axe (2),2H Weapon;Axe
+0000005F,Broad Axe (3),2H Weapon;Axe
+00000060,Broad Axe (4),2H Weapon;Axe
+00000061,Broad Axe (Sacred),2H Weapon;Axe
+00000062,Broad Sword (1),1H Weapon;Sword
+00000063,Broad Sword (2),1H Weapon;Sword
+00000064,Broad Sword (3),1H Weapon;Sword
+00000065,Broad Sword (4),1H Weapon;Sword
+00000066,Broad Sword (Sacred),1H Weapon;Sword
+00000067,Bronze Sword (1),1H Weapon;Sword;Barbarian
+00000068,Bronze Sword (2),1H Weapon;Sword;Barbarian
+00000069,Bronze Sword (3),1H Weapon;Sword;Barbarian
+0000006A,Bronze Sword (4),1H Weapon;Sword;Barbarian
+0000006B,Bronze Sword (Sacred),1H Weapon;Sword;Barbarian
+0000006C,Cestus (1),1H Weapon;Claws;Assassin
+0000006D,Cestus (2),1H Weapon;Claws;Assassin
+0000006E,Cestus (3),1H Weapon;Claws;Assassin
+0000006F,Cestus (4),1H Weapon;Claws;Assassin
+00000070,Cestus (Sacred),1H Weapon;Claws;Assassin
+00000071,Clasped Orb (1),1H Weapon;Orb;Sorceress
+00000072,Clasped Orb (2),1H Weapon;Orb;Sorceress
+00000073,Clasped Orb (3),1H Weapon;Orb;Sorceress
+00000074,Clasped Orb (4),1H Weapon;Orb;Sorceress
+00000075,Clasped Orb (Sacred),1H Weapon;Orb;Sorceress
+00000076,Claws (1),1H Weapon;Claws;Assassin
+00000077,Claws (2),1H Weapon;Claws;Assassin
+00000078,Claws (3),1H Weapon;Claws;Assassin
+00000079,Claws (4),1H Weapon;Claws;Assassin
+0000007A,Claws (Sacred),1H Weapon;Claws;Assassin
+0000007B,Claymore (1),2H Weapon;Sword
+0000007C,Claymore (2),2H Weapon;Sword
+0000007D,Claymore (3),2H Weapon;Sword
+0000007E,Claymore (4),2H Weapon;Sword
+0000007F,Claymore (Sacred),2H Weapon;Sword
+00000080,Club (1),1H Weapon;Mace
+00000081,Club (2),1H Weapon;Mace
+00000082,Club (3),1H Weapon;Mace
+00000083,Club (4),1H Weapon;Mace
+00000084,Club (Sacred),1H Weapon;Mace
+00000085,Composite Bow (1),2H Weapon;Bow
+00000086,Composite Bow (2),2H Weapon;Bow
+00000087,Composite Bow (3),2H Weapon;Bow
+00000088,Composite Bow (4),2H Weapon;Bow
+00000089,Composite Bow (Sacred),2H Weapon;Bow
+0000008A,Compound Bow (1),2H Weapon;Bow;Druid
+0000008B,Compound Bow (2),2H Weapon;Bow;Druid
+0000008C,Compound Bow (3),2H Weapon;Bow;Druid
+0000008D,Compound Bow (4),2H Weapon;Bow;Druid
+0000008E,Compound Bow (Sacred),2H Weapon;Bow;Druid
+0000008F,Crossbow (1),2H Weapon;Crossbow
+00000090,Crossbow (2),2H Weapon;Crossbow
+00000091,Crossbow (3),2H Weapon;Crossbow
+00000092,Crossbow (4),2H Weapon;Crossbow
+00000093,Crossbow (Sacred),2H Weapon;Crossbow
+00000094,Crystal Sword (1),1H Weapon;Crystal Sword
+00000095,Crystal Sword (2),1H Weapon;Crystal Sword
+00000096,Crystal Sword (3),1H Weapon;Crystal Sword
+00000097,Crystal Sword (4),1H Weapon;Crystal Sword
+00000098,Crystal Sword (Sacred),1H Weapon;Crystal Sword
+00000099,Dagger (1),1H Weapon;Dagger
+0000009A,Dagger (2),1H Weapon;Dagger
+0000009B,Dagger (3),1H Weapon;Dagger
+0000009C,Dagger (4),1H Weapon;Dagger
+0000009D,Dagger (Sacred),1H Weapon;Dagger
+0000009E,Dart Thrower (1),2H Weapon;Crossbow;Necromancer
+0000009F,Dart Thrower (2),2H Weapon;Crossbow;Necromancer
+000000A0,Dart Thrower (3),2H Weapon;Crossbow;Necromancer
+000000A1,Dart Thrower (4),2H Weapon;Crossbow;Necromancer
+000000A2,Dart Thrower (Sacred),2H Weapon;Crossbow;Necromancer
+000000A3,Dirk (1),1H Weapon;Dagger
+000000A4,Dirk (2),1H Weapon;Dagger
+000000A5,Dirk (3),1H Weapon;Dagger
+000000A6,Dirk (4),1H Weapon;Dagger
+000000A7,Dirk (Sacred),1H Weapon;Dagger
+000000A8,Double Axe (1),1H Weapon;Axe
+000000A9,Double Axe (2),1H Weapon;Axe
+000000AA,Double Axe (3),1H Weapon;Axe
+000000AB,Double Axe (4),1H Weapon;Axe
+000000AC,Double Axe (Sacred),1H Weapon;Axe
+000000AD,Jared's Stone (1),1H Weapon;Orb;Sorceress
+000000AE,Jared's Stone (2),1H Weapon;Orb;Sorceress
+000000AF,Jared's Stone (3),1H Weapon;Orb;Sorceress
+000000B0,Jared's Stone (4),1H Weapon;Orb;Sorceress
+000000B1,Jared's Stone (Sacred),1H Weapon;Orb;Sorceress
+000000B2,Eagle Orb (1),1H Weapon;Orb;Sorceress
+000000B3,Eagle Orb (2),1H Weapon;Orb;Sorceress
+000000B4,Eagle Orb (3),1H Weapon;Orb;Sorceress
+000000B5,Eagle Orb (4),1H Weapon;Orb;Sorceress
+000000B6,Eagle Orb (Sacred),1H Weapon;Orb;Sorceress
+000000B7,Falchion (1),1H Weapon;Sword
+000000B8,Falchion (2),1H Weapon;Sword
+000000B9,Falchion (3),1H Weapon;Sword
+000000BA,Falchion (4),1H Weapon;Sword
+000000BB,Falchion (Sacred),1H Weapon;Sword
+000000BC,Flail (1),1H Weapon;Mace
+000000BD,Flail (2),1H Weapon;Mace
+000000BE,Flail (3),1H Weapon;Mace
+000000BF,Flail (4),1H Weapon;Mace
+000000C0,Flail (Sacred),1H Weapon;Mace
+000000C1,Flamberge (1),2H Weapon;Sword
+000000C2,Flamberge (2),2H Weapon;Sword
+000000C3,Flamberge (3),2H Weapon;Sword
+000000C4,Flamberge (4),2H Weapon;Sword
+000000C5,Flamberge (Sacred),2H Weapon;Sword
+000000C6,Flamen Staff (1),2H Weapon;Staff;Druid
+000000C7,Flamen Staff (2),2H Weapon;Staff;Druid
+000000C8,Flamen Staff (3),2H Weapon;Staff;Druid
+000000C9,Flamen Staff (4),2H Weapon;Staff;Druid
+000000CA,Flamen Staff (Sacred),2H Weapon;Staff;Druid
+000000CB,Flying Knife (1),1H Weapon;Throwing Knife;Throwing
+000000CC,Flying Knife (2),1H Weapon;Throwing Knife;Throwing
+000000CD,Flying Knife (3),1H Weapon;Throwing Knife;Throwing
+000000CE,Flying Knife (4),1H Weapon;Throwing Knife;Throwing
+000000CF,Flying Knife (Sacred),1H Weapon;Throwing Knife;Throwing
+000000D0,Giant Axe (1),2H Weapon;Axe
+000000D1,Giant Axe (2),2H Weapon;Axe
+000000D2,Giant Axe (3),2H Weapon;Axe
+000000D3,Giant Axe (4),2H Weapon;Axe
+000000D4,Giant Axe (Sacred),2H Weapon;Axe
+000000D5,Giant Sword (1),2H Weapon;Sword
+000000D6,Giant Sword (2),2H Weapon;Sword
+000000D7,Giant Sword (3),2H Weapon;Sword
+000000D8,Giant Sword (4),2H Weapon;Sword
+000000D9,Giant Sword (Sacred),2H Weapon;Sword
+000000DA,Glaive (1),1H Weapon;Javelin;Throwing
+000000DB,Glaive (2),1H Weapon;Javelin;Throwing
+000000DC,Glaive (3),1H Weapon;Javelin;Throwing
+000000DD,Glaive (4),1H Weapon;Javelin;Throwing
+000000DE,Glaive (Sacred),1H Weapon;Javelin;Throwing
+000000DF,Gnarled Staff (1),2H Weapon;Staff
+000000E0,Gnarled Staff (2),2H Weapon;Staff
+000000E1,Gnarled Staff (3),2H Weapon;Staff
+000000E2,Gnarled Staff (4),2H Weapon;Staff
+000000E3,Gnarled Staff (Sacred),2H Weapon;Staff
+000000E4,Goedendag (1),1H Weapon;Mace;Paladin
+000000E5,Goedendag (2),1H Weapon;Mace;Paladin
+000000E6,Goedendag (3),1H Weapon;Mace;Paladin
+000000E7,Goedendag (4),1H Weapon;Mace;Paladin
+000000E8,Goedendag (Sacred),1H Weapon;Mace;Paladin
+000000E9,Grand Scepter (1),1H Weapon;Scepter
+000000EA,Grand Scepter (2),1H Weapon;Scepter
+000000EB,Grand Scepter (3),1H Weapon;Scepter
+000000EC,Grand Scepter (4),1H Weapon;Scepter
+000000ED,Grand Scepter (Sacred),1H Weapon;Scepter
+000000EE,Great Axe (1),2H Weapon;Axe
+000000EF,Great Axe (2),2H Weapon;Axe
+000000F0,Great Axe (3),2H Weapon;Axe
+000000F1,Great Axe (4),2H Weapon;Axe
+000000F2,Great Axe (Sacred),2H Weapon;Axe
+000000F3,Great Maul (1),2H Weapon;Hammer
+000000F4,Great Maul (2),2H Weapon;Hammer
+000000F5,Great Maul (3),2H Weapon;Hammer
+000000F6,Great Maul (4),2H Weapon;Hammer
+000000F7,Great Maul (Sacred),2H Weapon;Hammer
+000000F8,Great Sword (1),2H Weapon;Sword
+000000F9,Great Sword (2),2H Weapon;Sword
+000000FA,Great Sword (3),2H Weapon;Sword
+000000FB,Great Sword (4),2H Weapon;Sword
+000000FC,Great Sword (Sacred),2H Weapon;Sword
+000000FD,Grim Wand (1),1H Weapon;Wand;Necromancer
+000000FE,Grim Wand (2),1H Weapon;Wand;Necromancer
+000000FF,Grim Wand (3),1H Weapon;Wand;Necromancer
+00000100,Grim Wand (4),1H Weapon;Wand;Necromancer
+00000101,Grim Wand (Sacred),1H Weapon;Wand;Necromancer
+00000102,Halberd (1),2H Weapon;Naginata;Assassin
+00000103,Halberd (2),2H Weapon;Naginata;Assassin
+00000104,Halberd (3),2H Weapon;Naginata;Assassin
+00000105,Halberd (4),2H Weapon;Naginata;Assassin
+00000106,Halberd (Sacred),2H Weapon;Naginata;Assassin
+00000107,Hammerhead Axe (1),1H Weapon;Axe;Barbarian
+00000108,Hammerhead Axe (2),1H Weapon;Axe;Barbarian
+00000109,Hammerhead Axe (3),1H Weapon;Axe;Barbarian
+0000010A,Hammerhead Axe (4),1H Weapon;Axe;Barbarian
+0000010B,Hammerhead Axe (Sacred),1H Weapon;Axe;Barbarian
+0000010C,Hand Axe (1),1H Weapon;Axe
+0000010D,Hand Axe (2),1H Weapon;Axe
+0000010E,Hand Axe (3),1H Weapon;Axe
+0000010F,Hand Axe (4),1H Weapon;Axe
+00000110,Hand Axe (Sacred),1H Weapon;Axe
+00000111,Hand of God (1),2H Weapon;Hammer;Paladin
+00000112,Hand of God (2),2H Weapon;Hammer;Paladin
+00000113,Hand of God (3),2H Weapon;Hammer;Paladin
+00000114,Hand of God (4),2H Weapon;Hammer;Paladin
+00000115,Hand of God (Sacred),2H Weapon;Hammer;Paladin
+00000116,Hatchet Hands (1),1H Weapon;Claws;Assassin
+00000117,Hatchet Hands (2),1H Weapon;Claws;Assassin
+00000118,Hatchet Hands (3),1H Weapon;Claws;Assassin
+00000119,Hatchet Hands (4),1H Weapon;Claws;Assassin
+0000011A,Hatchet Hands (Sacred),1H Weapon;Claws;Assassin
+0000011B,Heavy Crossbow (1),2H Weapon;Crossbow
+0000011C,Heavy Crossbow (2),2H Weapon;Crossbow
+0000011D,Heavy Crossbow (3),2H Weapon;Crossbow
+0000011E,Heavy Crossbow (4),2H Weapon;Crossbow
+0000011F,Heavy Crossbow (Sacred),2H Weapon;Crossbow
+00000120,Hexblade (1),1H Weapon;Dagger;Necromancer
+00000121,Hexblade (2),1H Weapon;Dagger;Necromancer
+00000122,Hexblade (3),1H Weapon;Dagger;Necromancer
+00000123,Hexblade (4),1H Weapon;Dagger;Necromancer
+00000124,Hexblade (Sacred),1H Weapon;Dagger;Necromancer
+00000125,Holy Lance (1),2H Weapon;Spear;Paladin
+00000126,Holy Lance (2),2H Weapon;Spear;Paladin
+00000127,Holy Lance (3),2H Weapon;Spear;Paladin
+00000128,Holy Lance (4),2H Weapon;Spear;Paladin
+00000129,Holy Lance (Sacred),2H Weapon;Spear;Paladin
+0000012A,Hunter's Bow (1),2H Weapon;Bow
+0000012B,Hunter's Bow (2),2H Weapon;Bow
+0000012C,Hunter's Bow (3),2H Weapon;Bow
+0000012D,Hunter's Bow (4),2H Weapon;Bow
+0000012E,Hunter's Bow (Sacred),2H Weapon;Bow
+0000012F,Ida (1),1H Weapon;Sword;Barbarian
+00000130,Ida (2),1H Weapon;Sword;Barbarian
+00000131,Ida (3),1H Weapon;Sword;Barbarian
+00000132,Ida (4),1H Weapon;Sword;Barbarian
+00000133,Ida (Sacred),1H Weapon;Sword;Barbarian
+00000134,Javelin (1),1H Weapon;Javelin;Throwing
+00000135,Javelin (2),1H Weapon;Javelin;Throwing
+00000136,Javelin (3),1H Weapon;Javelin;Throwing
+00000137,Javelin (4),1H Weapon;Javelin;Throwing
+00000138,Javelin (Sacred),1H Weapon;Javelin;Throwing
+00000139,Katar (1),1H Weapon;Claws;Assassin
+0000013A,Katar (2),1H Weapon;Claws;Assassin
+0000013B,Katar (3),1H Weapon;Claws;Assassin
+0000013C,Katar (4),1H Weapon;Claws;Assassin
+0000013D,Katar (Sacred),1H Weapon;Claws;Assassin
+0000013E,Kriegsmesser (1),1H Weapon;Sword;Barbarian
+0000013F,Kriegsmesser (2),1H Weapon;Sword;Barbarian
+00000140,Kriegsmesser (3),1H Weapon;Sword;Barbarian
+00000141,Kriegsmesser (4),1H Weapon;Sword;Barbarian
+00000142,Kriegsmesser (Sacred),1H Weapon;Sword;Barbarian
+00000143,Kriss (1),1H Weapon;Dagger
+00000144,Kriss (2),1H Weapon;Dagger
+00000145,Kriss (3),1H Weapon;Dagger
+00000146,Kriss (4),1H Weapon;Dagger
+00000147,Kriss (Sacred),1H Weapon;Dagger
+00000148,Labrys (1),2H Weapon;Axe;Barbarian
+00000149,Labrys (2),2H Weapon;Axe;Barbarian
+0000014A,Labrys (3),2H Weapon;Axe;Barbarian
+0000014B,Labrys (4),2H Weapon;Axe;Barbarian
+0000014C,Labrys (Sacred),2H Weapon;Axe;Barbarian
+0000014D,Large Axe (1),2H Weapon;Axe
+0000014E,Large Axe (2),2H Weapon;Axe
+0000014F,Large Axe (3),2H Weapon;Axe
+00000150,Large Axe (4),2H Weapon;Axe
+00000151,Large Axe (Sacred),2H Weapon;Axe
+00000152,Light Crossbow (1),2H Weapon;Crossbow
+00000153,Light Crossbow (2),2H Weapon;Crossbow
+00000154,Light Crossbow (3),2H Weapon;Crossbow
+00000155,Light Crossbow (4),2H Weapon;Crossbow
+00000156,Light Crossbow (Sacred),2H Weapon;Crossbow
+00000157,Long Battle Bow (1),2H Weapon;Bow
+00000158,Long Battle Bow (2),2H Weapon;Bow
+00000159,Long Battle Bow (3),2H Weapon;Bow
+0000015A,Long Battle Bow (4),2H Weapon;Bow
+0000015B,Long Battle Bow (Sacred),2H Weapon;Bow
+0000015C,Long Bow (1),2H Weapon;Bow
+0000015D,Long Bow (2),2H Weapon;Bow
+0000015E,Long Bow (3),2H Weapon;Bow
+0000015F,Long Bow (4),2H Weapon;Bow
+00000160,Long Bow (Sacred),2H Weapon;Bow
+00000161,Long Staff (1),2H Weapon;Staff
+00000162,Long Staff (2),2H Weapon;Staff
+00000163,Long Staff (3),2H Weapon;Staff
+00000164,Long Staff (4),2H Weapon;Staff
+00000165,Long Staff (Sacred),2H Weapon;Staff
+00000166,Long Sword (1),1H Weapon;Sword
+00000167,Long Sword (2),1H Weapon;Sword
+00000168,Long Sword (3),1H Weapon;Sword
+00000169,Long Sword (4),1H Weapon;Sword
+0000016A,Long Sword (Sacred),1H Weapon;Sword
+0000016B,Long War Bow (1),2H Weapon;Bow
+0000016C,Long War Bow (2),2H Weapon;Bow
+0000016D,Long War Bow (3),2H Weapon;Bow
+0000016E,Long War Bow (4),2H Weapon;Bow
+0000016F,Long War Bow (Sacred),2H Weapon;Bow
+00000170,Mace (1),1H Weapon;Mace
+00000171,Mace (2),1H Weapon;Mace
+00000172,Mace (3),1H Weapon;Mace
+00000173,Mace (4),1H Weapon;Mace
+00000174,Mace (Sacred),1H Weapon;Mace
+00000175,Maiden Javelin (1),1H Weapon;Javelin;Throwing;Amazon
+00000176,Maiden Javelin (2),1H Weapon;Javelin;Throwing;Amazon
+00000177,Maiden Javelin (3),1H Weapon;Javelin;Throwing;Amazon
+00000178,Maiden Javelin (4),1H Weapon;Javelin;Throwing;Amazon
+00000179,Maiden Javelin (Sacred),1H Weapon;Javelin;Throwing;Amazon
+0000017A,Maiden Pike (1),2H Weapon;Spear;Amazon
+0000017B,Maiden Pike (2),2H Weapon;Spear;Amazon
+0000017C,Maiden Pike (3),2H Weapon;Spear;Amazon
+0000017D,Maiden Pike (4),2H Weapon;Spear;Amazon
+0000017E,Maiden Pike (Sacred),2H Weapon;Spear;Amazon
+0000017F,Maiden Spear (1),2H Weapon;Spear;Amazon
+00000180,Maiden Spear (2),2H Weapon;Spear;Amazon
+00000181,Maiden Spear (3),2H Weapon;Spear;Amazon
+00000182,Maiden Spear (4),2H Weapon;Spear;Amazon
+00000183,Maiden Spear (Sacred),2H Weapon;Spear;Amazon
+00000184,Mammen Axe (1),1H Weapon;Axe;Barbarian
+00000185,Mammen Axe (2),1H Weapon;Axe;Barbarian
+00000186,Mammen Axe (3),1H Weapon;Axe;Barbarian
+00000187,Mammen Axe (4),1H Weapon;Axe;Barbarian
+00000188,Mammen Axe (Sacred),1H Weapon;Axe;Barbarian
+00000189,Maple Bow (1),2H Weapon;Bow;Druid
+0000018A,Maple Bow (2),2H Weapon;Bow;Druid
+0000018B,Maple Bow (3),2H Weapon;Bow;Druid
+0000018C,Maple Bow (4),2H Weapon;Bow;Druid
+0000018D,Maple Bow (Sacred),2H Weapon;Bow;Druid
+0000018E,Marrow Staff (1),2H Weapon;Staff;Necromancer
+0000018F,Marrow Staff (2),2H Weapon;Staff;Necromancer
+00000190,Marrow Staff (3),2H Weapon;Staff;Necromancer
+00000191,Marrow Staff (4),2H Weapon;Staff;Necromancer
+00000192,Marrow Staff (Sacred),2H Weapon;Staff;Necromancer
+00000193,Maul (1),2H Weapon;Hammer
+00000194,Maul (2),2H Weapon;Hammer
+00000195,Maul (3),2H Weapon;Hammer
+00000196,Maul (4),2H Weapon;Hammer
+00000197,Maul (Sacred),2H Weapon;Hammer
+00000198,Military Pick (1),1H Weapon;Axe
+00000199,Military Pick (2),1H Weapon;Axe
+0000019A,Military Pick (3),1H Weapon;Axe
+0000019B,Military Pick (4),1H Weapon;Axe
+0000019C,Military Pick (Sacred),1H Weapon;Axe
+0000019D,Morning Star (1),1H Weapon;Mace
+0000019E,Morning Star (2),1H Weapon;Mace
+0000019F,Morning Star (3),1H Weapon;Mace
+000001A0,Morning Star (4),1H Weapon;Mace
+000001A1,Morning Star (Sacred),1H Weapon;Mace
+000001A2,Naginata (1),2H Weapon;Naginata;Assassin
+000001A3,Naginata (2),2H Weapon;Naginata;Assassin
+000001A4,Naginata (3),2H Weapon;Naginata;Assassin
+000001A5,Naginata (4),2H Weapon;Naginata;Assassin
+000001A6,Naginata (Sacred),2H Weapon;Naginata;Assassin
+000001A7,Needle Crossbow (1),2H Weapon;Crossbow;Necromancer
+000001A8,Needle Crossbow (2),2H Weapon;Crossbow;Necromancer
+000001A9,Needle Crossbow (3),2H Weapon;Crossbow;Necromancer
+000001AA,Needle Crossbow (4),2H Weapon;Crossbow;Necromancer
+000001AB,Needle Crossbow (Sacred),2H Weapon;Crossbow;Necromancer
+000001AC,Ono (1),2H Weapon;Axe;Barbarian
+000001AD,Ono (2),2H Weapon;Axe;Barbarian
+000001AE,Ono (3),2H Weapon;Axe;Barbarian
+000001AF,Ono (4),2H Weapon;Axe;Barbarian
+000001B0,Ono (Sacred),2H Weapon;Axe;Barbarian
+000001B1,Pike (1),2H Weapon;Spear
+000001B2,Pike (2),2H Weapon;Spear
+000001B3,Pike (3),2H Weapon;Spear
+000001B4,Pike (4),2H Weapon;Spear
+000001B5,Pike (Sacred),2H Weapon;Spear
+000001B6,Pilum (1),1H Weapon;Javelin;Throwing
+000001B7,Pilum (2),1H Weapon;Javelin;Throwing
+000001B8,Pilum (3),1H Weapon;Javelin;Throwing
+000001B9,Pilum (4),1H Weapon;Javelin;Throwing
+000001BA,Pilum (Sacred),1H Weapon;Javelin;Throwing
+000001BB,Raptor Scythe (1),2H Weapon;Scythe;Necromancer
+000001BC,Raptor Scythe (2),2H Weapon;Scythe;Necromancer
+000001BD,Raptor Scythe (3),2H Weapon;Scythe;Necromancer
+000001BE,Raptor Scythe (4),2H Weapon;Scythe;Necromancer
+000001BF,Raptor Scythe (Sacred),2H Weapon;Scythe;Necromancer
+000001C0,Recurve Bow (1),2H Weapon;Bow;Druid
+000001C1,Recurve Bow (2),2H Weapon;Bow;Druid
+000001C2,Recurve Bow (3),2H Weapon;Bow;Druid
+000001C3,Recurve Bow (4),2H Weapon;Bow;Druid
+000001C4,Recurve Bow (Sacred),2H Weapon;Bow;Druid
+000001C5,Reflex Bow (1),2H Weapon;Bow;Amazon
+000001C6,Reflex Bow (2),2H Weapon;Bow;Amazon
+000001C7,Reflex Bow (3),2H Weapon;Bow;Amazon
+000001C8,Reflex Bow (4),2H Weapon;Bow;Amazon
+000001C9,Reflex Bow (Sacred),2H Weapon;Bow;Amazon
+000001CA,Repeating Crossbow (1),2H Weapon;Crossbow
+000001CB,Repeating Crossbow (2),2H Weapon;Crossbow
+000001CC,Repeating Crossbow (3),2H Weapon;Crossbow
+000001CD,Repeating Crossbow (4),2H Weapon;Crossbow
+000001CE,Repeating Crossbow (Sacred),2H Weapon;Crossbow
+000001CF,Saber (1),1H Weapon;Sword
+000001D0,Saber (2),1H Weapon;Sword
+000001D1,Saber (3),1H Weapon;Sword
+000001D2,Saber (4),1H Weapon;Sword
+000001D3,Saber (Sacred),1H Weapon;Sword
+000001D4,Sacred Globe (1),1H Weapon;Orb;Sorceress
+000001D5,Sacred Globe (2),1H Weapon;Orb;Sorceress
+000001D6,Sacred Globe (3),1H Weapon;Orb;Sorceress
+000001D7,Sacred Globe (4),1H Weapon;Orb;Sorceress
+000001D8,Sacred Globe (Sacred),1H Weapon;Orb;Sorceress
+000001D9,Scepter (1),1H Weapon;Scepter
+000001DA,Scepter (2),1H Weapon;Scepter
+000001DB,Scepter (3),1H Weapon;Scepter
+000001DC,Scepter (4),1H Weapon;Scepter
+000001DD,Scepter (Sacred),1H Weapon;Scepter
+000001DE,Scimitar (1),1H Weapon;Sword
+000001DF,Scimitar (2),1H Weapon;Sword
+000001E0,Scimitar (3),1H Weapon;Sword
+000001E1,Scimitar (4),1H Weapon;Sword
+000001E2,Scimitar (Sacred),1H Weapon;Sword
+000001E3,Scissors Katar (1),1H Weapon;Claws;Assassin
+000001E4,Scissors Katar (2),1H Weapon;Claws;Assassin
+000001E5,Scissors Katar (3),1H Weapon;Claws;Assassin
+000001E6,Scissors Katar (4),1H Weapon;Claws;Assassin
+000001E7,Scissors Katar (Sacred),1H Weapon;Claws;Assassin
+000001E8,Scythe (1),2H Weapon;Scythe
+000001E9,Scythe (2),2H Weapon;Scythe
+000001EA,Scythe (3),2H Weapon;Scythe
+000001EB,Scythe (4),2H Weapon;Scythe
+000001EC,Scythe (Sacred),2H Weapon;Scythe
+000001ED,Serpent Bow (1),2H Weapon;Bow;Druid
+000001EE,Serpent Bow (2),2H Weapon;Bow;Druid
+000001EF,Serpent Bow (3),2H Weapon;Bow;Druid
+000001F0,Serpent Bow (4),2H Weapon;Bow;Druid
+000001F1,Serpent Bow (Sacred),2H Weapon;Bow;Druid
+000001F2,Short Battle Bow (1),2H Weapon;Bow
+000001F3,Short Battle Bow (2),2H Weapon;Bow
+000001F4,Short Battle Bow (3),2H Weapon;Bow
+000001F5,Short Battle Bow (4),2H Weapon;Bow
+000001F6,Short Battle Bow (Sacred),2H Weapon;Bow
+000001F7,Short Bow (1),2H Weapon;Bow
+000001F8,Short Bow (2),2H Weapon;Bow
+000001F9,Short Bow (3),2H Weapon;Bow
+000001FA,Short Bow (4),2H Weapon;Bow
+000001FB,Short Bow (Sacred),2H Weapon;Bow
+000001FC,Short Spear (1),1H Weapon;Javelin;Throwing
+000001FD,Short Spear (2),1H Weapon;Javelin;Throwing
+000001FE,Short Spear (3),1H Weapon;Javelin;Throwing
+000001FF,Short Spear (4),1H Weapon;Javelin;Throwing
+00000200,Short Spear (Sacred),1H Weapon;Javelin;Throwing
+00000201,Short Staff (1),2H Weapon;Staff
+00000202,Short Staff (2),2H Weapon;Staff
+00000203,Short Staff (3),2H Weapon;Staff
+00000204,Short Staff (4),2H Weapon;Staff
+00000205,Short Staff (Sacred),2H Weapon;Staff
+00000206,Short Sword (1),1H Weapon;Sword
+00000207,Short Sword (2),1H Weapon;Sword
+00000208,Short Sword (3),1H Weapon;Sword
+00000209,Short Sword (4),1H Weapon;Sword
+0000020A,Short Sword (Sacred),1H Weapon;Sword
+0000020B,Short War Bow (1),2H Weapon;Bow
+0000020C,Short War Bow (2),2H Weapon;Bow
+0000020D,Short War Bow (3),2H Weapon;Bow
+0000020E,Short War Bow (4),2H Weapon;Bow
+0000020F,Short War Bow (Sacred),2H Weapon;Bow
+00000210,Smoked Sphere (1),1H Weapon;Orb;Sorceress
+00000211,Smoked Sphere (2),1H Weapon;Orb;Sorceress
+00000212,Smoked Sphere (3),1H Weapon;Orb;Sorceress
+00000213,Smoked Sphere (4),1H Weapon;Orb;Sorceress
+00000214,Smoked Sphere (Sacred),1H Weapon;Orb;Sorceress
+00000215,Spatha (1),1H Weapon;Sword;Barbarian
+00000216,Spatha (2),1H Weapon;Sword;Barbarian
+00000217,Spatha (3),1H Weapon;Sword;Barbarian
+00000218,Spatha (4),1H Weapon;Sword;Barbarian
+00000219,Spatha (Sacred),1H Weapon;Sword;Barbarian
+0000021A,Spear (1),2H Weapon;Spear
+0000021B,Spear (2),2H Weapon;Spear
+0000021C,Spear (3),2H Weapon;Spear
+0000021D,Spear (4),2H Weapon;Spear
+0000021E,Spear (Sacred),2H Weapon;Spear
+0000021F,Spetum (1),2H Weapon;Spear
+00000220,Spetum (2),2H Weapon;Spear
+00000221,Spetum (3),2H Weapon;Spear
+00000222,Spetum (4),2H Weapon;Spear
+00000223,Spetum (Sacred),2H Weapon;Spear
+00000224,Spiked Club (1),1H Weapon;Mace
+00000225,Spiked Club (2),1H Weapon;Mace
+00000226,Spiked Club (3),1H Weapon;Mace
+00000227,Spiked Club (4),1H Weapon;Mace
+00000228,Spiked Club (Sacred),1H Weapon;Mace
+00000229,Spirit Edge (1),1H Weapon;Dagger;Necromancer
+0000022A,Spirit Edge (2),1H Weapon;Dagger;Necromancer
+0000022B,Spirit Edge (3),1H Weapon;Dagger;Necromancer
+0000022C,Spirit Edge (4),1H Weapon;Dagger;Necromancer
+0000022D,Spirit Edge (Sacred),1H Weapon;Dagger;Necromancer
+0000022E,Stag Bow (1),2H Weapon;Bow;Amazon
+0000022F,Stag Bow (2),2H Weapon;Bow;Amazon
+00000230,Stag Bow (3),2H Weapon;Bow;Amazon
+00000231,Stag Bow (4),2H Weapon;Bow;Amazon
+00000232,Stag Bow (Sacred),2H Weapon;Bow;Amazon
+00000233,Stinger Crossbow (1),2H Weapon;Crossbow;Necromancer
+00000234,Stinger Crossbow (2),2H Weapon;Crossbow;Necromancer
+00000235,Stinger Crossbow (3),2H Weapon;Crossbow;Necromancer
+00000236,Stinger Crossbow (4),2H Weapon;Crossbow;Necromancer
+00000237,Stinger Crossbow (Sacred),2H Weapon;Crossbow;Necromancer
+00000238,Tepoztopilli (1),2H Weapon;Spear;Paladin
+00000239,Tepoztopilli (2),2H Weapon;Spear;Paladin
+0000023A,Tepoztopilli (3),2H Weapon;Spear;Paladin
+0000023B,Tepoztopilli (4),2H Weapon;Spear;Paladin
+0000023C,Tepoztopilli (Sacred),2H Weapon;Spear;Paladin
+0000023D,Throwing Axe (1),1H Weapon;Throwing Axe;Throwing
+0000023E,Throwing Axe (2),1H Weapon;Throwing Axe;Throwing
+0000023F,Throwing Axe (3),1H Weapon;Throwing Axe;Throwing
+00000240,Throwing Axe (4),1H Weapon;Throwing Axe;Throwing
+00000241,Throwing Axe (Sacred),1H Weapon;Throwing Axe;Throwing
+00000242,Throwing Knife (1),1H Weapon;Throwing Knife;Throwing
+00000243,Throwing Knife (2),1H Weapon;Throwing Knife;Throwing
+00000244,Throwing Knife (3),1H Weapon;Throwing Knife;Throwing
+00000245,Throwing Knife (4),1H Weapon;Throwing Knife;Throwing
+00000246,Throwing Knife (Sacred),1H Weapon;Throwing Knife;Throwing
+00000247,Throwing Spear (1),1H Weapon;Javelin;Throwing
+00000248,Throwing Spear (2),1H Weapon;Javelin;Throwing
+00000249,Throwing Spear (3),1H Weapon;Javelin;Throwing
+0000024A,Throwing Spear (4),1H Weapon;Javelin;Throwing
+0000024B,Throwing Spear (Sacred),1H Weapon;Javelin;Throwing
+0000024C,Trebuchet (1),2H Weapon;Crossbow;Necromancer
+0000024D,Trebuchet (2),2H Weapon;Crossbow;Necromancer
+0000024E,Trebuchet (3),2H Weapon;Crossbow;Necromancer
+0000024F,Trebuchet (4),2H Weapon;Crossbow;Necromancer
+00000250,Trebuchet (Sacred),2H Weapon;Crossbow;Necromancer
+00000251,Trident (1),2H Weapon;Spear
+00000252,Trident (2),2H Weapon;Spear
+00000253,Trident (3),2H Weapon;Spear
+00000254,Trident (4),2H Weapon;Spear
+00000255,Trident (Sacred),2H Weapon;Spear
+00000256,Two-Handed Sword (1),2H Weapon;Sword
+00000257,Two-Handed Sword (2),2H Weapon;Sword
+00000258,Two-Handed Sword (3),2H Weapon;Sword
+00000259,Two-Handed Sword (4),2H Weapon;Sword
+0000025A,Two-Handed Sword (Sacred),2H Weapon;Sword
+0000025B,Valaska (1),2H Weapon;Axe;Barbarian
+0000025C,Valaska (2),2H Weapon;Axe;Barbarian
+0000025D,Valaska (3),2H Weapon;Axe;Barbarian
+0000025E,Valaska (4),2H Weapon;Axe;Barbarian
+0000025F,Valaska (Sacred),2H Weapon;Axe;Barbarian
+00000260,Viper Bow (1),2H Weapon;Bow;Druid
+00000261,Viper Bow (2),2H Weapon;Bow;Druid
+00000262,Viper Bow (3),2H Weapon;Bow;Druid
+00000263,Viper Bow (4),2H Weapon;Bow;Druid
+00000264,Viper Bow (Sacred),2H Weapon;Bow;Druid
+0000026A,Wand (1),1H Weapon;Wand;Necromancer
+0000026B,Wand (2),1H Weapon;Wand;Necromancer
+0000026C,Wand (3),1H Weapon;Wand;Necromancer
+0000026D,Wand (4),1H Weapon;Wand;Necromancer
+0000026E,Wand (Sacred),1H Weapon;Wand;Necromancer
+0000026F,War Axe (1),1H Weapon;Axe
+00000270,War Axe (2),1H Weapon;Axe
+00000271,War Axe (3),1H Weapon;Axe
+00000272,War Axe (4),1H Weapon;Axe
+00000273,War Axe (Sacred),1H Weapon;Axe
+00000274,War Hammer (1),1H Weapon;Hammer
+00000275,War Hammer (2),1H Weapon;Hammer
+00000276,War Hammer (3),1H Weapon;Hammer
+00000277,War Hammer (4),1H Weapon;Hammer
+00000278,War Hammer (Sacred),1H Weapon;Hammer
+00000279,War Scepter (1),1H Weapon;Scepter
+0000027A,War Scepter (2),1H Weapon;Scepter
+0000027B,War Scepter (3),1H Weapon;Scepter
+0000027C,War Scepter (4),1H Weapon;Scepter
+0000027D,War Scepter (Sacred),1H Weapon;Scepter
+0000027E,War Staff (1),2H Weapon;Staff
+0000027F,War Staff (2),2H Weapon;Staff
+00000280,War Staff (3),2H Weapon;Staff
+00000281,War Staff (4),2H Weapon;Staff
+00000282,War Staff (Sacred),2H Weapon;Staff
+00000283,War Sword (1),1H Weapon;Sword
+00000284,War Sword (2),1H Weapon;Sword
+00000285,War Sword (3),1H Weapon;Sword
+00000286,War Sword (4),1H Weapon;Sword
+00000287,War Sword (Sacred),1H Weapon;Sword
+00000288,Warp Blade (1),1H Weapon;Crystal Sword;Sorceress
+00000289,Warp Blade (2),1H Weapon;Crystal Sword;Sorceress
+0000028A,Warp Blade (3),1H Weapon;Crystal Sword;Sorceress
+0000028B,Warp Blade (4),1H Weapon;Crystal Sword;Sorceress
+0000028C,Warp Blade (Sacred),1H Weapon;Crystal Sword;Sorceress
+0000028D,Wrist Blade (1),1H Weapon;Claws;Assassin
+0000028E,Wrist Blade (2),1H Weapon;Claws;Assassin
+0000028F,Wrist Blade (3),1H Weapon;Claws;Assassin
+00000290,Wrist Blade (4),1H Weapon;Claws;Assassin
+00000291,Wrist Blade (Sacred),1H Weapon;Claws;Assassin
+00000292,Yew Wand (1),1H Weapon;Wand;Necromancer
+00000293,Yew Wand (2),1H Weapon;Wand;Necromancer
+00000294,Yew Wand (3),1H Weapon;Wand;Necromancer
+00000295,Yew Wand (4),1H Weapon;Wand;Necromancer
+00000296,Yew Wand (Sacred),1H Weapon;Wand;Necromancer
+000002B4,Aerin Shield (1)
+000002B5,Aerin Shield (2)
+000002B6,Aerin Shield (3)
+000002B7,Aerin Shield (4)
+000002B8,Aerin Shield (Sacred)
+000002B9,Ancient Armor (1)
+000002BA,Ancient Armor (2)
+000002BB,Ancient Armor (3)
+000002BC,Ancient Armor (4)
+000002BD,Ancient Armor (Sacred)
+000002BE,Antlers (1)
+000002BF,Antlers (2)
+000002C0,Antlers (3)
+000002C1,Antlers (4)
+000002C2,Antlers (Sacred)
+000002C3,Aspis (1)
+000002C4,Aspis (2)
+000002C5,Aspis (3)
+000002C6,Aspis (4)
+000002C7,Aspis (Sacred)
+000002C8,Assault Helmet (1)
+000002C9,Assault Helmet (2)
+000002CA,Assault Helmet (3)
+000002CB,Assault Helmet (4)
+000002CC,Assault Helmet (Sacred)
+000002CD,Athulua's Hand (1)
+000002CE,Athulua's Hand (2)
+000002CF,Athulua's Hand (3)
+000002D0,Athulua's Hand (4)
+000002D1,Athulua's Hand (Sacred)
+000002D2,Avenger Guard (1)
+000002D3,Avenger Guard (2)
+000002D4,Avenger Guard (3)
+000002D5,Avenger Guard (4)
+000002D6,Avenger Guard (Sacred)
+000002D7,Banded Plate (1)
+000002D8,Banded Plate (2)
+000002D9,Banded Plate (3)
+000002DA,Banded Plate (4)
+000002DB,Banded Plate (Sacred)
+000002DC,Belt (1)
+000002DD,Belt (2)
+000002DE,Belt (3)
+000002DF,Belt (4)
+000002E0,Belt (Sacred)
+000002E1,Blackguard Helm (1)
+000002E2,Blackguard Helm (2)
+000002E3,Blackguard Helm (3)
+000002E4,Blackguard Helm (4)
+000002E5,Blackguard Helm (Sacred)
+000002E6,Bladed Shield (1)
+000002E7,Bladed Shield (2)
+000002E8,Bladed Shield (3)
+000002E9,Bladed Shield (4)
+000002EA,Bladed Shield (Sacred)
+000002EB,Bone Helm (1)
+000002EC,Bone Helm (2)
+000002ED,Bone Helm (3)
+000002EE,Bone Helm (4)
+000002EF,Bone Helm (Sacred)
+000002F0,Bone Shield (1)
+000002F1,Bone Shield (2)
+000002F2,Bone Shield (3)
+000002F3,Bone Shield (4)
+000002F4,Bone Shield (Sacred)
+000002F5,Boots (1)
+000002F6,Boots (2)
+000002F7,Boots (3)
+000002F8,Boots (4)
+000002F9,Boots (Sacred)
+000002FA,Breast Plate (1)
+000002FB,Breast Plate (2)
+000002FC,Breast Plate (3)
+000002FD,Breast Plate (4)
+000002FE,Breast Plate (Sacred)
+000002FF,Bronze Shield (1)
+00000300,Bronze Shield (2)
+00000301,Bronze Shield (3)
+00000302,Bronze Shield (4)
+00000303,Bronze Shield (Sacred)
+00000304,Buckler (1)
+00000305,Buckler (2)
+00000306,Buckler (3)
+00000307,Buckler (4)
+00000308,Buckler (Sacred)
+00000309,Bull Shield (1)
+0000030A,Bull Shield (2)
+0000030B,Bull Shield (3)
+0000030C,Bull Shield (4)
+0000030D,Bull Shield (Sacred)
+0000030E,Cap (1)
+0000030F,Cap (2)
+00000310,Cap (3)
+00000311,Cap (4)
+00000312,Cap (Sacred)
+00000313,Ceremonial Armor (1)
+00000314,Ceremonial Armor (2)
+00000315,Ceremonial Armor (3)
+00000316,Ceremonial Armor (4)
+00000317,Ceremonial Armor (Sacred)
+00000318,Cervelliere (1)
+00000319,Cervelliere (2)
+0000031A,Cervelliere (3)
+0000031B,Cervelliere (4)
+0000031C,Cervelliere (Sacred)
+0000031D,Chain Boots (1)
+0000031E,Chain Boots (2)
+0000031F,Chain Boots (3)
+00000320,Chain Boots (4)
+00000321,Chain Boots (Sacred)
+00000322,Chain Gloves (1)
+00000323,Chain Gloves (2)
+00000324,Chain Gloves (3)
+00000325,Chain Gloves (4)
+00000326,Chain Gloves (Sacred)
+00000327,Chain Mail (1)
+00000328,Chain Mail (2)
+00000329,Chain Mail (3)
+0000032A,Chain Mail (4)
+0000032B,Chain Mail (Sacred)
+0000032C,Circlet (1)
+0000032D,Circlet (2)
+0000032E,Circlet (3)
+0000032F,Circlet (4)
+00000330,Circlet (Sacred)
+00000331,Coronet (1)
+00000332,Coronet (2)
+00000333,Coronet (3)
+00000334,Coronet (4)
+00000335,Coronet (Sacred)
+00000336,Crown (1)
+00000337,Crown (2)
+00000338,Crown (3)
+00000339,Crown (4)
+0000033A,Crown (Sacred)
+0000033B,Crown Shield (1)
+0000033C,Crown Shield (2)
+0000033D,Crown Shield (3)
+0000033E,Crown Shield (4)
+0000033F,Crown Shield (Sacred)
+00000340,Demon Head (1)
+00000341,Demon Head (2)
+00000342,Demon Head (3)
+00000343,Demon Head (4)
+00000344,Demon Head (Sacred)
+00000345,Diadem (1)
+00000346,Diadem (2)
+00000347,Diadem (3)
+00000348,Diadem (4)
+00000349,Diadem (Sacred)
+0000034A,Einherjar Helm (1)
+0000034B,Einherjar Helm (2)
+0000034C,Einherjar Helm (3)
+0000034D,Einherjar Helm (4)
+0000034E,Einherjar Helm (Sacred)
+0000034F,Falcon Mask (1)
+00000350,Falcon Mask (2)
+00000351,Falcon Mask (3)
+00000352,Falcon Mask (4)
+00000353,Falcon Mask (Sacred)
+00000354,Fanged Helm (1)
+00000355,Fanged Helm (2)
+00000356,Fanged Helm (3)
+00000357,Fanged Helm (4)
+00000358,Fanged Helm (Sacred)
+00000359,Field Plate (1)
+0000035A,Field Plate (2)
+0000035B,Field Plate (3)
+0000035C,Field Plate (4)
+0000035D,Field Plate (Sacred)
+0000035E,Full Helm (1)
+0000035F,Full Helm (2)
+00000360,Full Helm (3)
+00000361,Full Helm (4)
+00000362,Full Helm (Sacred)
+00000363,Full Plate Mail (1)
+00000364,Full Plate Mail (2)
+00000365,Full Plate Mail (3)
+00000366,Full Plate Mail (4)
+00000367,Full Plate Mail (Sacred)
+00000368,Gambeson (1)
+00000369,Gambeson (2)
+0000036A,Gambeson (3)
+0000036B,Gambeson (4)
+0000036C,Gambeson (Sacred)
+0000036D,Gargoyle Head (1)
+0000036E,Gargoyle Head (2)
+0000036F,Gargoyle Head (3)
+00000370,Gargoyle Head (4)
+00000371,Gargoyle Head (Sacred)
+00000372,Gauntlets (1)
+00000373,Gauntlets (2)
+00000374,Gauntlets (3)
+00000375,Gauntlets (4)
+00000376,Gauntlets (Sacred)
+00000377,Gilded Shield (1)
+00000378,Gilded Shield (2)
+00000379,Gilded Shield (3)
+0000037A,Gilded Shield (4)
+0000037B,Gilded Shield (Sacred)
+0000037C,Gothic Plate (1)
+0000037D,Gothic Plate (2)
+0000037E,Gothic Plate (3)
+0000037F,Gothic Plate (4)
+00000380,Gothic Plate (Sacred)
+00000381,Gothic Shield (1)
+00000382,Gothic Shield (2)
+00000383,Gothic Shield (3)
+00000384,Gothic Shield (4)
+00000385,Gothic Shield (Sacred)
+00000386,Great Helm (1)
+00000387,Great Helm (2)
+00000388,Great Helm (3)
+00000389,Great Helm (4)
+0000038A,Great Helm (Sacred)
+0000038B,Greaves (1)
+0000038C,Greaves (2)
+0000038D,Greaves (3)
+0000038E,Greaves (4)
+0000038F,Greaves (Sacred)
+00000390,Hard Leather Armor (1)
+00000391,Hard Leather Armor (2)
+00000392,Hard Leather Armor (3)
+00000393,Hard Leather Armor (4)
+00000394,Hard Leather Armor (Sacred)
+00000395,Hawk Helm (1)
+00000396,Hawk Helm (2)
+00000397,Hawk Helm (3)
+00000398,Hawk Helm (4)
+00000399,Hawk Helm (Sacred)
+0000039A,Heavy Belt (1)
+0000039B,Heavy Belt (2)
+0000039C,Heavy Belt (3)
+0000039D,Heavy Belt (4)
+0000039E,Heavy Belt (Sacred)
+0000039F,Heavy Boots (1)
+000003A0,Heavy Boots (2)
+000003A1,Heavy Boots (3)
+000003A2,Heavy Boots (4)
+000003A3,Heavy Boots (Sacred)
+000003A4,Heavy Gloves (1)
+000003A5,Heavy Gloves (2)
+000003A6,Heavy Gloves (3)
+000003A7,Heavy Gloves (4)
+000003A8,Heavy Gloves (Sacred)
+000003A9,Helm (1)
+000003AA,Helm (2)
+000003AB,Helm (3)
+000003AC,Helm (4)
+000003AD,Helm (Sacred)
+000003AE,Heraldic Shield (1)
+000003AF,Heraldic Shield (2)
+000003B0,Heraldic Shield (3)
+000003B1,Heraldic Shield (4)
+000003B2,Heraldic Shield (Sacred)
+000003B3,Horned Helm (1)
+000003B4,Horned Helm (2)
+000003B5,Horned Helm (3)
+000003B6,Horned Helm (4)
+000003B7,Horned Helm (Sacred)
+000003B8,Hundsgugel (1)
+000003B9,Hundsgugel (2)
+000003BA,Hundsgugel (3)
+000003BB,Hundsgugel (4)
+000003BC,Hundsgugel (Sacred)
+000003BD,Jawbone Cap (1)
+000003BE,Jawbone Cap (2)
+000003BF,Jawbone Cap (3)
+000003C0,Jawbone Cap (4)
+000003C1,Jawbone Cap (Sacred)
+000003C2,Kazarghand (1)
+000003C3,Kazarghand (2)
+000003C4,Kazarghand (3)
+000003C5,Kazarghand (4)
+000003C6,Kazarghand (Sacred)
+000003C7,Kite Shield (1)
+000003C8,Kite Shield (2)
+000003C9,Kite Shield (3)
+000003CA,Kite Shield (4)
+000003CB,Kite Shield (Sacred)
+000003CC,Lamellar Armor (1)
+000003CD,Lamellar Armor (2)
+000003CE,Lamellar Armor (3)
+000003CF,Lamellar Armor (4)
+000003D0,Lamellar Armor (Sacred)
+000003D1,Large Shield (1)
+000003D2,Large Shield (2)
+000003D3,Large Shield (3)
+000003D4,Large Shield (4)
+000003D5,Large Shield (Sacred)
+000003D6,Leather Armor (1)
+000003D7,Leather Armor (2)
+000003D8,Leather Armor (3)
+000003D9,Leather Armor (4)
+000003DA,Leather Armor (Sacred)
+000003DB,Leather Gloves (1)
+000003DC,Leather Gloves (2)
+000003DD,Leather Gloves (3)
+000003DE,Leather Gloves (4)
+000003DF,Leather Gloves (Sacred)
+000003E0,Light Belt (1)
+000003E1,Light Belt (2)
+000003E2,Light Belt (3)
+000003E3,Light Belt (4)
+000003E4,Light Belt (Sacred)
+000003E5,Light Gauntlets (1)
+000003E6,Light Gauntlets (2)
+000003E7,Light Gauntlets (3)
+000003E8,Light Gauntlets (4)
+000003E9,Light Gauntlets (Sacred)
+000003EA,Light Plate (1)
+000003EB,Light Plate (2)
+000003EC,Light Plate (3)
+000003ED,Light Plate (4)
+000003EE,Light Plate (Sacred)
+000003EF,Light Plated Boots (1)
+000003F0,Light Plated Boots (2)
+000003F1,Light Plated Boots (3)
+000003F2,Light Plated Boots (4)
+000003F3,Light Plated Boots (Sacred)
+000003F4,Mask (1)
+000003F5,Mask (2)
+000003F6,Mask (3)
+000003F7,Mask (4)
+000003F8,Mask (Sacred)
+000003F9,Morion (1)
+000003FA,Morion (2)
+000003FB,Morion (3)
+000003FC,Morion (4)
+000003FD,Morion (Sacred)
+000003FE,Parma (1)
+000003FF,Parma (2)
+00000400,Parma (3)
+00000401,Parma (4)
+00000402,Parma (Sacred)
+00000403,Phoenix Shield (1)
+00000404,Phoenix Shield (2)
+00000405,Phoenix Shield (3)
+00000406,Phoenix Shield (4)
+00000407,Phoenix Shield (Sacred)
+00000408,Plate Mail (1)
+00000409,Plate Mail (2)
+0000040A,Plate Mail (3)
+0000040B,Plate Mail (4)
+0000040C,Plate Mail (Sacred)
+0000040D,Plated Belt (1)
+0000040E,Plated Belt (2)
+0000040F,Plated Belt (3)
+00000410,Plated Belt (4)
+00000411,Plated Belt (Sacred)
+00000412,Preserved Head (1)
+00000413,Preserved Head (2)
+00000414,Preserved Head (3)
+00000415,Preserved Head (4)
+00000416,Preserved Head (Sacred)
+00000417,Quilted Armor (1)
+00000418,Quilted Armor (2)
+00000419,Quilted Armor (3)
+0000041A,Quilted Armor (4)
+0000041B,Quilted Armor (Sacred)
+0000041C,Ring Mail (1)
+0000041D,Ring Mail (2)
+0000041E,Ring Mail (3)
+0000041F,Ring Mail (4)
+00000420,Ring Mail (Sacred)
+00000421,Rondache (1)
+00000422,Rondache (2)
+00000423,Rondache (3)
+00000424,Rondache (4)
+00000425,Rondache (Sacred)
+00000426,Sash (1)
+00000427,Sash (2)
+00000428,Sash (3)
+00000429,Sash (4)
+0000042A,Sash (Sacred)
+0000042B,Scale Mail (1)
+0000042C,Scale Mail (2)
+0000042D,Scale Mail (3)
+0000042E,Scale Mail (4)
+0000042F,Scale Mail (Sacred)
+00000430,Setzschild (1)
+00000431,Setzschild (2)
+00000432,Setzschild (3)
+00000433,Setzschild (4)
+00000434,Setzschild (Sacred)
+00000435,Skull Cap (1)
+00000436,Skull Cap (2)
+00000437,Skull Cap (3)
+00000438,Skull Cap (4)
+00000439,Skull Cap (Sacred)
+0000043A,Small Shield (1)
+0000043B,Small Shield (2)
+0000043C,Small Shield (3)
+0000043D,Small Shield (4)
+0000043E,Small Shield (Sacred)
+0000043F,Spangenhelm (1)
+00000440,Spangenhelm (2)
+00000441,Spangenhelm (3)
+00000442,Spangenhelm (4)
+00000443,Spangenhelm (Sacred)
+00000444,Spiked Shield (1)
+00000445,Spiked Shield (2)
+00000446,Spiked Shield (3)
+00000447,Spiked Shield (4)
+00000448,Spiked Shield (Sacred)
+00000449,Spirit Mask (1)
+0000044A,Spirit Mask (2)
+0000044B,Spirit Mask (3)
+0000044C,Spirit Mask (4)
+0000044D,Spirit Mask (Sacred)
+0000044E,Sprint Mail (1)
+0000044F,Sprint Mail (2)
+00000450,Sprint Mail (3)
+00000451,Sprint Mail (4)
+00000452,Sprint Mail (Sacred)
+00000454,Studded Leather (1)
+00000455,Studded Leather (2)
+00000456,Studded Leather (3)
+00000457,Studded Leather (4)
+00000458,Studded Leather (Sacred)
+00000459,Targe (1)
+0000045A,Targe (2)
+0000045B,Targe (3)
+0000045C,Targe (4)
+0000045D,Targe (Sacred)
+0000045E,Tiara (1)
+0000045F,Tiara (2)
+00000460,Tiara (3)
+00000461,Tiara (4)
+00000462,Tiara (Sacred)
+00000463,Totem Shield (1)
+00000464,Totem Shield (2)
+00000465,Totem Shield (3)
+00000466,Totem Shield (4)
+00000467,Totem Shield (3)
+00000468,Totem Shield (2)
+00000469,Totem Shield (3)
+0000046A,Totem Shield (4)
+0000046B,Totem Shield (Sacred)
+0000046C,Tower Shield (1)
+0000046D,Tower Shield (2)
+0000046E,Tower Shield (3)
+0000046F,Tower Shield (4)
+00000470,Tower Shield (Sacred)
+00000471,Unraveller Head (1)
+00000472,Unraveller Head (2)
+00000473,Unraveller Head (3)
+00000474,Unraveller Head (4)
+00000475,Unraveller Head (Sacred)
+00000476,Wolf Head (1)
+00000477,Wolf Head (2)
+00000478,Wolf Head (3)
+00000479,Wolf Head (4)
+0000047A,Wolf Head (Sacred)
+0000047B,Zombie Head (1)
+0000047C,Zombie Head (2)
+0000047D,Zombie Head (3)
+0000047E,Zombie Head (4)
+0000047F,Zombie Head (Sacred)
+00000486,Light Plated Boots (Angelic)
+000004B2,Horadric Cube
+000004B8,Amulet
+000004B9,Ring
+000004BA,Jewel
+000004C4,Arrow Quiver
+000004C5,Bolt Quiver
+000004C6,Key
+000004C7,Minor Healing Potion
+000004CC,Minor Mana Potion
+000004D3,Apple
+0000053D,Ol Rune
+000006BE,Arcane Shards (1)
+000006BF,Arcane Shards (2)
+000006C0,Arcane Shards (3)
+000006C3,Arcane Cluster
+000006C4,Catalyst of Learning
+000006C5,Catalyst of Disenchantment
+000006C6,Catalyst of Jewelcraft
+000006FE,Optical Detector
+00000700,Visions of Akarat
+00000702,Laser Focus Crystal
+00000703,The Butcher's Tooth
+00000705,Idol of Vanity
+00000707,Horazon's Focus
+0000070A,Zakarum's Ear
+00000711,Sunstone of the Gods
+00000715,Legacy of Blood
+0000071C,Eye of Divinity
+00000728,Sunstone of the Twin Seas
+0000079D,Key of Lies
+0000079E,Key of Sin
+0000080D,Riftwalker's Eye
+0000085E,Corrupted Shards (1)
+0000085F,Corrupted Shards (2)
+00000860,Corrupted Shards (3)
+00000861,Corrupted Shards (4)
+00000876,Catalyst of Transference
+0000070C,Moon of the Spider
+00000701,Scroll of Kings
+000007A4,The Black Road
+0000070B,Spirit Trance Herb
+000006FF,Azmodan's Heart
+00000704,Sacred Worldstone Key
+0000071E,Crystalline Flame Medallion
+00000727,Soul of Kabraxis
+00000720,Silver Seal of Ureh
+0000070D,Eternal Bone Pile
+00000723,Demonsbane
+0000072A,Umbaru Treasure
+000007A9,Weather Control
+0000071F,Fool's Gold
+00000709,Six Angel Bag
+0000072E,Corrupted Wormhole
+000007AA,Spirit of Creation
+00000722,The Book of Lies
+00000721,Astrogha's Venom Stinger
+0000072D,Xazax's Illusion
+00000871,Bone Chimes
+000007A6,Lylia's Curse
+00000716,Paragon's Hammer
+000007A7,Dragon Claw
+000004BB,Relic
+00000724,Cold Fusion Schematics
+0000072B,The Sleep
+0000072C,The Ancient Repositories
+00000729,Neutrality Pact
+00000730,Books of Kalan
+000004CB,Super Healing Potion
