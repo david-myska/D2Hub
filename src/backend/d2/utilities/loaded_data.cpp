@@ -7,9 +7,9 @@
 #include <map>
 #include <ranges>
 #include <set>
-#include <unordered_set>
 #include <string>
 #include <string_view>
+#include <unordered_set>
 #include <vector>
 
 namespace
@@ -32,12 +32,19 @@ namespace
     {
     };
 
+    struct ItemMetadata
+    {
+        std::string name;
+        std::string categories;
+    };
+
     std::vector<uint32_t> g_statIds;
     std::map<uint32_t, StatMetadata> g_stats;
     std::set<uint32_t> g_customStatIds;
 
     std::vector<uint32_t> g_itemIds;
-    std::map<uint32_t, std::string> g_itemNames;
+    // std::map<uint32_t, std::string> g_itemNames;
+    std::map<uint32_t, ItemMetadata> g_items;
     std::map<std::string, std::unordered_set<uint32_t>> g_itemCategories;
     std::set<uint32_t> g_customItemIds;
 
@@ -115,13 +122,13 @@ namespace
         return std::make_tuple(itemId, std::string{itemName}, std::string(itemCategories));
     }
 
-    void WriteItemLine(std::ofstream& aFile, uint32_t aItemId, std::string_view aItemName)
+    void WriteItemLine(std::ofstream& aFile, uint32_t aItemId, std::string_view aItemName, std::string_view aItemCats)
     {
         if (aItemName.empty())
         {
             throw std::runtime_error(std::format("Fields cannot be empty: Id '{}', Name '{}'", aItemId, aItemName));
         }
-        aFile << std::format("{:08X},{}\n", aItemId, aItemName);
+        aFile << std::format("{:08X},{},{}\n", aItemId, aItemName, aItemCats);
     }
 
     auto ParseMinionLine(std::string_view aLine)
@@ -200,7 +207,7 @@ namespace D2::Data
     bool LoadItems()
     {
         g_itemIds.clear();
-        g_itemNames.clear();
+        g_items.clear();
         g_customItemIds.clear();
 
         auto lines = LoadFile(c_itemIdsFile);
@@ -209,7 +216,9 @@ namespace D2::Data
             try
             {
                 auto [itemId, itemName, itemCats] = ParseItemLine(line);
-                g_itemNames.insert({itemId, itemName});
+                g_items.insert({
+                    itemId, {itemName, itemCats}
+                });
                 for (const auto& itemCat : std::views::split(itemCats, ';'))
                 {
                     g_itemCategories[std::string(itemCat.begin(), itemCat.end())].insert(itemId);
@@ -226,7 +235,7 @@ namespace D2::Data
             try
             {
                 auto [itemId, itemName, itemCats] = ParseItemLine(line);
-                g_itemNames.insert_or_assign(itemId, std::move(itemName));
+                g_items.insert_or_assign(itemId, ItemMetadata{itemName, itemCats});
                 for (const auto& itemCat : std::views::split(itemCats, ';'))
                 {
                     g_itemCategories[std::string(itemCat.begin(), itemCat.end())].insert(itemId);
@@ -238,7 +247,7 @@ namespace D2::Data
                 // TODO log parsing error
             }
         }
-        for (const auto& [itemId, _] : g_itemNames)
+        for (const auto& [itemId, _] : g_items)
         {
             g_itemIds.push_back(itemId);
         }
@@ -252,16 +261,24 @@ namespace D2::Data
 
     const char* GetItemName(uint32_t aItemId)
     {
-        if (auto it = g_itemNames.find(aItemId); it != g_itemNames.end())
+        if (auto it = g_items.find(aItemId); it != g_items.end())
         {
-            return it->second.c_str();
+            return it->second.name.c_str();
         }
         return c_unknownName;
     }
 
+    const char* GetCategories(uint32_t aItemId)
+    {
+        if (auto it = g_items.find(aItemId); it != g_items.end())
+        {
+            return it->second.categories.c_str();
+        }
+        return "";
+    }
+
     bool IsItemInCategory(uint32_t aItemId, const char* aCategory)
     {
-
         if (auto it = g_itemCategories.find(aCategory); it != g_itemCategories.end())
         {
             return it->second.contains(aItemId);
@@ -289,22 +306,27 @@ namespace D2::Data
         }
     }
 
-    void SaveCustomItem(uint32_t aItemId, const char* aItemName)
+    void SaveCustomItem(uint32_t aItemId, const char* aItemName, const char* aItemCats)
     {
-        auto [it, x] = g_itemNames.insert_or_assign(aItemId, aItemName);
+        auto [it, x] = g_items.insert_or_assign(aItemId, ItemMetadata{aItemName, aItemCats});
         auto [y, newItem] = g_customItemIds.insert(aItemId);
+
+        for (const auto& itemCat : std::views::split(std::string_view(aItemCats), ';'))
+        {
+            g_itemCategories[std::string(itemCat.begin(), itemCat.end())].insert(aItemId);
+        }
 
         if (newItem)
         {
             std::ofstream file(c_customItemIdsFile, std::ios::app);
-            WriteItemLine(file, aItemId, it->second);
+            WriteItemLine(file, aItemId, it->second.name, it->second.categories);
         }
         else
         {
             std::ofstream file(c_customItemIdsFile);
             for (auto id : g_customItemIds)
             {
-                WriteItemLine(file, id, g_itemNames[id]);
+                WriteItemLine(file, id, g_items[id].name, g_items[id].categories);
             }
         }
     }

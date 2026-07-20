@@ -17,10 +17,10 @@ namespace D2::Data
     const char* GetStatName(uint32_t aStatId);
 
     bool LoadItems();
-    void SaveCustomItem(uint32_t aItemId, const char* aItemName);
+    void SaveCustomItem(uint32_t aItemId, const char* aItemName, const char* aItemCats);
     Ids GetItemIds();
     const char* GetItemName(uint32_t aItemId);
-    //const char* GetCategories(uint32_t aItemId);
+    const char* GetCategories(uint32_t aItemId);
     bool IsItemInCategory(uint32_t aItemId, const char* aCategory);
 
     bool LoadMinions();
