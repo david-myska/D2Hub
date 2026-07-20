@@ -78,7 +78,7 @@ set(SOURCE_FILES
 				"d2/achievements/achievements/dungeons/extreme/the_void_kill_lilith_before_inarius.cpp"
 
 				# Global
-				"d2/achievements/achievements/global/collect_all_tiered_uniques.cpp"
+				"d2/achievements/achievements/global/collect_uniques_and_sets.cpp"
 				"d2/achievements/achievements/global/kill_million_monsters.cpp"
 )
 

@@ -911,10 +911,12 @@ namespace D2::Data
         void Update() noexcept
         {
             using enum ItemLocation;
-            m_newItems = m_dataAccess->GetItems().GetAt(Dropped) - m_dataAccess->GetItems(1).GetAt(Dropped);
-            std::erase_if(m_newItems, [this](const auto& item) {
+            m_droppedItems = m_dataAccess->GetItems().GetAt(Dropped) - m_dataAccess->GetItems(1).GetAt(Dropped);
+            std::erase_if(m_droppedItems, [this](const auto& item) {
                 return m_allItemsOnGround.contains({item.second->m_act, item.second->m_pos.x, item.second->m_pos.y});
             });
+            m_newItems = m_droppedItems -
+                         (m_dataAccess->GetItems(1).GetAt(Equipped) + m_dataAccess->GetItems(1).GetAt(Inventory));
             m_pickedItems = (m_dataAccess->GetItems().GetAt(Equipped) + m_dataAccess->GetItems().GetAt(Inventory)) -
                             (m_dataAccess->GetItems(1).GetAt(Equipped) + m_dataAccess->GetItems(1).GetAt(Inventory));
             m_equippedItems = m_dataAccess->GetItems().GetAt(Equipped) - m_dataAccess->GetItems(1).GetAt(Equipped);
@@ -936,13 +938,15 @@ namespace D2::Data
             std::erase_if(m_allItemsOnGround, [&](const ItemIdentifier& item) {
                 return pickedItemsIdentifiers.contains(item);
             });
-            for (const auto& item : m_newItems)
+            for (const auto& item : m_droppedItems)
             {
                 m_allItemsOnGround.insert({item.second->m_act, item.second->m_pos.x, item.second->m_pos.y});
             }
         }
 
         const std::map<GUID, const Item*>& GetNewItems() const { return m_newItems; }
+
+        const std::map<GUID, const Item*>& GetDroppedItems() const { return m_droppedItems; }
 
         const std::map<GUID, const Item*>& GetPickedItems() const { return m_pickedItems; }
 
@@ -963,6 +967,7 @@ namespace D2::Data
 
         // Items
         std::map<GUID, const Item*> m_newItems;
+        std::map<GUID, const Item*> m_droppedItems;
         std::map<GUID, const Item*> m_pickedItems;
         std::map<GUID, const Item*> m_equippedItems;
         std::map<GUID, const Item*> m_unequippedItems;
