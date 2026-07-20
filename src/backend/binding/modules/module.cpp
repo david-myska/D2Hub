@@ -34,6 +34,11 @@ void Module::ResolveStatus()
     String reason = m_disabledManually ? "Manually disabled" : m_disabledProgramatically ? m_disableReason : "";
     m_status = newStatus == Enabled && m_status.load() == Running ? Running : newStatus;
     call_deferred("emit_signal", "status_changed", static_cast<int>(m_status.load()), reason);
+    // Uninitialization was skipped because it was part of Update, should be done differently and better
+    if (m_status != Running && m_initialized)
+    {
+        Uninitialize();
+    }
 }
 
 void Module::InitializeInternal(const D2::Data::DataAccess&, const D2::Data::SharedData&)

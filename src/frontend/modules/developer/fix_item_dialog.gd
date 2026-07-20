@@ -1,16 +1,18 @@
 extends AcceptDialog
 
-signal validated(item_class : int, item_name : String, tier : int, fix_other_tiers : bool)
+signal validated(item_class : int, item_name : String, tier : int, fix_other_tiers : bool,
+		item_categories : String)
 
 var m_item_class : int = 0
 
 func _ready() -> void:
 	confirmed.connect(validate)
 
-func show_filled(item_class : int, item_name : String):
+func show_filled(item_class : int, item_name : String, item_cats : String):
 	_reset()
 	m_item_class = item_class
 	%NameLE.text = _remove_tier(item_name)
+	%CategoriesLE.text = item_cats
 	show()
 	%NameLE.edit()
 	%NameLE.select_all()
@@ -20,7 +22,8 @@ func validate():
 	if %NameLE.text.is_empty():
 		return
 	var tier : int = %ChosenTier.get_selected_id() if %IsTiered.button_pressed else 0
-	validated.emit(m_item_class, %NameLE.text, tier, %FixOtherTiers.button_pressed)
+	validated.emit(m_item_class, %NameLE.text, tier, %FixOtherTiers.button_pressed,
+		%CategoriesLE.text)
 	hide()
 
 func _remove_tier(item_name : String) -> String:
@@ -38,3 +41,4 @@ func _reset():
 	%IsTiered.button_pressed = false
 	%ChosenTier.select(0)
 	%FixOtherTiers.button_pressed = false
+	%CategoriesLE.text = ""

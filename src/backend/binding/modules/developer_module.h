@@ -28,7 +28,7 @@ namespace godot
         uint16_t get_location_id() const;
 
         void save_custom_stat(uint32_t stat_id, const String& stat_name);
-        void save_custom_item(uint32_t item_class, const String& item_name);
+        void save_custom_item(uint32_t item_class, const String& item_name, const String& item_categories);
 
         Dictionary get_item_in_hand() const;
         Array get_items_from(int location) const;

@@ -58,9 +58,9 @@ void DeveloperModule::save_custom_stat(uint32_t stat_id, const String& stat_name
     SaveCustomStat(stat_id, stat_name.utf8().get_data());
 }
 
-void DeveloperModule::save_custom_item(uint32_t item_class, const String& item_name)
+void DeveloperModule::save_custom_item(uint32_t item_class, const String& item_name, const String& item_categories)
 {
-    SaveCustomItem(item_class, item_name.utf8().get_data());
+    SaveCustomItem(item_class, item_name.utf8().get_data(), item_categories.utf8().get_data());
 }
 
 Dictionary MakeItemDictionaryDev(const D2::Data::Item& aItem)
@@ -68,6 +68,7 @@ Dictionary MakeItemDictionaryDev(const D2::Data::Item& aItem)
     Dictionary res;
     res["item_class"] = aItem.m_class;
     res["name"] = GetItemName(aItem.m_class);
+    res["categories"] = GetItemCategories(aItem.m_class);
     res["location"] = D2::Data::ToString(aItem.m_location).c_str();
     res["position"] = Vector2i(aItem.m_pos.x, aItem.m_pos.y);
     res["quality"] = static_cast<uint32_t>(aItem.m_quality);

@@ -268,7 +268,7 @@ namespace D2::Data
         return c_unknownName;
     }
 
-    const char* GetCategories(uint32_t aItemId)
+    const char* GetItemCategories(uint32_t aItemId)
     {
         if (auto it = g_items.find(aItemId); it != g_items.end())
         {

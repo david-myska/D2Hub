@@ -3,9 +3,10 @@
 [ext_resource type="Script" uid="uid://djpgd5mdojorb" path="res://modules/developer/fix_item_dialog.gd" id="1_av5qi"]
 
 [node name="FixItemDialog" type="AcceptDialog"]
+oversampling_override = 1.0
 title = "Fix Item"
 initial_position = 2
-size = Vector2i(350, 201)
+size = Vector2i(350, 236)
 ok_button_text = "Fix"
 dialog_hide_on_ok = false
 script = ExtResource("1_av5qi")
@@ -14,7 +15,7 @@ script = ExtResource("1_av5qi")
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 342.0
-offset_bottom = 152.0
+offset_bottom = 187.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -76,6 +77,23 @@ layout_mode = 2
 disabled = true
 button_pressed = true
 text = "Fix also other tiers"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CategoriesLabel" type="Label" parent="VBoxContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.66
+text = " Name:"
+
+[node name="CategoriesLE" type="LineEdit" parent="VBoxContainer/VBoxContainer/HBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "(optional)"
+alignment = 1
+select_all_on_focus = true
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
 layout_mode = 2

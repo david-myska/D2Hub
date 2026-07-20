@@ -21,16 +21,19 @@ func _ready():
 		m_dev.save_custom_stat(stat_id, stat_name)
 	)
 	$FixItemDialog.validated.connect(
-		func(item_class : int, item_name : String, tier : int, fix_other_tiers : bool):
+		func(item_class : int, item_name : String, tier : int, fix_other_tiers : bool,
+				item_cats : String):
 			if tier == 0: # Doesn't have tier -> Ring, Amulet, etc.
-				m_dev.save_custom_item(item_class, item_name)
+				m_dev.save_custom_item(item_class, item_name, item_cats)
 				return
 			if not fix_other_tiers:
-				m_dev.save_custom_item(item_class, "%s %s" % [item_name, tier_to_string(tier)])
+				m_dev.save_custom_item(item_class, "%s %s" % [item_name, tier_to_string(tier)],
+					item_cats)
 				return
 			var zeroed_tier : int = item_class - tier # Not having +1 here on purpose
 			for i in range(1, 6):
-				m_dev.save_custom_item(zeroed_tier + i, "%s %s" % [item_name, tier_to_string(i)])
+				m_dev.save_custom_item(zeroed_tier + i, "%s %s" % [item_name, tier_to_string(i)],
+					item_cats)
 	)
 
 func _on_lock_pos_btn_pressed() -> void:
@@ -66,7 +69,7 @@ func open_fix_stat_dialog(stat : Dictionary):
 	$FixStatDialog.show_filled(stat["id"], stat["name"])
 
 func open_fix_item_dialog(item : Dictionary):
-	$FixItemDialog.show_filled(item["item_class"], item["name"])
+	$FixItemDialog.show_filled(item["item_class"], item["name"], item["categories"])
 
 func _refresh_items(items : Array):
 	for c in %ItemList.get_children():
