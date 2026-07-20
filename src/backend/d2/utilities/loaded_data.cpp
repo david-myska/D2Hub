@@ -7,6 +7,7 @@
 #include <map>
 #include <ranges>
 #include <set>
+#include <unordered_set>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -37,7 +38,7 @@ namespace
 
     std::vector<uint32_t> g_itemIds;
     std::map<uint32_t, std::string> g_itemNames;
-    std::map<uint32_t, std::string> g_itemCategories;
+    std::map<std::string, std::unordered_set<uint32_t>> g_itemCategories;
     std::set<uint32_t> g_customItemIds;
 
     std::vector<uint32_t> g_minionIds;
@@ -207,9 +208,12 @@ namespace D2::Data
         {
             try
             {
-                auto [itemId, itemName, itemCat] = ParseItemLine(line);
+                auto [itemId, itemName, itemCats] = ParseItemLine(line);
                 g_itemNames.insert({itemId, itemName});
-                g_itemCategories.insert({itemId, itemCat});
+                for (const auto& itemCat : std::views::split(itemCats, ';'))
+                {
+                    g_itemCategories[std::string(itemCat.begin(), itemCat.end())].insert(itemId);
+                }
             }
             catch (const std::exception& e)
             {
@@ -221,9 +225,12 @@ namespace D2::Data
         {
             try
             {
-                auto [itemId, itemName, itemCat] = ParseItemLine(line);
+                auto [itemId, itemName, itemCats] = ParseItemLine(line);
                 g_itemNames.insert_or_assign(itemId, std::move(itemName));
-                g_itemCategories.insert_or_assign(itemId, std::move(itemCat));
+                for (const auto& itemCat : std::views::split(itemCats, ';'))
+                {
+                    g_itemCategories[std::string(itemCat.begin(), itemCat.end())].insert(itemId);
+                }
                 g_customItemIds.insert(itemId);
             }
             catch (const std::exception& e)
@@ -252,13 +259,14 @@ namespace D2::Data
         return c_unknownName;
     }
 
-    const char* GetCategories(uint32_t aItemId)
+    bool IsItemInCategory(uint32_t aItemId, const char* aCategory)
     {
-        if (auto it = g_itemCategories.find(aItemId); it != g_itemCategories.end())
+
+        if (auto it = g_itemCategories.find(aCategory); it != g_itemCategories.end())
         {
-            return it->second.c_str();
+            return it->second.contains(aItemId);
         }
-        return "";
+        return false;
     }
 
     void SaveCustomStat(uint32_t aStatId, const char* aStatName)
