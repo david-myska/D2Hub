@@ -5,65 +5,124 @@
 00070000,Life
 00090000,Mana
 000E0000,Gold
-00170000,Min Weap Dmg
-00180000,Max Weap Dmg
-001F0000,Armor
+00130000,Attack Rating
+00150000,1H Min Dmg
+00160000,1H Max Dmg
+00170000,2H Min Dmg
+00180000,2H Max Dmg
+00190000,% Weapon Physical Damage
+001B0000,% Regenerate Mana
+001F0000,Defense
+00220000,Physical Damage Taken Reduced by
 00240000,Physical Resist
 00270000,Fire Resist
-00280000,Max Fire Res
+00280000,Maximum Fire Resist
 00290000,Lightning Res
-002A0000,Max Light Res
+002A0000,Maximum Lightning Resist
 002B0000,Cold Resist
-002C0000,Max Cold Res
+002C0000,Maximum Cold Resist
 002D0000,Poison Resist
-002E0000,Max Poison Res
-00300000,WeapMinFireDmg
-00310000,WeapMaxFireDmg
-00320000,WeapMinLighDmg
-00330000,WeapMaxLighDmg
-00340000,WeapMinColdDmg
-00350000,WeapMaxColdDmg
-00390000,WeapMinPoisDmg
-003A0000,WeapMaxPoisDmg
-003B0000,Dur ^^ inFrames
-00440000,WeapAtkSpeedMod
+002E0000,Maximum Poison Resist
+00300000,Weapon Min Fire Damage
+00310000,Weapon Max Fire Damage
+00320000,Weapon Min Lightning Damage
+00330000,Weapon Max Lightning Damage
+00340000,??WeapMinColdDmg
+00350000,??WeapMaxColdDmg
+00360000,Weapon Min Cold Damage
+00370000,Weapon Max Cold Damage
+00380000,Weapon Cold Duration (frames)
+00390000,Weapon Min Poison Damage
+003A0000,Weapon Max Poison Damage
+003B0000,Weapon Poison Duration (frames)
+003C0000,% Life stolen per Hit
+003E0000,% Mana stolen per Hit
+00440000,Weapon's Base Attack Speed
+00460000,Quantity
+00470000,Max Quantity
 00480000,Durability
 00490000,Max Durability
+004A0000,Life Regenerated per Second
+004C0000,% Life
+004D0000,% Mana
 004F0000,Gold Find
-00550000,Exp Gained
+00500000,Magic Find
+
+00530000,Amazon Skills
+00530001,Sorceress Skills
+00530002,Necromancer Skills
+00530003,Paladin Skills
+00530004,Barbarian Skills
+00530005,Druid Skills
+00530006,Assassin Skills
+
+00550000,Experience Gained
+00560000,Life after each Kill
+00570000,All Vendor Prices Reduced
 00590000,Light Radius
 005B0000,Requirements
+005C0000,Required Level (modifier)
 005D0000,Attack Speed
 00600000,Movement Speed
 00630000,Hit Recovery
+00660000,Block Speed
 00690000,Cast Speed
-006E0000,PoisLenReduced
-00770000,Attack Rating%
-007F0000,All skills
-00AB0000,Defense Bonus %
+006E0000,Poison Length Reduction
+00760000,Half Freeze Duration
+00770000,% Bonus to Attack Rating
+007F0000,All Skills
+00880000,% Chance of Crushing Blow
+008A0000,Mana after each Kill
+008E0000,Fire Absorb
+00900000,Lightning Absorb
+00940000,Cold Absorb
+00990000,Cannot Be Frozen
+00AB0000,% Bonus to Defense
 00C20000,Sockets
-00D20000,LifeOnMeleeAtk
-01490000,FireSpellDmg
-014A0000,LightSpellDmg
-014B0000,ColdSpellDmg
-014C0000,PoisSpellDmg
-014D0000,EnemyFireRes
-014E0000,EnemyLightRes
-014F0000,EnemyColdRes
-01500000,EnemyPoisRes
-01650000,PhysMagSpellDmg
+00D20000,Life on Melee Attack
+01030000,Charges
+01270000,Mana on Melee Attack
+01490000,% Fire Spell Damage
+014A0000,% Lightning Spell Damage
+014B0000,% Cold Spell Damage
+014C0000,% Poison Spell Damage
+014D0000,Enemy Fire Resist
+014E0000,Enemy Lightning Resist
+014F0000,Enemy Cold Resist
+01500000,Enemy Poison Resist
+01520000,% Chance to Avoid Damage (Weapon Hit)
+01530000,% Chance to Avoid Damage (Projectile Hit)
+01540000,% Chance to Avoid Damage (Spell Hit)
+01650000,% Physical/Magic Spell Damage
 01670000,Strength %
 01680000,Energy %
 01690000,Dexterity %
 016A0000,Vitality %
-01E40000,InnateElemDmg
+019A0000,Prefixes
+019B0000,Suffixes
+019E0000,% Bonus to Summoned Edyrem Life
+
 019F0201,InnateDmgDex
+
+01D60000,Summoned Minion Damage
+
+01E40000,% Innate Elemental Damage
+01E50000,Spell Focus
+01E70000,Summoned Minion Resistances
+01E80000,% Bonus to Spell Focus
+
 01B70000,Life when struck by enemy
-01BC0000,SumMinionLife
-01E90000,Target takes additional dmg
-00530001,SorcSkillLvl
-00530005,DruidSkillLvl
-00530006,AssaSkillLvl
-006101CB,Apocalypse spell
-006101D9,Supernova spell
-0061067F,Charged Strike spell
+01BC0000,Summoned Minion Life
+01E90000,Target takes additional damage
+01F50000,Container Quantity
+
+006101CB,Apocalypse (oskill)
+006101D9,Supernova (oskill)
+00610227,Jitan's Gate (cooldown)
+0061046E,Blink (oskill)
+0061056E,Bane (oskill)
+0061067F,Charged Strike (oskill)
+00610687,Teleport (oskill)
+006106AD,Overlord (oskill)
+00610722,Purify (oskill)
+

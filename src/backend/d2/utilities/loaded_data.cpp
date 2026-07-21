@@ -107,7 +107,7 @@ namespace
         }
         auto sep2 = aLine.find(',', sep1 + 1);
         auto itemIdStr = aLine.substr(0, sep1);
-        auto itemName = aLine.substr(sep1 + 1, sep2);
+        auto itemName = aLine.substr(sep1 + 1, sep2 - sep1 - 1);
         std::string_view itemCategories;
         if (sep2 != std::string_view::npos)
         {
