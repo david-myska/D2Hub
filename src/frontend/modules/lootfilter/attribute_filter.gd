@@ -17,12 +17,14 @@ func get_selection():
 		"stat_name": %Attribute.text,
 		"op": %Comparators.get_selected_id(),
 		"value": %Value.value,
+		"compare_with_equipped": %CompareWithEquipped.button_pressed
 	}
 
-func set_selection(stat_name : String, op : int, value : float):
+func set_selection(stat_name : String, op : int, value : float, compare_with_equipped : bool):
 	%Attribute.text = stat_name
 	%Comparators.selected = op
 	%Value.value = value
+	%CompareWithEquipped.button_pressed = compare_with_equipped
 
 func remove_safely():
 	if m_autocomplete and %Attribute:

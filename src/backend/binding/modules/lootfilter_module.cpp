@@ -39,6 +39,7 @@ namespace
         const T m_filterValue = 0;
         const Is m_is;
         const Predicate m_predicate;
+        const bool m_compareWithEquipped;
 
         static Predicate MakePredicate(Is is)
         {
@@ -105,13 +106,26 @@ namespace
             return static_cast<uint32_t>(itemQuality) & static_cast<uint32_t>(m_filterValue);
         }
 
-        bool CheckItemLevel(uint32_t ilvl) const { return m_predicate(ilvl, m_filterValue); }
+        bool CheckItemLevel(uint16_t ilvl, const Item* aEquippedItem) const
+        {
+            auto equippedValue = 0;
+            if (m_compareWithEquipped && aEquippedItem != nullptr)
+            {
+                equippedValue = aEquippedItem->m_itemLevel;
+            }
+            return m_predicate(ilvl, equippedValue + m_filterValue);
+        }
 
-        bool CheckStats(const D2::Data::Item& aItem) const
+        bool CheckStats(const Item& aItem, const Item* aEquippedItem) const
         {
             if (auto l = aItem.m_stats.GetValue(m_statId.m_statId); l.has_value())
             {
-                return m_predicate(l.value(), m_filterValue);
+                auto equippedValue = 0;
+                if (m_compareWithEquipped && aEquippedItem != nullptr)
+                {
+                    equippedValue = aEquippedItem->m_stats.GetValue(m_statId.m_statId).value_or(0);
+                }
+                return m_predicate(l.value(), equippedValue + m_filterValue);
             }
             if (m_is == Is::Present)
             {
@@ -127,7 +141,7 @@ namespace
             return false;
         }
 
-        bool CheckSpecial(const D2::Data::Item& aItem) const
+        bool CheckSpecial(const D2::Data::Item& aItem, const Item* aEquippedItem) const
         {
             if (m_statId.m_statId == 0)
             {
@@ -135,38 +149,39 @@ namespace
             }
             if (m_statId.m_statId == 1)
             {
-                return CheckItemLevel(aItem.m_itemLevel);
+                return CheckItemLevel(aItem.m_itemLevel, aEquippedItem);
             }
             return false;
         }
 
     public:
-        Filter(StatId statId, Is is, T value)
-            : m_statId(statId)
-            , m_filterValue(value)
-            , m_is(is)
-            , m_predicate(MakePredicate(is))
+        Filter(StatId aStatId, Is aIs, T aValue, bool aCompareWithEquipped)
+            : m_statId(aStatId)
+            , m_filterValue(aValue)
+            , m_is(aIs)
+            , m_predicate(MakePredicate(aIs))
+            , m_compareWithEquipped(aCompareWithEquipped)
         {
         }
 
-        static std::unique_ptr<IFilter> Create(StatId statId, uint32_t is, T value)
+        static std::unique_ptr<IFilter> Create(StatId statId, uint32_t is, T value, bool aCompareWithEquipped)
         {
-            return Create(statId, static_cast<Is>(is), value);
+            return Create(statId, static_cast<Is>(is), value, aCompareWithEquipped);
         }
 
-        static std::unique_ptr<IFilter> Create(StatId statId, Is is, T value)
+        static std::unique_ptr<IFilter> Create(StatId statId, Is is, T value, bool aCompareWithEquipped)
         {
-            return std::make_unique<Filter>(std::move(statId), is, value);
+            return std::make_unique<Filter>(std::move(statId), is, value, aCompareWithEquipped);
         }
 
-        bool Check(const D2::Data::Item& aItem) const override
+        bool Check(const D2::Data::Item& aItem, const D2::Data::Item* aEquippedItem) const override
         {
             switch (m_statId.m_statType)
             {
             case FilterType::Stat:
-                return CheckStats(aItem);
+                return CheckStats(aItem, aEquippedItem);
             case FilterType::Special:
-                return CheckSpecial(aItem);
+                return CheckSpecial(aItem, aEquippedItem);
             default:
                 return false;
             }
@@ -179,6 +194,7 @@ namespace
             aBw.Write(static_cast<uint32_t>(m_statId.m_statType));
             aBw.Write(static_cast<uint32_t>(m_is));
             aBw.Write(m_filterValue);
+            aBw.Write(m_compareWithEquipped);
         }
 
         static std::unique_ptr<IFilter> Deserialize(GE::BinReader& aBr)
@@ -187,10 +203,13 @@ namespace
             uint32_t statType = 0;
             uint32_t is = 0;
             T value = {};
-            aBr.Read(statId).Read(statType).Read(is).Read(value);
-            return Filter::Create(StatId(statId, statType), is, value);
+            bool compareWithEquipped = false;
+            aBr.Read(statId).Read(statType).Read(is).Read(value).Read(compareWithEquipped);
+            return Filter::Create(StatId(statId, statType), is, value, compareWithEquipped);
         }
     };
+
+    using StandardFilter = Filter<int32_t>;
 
     class FilterGroup : public IFilter
     {
@@ -225,10 +244,10 @@ namespace
             return static_cast<Predicate>(predicate) == Predicate::All ? AllOf(std::move(filters)) : AnyOf(std::move(filters));
         }
 
-        bool Check(const D2::Data::Item& aItem) const override
+        bool Check(const D2::Data::Item& aItem, const D2::Data::Item* aEquippedItem) const override
         {
             auto f = [&](const std::unique_ptr<IFilter>& filter) {
-                return filter->Check(aItem);
+                return filter->Check(aItem, aEquippedItem);
             };
             return m_predicate == Predicate::All ? std::all_of(m_filters.begin(), m_filters.end(), f) :
                                                    std::any_of(m_filters.begin(), m_filters.end(), f);
@@ -262,7 +281,7 @@ namespace
     {
         if (aBr.Read<uint32_t>() == 0u)
         {
-            return Filter<uint32_t>::Deserialize(aBr);
+            return StandardFilter::Deserialize(aBr);
         }
         return FilterGroup::Deserialize(aBr);
     }
@@ -276,7 +295,8 @@ namespace
 
         if (!aFilter.has("predicate"))
         {
-            return Filter<uint32_t>::Create(StatId(aFilter["id"], aFilterType), aFilter["op"], aFilter["value"]);
+            return StandardFilter::Create(StatId(aFilter["id"], aFilterType), aFilter["op"], aFilter["value"],
+                                          aFilter["compare_with_equipped"]);
         }
 
         Array filters = aFilter["filters"];
@@ -302,7 +322,7 @@ void LootFilterModule::UpdateInternal(const D2::Data::DataAccess& aDataAccess, c
     std::map<GUID, Ref<MetaFilter>> item2filter;
     auto filtered_view = std::ranges::filter_view(itemsOfInterest, [&](const std::pair<GUID, const Item*>& pair) {
         return std::ranges::any_of(activeFilters, [&](const Ref<MetaFilter>& metaFilter) {
-            if (metaFilter->Check(*pair.second))
+            if (metaFilter->Check(*pair.second, aDataAccess.GetItems()))
             {
                 item2filter[pair.first] = metaFilter;
                 return true;
@@ -397,7 +417,7 @@ void LootFilterModule::add_filter(Ref<FilterMetadata> metadata, Dictionary filte
 
     Dictionary statFilters = filters["stat_filters"];
     // stat_filters == Dict (== FilterGroup) - ["predicate"], ["filters" => Array of Dict (== Filter/Group)]
-    // - stat_id, stat_type??, op, value
+    // - stat_id, stat_type??, op, value, compare_with_equipped
     Dictionary categoryFilters = filters["category_filters"];
     // category_filters == Dict (== FilterGroup) - ["predicate"], ["filters" => Array of Dict (== Filter/Group)]
     // - category_id, op
@@ -417,6 +437,11 @@ void LootFilterModule::remove_filter(int index)
 {
     m_metaFilters.erase(m_metaFilters.begin() + index);
     call_deferred("emit_signal", "filters_changed");
+}
+
+void LootFilterModule::duplicate_filter(int index)
+{
+    //
 }
 
 void LootFilterModule::modify_filter(int index, Ref<FilterMetadata> metadata, Dictionary filters)
@@ -596,14 +621,13 @@ void MetaFilter::_bind_methods()
     ClassDB::bind_method(D_METHOD("get_special_filters"), &MetaFilter::get_special_filters);
     ClassDB::bind_method(D_METHOD("get_category_filters"), &MetaFilter::get_category_filters);
 
-    ClassDB::bind_integer_constant("MetaFilter", "Is", "EQUAL", static_cast<int>(Filter<uint32_t>::Is::Equal));
-    ClassDB::bind_integer_constant("MetaFilter", "Is", "NOT_EQUAL", static_cast<int>(Filter<uint32_t>::Is::NotEqual));
-    ClassDB::bind_integer_constant("MetaFilter", "Is", "LESSER", static_cast<int>(Filter<uint32_t>::Is::Lesser));
-    ClassDB::bind_integer_constant("MetaFilter", "Is", "LESSER_OR_EQUAL", static_cast<int>(Filter<uint32_t>::Is::LesserOrEqual));
-    ClassDB::bind_integer_constant("MetaFilter", "Is", "GREATER", static_cast<int>(Filter<uint32_t>::Is::Greater));
-    ClassDB::bind_integer_constant("MetaFilter", "Is", "GREATER_OR_EQUAL",
-                                   static_cast<int>(Filter<uint32_t>::Is::GreaterOrEqual));
-    ClassDB::bind_integer_constant("MetaFilter", "Is", "PRESENT", static_cast<int>(Filter<uint32_t>::Is::Present));
+    ClassDB::bind_integer_constant("MetaFilter", "Is", "EQUAL", static_cast<int>(StandardFilter::Is::Equal));
+    ClassDB::bind_integer_constant("MetaFilter", "Is", "NOT_EQUAL", static_cast<int>(StandardFilter::Is::NotEqual));
+    ClassDB::bind_integer_constant("MetaFilter", "Is", "LESSER", static_cast<int>(StandardFilter::Is::Lesser));
+    ClassDB::bind_integer_constant("MetaFilter", "Is", "LESSER_OR_EQUAL", static_cast<int>(StandardFilter::Is::LesserOrEqual));
+    ClassDB::bind_integer_constant("MetaFilter", "Is", "GREATER", static_cast<int>(StandardFilter::Is::Greater));
+    ClassDB::bind_integer_constant("MetaFilter", "Is", "GREATER_OR_EQUAL", static_cast<int>(StandardFilter::Is::GreaterOrEqual));
+    ClassDB::bind_integer_constant("MetaFilter", "Is", "PRESENT", static_cast<int>(StandardFilter::Is::Present));
 
     ClassDB::bind_integer_constant("MetaFilter", "FilterType", "ATTRIBUTE", static_cast<int>(FilterType::Stat));
     ClassDB::bind_integer_constant("MetaFilter", "FilterType", "CATEGORY", static_cast<int>(FilterType::Category));
@@ -674,6 +698,31 @@ Dictionary MetaFilter::get_category_filters() const
 Dictionary MetaFilter::get_special_filters() const
 {
     return m_specialFilters;
+}
+
+bool MetaFilter::Check(const Item& aDroppedItem, const Items& aItems) const
+{
+    if (aDroppedItem.m_itemSlot == D2::Data::ItemSlot::Ring)
+    {
+        return m_executableFilter->Check(aDroppedItem, aItems.GetEquipped(EquippedInSlot::LeftRing).value_or(nullptr)) ||
+               m_executableFilter->Check(aDroppedItem, aItems.GetEquipped(EquippedInSlot::RightRing).value_or(nullptr));
+    }
+
+    if (aDroppedItem.m_itemSlot == D2::Data::ItemSlot::MainHand)
+    {
+        bool result = m_executableFilter->Check(aDroppedItem, aItems.GetEquipped(EquippedInSlot::MainHand).value_or(nullptr));
+        auto offhand = aItems.GetEquipped(EquippedInSlot::OffHand).value_or(nullptr);
+        if (!result && offhand)  // if main-hand passes, no need to check off-hand
+        {
+            if (offhand->m_itemSlot == D2::Data::ItemSlot::MainHand)  // Character is dual-wielding, check off-hand item as well
+            {
+                result = m_executableFilter->Check(aDroppedItem, offhand);
+            }
+        }
+        return result;
+    }
+
+    return m_executableFilter->Check(aDroppedItem, aItems.GetEquipped(aDroppedItem.m_itemSlot).m_primary);
 }
 
 void FilterMetadata::_bind_methods()

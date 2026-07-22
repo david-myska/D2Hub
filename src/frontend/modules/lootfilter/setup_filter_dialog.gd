@@ -51,7 +51,7 @@ func _fill_attribute_filters(sf : Dictionary):
 		var af = preload("res://modules/lootfilter/attribute_filter.tscn").instantiate()
 		af.m_autocomplete = $AutoCompleteAssistant
 		%AttributeFilters.add_child(af)
-		af.set_selection(m_by_id_stat_data[f["id"]], f["op"], f["value"])
+		af.set_selection(m_by_id_stat_data[f["id"]], f["op"], f["value"], f["compare_with_equipped"])
 
 func _fill_category_filters(_sf : Dictionary):
 	pass

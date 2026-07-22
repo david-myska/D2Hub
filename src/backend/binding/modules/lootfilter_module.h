@@ -36,7 +36,7 @@ namespace godot
 
     struct IFilter
     {
-        virtual bool Check(const D2::Data::Item& aItem) const = 0;
+        virtual bool Check(const D2::Data::Item& aItem, const D2::Data::Item* aEquippedItem) const = 0;
         virtual void Serialize(GE::BinWriter& aBw) const = 0;
 
         virtual ~IFilter() = default;
@@ -107,7 +107,7 @@ namespace godot
         Dictionary get_category_filters() const;
         Dictionary get_special_filters() const;
 
-        bool Check(const D2::Data::Item& aItem) const { return m_executableFilter->Check(aItem); }
+        bool Check(const D2::Data::Item& aDroppedItem, const D2::Data::Items& aItems) const;
     };
 
     class LootFilterModule : public Module
@@ -130,8 +130,9 @@ namespace godot
         void Load();
 
         void add_filter(Ref<FilterMetadata> metadata, Dictionary filters);
-        void remove_filter(int index);
         void modify_filter(int index, Ref<FilterMetadata> metadata, Dictionary filters);
+        void remove_filter(int index);
+        void duplicate_filter(int index);
         Ref<MetaFilter> get_filter(int index);
 
         Array get_filters() const;

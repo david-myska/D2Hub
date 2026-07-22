@@ -98,6 +98,7 @@
 01680000,Energy %
 01690000,Dexterity %
 016A0000,Vitality %
+018B0000,Weapon Reach
 019A0000,Prefixes
 019B0000,Suffixes
 019E0000,% Bonus to Summoned Edyrem Life

@@ -130,14 +130,14 @@ namespace D2::Data
 
     std::string ToString(ItemQuality aQuality);
 
-    enum class ItemSlot
+    enum class EquippedInSlot
     {
-        Invalid,
+        None,
         Helm,
         Amulet,
         BodyArmor,
         MainHand,
-        Offhand,
+        OffHand,
         LeftRing,
         RightRing,
         Belt,
@@ -146,6 +146,22 @@ namespace D2::Data
         SwapMainHand,
         SwapOffhand,
     };
+
+    enum class ItemSlot
+    {
+        None,
+        Helm,
+        Amulet,
+        BodyArmor,
+        MainHand,
+        OffHand,
+        Ring,
+        Belt,
+        Boots,
+        Gloves,
+    };
+
+    ItemSlot ToGeneralized(EquippedInSlot aSlot);
 
     using GUID = uint32_t;
 
@@ -250,7 +266,8 @@ namespace D2::Data
             , m_quality(QualityFromRaw(CP(aRaw->m_pUnitData)->m_quality))
             , m_itemLevel(CP(aRaw->m_pUnitData)->m_itemLvl)
             , m_act(static_cast<uint8_t>(aRaw->m_actNo))
-            , m_slot(static_cast<ItemSlot>(aRaw->m_pUnitData->m_bodyLoc))
+            , m_equippedInSlot(static_cast<EquippedInSlot>(aRaw->m_pUnitData->m_bodyLoc))
+            , m_itemSlot(SlotFromCategories())
         {
         }
 
@@ -260,7 +277,8 @@ namespace D2::Data
         const ItemQuality m_quality;
         const uint16_t m_itemLevel;
         const uint8_t m_act;
-        const ItemSlot m_slot;
+        const EquippedInSlot m_equippedInSlot;
+        const ItemSlot m_itemSlot;
 
     private:
         static ItemQuality QualityFromRaw(uint32_t aRawQuality)
@@ -317,6 +335,54 @@ namespace D2::Data
 
             return ItemLocation::Unknown;
         }
+
+        ItemSlot SlotFromCategories()
+        {
+            if (IsItemInCategory(m_class, "Helm"))
+            {
+                return ItemSlot::Helm;
+            }
+            else if (IsItemInCategory(m_class, "Amulet"))
+            {
+                return ItemSlot::Amulet;
+            }
+            else if (IsItemInCategory(m_class, "Body Armor"))
+            {
+                return ItemSlot::BodyArmor;
+            }
+            else if (IsItemInCategory(m_class, "1H Weapon") || IsItemInCategory(m_class, "2H Weapon"))
+            {
+                return ItemSlot::MainHand;
+            }
+            else if (IsItemInCategory(m_class, "Shield"))
+            {
+                return ItemSlot::OffHand;
+            }
+            else if (IsItemInCategory(m_class, "Ring"))
+            {
+                return ItemSlot::Ring;
+            }
+            else if (IsItemInCategory(m_class, "Belt"))
+            {
+                return ItemSlot::Belt;
+            }
+            else if (IsItemInCategory(m_class, "Boots"))
+            {
+                return ItemSlot::Boots;
+            }
+            else if (IsItemInCategory(m_class, "Gloves"))
+            {
+                return ItemSlot::Gloves;
+            }
+
+            return ItemSlot::None;
+        }
+    };
+
+    struct EquippedItem
+    {
+        const Item* m_primary = nullptr;
+        const Item* m_secondary = nullptr;
     };
 
     struct Player : public Unit
@@ -560,7 +626,51 @@ namespace D2::Data
 
         std::optional<const Item*> GetInHand() const { return m_inHand; }
 
-        std::optional<const Item*> GetEquipped(ItemSlot aSlot) const { return {}; }
+        std::optional<const Item*> GetEquipped(EquippedInSlot aSlot) const
+        {
+            if (m_equipped.contains(aSlot))
+            {
+                return m_equipped.at(aSlot);
+            }
+            return {};
+        }
+
+        EquippedItem GetEquipped(ItemSlot aSlot) const
+        {
+            EquippedItem result;
+            switch (aSlot)
+            {
+            case ItemSlot::Helm:
+                result.m_primary = GetEquipped(EquippedInSlot::Helm).value_or(nullptr);
+                break;
+            case ItemSlot::Amulet:
+                result.m_primary = GetEquipped(EquippedInSlot::Amulet).value_or(nullptr);
+                break;
+            case ItemSlot::BodyArmor:
+                result.m_primary = GetEquipped(EquippedInSlot::BodyArmor).value_or(nullptr);
+                break;
+            case ItemSlot::MainHand:
+                result.m_primary = GetEquipped(EquippedInSlot::MainHand).value_or(nullptr);
+                break;
+            case ItemSlot::OffHand:
+                result.m_primary = GetEquipped(EquippedInSlot::OffHand).value_or(nullptr);
+                break;
+            case ItemSlot::Ring:
+                result.m_primary = GetEquipped(EquippedInSlot::LeftRing).value_or(nullptr);
+                result.m_secondary = GetEquipped(EquippedInSlot::RightRing).value_or(nullptr);
+                break;
+            case ItemSlot::Belt:
+                result.m_primary = GetEquipped(EquippedInSlot::Belt).value_or(nullptr);
+                break;
+            case ItemSlot::Boots:
+                result.m_primary = GetEquipped(EquippedInSlot::Boots).value_or(nullptr);
+                break;
+            case ItemSlot::Gloves:
+                result.m_primary = GetEquipped(EquippedInSlot::Gloves).value_or(nullptr);
+                break;
+            }
+            return result;
+        }
 
     private:
         void SortOutItem(GUID aId, const Item* aItem)
@@ -569,10 +679,15 @@ namespace D2::Data
             {
                 m_inHand = aItem;
             }
+            if (aItem->m_location == ItemLocation::Equipped)
+            {
+                m_equipped[aItem->m_equippedInSlot] = aItem;
+            }
             m_itemsByLocation[aItem->m_location][aId] = aItem;
         }
 
         std::map<ItemLocation, std::map<GUID, const Item*>> m_itemsByLocation;
+        std::map<EquippedInSlot, const Item*> m_equipped;
         std::optional<const Item*> m_inHand;
     };
 

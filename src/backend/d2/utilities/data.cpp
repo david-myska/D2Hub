@@ -1,5 +1,7 @@
 #include "data.h"
 
+#include <ranges>
+
 using namespace D2::Data;
 
 std::string D2::Data::ToString(Difficulty aDifficulty)
@@ -74,4 +76,32 @@ std::string D2::Data::ToString(ItemQuality aQuality)
         return "Tampered";
     }
     throw std::runtime_error(std::format("Unknown ItemQuality value: {}", static_cast<uint32_t>(aQuality)));
+}
+
+ItemSlot D2::Data::ToGeneralized(EquippedInSlot aSlot)
+{
+    switch (aSlot)
+    {
+    case EquippedInSlot::Helm:
+        return ItemSlot::Helm;
+    case EquippedInSlot::Amulet:
+        return ItemSlot::Amulet;
+    case EquippedInSlot::BodyArmor:
+        return ItemSlot::BodyArmor;
+    case EquippedInSlot::MainHand:
+        return ItemSlot::MainHand;
+    case EquippedInSlot::OffHand:
+        return ItemSlot::OffHand;
+    case EquippedInSlot::LeftRing:
+        [[fallthrough]];
+    case EquippedInSlot::RightRing:
+        return ItemSlot::Ring;
+    case EquippedInSlot::Gloves:
+        return ItemSlot::Gloves;
+    case EquippedInSlot::Belt:
+        return ItemSlot::Belt;
+    case EquippedInSlot::Boots:
+        return ItemSlot::Boots;
+    }
+    throw std::runtime_error(std::format("Cannot generalize ItemSlot value: {}", static_cast<uint32_t>(aSlot)));
 }

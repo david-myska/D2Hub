@@ -15,6 +15,15 @@ script = ExtResource("1_18uai")
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="CompareWithEquipped" type="CheckBox" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Compare with equipped
+
+Attribute's value becomes relative to the one on the equipped item. Example:
+
+Equipped item has + 5 Strength. Now filter Strength > 2 only passes if the dropped item has more than 5 + 2 = 7 Strength"
+
 [node name="Attribute" type="LineEdit" parent="HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -41,8 +50,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
-min_value = -1e+06
-max_value = 1e+06
+min_value = -1000000.0
+max_value = 1000000.0
 alignment = 1
 
 [node name="DeleteBtn" type="Button" parent="."]
