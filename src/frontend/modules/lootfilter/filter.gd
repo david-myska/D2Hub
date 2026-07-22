@@ -2,6 +2,7 @@ extends HBoxContainer
 
 signal delete_requested()
 signal modify_requested()
+signal duplicate_requested()
 
 var m_metadata : FilterMetadata :
 	set(m):
@@ -19,3 +20,7 @@ func _on_modify_btn_pressed() -> void:
 
 func _on_active_check_btn_toggled(toggled_on: bool) -> void:
 	m_metadata.active = toggled_on
+
+
+func _on_duplicate_btn_pressed() -> void:
+	duplicate_requested.emit()

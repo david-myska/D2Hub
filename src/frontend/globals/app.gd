@@ -11,10 +11,10 @@ func _exit_tree() -> void:
 
 func _make_default_config() -> MyConfig:
 	var cfg := MyConfig.new()
-	cfg.Set(Cfg.sec_global, Cfg.key_skip_warning, false)
-	cfg.Set(Cfg.sec_global, Cfg.key_auto_attach, false)
-	cfg.Set(Cfg.sec_global, Cfg.key_updates_per_second, int(5))
-	cfg.Set(Cfg.sec_backup, Cfg.key_saves_dir, OS.get_environment("APPDATA") + r"\MedianXL\save")
-	cfg.Set(Cfg.sec_backup, Cfg.key_auto_backup, false)
-	cfg.Set(Cfg.sec_overlay, Cfg.key_overlay_enabled, false)
+	cfg.Set(Cfg.sec_global, Cfg.key_skip_warning, false, false)
+	cfg.Set(Cfg.sec_global, Cfg.key_auto_attach, false, false)
+	cfg.Set(Cfg.sec_global, Cfg.key_updates_per_second, int(5), false)
+	cfg.Set(Cfg.sec_backup, Cfg.key_saves_dir, OS.get_environment("APPDATA") + r"\MedianXL\save", false)
+	cfg.Set(Cfg.sec_backup, Cfg.key_auto_backup, false, false)
+	cfg.Set(Cfg.sec_overlay, Cfg.key_overlay_enabled, false, false)
 	return cfg

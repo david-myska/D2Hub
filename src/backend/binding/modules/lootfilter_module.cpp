@@ -383,6 +383,7 @@ void LootFilterModule::_bind_methods()
     ClassDB::bind_method(D_METHOD("add_filter", "p_metadata", "p_filters"), &LootFilterModule::add_filter);
     ClassDB::bind_method(D_METHOD("remove_filter", "index"), &LootFilterModule::remove_filter);
     ClassDB::bind_method(D_METHOD("modify_filter", "index", "p_metadata", "p_filters"), &LootFilterModule::modify_filter);
+    ClassDB::bind_method(D_METHOD("duplicate_filter", "index"), &LootFilterModule::duplicate_filter);
     ClassDB::bind_method(D_METHOD("get_filter", "index"), &LootFilterModule::get_filter);
 
     ClassDB::bind_method(D_METHOD("get_filters"), &LootFilterModule::get_filters);
@@ -431,17 +432,22 @@ void LootFilterModule::add_filter(Ref<FilterMetadata> metadata, Dictionary filte
     m_metaFilters.push_back(
         MetaFilter::Create(metadata, std::move(statFilters), std::move(categoryFilters), std::move(specialFilters)));
     call_deferred("emit_signal", "filters_changed");
+    Save();
 }
 
 void LootFilterModule::remove_filter(int index)
 {
     m_metaFilters.erase(m_metaFilters.begin() + index);
     call_deferred("emit_signal", "filters_changed");
+    Save();
 }
 
 void LootFilterModule::duplicate_filter(int index)
 {
-    //
+    m_logger->info("Duplicating filter at index {}", index);
+    m_metaFilters.insert(m_metaFilters.begin() + index, m_metaFilters.at(index)->Duplicate());
+    call_deferred("emit_signal", "filters_changed");
+    Save();
 }
 
 void LootFilterModule::modify_filter(int index, Ref<FilterMetadata> metadata, Dictionary filters)
@@ -457,6 +463,7 @@ void LootFilterModule::modify_filter(int index, Ref<FilterMetadata> metadata, Di
     {
         m_logView->Log(*m_logger, std::format("Failed to modify filter at index {}: {}", index, ex.what()), MessageType::Error);
     }
+    Save();
 }
 
 Ref<MetaFilter> LootFilterModule::get_filter(int index)
@@ -680,6 +687,24 @@ Ref<MetaFilter> MetaFilter::Deserialize(GE::BinReader& aBr, spdlog::logger& l)
     return mf;
 }
 
+Ref<MetaFilter> godot::MetaFilter::Duplicate()
+{
+    Ref<MetaFilter> copy;
+    copy.instantiate();
+
+    if (m_metadata.is_valid())
+    {
+        copy->m_metadata = m_metadata->Duplicate();
+    }
+
+    copy->m_statFilters = m_statFilters.duplicate(true);
+    copy->m_categoryFilters = m_categoryFilters.duplicate(true);
+    copy->m_specialFilters = m_specialFilters.duplicate(true);
+    copy->MakeExecutableFilter();
+
+    return copy;
+}
+
 Ref<FilterMetadata> MetaFilter::get_metadata() const
 {
     return m_metadata;
@@ -788,6 +813,20 @@ Ref<FilterMetadata> FilterMetadata::Deserialize(GE::BinReader& aBr, spdlog::logg
     l.info("notif: {}", notifBuffer);
 
     return fm;
+}
+
+Ref<FilterMetadata> FilterMetadata::Duplicate() const
+{
+    Ref<FilterMetadata> copy;
+    copy.instantiate();
+
+    copy->m_active = m_active;
+    copy->m_muted = m_muted;
+    copy->m_volume = m_volume;
+    copy->m_notifSE = m_notifSE;
+    copy->m_name = m_name;
+
+    return copy;
 }
 
 void FilterMetadata::set_active(bool active)

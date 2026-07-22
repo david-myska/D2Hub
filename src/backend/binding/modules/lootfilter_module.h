@@ -60,6 +60,7 @@ namespace godot
 
         void Serialize(GE::BinWriter& aBw) const;
         static Ref<FilterMetadata> Deserialize(GE::BinReader& aBr, spdlog::logger& l);
+        Ref<FilterMetadata> Duplicate() const;
 
         void set_active(bool active);
         bool is_active() const;
@@ -101,6 +102,7 @@ namespace godot
 
         void Serialize(GE::BinWriter& aBw) const;
         static Ref<MetaFilter> Deserialize(GE::BinReader& aBr, spdlog::logger& l);
+        Ref<MetaFilter> Duplicate();
 
         Ref<FilterMetadata> get_metadata() const;
         Dictionary get_stat_filters() const;
