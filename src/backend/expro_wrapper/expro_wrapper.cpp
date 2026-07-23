@@ -1,7 +1,5 @@
 #include "expro_wrapper/expro_wrapper.h"
 
-#include "expro/expro.h"
-
 namespace expro_wrapper
 {
     SymbolDefinitions::SymbolDefinitions()

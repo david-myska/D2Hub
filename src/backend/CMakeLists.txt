@@ -28,6 +28,17 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(game_ext_suite)
 
+FetchContent_Declare(
+  expro
+  GIT_REPOSITORY https://github.com/david-myska/expro.git
+)
+FetchContent_MakeAvailable(expro)
+
+# Rust library integration
+list(APPEND CMAKE_MODULE_PATH
+    ${CMAKE_CURRENT_LIST_DIR}/cmake
+)
+include(RustLibrary)
 
 set(SOURCE_FILES
 				"binding/modules/module.cpp"
@@ -86,17 +97,14 @@ set(SOURCE_FILES
 
 add_library(d2hub_backend SHARED ${SOURCE_FILES})
 
-add_library(expro SHARED IMPORTED)
+add_rust_library(
+	expro
+	${expro_SOURCE_DIR}
+)
 
-set_target_properties(expro PROPERTIES
-    IMPORTED_LOCATION
-        ${CMAKE_SOURCE_DIR}/lib/expro.dll
-
-    IMPORTED_IMPLIB
-        ${CMAKE_SOURCE_DIR}/lib/expro.dll.lib
-
-    #INTERFACE_INCLUDE_DIRECTORIES
-    #    ${CMAKE_SOURCE_DIR}/third_party/expro/include
+add_dependencies(
+	d2hub_backend
+	expro_build
 )
 
 target_include_directories(d2hub_backend PUBLIC ${CMAKE_CURRENT_LIST_DIR} ${D2E_INSTALL_INCLUDE_DIR} ${godot-cpp_SOURCE_DIR}/include PUBLIC ${spdlog_SOURCE_DIR}/include)
@@ -107,5 +115,8 @@ add_custom_target(backend_copy ALL
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
         $<TARGET_FILE:d2hub_backend>
         ${D2HUB_FRONTEND_BIN_DIR}/$<TARGET_FILE_NAME:d2hub_backend>
+	COMMAND ${CMAKE_COMMAND} -E copy_if_different
+		$<TARGET_FILE:expro>
+		${D2HUB_FRONTEND_BIN_DIR}/$<TARGET_FILE_NAME:expro>
     COMMENT "Copying backend DLL to frontend bin directory"
 )

@@ -3,7 +3,7 @@
 #include <functional>
 #include <vector>
 
-#include "expro/expro.h"
+#include "expro.h"
 
 namespace expro_wrapper
 {
