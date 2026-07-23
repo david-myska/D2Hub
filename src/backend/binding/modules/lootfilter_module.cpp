@@ -15,8 +15,6 @@ using namespace D2::Data;
 
 namespace
 {
-    std::unique_ptr<IFilter> DeserializeFilter(GE::BinReader& aBr);
-
     template <typename T>
     class Filter : public IFilter
     {
@@ -186,27 +184,6 @@ namespace
                 return false;
             }
         }
-
-        void Serialize(GE::BinWriter& aBw) const override
-        {
-            aBw.Write(0u);
-            aBw.Write(m_statId.m_statId);
-            aBw.Write(static_cast<uint32_t>(m_statId.m_statType));
-            aBw.Write(static_cast<uint32_t>(m_is));
-            aBw.Write(m_filterValue);
-            aBw.Write(m_compareWithEquipped);
-        }
-
-        static std::unique_ptr<IFilter> Deserialize(GE::BinReader& aBr)
-        {
-            uint32_t statId = 0;
-            uint32_t statType = 0;
-            uint32_t is = 0;
-            T value = {};
-            bool compareWithEquipped = false;
-            aBr.Read(statId).Read(statType).Read(is).Read(value).Read(compareWithEquipped);
-            return Filter::Create(StatId(statId, statType), is, value, compareWithEquipped);
-        }
     };
 
     using StandardFilter = Filter<int32_t>;
@@ -252,39 +229,7 @@ namespace
             return m_predicate == Predicate::All ? std::all_of(m_filters.begin(), m_filters.end(), f) :
                                                    std::any_of(m_filters.begin(), m_filters.end(), f);
         }
-
-        void Serialize(GE::BinWriter& aBw) const override
-        {
-            aBw.Write(1u);
-            aBw.Write(m_predicate);
-            aBw.Write(m_filters.size());
-            for (const auto& filter : m_filters)
-            {
-                filter->Serialize(aBw);
-            }
-        }
-
-        static std::unique_ptr<IFilter> Deserialize(GE::BinReader& aBr)
-        {
-            auto predicate = aBr.Read<Predicate>();
-            auto filterCount = aBr.Read<size_t>();
-            std::vector<std::unique_ptr<IFilter>> filters;
-            for (size_t i = 0; i < filterCount; ++i)
-            {
-                filters.push_back(DeserializeFilter(aBr));
-            }
-            return predicate == Predicate::All ? AllOf(std::move(filters)) : AnyOf(std::move(filters));
-        }
     };
-
-    std::unique_ptr<IFilter> DeserializeFilter(GE::BinReader& aBr)
-    {
-        if (aBr.Read<uint32_t>() == 0u)
-        {
-            return StandardFilter::Deserialize(aBr);
-        }
-        return FilterGroup::Deserialize(aBr);
-    }
 
     std::unique_ptr<IFilter> MakeFilter(const Dictionary& aFilter, FilterType aFilterType)
     {
@@ -560,6 +505,7 @@ void MetaFilter::SerializeFilter(GE::BinWriter& aBw, const Dictionary& aFilter) 
     aBw.Write(static_cast<uint32_t>(aFilter["id"]));
     aBw.Write(static_cast<uint32_t>(aFilter["op"]));
     aBw.Write(static_cast<int32_t>(aFilter["value"]));
+    aBw.Write(static_cast<bool>(aFilter["compare_with_equipped"]));
 }
 
 Dictionary MetaFilter::DeserializeFilter(GE::BinReader& aBr, spdlog::logger& l)
@@ -571,6 +517,8 @@ Dictionary MetaFilter::DeserializeFilter(GE::BinReader& aBr, spdlog::logger& l)
     l.info("op: {}", static_cast<uint32_t>(d["op"]));
     d["value"] = aBr.Read<int32_t>();
     l.info("value: {}", static_cast<int32_t>(d["value"]));
+    d["compare_with_equipped"] = aBr.Read<bool>();
+    l.info("compare_with_equipped: {}", static_cast<bool>(d["compare_with_equipped"]));
     return d;
 }
 

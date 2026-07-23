@@ -37,7 +37,6 @@ namespace godot
     struct IFilter
     {
         virtual bool Check(const D2::Data::Item& aItem, const D2::Data::Item* aEquippedItem) const = 0;
-        virtual void Serialize(GE::BinWriter& aBw) const = 0;
 
         virtual ~IFilter() = default;
     };
