@@ -295,7 +295,6 @@ autostart = true
 [node name="MessagePopup" parent="." instance=ExtResource("6_hq1ik")]
 
 [node name="Overlay" parent="." instance=ExtResource("7_nfk4m")]
-oversampling_override = 1.0
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/ManualStart" to="." method="_on_manual_start_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Header/PanelContainer/HBoxContainer/CreateBackup/CreateBackupBtn" to="." method="_on_create_backup_btn_pressed"]
