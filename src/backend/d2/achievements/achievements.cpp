@@ -9,7 +9,6 @@
 #include "achievements/act1/leoric_last.h"
 #include "achievements/act1/smith_high_health.h"
 #include "achievements/act1/speedrun.h"
-#include "achievements/act1/test_persistance.h"
 #include "achievements/act1/tristram_clear.h"
 // Dungeons
 #include "achievements/dungeons/easy/akarat_let_heal_and_kill.h"
@@ -42,54 +41,64 @@ namespace D2
 {
     using namespace Achi;
 
+    void AddAchi(D2Achi aAchi, std::map<uint32_t, D2Achi>& aResult, uint32_t& aId)
+    {
+        aResult.emplace(++aId, std::move(aAchi));
+    }
+
+    void AddAchi(std::vector<D2Achi> aAchis, std::map<uint32_t, D2Achi>& aResult, uint32_t& aId)
+    {
+        ++aId;
+        for (uint32_t i = 0; i < aAchis.size(); ++i)
+        {
+            aResult.emplace(aId + i * 1000, std::move(aAchis[i]));
+        }
+    }
+
     std::map<uint32_t, D2Achi> CreateAchievements()
     {
         std::map<uint32_t, D2Achi> result;
-
-        result.emplace(100, D2::Achi::TestPersistance::Create());  // just testing
-                                                                   // Act1
         uint32_t id = 0;
-        result.emplace(++id, TristramClear::Create());
-        result.emplace(++id, AndarielNoHit::Create());
-        result.emplace(++id, AndarielNoLeave::Create());
-        result.emplace(++id, BloodRavenWalkDistance::Create());
-        result.emplace(++id, CountessGoldSteal::Create<1000, 30>());
-        result.emplace(1000 + id, CountessGoldSteal::Create<5000, 20>());
-        result.emplace(2000 + id, CountessGoldSteal::Create<10000, 15>());
-        result.emplace(++id, LeoricLast::Create());
-        result.emplace(++id, Act1Speedrun::Create());
+
+        AddAchi(TristramClear::Create(), result, id);
+        AddAchi(AndarielNoHit::Create(), result, id);
+        AddAchi(AndarielNoLeave::Create(), result, id);
+        AddAchi(BloodRavenWalkDistance::Create(), result, id);
+        AddAchi(CountessGoldSteal::Create(), result, id);
+        AddAchi(LeoricLast::Create(), result, id);
+        AddAchi(Act1Speedrun::Create(), result, id);
         // Dungeons
-        result.emplace(++id, Dungeons::VeryEasy::DeathProjector::HighHealth::Create());
+        AddAchi(Dungeons::VeryEasy::DeathProjector::HighHealth::Create(), result, id);
 
-        result.emplace(++id, Dungeons::Easy::Akarat::LetHealAndKill::Create());
-        result.emplace(++id, Dungeons::Easy::BindingOfBaal::KillAtMostFourMinions::Create());
-        result.emplace(++id, Dungeons::Easy::InfernalMachine::StayInRange::Create());
-        result.emplace(++id, Dungeons::Easy::HorazonsSanctum::NoPortalKillHave10Portals::Create());
-        result.emplace(++id, Dungeons::Easy::HorrorUnderTristram::KillWithOnlyMagicItems::Create());
+        AddAchi(Dungeons::Easy::Akarat::LetHealAndKill::Create(), result, id);
+        AddAchi(Dungeons::Easy::BindingOfBaal::KillAtMostFourMinions::Create(), result, id);
+        AddAchi(Dungeons::Easy::InfernalMachine::StayInRange::Create(), result, id);
+        AddAchi(Dungeons::Easy::HorazonsSanctum::NoPortalKillHave10Portals::Create(), result, id);
+        AddAchi(Dungeons::Easy::HorrorUnderTristram::KillWithOnlyMagicItems::Create(), result, id);
 
-        result.emplace(++id, Dungeons::Moderate::BullPrinceRodeo::HighRollCharm::Create());
-        result.emplace(++id, Dungeons::Moderate::BlackRoad::NoMinionInCircle::Create());
-        result.emplace(++id, Dungeons::Moderate::HeartOfSin::NegativeFireRes::Create());
-        result.emplace(++id, Dungeons::Moderate::LegacyOfBlood::KillAfterDeath::Create());
-        result.emplace(++id, Dungeons::Moderate::TheVeiledProphet::DestroyOrbBeforeFirstLightningEnds::Create());
+        AddAchi(Dungeons::Moderate::BullPrinceRodeo::HighRollCharm::Create(), result, id);
+        AddAchi(Dungeons::Moderate::BlackRoad::NoMinionInCircle::Create(), result, id);
+        AddAchi(Dungeons::Moderate::HeartOfSin::NegativeFireRes::Create(), result, id);
+        AddAchi(Dungeons::Moderate::LegacyOfBlood::KillAfterDeath::Create(), result, id);
+        AddAchi(Dungeons::Moderate::TheVeiledProphet::DestroyOrbBeforeFirstLightningEnds::Create(), result, id);
 
-        result.emplace(++id, Dungeons::Hard::BanisherOfLight::NoQuickTeleports::Create());
-        result.emplace(++id, Dungeons::Hard::Toraja::Max5Edyrem::Create());
+        AddAchi(Dungeons::Hard::BanisherOfLight::NoQuickTeleports::Create(), result, id);
+        AddAchi(Dungeons::Hard::Toraja::Max5Edyrem::Create(), result, id);
 
-        result.emplace(++id, Dungeons::VeryHard::LordOfLies::KillOnlyTheRealOne::Create());
-        result.emplace(++id, Dungeons::VeryHard::Xazax::StartAfter15KillBefore30Pentients::Create());
-        result.emplace(++id, Dungeons::VeryHard::YshariSanctum::NoMissValthek::Create());
+        AddAchi(Dungeons::VeryHard::LordOfLies::KillOnlyTheRealOne::Create(), result, id);
+        AddAchi(Dungeons::VeryHard::Xazax::StartAfter15KillBefore30Pentients::Create(), result, id);
+        AddAchi(Dungeons::VeryHard::YshariSanctum::NoMissValthek::Create(), result, id);
 
-        result.emplace(++id, Dungeons::Extreme::TheVoid::KillLilithBeforeInarius::Create());
+        AddAchi(Dungeons::Extreme::TheVoid::KillLilithBeforeInarius::Create(), result, id);
         // Rifts
-        result.emplace(++id, Rifts::Easy::IslandOfTheSunlessSea::GoldFarm::Create());
-        result.emplace(++id, Rifts::Easy::TheSecretCowLevel::PeacefulGathering::Create());
-        result.emplace(++id, Rifts::Moderate::Kurast3000BA::KillAllTotemsTimed::Create());
-        result.emplace(++id, Rifts::Moderate::TranAthulua::KillAllPriestessesSimultaneously::Create());
+        AddAchi(Rifts::Easy::IslandOfTheSunlessSea::GoldFarm::Create(), result, id);
+        AddAchi(Rifts::Easy::TheSecretCowLevel::PeacefulGathering::Create(), result, id);
+        AddAchi(Rifts::Moderate::Kurast3000BA::KillAllTotemsTimed::Create(), result, id);
+        AddAchi(Rifts::Moderate::TranAthulua::KillAllPriestessesSimultaneously::Create(), result, id);
 
         // Global
-        result.emplace(++id, Global::CollectUniquesAndSets::Create());
-        result.emplace(++id, Global::KillMillionMonsters::Create());
+        AddAchi(Global::CollectUniquesAndSets::Create(), result, id);
+        AddAchi(Global::KillMillionMonsters::Create(), result, id);
         // Kill every boss in the game (persistent)
         // Finish campaign in style (kill Hell Baal with full class set)
 

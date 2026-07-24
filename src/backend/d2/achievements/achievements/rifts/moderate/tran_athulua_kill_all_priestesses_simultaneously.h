@@ -4,5 +4,5 @@
 
 namespace D2::Achi::Rifts::Moderate::TranAthulua::KillAllPriestessesSimultaneously
 {
-    D2Achi Create();
+    D2AchiVec Create();
 }

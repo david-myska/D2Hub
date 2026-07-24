@@ -13,17 +13,23 @@ namespace D2::Achi::Rifts::Moderate::Kurast3000BA::KillAllTotemsTimed
     constexpr auto c_totalNecroCount = 3;
     constexpr auto c_secondsPerKill = 20;
 
-    struct PD : public GE::BaseProgressData
+    template <uint32_t T, uint32_t S>
+    struct PDt : public GE::BaseProgressData
     {
         GE::ProgressTrackerBool m_inZone = {this, Utils::InStr(Data::Zone::MXL_Kurast3000BA), true};
 
-        GE::ProgressTrackerInt<> m_totemsKilled = {this, Utils::KillStr(Totem), c_totalTotemCount};
-        GE::ProgressTrackerTimer m_timer = {this, c_totalTotemCount* c_secondsPerKill};
+        GE::ProgressTrackerInt<> m_totemsKilled = {this, Utils::KillStr(Totem), T};
+        GE::ProgressTrackerTimer m_timer = {this, S};
     };
 
-    D2Achi Create()
+    template <uint32_t T, uint32_t S>
+    D2Achi CreateImpl()
     {
-        return AB<PD>({.m_name = "Totemless", .m_description = "Kill all totems in the Kurast 3000 BA.", .m_category = "Rifts"},
+        using PD = PDt<T, S>;
+        return AB<PD>({.m_name = "Totemless",
+                       .m_description = std::format(
+                           "Kill {} totems in the Kurast 3000 BA. At least 1 totem has to die every {} seconds.", T, S),
+                       .m_category = "Rifts"},
                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                           aTrackers[GE::ConditionType::Activator].insert(&aPD.m_inZone);
                           aTrackers[GE::ConditionType::Completer].insert(&aPD.m_totemsKilled);
@@ -53,8 +59,22 @@ namespace D2::Achi::Rifts::Moderate::Kurast3000BA::KillAllTotemsTimed
                                 ++totemsKilled;
                             }
                         }
-                        aPD.m_totemsKilled += totemsKilled;
+                        if (totemsKilled > 0)
+                        {
+                            aPD.m_totemsKilled += totemsKilled;
+                            aPD.m_timer.Reset();
+                            aPD.m_timer.Start();
+                        }
                     })
             .Build();
+    }
+
+    D2AchiVec Create()
+    {
+        D2AchiVec r;
+        r.emplace_back(CreateImpl<15, 15>());
+        r.emplace_back(CreateImpl<20, 10>());
+        r.emplace_back(CreateImpl<25, 10>());
+        return r;
     }
 }

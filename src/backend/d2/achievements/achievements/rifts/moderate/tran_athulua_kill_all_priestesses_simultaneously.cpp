@@ -13,9 +13,8 @@ namespace D2::Achi::Rifts::Moderate::TranAthulua::KillAllPriestessesSimultaneous
     constexpr auto LightningPriestess = "TODO";
     constexpr auto LightningPriestessUpper = "TODO";
 
-    constexpr auto c_secondsForKills = 10;
-
-    struct PD : public GE::BaseProgressData
+    template <uint32_t S>
+    struct PDt : public GE::BaseProgressData
     {
         GE::ProgressTrackerBool m_inZone = {this, Utils::InStr(MXL_TranAthulua)};
 
@@ -27,13 +26,15 @@ namespace D2::Achi::Rifts::Moderate::TranAthulua::KillAllPriestessesSimultaneous
         GE::ProgressTrackerBool m_coldKilled = {this, Utils::KillStr(ColdPriestess)};
         GE::ProgressTrackerBool m_lightningKilled = {this, Utils::KillStr(ColdPriestess)};
 
-        GE::ProgressTrackerTimer m_timer = {this, c_secondsForKills};
+        GE::ProgressTrackerTimer m_timer = {this, S};
     };
 
-    D2Achi Create()
+    template <uint32_t S>
+    D2Achi CreateImpl()
     {
+        using PD = PDt<S>;
         return AB<PD>({.m_name = "United We Phalanx, United We Fall",
-                       .m_description = std::format("Kill all 3 priestesses in a span of {} seconds.", c_secondsForKills),
+                       .m_description = std::format("Kill all 3 priestesses in a span of {} seconds.", S),
                        .m_category = "Rifts"},
                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                           aTrackers[GE::ConditionType::Activator].insert(&aPD.m_inZone);
@@ -65,13 +66,21 @@ namespace D2::Achi::Rifts::Moderate::TranAthulua::KillAllPriestessesSimultaneous
                         {
                             aPD.m_lightningKilled = aS.GetDeadNpcs().contains(aPD.m_lightningPriestessId);
                         }
-                        if (!aPD.m_timer.IsRunning() && (aPD.m_fireKilled.GetCurrent() || aPD.m_coldKilled.GetCurrent() ||
-                                                         aPD.m_lightningKilled.GetCurrent()))
+                        if (aPD.m_fireKilled.GetCurrent() || aPD.m_coldKilled.GetCurrent() || aPD.m_lightningKilled.GetCurrent())
                         {
                             aPD.m_timer.Start();
                         }
                         aPD.m_timer.Update();
                     })
             .Build();
+    }
+
+    D2AchiVec Create()
+    {
+        D2AchiVec r;
+        r.emplace_back(CreateImpl<10>());
+        r.emplace_back(CreateImpl<5>());
+        r.emplace_back(CreateImpl<2>());
+        return r;
     }
 }

@@ -25,21 +25,8 @@ namespace D2::Achi::Rifts::Easy::TheSecretCowLevel::PeacefulGathering
                           aTrackers[GE::ConditionType::Failer].insert(&aPD.m_somethingDied);
                       })
             .Update(GE::Status::Inactive, Utils::InZone(Data::Zone::SecretCowLevel, &PD::m_inZone))
-            //.OnEntering(GE::Status::Active,
-            //            [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
-            //                aPD.m_timer.Start();
-            //            })
-            //.OnEntering(GE::Status::Paused,
-            //            [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
-            //                aPD.m_timer.Pause(true);
-            //            })
-            //.OnLeaving(GE::Status::Paused,
-            //           [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
-            //               aPD.m_timer.Pause(false);
-            //           })
             .Update(GE::Status::Active,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
-                        // aPD.m_timer.Update();
                         aPD.m_cowsGathered = aDataAccess.GetNpcs().Get().size();
                         aPD.m_somethingDied = aS.GetDeadNpcs().size() > 0;
                     })

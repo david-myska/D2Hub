@@ -7,7 +7,8 @@ namespace D2::Achi::Dungeons::VeryEasy::DeathProjector::HighHealth
     constexpr auto DeathProjector = "Death Projector";
     constexpr auto DeathProjectorUpper = "DEATH PROJECTOR";
 
-    struct PD : public GE::BaseProgressData
+    template <uint32_t P>
+    struct PDt : public GE::BaseProgressData
     {
         GE::ProgressTrackerBool m_inZone = {this, "In Proving Grounds", true};
 
@@ -15,13 +16,15 @@ namespace D2::Achi::Dungeons::VeryEasy::DeathProjector::HighHealth
         GE::ProgressTrackerBool m_targetFound = {this, Utils::FindStr(DeathProjector), true};
         GE::ProgressTrackerBool m_targetKilled = {this, Utils::KillStr(DeathProjector), true};
 
-        GE::ProgressTrackerBool m_notHealthy = {this, "Life less than 90%", true};
+        GE::ProgressTrackerBool m_notHealthy = {this, std::format("Life less than {}%", P), true};
     };
 
-    D2Achi Create()
+    template <uint32_t P>
+    D2Achi CreateImpl()
     {
+        using PD = PDt<P>;
         return AB<PD>({.m_name = "Healthy Projection",
-                       .m_description = "Kill Death Projector while staying at or above 90% of life",
+                       .m_description = std::format("Kill Death Projector while staying at or above {}% of life.", P),
                        .m_category = "Dungeons"},
                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                           aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inZone);
@@ -36,8 +39,17 @@ namespace D2::Achi::Dungeons::VeryEasy::DeathProjector::HighHealth
                         aPD.m_targetKilled = aS.GetDeadNpcs().contains(aPD.m_targetId);
                         auto currentLife = *aDataAccess.GetPlayers().GetLocal()->m_stats.GetValue(Data::Stat::Id::Life);
                         auto maxLife = *aDataAccess.GetPlayers().GetLocal()->m_stats.GetValue(Data::Stat::Id::MaxLife);
-                        aPD.m_notHealthy = currentLife < 0.9 * maxLife;
+                        aPD.m_notHealthy = currentLife * 100 < P * maxLife;
                     })
             .Build();
+    }
+
+    D2AchiVec Create()
+    {
+        D2AchiVec r;
+        r.emplace_back(CreateImpl<75>());
+        r.emplace_back(CreateImpl<85>());
+        r.emplace_back(CreateImpl<95>());
+        return r;
     }
 }

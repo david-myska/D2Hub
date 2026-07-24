@@ -4,20 +4,20 @@
 
 namespace D2::Achi::Rifts::Easy::IslandOfTheSunlessSea::GoldFarm
 {
-    constexpr auto c_requiredGold = 2000000;
-
-    struct PD : public GE::BaseProgressData
+    template <uint32_t G>
+    struct PDt : public GE::BaseProgressData
     {
         GE::ProgressTrackerBool m_inZone = {this, Utils::InStr(Data::Zone::MXL_IslandOfTheSunlessSea), true};
 
-        GE::ProgressTrackerInt<> m_goldCollected = {this, "Gold collected", c_requiredGold};
+        GE::ProgressTrackerInt<> m_goldCollected = {this, "Gold collected", G};
     };
 
-    D2Achi Create()
+    template <uint32_t G>
+    D2Achi CreateImpl()
     {
+        using PD = PDt<G>;
         return AB<PD>({.m_name = "Gold Farmer",
-                       .m_description = std::format("Collect {} gold. You can leave the rift to empty your pockets.",
-                                                    c_requiredGold),
+                       .m_description = std::format("Collect {} gold. You can leave the rift to empty your pockets.", G),
                        .m_category = "Rifts"},
                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                           aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inZone);
@@ -31,5 +31,14 @@ namespace D2::Achi::Rifts::Easy::IslandOfTheSunlessSea::GoldFarm
                         aPD.m_goldCollected += currentGold - previousGold;
                     })
             .Build();
+    }
+
+    D2AchiVec Create()
+    {
+        D2AchiVec r;
+        r.emplace_back(CreateImpl<350'000>());
+        r.emplace_back(CreateImpl<1'000'000>());
+        r.emplace_back(CreateImpl<2'000'000>());
+        return r;
     }
 }

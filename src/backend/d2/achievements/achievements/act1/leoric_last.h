@@ -5,20 +5,23 @@
 
 namespace D2::Achi::LeoricLast
 {
-    struct PD : public GE::BaseProgressData
+    template <uint32_t I>
+    struct PDt : public GE::BaseProgressData
     {
         Data::GUID m_leoricId = 0;
 
         GE::ProgressTrackerBool m_inLocation = {this, "In Cathedral", true};
         GE::ProgressTrackerBool m_leoricMet = {this, "Meet Leoric the Skeleton King", true};
         GE::ProgressTrackerBool m_leoricKilled = {this, "Kill Leoric the Skeleton King", true};
-        GE::ProgressTrackerInt<> m_killedNearLeoric = {this, "Servants killed in front of Leoric's eyes", 50};
+        GE::ProgressTrackerInt<> m_killedNearLeoric = {this, "Servants killed", I};
     };
 
-    auto Create()
+    template <uint32_t I>
+    D2Achi CreateImpl()
     {
+        using PD = PDt<I>;
         return AB<PD>({.m_name = "He likes to watch",
-                       .m_description = "Kill Leoric's servants in from of him",
+                       .m_description = std::format("Kill {} of Leoric's servants in front of him", I),
                        .m_category = "Act 1"},
                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                           aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inLocation);
@@ -45,4 +48,14 @@ namespace D2::Achi::LeoricLast
                     })
             .Build();
     }
+    
+    D2AchiVec Create()
+    {
+        D2AchiVec r;
+        r.emplace_back(CreateImpl<15>());
+        r.emplace_back(CreateImpl<30>());
+        r.emplace_back(CreateImpl<55>());
+        return r;
+    }
+
 }

@@ -4,5 +4,5 @@
 
 namespace D2::Achi::Global::KillMillionMonsters
 {
-    D2Achi Create();
+    D2AchiVec Create();
 }

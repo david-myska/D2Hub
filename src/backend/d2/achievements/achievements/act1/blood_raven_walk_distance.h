@@ -5,27 +5,30 @@
 
 namespace D2::Achi::BloodRavenWalkDistance
 {
-    struct PD : public GE::BaseProgressData
+    template <uint32_t M>
+    struct PDt : public GE::BaseProgressData
     {
         Data::GUID m_bloodRavenId = 0;
 
         GE::ProgressTrackerBool m_inLocation = {this, "In Burial Grounds", true};
         GE::ProgressTrackerBool m_bloodRavenMet = {this, "Meet Blood Raven", true};
         GE::ProgressTrackerBool m_bloodRavenKilled = {this, "Kill Blood Raven", true};
-        GE::ProgressTrackerInt<> m_steps = {this, "More steps than Blood Raven", 0, 0, &GE::UnboundDynamicMessage<int>};
+        GE::ProgressTrackerInt<> m_steps = {this, "Needed distance", 0, 0, &GE::UnboundDynamicMessage<int>};
     };
 
-    auto Create()
+    template <uint32_t M>
+    D2Achi CreateImpl()
     {
-        return AB<PD>({.m_name = "Blood Raven walk distance",
-                        .m_description = "Kill Blood Raven making more steps than her",
-                        .m_category = "Act 1"},
-                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
-                           aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inLocation);
-                           aTrackers[GE::ConditionType::Activator].insert(&aPD.m_bloodRavenMet);
-                           aTrackers[GE::ConditionType::Completer].insert(&aPD.m_bloodRavenKilled);
-                           aTrackers[GE::ConditionType::Validator].insert(&aPD.m_steps);
-                       })
+        using PD = PDt<M>;
+        return AB<PD>({.m_name = "I just felt like running",
+                       .m_description = std::format("Kill Blood Raven travelling {}x longer distance than her", M),
+                       .m_category = "Act 1"},
+                      [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
+                          aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inLocation);
+                          aTrackers[GE::ConditionType::Activator].insert(&aPD.m_bloodRavenMet);
+                          aTrackers[GE::ConditionType::Completer].insert(&aPD.m_bloodRavenKilled);
+                          aTrackers[GE::ConditionType::Validator].insert(&aPD.m_steps);
+                      })
             .Update(GE::Status::All,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
                         aPD.m_inLocation = aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_BurialGrounds;
@@ -58,10 +61,18 @@ namespace D2::Achi::BloodRavenWalkDistance
                             auto xDist = newPos.x - previousPos.x;
                             auto yDist = newPos.y - previousPos.y;
                             aPD.m_steps.SetTarget(aPD.m_steps.GetTarget() +
-                                                  static_cast<uint32_t>(std::sqrt(xDist * xDist + yDist * yDist)));
+                                                  static_cast<uint32_t>(std::sqrt(xDist * xDist + yDist * yDist)) * M);
                         }
                     })
             .Build();
     }
 
+    D2AchiVec Create()
+    {
+        D2AchiVec r;
+        r.emplace_back(CreateImpl<1>());
+        r.emplace_back(CreateImpl<2>());
+        r.emplace_back(CreateImpl<3>());
+        return r;
+    };
 }

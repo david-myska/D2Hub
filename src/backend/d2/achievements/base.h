@@ -20,5 +20,6 @@ namespace D2
     using AB = GE::AchievementBuilder<AchievementMetadata, CustomData, Data::SharedData, Data::DataAccess>;
 
     using D2Achi = std::unique_ptr<GE::Achievement<AchievementMetadata, Data::SharedData, Data::DataAccess>>;
+    using D2AchiVec = std::vector<D2Achi>;
 
 }

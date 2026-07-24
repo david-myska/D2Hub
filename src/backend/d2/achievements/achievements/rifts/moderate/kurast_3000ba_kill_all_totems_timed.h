@@ -4,5 +4,5 @@
 
 namespace D2::Achi::Rifts::Moderate::Kurast3000BA::KillAllTotemsTimed
 {
-    D2Achi Create();
+    D2AchiVec Create();
 }

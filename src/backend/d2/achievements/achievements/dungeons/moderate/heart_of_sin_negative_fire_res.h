@@ -4,5 +4,5 @@
 
 namespace D2::Achi::Dungeons::Moderate::HeartOfSin::NegativeFireRes
 {
-    D2Achi Create();
+    D2AchiVec Create();
 }

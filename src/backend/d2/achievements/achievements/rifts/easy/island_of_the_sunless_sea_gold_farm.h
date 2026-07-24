@@ -4,5 +4,5 @@
 
 namespace D2::Achi::Rifts::Easy::IslandOfTheSunlessSea::GoldFarm
 {
-    D2Achi Create();
+    D2AchiVec Create();
 }

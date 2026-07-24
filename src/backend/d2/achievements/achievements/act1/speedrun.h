@@ -5,9 +5,11 @@
 
 namespace D2::Achi::Act1Speedrun
 {
-    struct PD : public GE::BaseProgressData
+    template <uint32_t Min, Data::Difficulty D>
+    struct PDt : public GE::BaseProgressData
     {
-        GE::ProgressTrackerBool m_newChar = {this, "Leave town on level 1", true};
+        GE::ProgressTrackerBool m_inDifficulty = {this, std::format("In difficulty: {}", ToString(D)), true};
+        GE::ProgressTrackerBool m_notInTown = {this, "Leave town in Act 1", true};
         GE::ProgressTrackerBool m_killBloodRaven = {this, "Kill Blood Raven", true};
         GE::ProgressTrackerBool m_killGriswold = {this, "Kill Griswold", true};
         GE::ProgressTrackerBool m_killCountess = {this, "Kill The Countess", true};
@@ -15,7 +17,7 @@ namespace D2::Achi::Act1Speedrun
         GE::ProgressTrackerBool m_killLeoric = {this, "Kill Leoric the Skeleton King", true};
         GE::ProgressTrackerBool m_killAndariel = {this, "Kill Andariel", true};
 
-        GE::ProgressTrackerTimer m_timer = {this, 20 * 60};
+        GE::ProgressTrackerTimer m_timer = {this, Min * 60};
 
         Data::GUID m_bloodRavenId = 0;
         Data::GUID m_griswoldId = 0;
@@ -25,11 +27,16 @@ namespace D2::Achi::Act1Speedrun
         Data::GUID m_andarielId = 0;
     };
 
-    auto Create()
+    template <uint32_t Min, Data::Difficulty D>
+    auto CreateImpl()
     {
-        return AB<PD>({.m_name = "Speedrun Act 1", .m_description = "Finish Act1 in 20 minutes", .m_category = "Act 1"},
+        using PD = PDt<Min, D>;
+        return AB<PD>({.m_name = "Speedrun Act 1",
+                       .m_description = std::format("Finish Act 1 in {} minutes.", Min),
+                       .m_category = "Act 1"},
                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
-                          aTrackers[GE::ConditionType::Activator].insert(&aPD.m_newChar);
+                          aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inDifficulty);
+                          aTrackers[GE::ConditionType::Activator].insert(&aPD.m_notInTown);
                           aTrackers[GE::ConditionType::Completer].insert(&aPD.m_killBloodRaven);
                           aTrackers[GE::ConditionType::Completer].insert(&aPD.m_killGriswold);
                           aTrackers[GE::ConditionType::Completer].insert(&aPD.m_killCountess);
@@ -38,11 +45,14 @@ namespace D2::Achi::Act1Speedrun
                           aTrackers[GE::ConditionType::Completer].insert(&aPD.m_killAndariel);
                           aTrackers[GE::ConditionType::Failer].insert(&aPD.m_timer);
                       })
+            .Update(GE::Status::All,
+                    [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
+                        aPD.m_inDifficulty = aDataAccess.GetDifficulty() == D;
+                    })
             .Update(GE::Status::Inactive,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
-                        aPD.m_newChar = aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_BloodMoor &&
-                                        aDataAccess.GetMisc(1).GetZone() == Data::Zone::Act1_RogueEncampment &&
-                                        *aDataAccess.GetPlayers().GetLocal()->m_stats.GetValue(Data::Stat::Id::CharLevel) == 1;
+                        aPD.m_notInTown = aDataAccess.GetPlayers().GetLocal()->m_act == Data::Act::Act1 &&
+                                          aDataAccess.GetMisc().GetZone() != Data::Zone::Act1_RogueEncampment;
                     })
             .OnEntering(GE::Status::Active,
                         [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
@@ -133,5 +143,14 @@ namespace D2::Achi::Act1Speedrun
                         }
                     })
             .Build();
+    }
+
+    auto Create()
+    {
+        D2AchiVec r;
+        r.emplace_back(CreateImpl<25, Data::Difficulty::Normal>());
+        r.emplace_back(CreateImpl<15, Data::Difficulty::Nightmare>());
+        r.emplace_back(CreateImpl<5, Data::Difficulty::Hell>());
+        return r;
     }
 }

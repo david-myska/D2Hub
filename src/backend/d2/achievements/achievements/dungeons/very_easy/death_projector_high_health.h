@@ -4,5 +4,5 @@
 
 namespace D2::Achi::Dungeons::VeryEasy::DeathProjector::HighHealth
 {
-    D2Achi Create();
+    D2AchiVec Create();
 }

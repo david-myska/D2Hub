@@ -4,5 +4,5 @@
 
 namespace D2::Achi::Dungeons::Hard::Toraja::Max5Edyrem
 {
-    D2Achi Create();
+    D2AchiVec Create();
 }
