@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=3 uid="uid://b6t44llw2wrip"]
+
+[ext_resource type="Texture2D" uid="uid://bb6bn3g7ipvdh" path="res://assets/white_pentagram.png" id="1_jfb65"]
+[ext_resource type="Script" uid="uid://3bparkybcvhr" path="res://modules/achievements/subachievement_icon.gd" id="2_eq2cy"]
+
+[node name="SubachievementIcon" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 64.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+script = ExtResource("2_eq2cy")
+
+[node name="Icon" type="TextureRect" parent="."]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.5019608)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_jfb65")
+expand_mode = 1
+stretch_mode = 5
+
+[connection signal="focus_entered" from="." to="." method="_on_focus_entered"]
+[connection signal="focus_exited" from="." to="." method="_on_focus_exited"]
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

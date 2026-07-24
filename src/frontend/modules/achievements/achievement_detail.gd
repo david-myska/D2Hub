@@ -8,7 +8,11 @@ func fill_conditions(achievement : Achievement):
 func from_achievement(achievement : Achievement):
 	for c in $VBoxContainer.get_children():
 		c.queue_free()
-	var achi_view = preload("res://modules/achievements/achievement_view.tscn").instantiate()
-	achi_view.from_achievement(achievement)
-	$VBoxContainer.add_child(achi_view)
+	var m := achievement.get_metadata()
+	var name_lbl := Label.new()
+	var description_lbl := Label.new()
+	name_lbl.text = m["name"]
+	description_lbl.text = m["description"]
+	$VBoxContainer.add_child(name_lbl)
+	$VBoxContainer.add_child(description_lbl)
 	fill_conditions(achievement)

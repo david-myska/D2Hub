@@ -48,9 +48,9 @@ func filter_achis_by_status(status : Achievement.Status) -> void:
 func filter_achis() -> void:
 	for a in m_achis.get_children():
 		a.visible = false
-	for a in m_cat2views[m_category_filter]:
-		var achi_status = a.m_achi.get_status()
-		a.visible = m_status_filter == Achievement.ALL_STATUSES or achi_status == m_status_filter
+	for achi_view in m_cat2views[m_category_filter]:
+		var achi_status = achi_view.m_collective_status
+		achi_view.visible = m_status_filter == Achievement.ALL_STATUSES or achi_status == m_status_filter
 
 func add_category(cat : String) -> void:
 	var btn := Button.new()
@@ -80,24 +80,21 @@ func reset() -> void:
 
 func fill_achievements() -> void:
 	reset()
-	for a in Backend.get_achievements_module().get_achievements():
+	for achi_group in Backend.get_achievements_module().get_achievements():
+		if achi_group.is_empty():
+			continue
 		var achi_view = preload("res://modules/achievements/achievement_view.tscn").instantiate()
-		achi_view.from_achievement(a)
-		m_achis.add_child(achi_view)
-		var m : Dictionary = a.get_metadata()
-		achi_view.clicked.connect(m_details.from_achievement.bind(a))
-		achi_view.clicked.connect(func():
-			m_opened_achi = a
-			%TrackInOverlayBtn.disabled = false
-			%TrackInOverlayBtn.button_pressed = a == m_tracked_achi
-		)
-		a.status_changed.connect(_report_status.bind(a))
+		for a in achi_group:
+			achi_view.add_subachievement(a, m_details.from_achievement.bind(a))
+			a.status_changed.connect(_report_status.bind(a))
+		var m : Dictionary = achi_group.front().get_metadata()
 		var category = m["category"]
 		if category in m_cat2views and category != "All":
 			m_cat2views[category].append(achi_view)
 		else:
 			m_cat2views["Others"].append(achi_view)
 		m_cat2views["All"].append(achi_view)
+		m_achis.add_child(achi_view)
 	create_categories()
 	filter_achis()
 

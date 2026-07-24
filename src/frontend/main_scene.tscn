@@ -265,7 +265,6 @@ layout_mode = 2
 
 [node name="BugReportButton" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/MarginContainer/HBoxContainer/Buttons" instance=ExtResource("10_671wp")]
 layout_mode = 2
-m_link = "https://tally.so/r/QKK0rG"
 
 [node name="VSeparator4" type="VSeparator" parent="MarginContainer/VBoxContainer/Footer/PanelContainer/MarginContainer/HBoxContainer/Buttons"]
 layout_mode = 2

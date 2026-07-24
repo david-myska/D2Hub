@@ -1,6 +1,6 @@
 extends MarginContainer
 
-@export var m_columns : int = 3
+@export var m_columns : int = 2
 
 var m_disconnect_callback : Callable = func(): pass
 
@@ -37,6 +37,7 @@ func add_texts(cond_data : Array) -> void:
 	grid.columns = m_columns
 	for d in cond_data:
 		var lbl := Label.new()
+		lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		grid.add_child(lbl)
 		d["label"] = lbl
 		_update_condition(d)

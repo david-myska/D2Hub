@@ -143,7 +143,8 @@ void AchievementsModule::InitializeInternal(const D2::Data::DataAccess& aDataAcc
     LoadAchievements(m_currentCharacterName, !D2::InvalidStart());
 }
 
-void AchievementsModule::UninitializeInternal() {
+void AchievementsModule::UninitializeInternal()
+{
     SaveAchievements(m_currentCharacterName);
     m_currentCharacterName.clear();
 }
@@ -160,9 +161,23 @@ void AchievementsModule::LoadAchievements(std::optional<std::string> aId, bool a
 {
     m_achievements.clear();
     auto loadedAchievements = m_achievementManager->Load(std::move(aId));
-    for (const auto& [_, achi] : loadedAchievements)
+    for (const auto& [id, achi] : loadedAchievements)
     {
-        m_achievements.push_back(Achievement::FromAchievement(achi));
+        if (id > 1000)
+        {
+            continue;
+        }
+        Array res;
+        res.push_back(Achievement::FromAchievement(achi));
+        if (loadedAchievements.contains(1000 + id))
+        {
+            res.push_back(Achievement::FromAchievement(loadedAchievements[1000 + id]));
+        }
+        if (loadedAchievements.contains(2000 + id))
+        {
+            res.push_back(Achievement::FromAchievement(loadedAchievements[2000 + id]));
+        }
+        m_achievements.push_back(std::move(res));
     }
     if (aActivate)
     {

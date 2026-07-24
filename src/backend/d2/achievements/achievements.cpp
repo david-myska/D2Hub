@@ -48,46 +48,48 @@ namespace D2
 
         result.emplace(100, D2::Achi::TestPersistance::Create());  // just testing
                                                                    // Act1
-        uint32_t id = 1;
-        result.emplace(id++, TristramClear::Create());
-        result.emplace(id++, AndarielNoHit::Create());
-        result.emplace(id++, AndarielNoLeave::Create());
-        result.emplace(id++, BloodRavenWalkDistance::Create());
-        result.emplace(id++, CountessGoldSteal::Create());
-        result.emplace(id++, LeoricLast::Create());
-        result.emplace(id++, Act1Speedrun::Create());
+        uint32_t id = 0;
+        result.emplace(++id, TristramClear::Create());
+        result.emplace(++id, AndarielNoHit::Create());
+        result.emplace(++id, AndarielNoLeave::Create());
+        result.emplace(++id, BloodRavenWalkDistance::Create());
+        result.emplace(++id, CountessGoldSteal::Create<1000, 30>());
+        result.emplace(1000 + id, CountessGoldSteal::Create<5000, 20>());
+        result.emplace(2000 + id, CountessGoldSteal::Create<10000, 15>());
+        result.emplace(++id, LeoricLast::Create());
+        result.emplace(++id, Act1Speedrun::Create());
         // Dungeons
-        result.emplace(id++, Dungeons::VeryEasy::DeathProjector::HighHealth::Create());
+        result.emplace(++id, Dungeons::VeryEasy::DeathProjector::HighHealth::Create());
 
-        result.emplace(id++, Dungeons::Easy::Akarat::LetHealAndKill::Create());
-        result.emplace(id++, Dungeons::Easy::BindingOfBaal::KillAtMostFourMinions::Create());
-        result.emplace(id++, Dungeons::Easy::InfernalMachine::StayInRange::Create());
-        result.emplace(id++, Dungeons::Easy::HorazonsSanctum::NoPortalKillHave10Portals::Create());
-        result.emplace(id++, Dungeons::Easy::HorrorUnderTristram::KillWithOnlyMagicItems::Create());
+        result.emplace(++id, Dungeons::Easy::Akarat::LetHealAndKill::Create());
+        result.emplace(++id, Dungeons::Easy::BindingOfBaal::KillAtMostFourMinions::Create());
+        result.emplace(++id, Dungeons::Easy::InfernalMachine::StayInRange::Create());
+        result.emplace(++id, Dungeons::Easy::HorazonsSanctum::NoPortalKillHave10Portals::Create());
+        result.emplace(++id, Dungeons::Easy::HorrorUnderTristram::KillWithOnlyMagicItems::Create());
 
-        result.emplace(id++, Dungeons::Moderate::BullPrinceRodeo::HighRollCharm::Create());
-        result.emplace(id++, Dungeons::Moderate::BlackRoad::NoMinionInCircle::Create());
-        result.emplace(id++, Dungeons::Moderate::HeartOfSin::NegativeFireRes::Create());
-        result.emplace(id++, Dungeons::Moderate::LegacyOfBlood::KillAfterDeath::Create());
-        result.emplace(id++, Dungeons::Moderate::TheVeiledProphet::DestroyOrbBeforeFirstLightningEnds::Create());
+        result.emplace(++id, Dungeons::Moderate::BullPrinceRodeo::HighRollCharm::Create());
+        result.emplace(++id, Dungeons::Moderate::BlackRoad::NoMinionInCircle::Create());
+        result.emplace(++id, Dungeons::Moderate::HeartOfSin::NegativeFireRes::Create());
+        result.emplace(++id, Dungeons::Moderate::LegacyOfBlood::KillAfterDeath::Create());
+        result.emplace(++id, Dungeons::Moderate::TheVeiledProphet::DestroyOrbBeforeFirstLightningEnds::Create());
 
-        result.emplace(id++, Dungeons::Hard::BanisherOfLight::NoQuickTeleports::Create());
-        result.emplace(id++, Dungeons::Hard::Toraja::Max5Edyrem::Create());
+        result.emplace(++id, Dungeons::Hard::BanisherOfLight::NoQuickTeleports::Create());
+        result.emplace(++id, Dungeons::Hard::Toraja::Max5Edyrem::Create());
 
-        result.emplace(id++, Dungeons::VeryHard::LordOfLies::KillOnlyTheRealOne::Create());
-        result.emplace(id++, Dungeons::VeryHard::Xazax::StartAfter15KillBefore30Pentients::Create());
-        result.emplace(id++, Dungeons::VeryHard::YshariSanctum::NoMissValthek::Create());
+        result.emplace(++id, Dungeons::VeryHard::LordOfLies::KillOnlyTheRealOne::Create());
+        result.emplace(++id, Dungeons::VeryHard::Xazax::StartAfter15KillBefore30Pentients::Create());
+        result.emplace(++id, Dungeons::VeryHard::YshariSanctum::NoMissValthek::Create());
 
-        result.emplace(id++, Dungeons::Extreme::TheVoid::KillLilithBeforeInarius::Create());
+        result.emplace(++id, Dungeons::Extreme::TheVoid::KillLilithBeforeInarius::Create());
         // Rifts
-        result.emplace(id++, Rifts::Easy::IslandOfTheSunlessSea::GoldFarm::Create());
-        result.emplace(id++, Rifts::Easy::TheSecretCowLevel::PeacefulGathering::Create());
-        result.emplace(id++, Rifts::Moderate::Kurast3000BA::KillAllTotemsTimed::Create());
-        result.emplace(id++, Rifts::Moderate::TranAthulua::KillAllPriestessesSimultaneously::Create());
+        result.emplace(++id, Rifts::Easy::IslandOfTheSunlessSea::GoldFarm::Create());
+        result.emplace(++id, Rifts::Easy::TheSecretCowLevel::PeacefulGathering::Create());
+        result.emplace(++id, Rifts::Moderate::Kurast3000BA::KillAllTotemsTimed::Create());
+        result.emplace(++id, Rifts::Moderate::TranAthulua::KillAllPriestessesSimultaneously::Create());
 
         // Global
-        result.emplace(id++, Global::CollectUniquesAndSets::Create());
-        result.emplace(id++, Global::KillMillionMonsters::Create());
+        result.emplace(++id, Global::CollectUniquesAndSets::Create());
+        result.emplace(++id, Global::KillMillionMonsters::Create());
         // Kill every boss in the game (persistent)
         // Finish campaign in style (kill Hell Baal with full class set)
 

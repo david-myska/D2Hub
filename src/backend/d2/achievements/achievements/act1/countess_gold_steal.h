@@ -6,6 +6,7 @@
 namespace D2::Achi::CountessGoldSteal
 {
 
+    template <uint32_t GoldValue, uint32_t TimeLimit>
     struct PD : public GE::BaseProgressData
     {
         Data::GUID m_countessId = 0;
@@ -14,41 +15,46 @@ namespace D2::Achi::CountessGoldSteal
         GE::ProgressTrackerBool m_inLocation = {this, "Enter Bloodthrone", true};
         GE::ProgressTrackerBool m_notInLocation = {this, "Stay in Bloodthrone", true};
         GE::ProgressTrackerBool m_countessKilled = {this, "Kill The Countess", true};
-        GE::ProgressTrackerInt<> m_goldCollected = {this, "Collect Gold", 1000};
-        GE::ProgressTrackerTimer m_timer = {this, 30};
+        GE::ProgressTrackerInt<> m_goldCollected = {this, "Collect Gold", GoldValue};
+        GE::ProgressTrackerTimer m_timer = {this, TimeLimit};
     };
 
+    template <uint32_t GoldValue, uint32_t TimeLimit>
     auto Create()
     {
-        return AB<PD>({.m_name = "Fort Boyard",
-                       .m_description = "Kill The Countess in 30s after entering the Bloodthrone while looting 1000 gold",
-                       .m_category = "Act 1"},
-                      [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
-                          aTrackers[GE::ConditionType::Activator].insert(&aPD.m_inLocation);
-                          aTrackers[GE::ConditionType::Completer].insert(&aPD.m_countessKilled);
-                          aTrackers[GE::ConditionType::Validator].insert(&aPD.m_goldCollected);
-                          aTrackers[GE::ConditionType::Failer].insert(&aPD.m_notInLocation);
-                          aTrackers[GE::ConditionType::Failer].insert(&aPD.m_timer);
-                      })
+        constexpr auto G = GoldValue;
+        constexpr auto T = TimeLimit;
+        using PDt = PD<G, T>;
+        return AB<PDt>({.m_name = "Fort Boyard",
+                        .m_description = std::format(
+                            "Kill The Countess in {}s after entering the Bloodthrone while looting {} gold.", T, G),
+                        .m_category = "Act 1"},
+                       [](PDt& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
+                           aTrackers[GE::ConditionType::Activator].insert(&aPD.m_inLocation);
+                           aTrackers[GE::ConditionType::Completer].insert(&aPD.m_countessKilled);
+                           aTrackers[GE::ConditionType::Validator].insert(&aPD.m_goldCollected);
+                           aTrackers[GE::ConditionType::Failer].insert(&aPD.m_notInLocation);
+                           aTrackers[GE::ConditionType::Failer].insert(&aPD.m_timer);
+                       })
             .Update(GE::Status::Inactive,
-                    [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
+                    [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PDt& aPD) {
                         aPD.m_inLocation = aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_Bloodthrone;
                     })
             .OnEntering(GE::Status::Active,
-                        [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
+                        [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PDt& aPD) {
                             aPD.m_initialGold = *aDataAccess.GetPlayers().GetLocal()->m_stats.GetValue(Data::Stat::Id::Gold);
                             aPD.m_timer.Start();
                         })
             .OnEntering(GE::Status::Paused,
-                        [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
+                        [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PDt& aPD) {
                             aPD.m_timer.Pause(true);
                         })
             .OnLeaving(GE::Status::Paused,
-                       [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
+                       [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PDt& aPD) {
                            aPD.m_timer.Pause(false);
                        })
             .Update(GE::Status::Active,
-                    [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
+                    [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PDt& aPD) {
                         aPD.m_timer.Update();
                         if (!aPD.m_countessId)
                         {

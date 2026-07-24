@@ -1,69 +1,45 @@
-[gd_scene load_steps=3 format=3 uid="uid://bc0dnn6u0ff81"]
+[gd_scene load_steps=2 format=3 uid="uid://bc0dnn6u0ff81"]
 
 [ext_resource type="Script" uid="uid://cuxr7wjwjeqle" path="res://modules/achievements/achievement_view.gd" id="1_fcsdv"]
-[ext_resource type="Texture2D" uid="uid://cey6txj1a3pes" path="res://assets/gul_rune_gray.png" id="2_el0g6"]
 
 [node name="AchievementView" type="MarginContainer"]
-custom_minimum_size = Vector2(0, 150)
-anchors_preset = 15
+custom_minimum_size = Vector2(0, 50)
+anchors_preset = 14
+anchor_top = 0.5
 anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 mouse_filter = 0
 script = ExtResource("1_fcsdv")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 2
-mouse_filter = 1
-color = Color(0.412, 0.412, 0.412, 1)
 
-[node name="MarginContainer" type="MarginContainer" parent="Background"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Background/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Background/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Title" type="Label" parent="Background/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="Title" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(50, 25)
 layout_mode = 2
+size_flags_horizontal = 3
 mouse_filter = 1
 text = "Big Title"
 autowrap_mode = 2
 
-[node name="Description" type="Label" parent="Background/MarginContainer/HBoxContainer/VBoxContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(50, 25)
-layout_mode = 2
-mouse_filter = 1
-text = "Very long description that can span over multiple lines!"
-autowrap_mode = 2
-
-[node name="Control" type="Control" parent="Background/MarginContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-mouse_filter = 1
-
-[node name="Icon" type="TextureRect" parent="Background/MarginContainer/HBoxContainer"]
+[node name="SubAchiIcons" type="HBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-texture = ExtResource("2_el0g6")
-expand_mode = 3
-stretch_mode = 5
+size_flags_horizontal = 3
+alignment = 1
 
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]
