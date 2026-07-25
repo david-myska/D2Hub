@@ -4,5 +4,5 @@
 
 namespace D2::Achi::Dungeons::Easy::BindingOfBaal::KillAtMostFourMinions
 {
-    D2Achi Create();
+    D2AchiVec Create();
 }
