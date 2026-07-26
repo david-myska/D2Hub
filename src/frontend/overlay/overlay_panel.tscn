@@ -71,6 +71,32 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Active"
 
+[node name="HBoxContainer" type="HBoxContainer" parent="EditMode/GridContainer/Mid"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditMode/GridContainer/Mid/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Background color:"
+
+[node name="BgColorPicker" type="ColorPickerButton" parent="EditMode/GridContainer/Mid/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="EditMode/GridContainer/Mid"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditMode/GridContainer/Mid/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Text color:"
+
+[node name="TextColorPicker" type="ColorPickerButton" parent="EditMode/GridContainer/Mid/HBoxContainer2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+
 [node name="Right" type="Control" parent="EditMode/GridContainer"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
@@ -93,13 +119,28 @@ custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 mouse_default_cursor_shape = 12
 
-[node name="Content" type="Control" parent="."]
+[node name="ContentBackground" type="ColorRect" parent="."]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+color = Color(0, 0, 0, 0)
+
+[node name="Content" type="MarginContainer" parent="ContentBackground"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
 
 [connection signal="gui_input" from="EditMode/GridContainer/TopLeft" to="." method="_on_top_left_gui_input"]
 [connection signal="gui_input" from="EditMode/GridContainer/TopMid" to="." method="_on_top_mid_gui_input"]
@@ -107,6 +148,8 @@ grow_vertical = 2
 [connection signal="gui_input" from="EditMode/GridContainer/Left" to="." method="_on_left_gui_input"]
 [connection signal="gui_input" from="EditMode/GridContainer/Mid" to="." method="_on_mid_gui_input"]
 [connection signal="toggled" from="EditMode/GridContainer/Mid/ActiveBtn" to="." method="_on_active_btn_toggled"]
+[connection signal="color_changed" from="EditMode/GridContainer/Mid/HBoxContainer/BgColorPicker" to="." method="_on_bg_color_picker_color_changed"]
+[connection signal="color_changed" from="EditMode/GridContainer/Mid/HBoxContainer2/TextColorPicker" to="." method="_on_text_color_picker_color_changed"]
 [connection signal="gui_input" from="EditMode/GridContainer/Right" to="." method="_on_right_gui_input"]
 [connection signal="gui_input" from="EditMode/GridContainer/BottomLeft" to="." method="_on_bottom_left_gui_input"]
 [connection signal="gui_input" from="EditMode/GridContainer/BottomMid" to="." method="_on_bottom_mid_gui_input"]
