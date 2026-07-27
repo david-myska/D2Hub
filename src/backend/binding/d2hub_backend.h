@@ -1,5 +1,7 @@
 #pragma once
 
+#include "my_config.h"
+
 #include "log_view.h"
 #include "notifier.h"
 

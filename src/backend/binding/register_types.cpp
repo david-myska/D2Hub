@@ -21,6 +21,7 @@ void initialize_backend_module(ModuleInitializationLevel p_level)
 
     // 13 seems to be the limit, check on newer versions
     // GDREGISTER_CLASS(LogView);
+    GDREGISTER_CLASS(MyConfig);
     GDREGISTER_CLASS(Notifier);
     GDREGISTER_CLASS(Module);
     GDREGISTER_CLASS(AchievementConditions);

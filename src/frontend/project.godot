@@ -22,8 +22,8 @@ config/windows_native_icon="res://assets/d2hub_icon.ico"
 
 [autoload]
 
-App="*res://globals/app.gd"
 Backend="*res://globals/backend.gd"
+App="*res://globals/app.gd"
 
 [display]
 

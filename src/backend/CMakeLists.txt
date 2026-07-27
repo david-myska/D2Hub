@@ -49,6 +49,7 @@ set(SOURCE_FILES
 				"binding/modules/lootfilter_module.cpp"
 				"binding/modules/notes_module.cpp"
 				"binding/modules/statistics_module.cpp"
+				"binding/my_config.cpp"
 				"binding/notifier.cpp"
 				"binding/log_view.cpp"
 				"binding/d2hub_backend.cpp"
