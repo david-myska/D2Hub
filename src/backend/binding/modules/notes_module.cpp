@@ -12,7 +12,10 @@ using namespace D2::Data;
 void NotesModule::_bind_methods()
 {
     ClassDB::bind_method(D_METHOD("get_visible_notes"), &NotesModule::get_visible_notes);
+    ClassDB::bind_method(D_METHOD("get_available_guides"), &NotesModule::get_available_guides);
     ClassDB::bind_method(D_METHOD("load_guide", "guide_name"), &NotesModule::load_guide);
+    ClassDB::bind_method(D_METHOD("clear"), &NotesModule::clear);
+    ClassDB::bind_method(D_METHOD("get_current_guide_metadata"), &NotesModule::get_current_guide_metadata);
 
     ADD_SIGNAL(MethodInfo("notes_changed"));
 }
@@ -80,10 +83,19 @@ Array NotesModule::get_visible_notes() const
     return m_visibleNotes;
 }
 
+Array NotesModule::get_available_guides()
+{
+    Array r;
+    for (auto entry : std::filesystem::directory_iterator(m_moduleUserDir))
+    {
+        r.append(String(entry.path().stem().c_str()));
+    }
+    return r;
+}
+
 void NotesModule::load_guide(const String& guide_name)
 {
-    m_allNotes.clear();
-    m_visibleNotes.clear();
+    clear();
 
     auto guide_path = m_moduleUserDir / guide_name.utf8().get_data();
     if (guide_path.extension() != ".json")
@@ -111,12 +123,27 @@ void NotesModule::load_guide(const String& guide_name)
         return;
     }
 
-    Array notes = json->get_data();
-    m_allNotes = notes;
-    // for (Dictionary noteDict : notes)
-    //{
-    //     m_allNotes.push_back(NoteFromJson(noteDict));
-    // }
+    Dictionary guide = json->get_data();
+    m_guideName = guide["name"];
+    m_guideDescription = guide["description"];
+    m_allNotes = guide["notes"];
+}
+
+void NotesModule::clear()
+{
+    // TODO can cause crash because of race condition
+    m_allNotes.clear();
+    m_visibleNotes.clear();
+    m_guideName = "";
+    m_guideDescription = "";
+}
+
+Dictionary NotesModule::get_current_guide_metadata()
+{
+    Dictionary d;
+    d["name"] = m_guideName;
+    d["description"] = m_guideDescription;
+    return d;
 }
 
 void NotesModule::UpdateInternal(const DataAccess& aData, const SharedData& aShared)

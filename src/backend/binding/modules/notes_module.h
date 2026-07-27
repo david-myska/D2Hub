@@ -21,10 +21,11 @@ namespace godot
     {
         GDCLASS(NotesModule, Module)
 
-        //std::vector<NoteEntry> m_allNotes;
-        // std::vector<std::shared_ptr<NoteEntry>> m_visibleNotes;
         Array m_allNotes;
         Array m_visibleNotes;
+
+        String m_guideName;
+        String m_guideDescription;
 
         std::unique_ptr<expro_wrapper::ExpressionProcessor> m_expressionProcessor;
 
@@ -58,7 +59,11 @@ namespace godot
 
     public:
         Array get_visible_notes() const;
+
+        Array get_available_guides();
         void load_guide(const String& guide_name);
+        void clear();
+        Dictionary get_current_guide_metadata();
 
         static Ref<NotesModule> Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier,
                                        std::shared_ptr<LogView>);
