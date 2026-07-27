@@ -288,8 +288,8 @@ void LootFilterModule::UpdateInternal(const D2::Data::DataAccess& aDataAccess, c
 
 void LootFilterModule::Save() const
 {
-    m_logView->Log(*m_logger, "Saving loot filters");
-    auto outStream = std::ofstream(m_moduleUserDir / "filters", std::ios::binary);
+    m_logView->Log(*m_logger, std::format("Saving loot filter profile: {}", m_currentFilterProfile));
+    auto outStream = std::ofstream(m_moduleUserDir / m_currentFilterProfile, std::ios::binary);
     GE::BinWriter bw(outStream);
     bw.Write(m_metaFilters.size());
     for (const auto& metaFilter : m_metaFilters)
@@ -298,16 +298,18 @@ void LootFilterModule::Save() const
     }
 }
 
-void LootFilterModule::Load()
+void LootFilterModule::Load(const std::string& aFilterFile)
 {
-    m_logView->Log(*m_logger, "Loading loot filters");
-    auto filtersFile = m_moduleUserDir / "filters";
-    if (!std::filesystem::exists(filtersFile))
+    m_logView->Log(*m_logger, std::format("Loading loot filter profile: {}", aFilterFile));
+    auto filtersPath = m_moduleUserDir / aFilterFile;
+    if (!std::filesystem::exists(filtersPath))
     {
-        m_logView->Log(*m_logger, std::format("Skipping load - No filters file found at: {}", filtersFile.string().c_str()));
+        m_logView->Log(*m_logger, std::format("Skipping load - No filters file found at: {}", filtersPath.string().c_str()));
         return;
     }
-    auto inStream = std::ifstream(filtersFile, std::ios::binary);
+    clear();
+    m_currentFilterProfile = aFilterFile;
+    auto inStream = std::ifstream(filtersPath, std::ios::binary);
     GE::BinReader br(inStream);
     auto count = br.Read<size_t>();
     for (size_t i = 0; i < count; ++i)
@@ -323,8 +325,64 @@ void LootFilterModule::Load()
     }
 }
 
+void LootFilterModule::clear()
+{
+    m_metaFilters.clear();
+    m_passingItems.clear();
+    m_currentFilterProfile.clear();
+    call_deferred("emit_signal", "filters_changed");
+    call_deferred("emit_signal", "filter_profiles_changed");
+}
+
+void LootFilterModule::load_profile(const String& filter_profile)
+{
+    Load(filter_profile.utf8().get_data());
+}
+
+void LootFilterModule::create_profile(const String& filter_profile)
+{
+    clear();
+    m_currentFilterProfile = filter_profile.utf8().get_data();
+    // auto path = m_moduleUserDir / filter_profile.utf8().get_data();
+    Save();
+    call_deferred("emit_signal", "filter_profiles_changed");
+    call_deferred("emit_signal", "filters_changed");
+}
+
+void LootFilterModule::delete_profile(const String& filter_profile)
+{
+    auto path = m_moduleUserDir / filter_profile.utf8().get_data();
+    if (std::filesystem::remove(path) && m_currentFilterProfile == filter_profile.utf8().get_data())
+    {
+        clear();
+    }
+    call_deferred("emit_signal", "filter_profiles_changed");
+    call_deferred("emit_signal", "filters_changed");
+}
+
+void LootFilterModule::duplicate_selected_profile(const String& new_name)
+{
+    auto origPath = m_moduleUserDir / m_currentFilterProfile;
+    auto duplicatePath = m_moduleUserDir / new_name.utf8().get_data();
+
+    if (std::filesystem::copy_file(origPath, duplicatePath))
+    {
+        m_currentFilterProfile = new_name.utf8().get_data();
+        call_deferred("emit_signal", "filters_changed");
+    }
+    call_deferred("emit_signal", "filter_profiles_changed");
+}
+
 void LootFilterModule::_bind_methods()
 {
+    ClassDB::bind_method(D_METHOD("clear"), &LootFilterModule::clear);
+    ClassDB::bind_method(D_METHOD("load_profile", "filter_profile"), &LootFilterModule::load_profile);
+    ClassDB::bind_method(D_METHOD("create_profile", "filter_profile"), &LootFilterModule::create_profile);
+    ClassDB::bind_method(D_METHOD("delete_profile", "filter_profile"), &LootFilterModule::delete_profile);
+    ClassDB::bind_method(D_METHOD("duplicate_selected_profile", "new_name"), &LootFilterModule::duplicate_selected_profile);
+    ClassDB::bind_method(D_METHOD("get_available_profiles"), &LootFilterModule::get_available_profiles);
+    ClassDB::bind_method(D_METHOD("get_selected_profile"), &LootFilterModule::get_selected_profile);
+
     ClassDB::bind_method(D_METHOD("add_filter", "p_metadata", "p_filters"), &LootFilterModule::add_filter);
     ClassDB::bind_method(D_METHOD("remove_filter", "index"), &LootFilterModule::remove_filter);
     ClassDB::bind_method(D_METHOD("modify_filter", "index", "p_metadata", "p_filters"), &LootFilterModule::modify_filter);
@@ -336,6 +394,7 @@ void LootFilterModule::_bind_methods()
 
     ClassDB::bind_method(D_METHOD("get_passing_loot"), &LootFilterModule::get_passing_loot);
 
+    ADD_SIGNAL(MethodInfo("filter_profiles_changed"));
     ADD_SIGNAL(MethodInfo("filters_changed"));
     ADD_SIGNAL(MethodInfo("loot_changed"));
     ADD_SIGNAL(MethodInfo("new_loot_notification", PropertyInfo(Variant::STRING, "p_sound_effect")));
@@ -351,6 +410,21 @@ Ref<LootFilterModule> LootFilterModule::Create(std::shared_ptr<spdlog::logger> a
     module->m_name = "LootFilter";
     module->SetUserDir("lootfilter");
     return module;
+}
+
+Array LootFilterModule::get_available_profiles()
+{
+    Array r;
+    for (auto entry : std::filesystem::directory_iterator(m_moduleUserDir))
+    {
+        r.append(String(entry.path().stem().c_str()));
+    }
+    return r;
+}
+
+String LootFilterModule::get_selected_profile()
+{
+    return String(m_currentFilterProfile.c_str());
 }
 
 void LootFilterModule::add_filter(Ref<FilterMetadata> metadata, Dictionary filters)

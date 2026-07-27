@@ -180,7 +180,6 @@ D2HubBackend::D2HubBackend()
     InitializeModuleDependencies();
     InitializeBackend();
     m_achievementsModule->LoadAchievements({}, false);
-    m_lootfilterModule->Load();
 }
 
 D2HubBackend::~D2HubBackend()

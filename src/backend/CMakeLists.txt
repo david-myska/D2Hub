@@ -53,6 +53,7 @@ set(SOURCE_FILES
 				"binding/log_view.cpp"
 				"binding/d2hub_backend.cpp"
 				"binding/register_types.cpp"
+				"binding/profile_manager.cpp"
 				"expro_wrapper/expro_wrapper.cpp"
 				"d2/achievements/achievements.cpp"
 				"d2/achievements/utilities.cpp"

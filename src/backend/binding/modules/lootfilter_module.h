@@ -5,6 +5,7 @@
 #include "d2/utilities/data.h"
 #include "game_enhancer/utils/serialization.h"
 #include "spdlog/spdlog.h"
+#include "binding/profile_manager.h"
 
 #include <godot_cpp/variant/string.hpp>
 
@@ -118,6 +119,9 @@ namespace godot
         std::vector<Ref<MetaFilter>> m_metaFilters;
         std::map<D2::Data::GUID, const D2::Data::Item*> m_passingItems;
 
+        std::string m_currentFilterProfile;
+        //ProfileManager m_profileManager;
+
         void UpdateInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData) override;
 
     protected:
@@ -128,7 +132,18 @@ namespace godot
                                             std::shared_ptr<LogView> aLogView);
 
         void Save() const;
-        void Load();
+        void Load(const std::string& aFilterFile);
+
+        void clear();
+
+        void load_profile(const String& filter_profile);
+
+        void create_profile(const String& filter_profile);
+        void delete_profile(const String& filter_profile);
+        void duplicate_selected_profile(const String& new_name);
+
+        Array get_available_profiles();
+        String get_selected_profile();
 
         void add_filter(Ref<FilterMetadata> metadata, Dictionary filters);
         void modify_filter(int index, Ref<FilterMetadata> metadata, Dictionary filters);

@@ -12,21 +12,17 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_mr3cy")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="."]
+[node name="HSplitContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+[node name="Filters" parent="HSplitContainer" instance=ExtResource("2_ldpkw")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+size_flags_stretch_ratio = 75.0
 
-[node name="Filters" parent="ScrollContainer/VBoxContainer" instance=ExtResource("2_ldpkw")]
+[node name="FilteredItems" parent="HSplitContainer" instance=ExtResource("3_58gv7")]
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
-
-[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="FilteredItems" parent="ScrollContainer/VBoxContainer" instance=ExtResource("3_58gv7")]
-layout_mode = 2
-size_flags_vertical = 3
+size_flags_stretch_ratio = 25.0
