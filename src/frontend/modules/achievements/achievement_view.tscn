@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cuxr7wjwjeqle" path="res://modules/achievements/achievement_view.gd" id="1_fcsdv"]
 
 [node name="AchievementView" type="MarginContainer"]
-custom_minimum_size = Vector2(0, 50)
+custom_minimum_size = Vector2(0, 100)
 anchors_preset = 14
 anchor_top = 0.5
 anchor_right = 1.0

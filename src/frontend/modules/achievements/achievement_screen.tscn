@@ -66,14 +66,6 @@ toggle_mode = true
 button_group = SubResource("ButtonGroup_8weyf")
 text = "Failed"
 
-[node name="TrackInOverlayBtn" type="CheckButton" parent="VBoxContainer/TMP"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 8
-disabled = true
-text = "Track in Overlay"
-
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3

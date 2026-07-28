@@ -1,0 +1,37 @@
+[gd_scene load_steps=3 format=3 uid="uid://cegb4w5oxlspf"]
+
+[ext_resource type="PackedScene" uid="uid://d3dcj0s3vinc7" path="res://modules/achievements/conditions_view.tscn" id="1_bobh5"]
+[ext_resource type="Script" uid="uid://u0jwhbb1nnit" path="res://modules/achievements/achievement_overlay_entry.gd" id="1_q7qoc"]
+
+[node name="AchievementOverlayEntry" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_q7qoc")
+
+[node name="HSeparator" type="HSeparator" parent="."]
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="."]
+layout_mode = 2
+
+[node name="AchiName" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+text = "<name>"
+
+[node name="HSeparator3" type="HSeparator" parent="."]
+layout_mode = 2
+
+[node name="ConditionsView" parent="." instance=ExtResource("1_bobh5")]
+unique_name_in_owner = true
+layout_mode = 2
+m_columns = 1
+
+[node name="HSeparator4" type="HSeparator" parent="."]
+layout_mode = 2
+
+[node name="HSeparator5" type="HSeparator" parent="."]
+layout_mode = 2

@@ -22,6 +22,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+focus_behavior_recursive = 1
 script = ExtResource("1_gyfs4")
 
 [node name="Background" type="TextureRect" parent="."]
@@ -292,6 +293,7 @@ wait_time = 0.5
 autostart = true
 
 [node name="MessagePopup" parent="." instance=ExtResource("6_hq1ik")]
+visible = false
 
 [node name="Overlay" parent="." instance=ExtResource("7_nfk4m")]
 

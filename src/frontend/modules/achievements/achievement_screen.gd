@@ -14,8 +14,7 @@ var m_cat_btn_grp := ButtonGroup.new()
 var m_category_filter : String = "All"
 var m_status_filter := Achievement.Status.ALL_STATUSES
 
-var m_opened_achi : Achievement = null
-var m_tracked_achi : Achievement = null
+var m_achi_overlay = null
 
 func _ready() -> void:
 	fill_achievements()
@@ -84,6 +83,12 @@ func fill_achievements() -> void:
 		if achi_group.is_empty():
 			continue
 		var achi_view = preload("res://modules/achievements/achievement_view.tscn").instantiate()
+		achi_view.tracking_changed.connect(func(a, b):
+			if b:
+				m_achi_overlay.track_achievement(a)
+			else:
+				m_achi_overlay.stop_tracking_achievement(a)
+		)
 		for a in achi_group:
 			achi_view.add_subachievement(a, m_details.from_achievement.bind(a))
 			a.status_changed.connect(_report_status.bind(a))
@@ -120,11 +125,5 @@ func _on_filter_failed_btn_pressed() -> void:
 
 func create_overlay_content():
 	var content := preload("res://modules/achievements/achievement_overlay.tscn").instantiate()
-	%TrackInOverlayBtn.toggled.connect(func(toggled_on):
-		if toggled_on:
-			m_tracked_achi = m_opened_achi
-			content.track_achievement(m_tracked_achi)
-		else:
-			content.reset()
-	)
+	m_achi_overlay = content
 	return content

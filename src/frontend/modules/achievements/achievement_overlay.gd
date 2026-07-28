@@ -1,12 +1,14 @@
 extends VBoxContainer
 
-func _ready() -> void:
-	%ConditionsView.m_columns = 1
+var m_tracked_achis := {}
 
 func track_achievement(achi : Achievement):
-	visible = true
-	%AchiName.text = achi.get_metadata()["name"]
-	%ConditionsView.from_achievement(achi)
+	var entry := preload("res://modules/achievements/achievement_overlay_entry.tscn").instantiate()
+	entry.from_achievement(achi)
+	m_tracked_achis[achi] = entry
+	add_child(entry)
 
-func reset():
-	visible = false
+func stop_tracking_achievement(achi : Achievement):
+	if m_tracked_achis.has(achi):
+		m_tracked_achis[achi].queue_free()
+		m_tracked_achis.erase(achi)

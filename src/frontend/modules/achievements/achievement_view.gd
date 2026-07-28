@@ -1,5 +1,7 @@
 extends Control
 
+signal tracking_changed(achi : Achievement, track : bool)
+
 var m_achis := []
 var m_collective_status : Achievement.Status = Achievement.Status.INACTIVE
 
@@ -12,7 +14,13 @@ func add_subachievement(achievement : Achievement, detail_opener : Callable):
 	subachi.clicked.connect(detail_opener)
 	achievement.status_changed.connect(_recolor) # eh
 	_recolor(achievement.get_status())
-	%SubAchiIcons.add_child(subachi)
+	var vb := VBoxContainer.new()
+	vb.add_child(subachi)
+	var tracker = CheckButton.new()
+	tracker.text = "Track"
+	tracker.toggled.connect(func (b): tracking_changed.emit(achievement, b))
+	vb.add_child(tracker)
+	%SubAchiIcons.add_child(vb)
 
 func _ready() -> void:
 	_recolor(m_collective_status)

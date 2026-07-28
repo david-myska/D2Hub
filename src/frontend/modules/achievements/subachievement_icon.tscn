@@ -19,6 +19,7 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
+focus_behavior_recursive = 2
 script = ExtResource("2_eq2cy")
 
 [node name="Icon" type="TextureRect" parent="."]
