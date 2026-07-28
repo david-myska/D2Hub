@@ -114,6 +114,10 @@ namespace
             return m_predicate(ilvl, equippedValue + m_filterValue);
         }
 
+        bool CheckTier(uint8_t tier) const { return m_filterValue == tier; }
+
+        bool CheckSlot(ItemSlot slot) const { return m_filterValue == static_cast<uint32_t>(slot); }
+
         bool CheckStats(const Item& aItem, const Item* aEquippedItem) const
         {
             if (auto l = aItem.m_stats.GetValue(m_statId.m_statId); l.has_value())
@@ -135,6 +139,19 @@ namespace
                 {
                     return m_filterValue == 0;
                 }
+            }
+            return false;
+        }
+
+        bool CheckCategories(const Item& aItem, const Item* aEquippedItem) const
+        {
+            if (m_statId.m_statId == 0)
+            {
+                return CheckTier(aItem.m_tier);
+            }
+            if (m_statId.m_statId == 1)
+            {
+                return CheckSlot(aItem.m_itemSlot);
             }
             return false;
         }
@@ -178,6 +195,8 @@ namespace
             {
             case FilterType::Stat:
                 return CheckStats(aItem, aEquippedItem);
+            case FilterType::Category:
+                return CheckCategories(aItem, aEquippedItem);
             case FilterType::Special:
                 return CheckSpecial(aItem, aEquippedItem);
             default:
@@ -658,10 +677,6 @@ void MetaFilter::_bind_methods()
     ClassDB::bind_integer_constant("MetaFilter", "Is", "GREATER_OR_EQUAL", static_cast<int>(StandardFilter::Is::GreaterOrEqual));
     ClassDB::bind_integer_constant("MetaFilter", "Is", "PRESENT", static_cast<int>(StandardFilter::Is::Present));
 
-    ClassDB::bind_integer_constant("MetaFilter", "FilterType", "ATTRIBUTE", static_cast<int>(FilterType::Stat));
-    ClassDB::bind_integer_constant("MetaFilter", "FilterType", "CATEGORY", static_cast<int>(FilterType::Category));
-    ClassDB::bind_integer_constant("MetaFilter", "FilterType", "SPECIAL", static_cast<int>(FilterType::Special));
-
     // TMP
     ClassDB::bind_integer_constant("MetaFilter", "Quality", "INVALID", static_cast<int>(ItemQuality::Invalid));
     ClassDB::bind_integer_constant("MetaFilter", "Quality", "LOW", static_cast<int>(ItemQuality::Low));
@@ -676,6 +691,26 @@ void MetaFilter::_bind_methods()
 
     ClassDB::bind_integer_constant("MetaFilter", "Predicate", "ALL", 0);
     ClassDB::bind_integer_constant("MetaFilter", "Predicate", "ANY", 1);
+
+    ClassDB::bind_integer_constant("MetaFilter", "Tier", "NO_TIER", 0);
+    ClassDB::bind_integer_constant("MetaFilter", "Tier", "TIER_1", 1);
+    ClassDB::bind_integer_constant("MetaFilter", "Tier", "TIER_2", 2);
+    ClassDB::bind_integer_constant("MetaFilter", "Tier", "TIER_3", 3);
+    ClassDB::bind_integer_constant("MetaFilter", "Tier", "TIER_4", 4);
+    ClassDB::bind_integer_constant("MetaFilter", "Tier", "SACRED", 5);
+    ClassDB::bind_integer_constant("MetaFilter", "Tier", "ANGELIC", 6);
+    ClassDB::bind_integer_constant("MetaFilter", "Tier", "UNKNOWN", 7);
+
+    ClassDB::bind_integer_constant("MetaFilter", "Slot", "NONE", static_cast<int>(ItemSlot::None));
+    ClassDB::bind_integer_constant("MetaFilter", "Slot", "HELM", static_cast<int>(ItemSlot::Helm));
+    ClassDB::bind_integer_constant("MetaFilter", "Slot", "AMULET", static_cast<int>(ItemSlot::Amulet));
+    ClassDB::bind_integer_constant("MetaFilter", "Slot", "BODY_ARMOR", static_cast<int>(ItemSlot::BodyArmor));
+    ClassDB::bind_integer_constant("MetaFilter", "Slot", "MAIN_HAND", static_cast<int>(ItemSlot::MainHand));
+    ClassDB::bind_integer_constant("MetaFilter", "Slot", "OFF_HAND", static_cast<int>(ItemSlot::OffHand));
+    ClassDB::bind_integer_constant("MetaFilter", "Slot", "RING", static_cast<int>(ItemSlot::Ring));
+    ClassDB::bind_integer_constant("MetaFilter", "Slot", "BELT", static_cast<int>(ItemSlot::Belt));
+    ClassDB::bind_integer_constant("MetaFilter", "Slot", "BOOTS", static_cast<int>(ItemSlot::Boots));
+    ClassDB::bind_integer_constant("MetaFilter", "Slot", "GLOVES", static_cast<int>(ItemSlot::Gloves));
 }
 
 Ref<MetaFilter> MetaFilter::Create(Ref<FilterMetadata> filterMetadata, Dictionary statFilters, Dictionary categoryFilters,

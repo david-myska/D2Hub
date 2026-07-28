@@ -68,7 +68,13 @@ text = "Unique"
 layout_mode = 2
 
 [node name="Tiers" type="HFlowContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
+
+[node name="NoTier" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Tiers"]
+layout_mode = 2
+toggle_mode = true
+text = "No Tier"
 
 [node name="Tier1" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Tiers"]
 layout_mode = 2
@@ -104,17 +110,43 @@ text = "Angelic"
 layout_mode = 2
 
 [node name="Slots" type="HFlowContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
+
+[node name="None" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Slots"]
+layout_mode = 2
+toggle_mode = true
+text = "Non-Equippable"
 
 [node name="Helm" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Slots"]
 layout_mode = 2
 toggle_mode = true
 text = "Helm"
 
+[node name="Amulet" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Slots"]
+layout_mode = 2
+toggle_mode = true
+text = "Amulet"
+
 [node name="BodyArmor" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Slots"]
 layout_mode = 2
 toggle_mode = true
 text = "Body Armor"
+
+[node name="Weapon" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Slots"]
+layout_mode = 2
+toggle_mode = true
+text = "Weapon"
+
+[node name="Shield" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Slots"]
+layout_mode = 2
+toggle_mode = true
+text = "Shield"
+
+[node name="Ring" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Slots"]
+layout_mode = 2
+toggle_mode = true
+text = "Ring"
 
 [node name="Belt" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Slots"]
 layout_mode = 2
@@ -130,31 +162,6 @@ text = "Boots"
 layout_mode = 2
 toggle_mode = true
 text = "Gloves"
-
-[node name="Weapon1H" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Slots"]
-layout_mode = 2
-toggle_mode = true
-text = "1H Weapon"
-
-[node name="Weapon2H" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Slots"]
-layout_mode = 2
-toggle_mode = true
-text = "2H Weapon"
-
-[node name="Shield" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Slots"]
-layout_mode = 2
-toggle_mode = true
-text = "Shield"
-
-[node name="Ring" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Slots"]
-layout_mode = 2
-toggle_mode = true
-text = "Ring"
-
-[node name="Amulet" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/Slots"]
-layout_mode = 2
-toggle_mode = true
-text = "Amulet"
 
 [node name="SepNotif" type="HSeparator" parent="VBoxContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2

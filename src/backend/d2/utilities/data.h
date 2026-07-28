@@ -268,6 +268,7 @@ namespace D2::Data
             , m_act(static_cast<uint8_t>(aRaw->m_actNo))
             , m_equippedInSlot(static_cast<EquippedInSlot>(aRaw->m_pUnitData->m_bodyLoc))
             , m_itemSlot(SlotFromCategories())
+            , m_tier(TierFromUnitClass(aRaw->m_unitClass))
         {
         }
 
@@ -279,6 +280,7 @@ namespace D2::Data
         const uint8_t m_act;
         const EquippedInSlot m_equippedInSlot;
         const ItemSlot m_itemSlot;
+        const uint8_t m_tier;
 
     private:
         static ItemQuality QualityFromRaw(uint32_t aRawQuality)
@@ -334,6 +336,42 @@ namespace D2::Data
             }
 
             return ItemLocation::Unknown;
+        }
+
+        // TODO this is super inefficient
+        // move this logic to some place where it is done only once, now it is done for every item every frame
+        static uint8_t TierFromUnitClass(uint32_t aUnitClass)
+        {
+            std::string_view name = GetItemName(aUnitClass);
+            if (!name.ends_with(")"))
+            {
+                return 0;
+            }
+            else if (name.ends_with("(1)"))
+            {
+                return 1;
+            }
+            else if (name.ends_with("(2)"))
+            {
+                return 2;
+            }
+            else if (name.ends_with("(3)"))
+            {
+                return 3;
+            }
+            else if (name.ends_with("(4)"))
+            {
+                return 4;
+            }
+            else if (name.ends_with("(Sacred)"))
+            {
+                return 5;
+            }
+            else if (name.ends_with("(Angelic)"))
+            {
+                return 6;
+            }
+            return 7;  // unknown
         }
 
         ItemSlot SlotFromCategories()

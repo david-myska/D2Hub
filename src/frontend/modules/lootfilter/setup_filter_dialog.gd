@@ -53,8 +53,16 @@ func _fill_attribute_filters(sf : Dictionary):
 		%AttributeFilters.add_child(af)
 		af.set_selection(m_by_id_stat_data[f["id"]], f["op"], f["value"], f["compare_with_equipped"])
 
-func _fill_category_filters(_sf : Dictionary):
-	pass
+func _fill_category_filters(cf : Dictionary):
+	var tier_filters = cf["filters"][0]
+	if !tier_filters.is_empty():
+		for tf in tier_filters["filters"]:
+			%Tiers.get_child(tf["value"]).button_pressed = true
+	
+	var slot_filters = cf["filters"][1]
+	if !slot_filters.is_empty():
+		for sf in slot_filters["filters"]:
+			%Slots.get_child(sf["value"]).button_pressed = true
 
 func _fill_special_filters(sf : Dictionary):
 	for f in sf["filters"]:
@@ -73,7 +81,6 @@ func _fill_quality(q : int):
 func _make_quality_filter():
 	var d := {}
 	d["id"] = 0
-	d["type"] = MetaFilter.FilterType.SPECIAL
 	d["op"] = 0 # Necessary to fulfill contract
 	d["value"] = 0
 	if %Qualities/Normal.button_pressed:
@@ -98,6 +105,76 @@ func _make_quality_filter():
 					+ MetaFilter.Quality.UNIQUE
 	return d
 
+func _make_tier_subfilter(tier : MetaFilter.Tier):
+	return {
+		"id": 0,
+		"value": tier,
+		"op": 0, # Necessary to fulfill contract
+	}
+
+func _make_tier_filter():
+	var d := {}
+	d["predicate"] = MetaFilter.Predicate.ANY
+	d["filters"] = []
+	
+	if %Tiers/NoTier.button_pressed:
+		d["filters"].append(_make_tier_subfilter(MetaFilter.Tier.NO_TIER))
+	if %Tiers/Tier1.button_pressed:
+		d["filters"].append(_make_tier_subfilter(MetaFilter.Tier.TIER_1))
+	if %Tiers/Tier2.button_pressed:
+		d["filters"].append(_make_tier_subfilter(MetaFilter.Tier.TIER_2))
+	if %Tiers/Tier3.button_pressed:
+		d["filters"].append(_make_tier_subfilter(MetaFilter.Tier.TIER_3))
+	if %Tiers/Tier4.button_pressed:
+		d["filters"].append(_make_tier_subfilter(MetaFilter.Tier.TIER_4))
+	if %Tiers/Sacred.button_pressed:
+		d["filters"].append(_make_tier_subfilter(MetaFilter.Tier.SACRED))
+	if %Tiers/Angelic.button_pressed:
+		d["filters"].append(_make_tier_subfilter(MetaFilter.Tier.ANGELIC))
+	
+	if d["filters"].is_empty():# Nothing selected, allow all
+		# filters == [] + predicate == ALL -> tautology
+		d["predicate"] = MetaFilter.Predicate.ALL 
+	return d
+
+func _make_slot_subfilter(slot : MetaFilter.Slot):
+	return {
+		"id": 1,
+		"value": slot,
+		"op": 0, # Necessary to fulfill contract
+	}
+
+func _make_slot_filter():
+	var d := {}
+	d["predicate"] = MetaFilter.Predicate.ANY
+	d["filters"] = []
+	
+	if %Slots/None.button_pressed:
+		d["filters"].append(_make_slot_subfilter(MetaFilter.Slot.NONE))
+	if %Slots/Helm.button_pressed:
+		d["filters"].append(_make_slot_subfilter(MetaFilter.Slot.HELM))
+	if %Slots/Amulet.button_pressed:
+		d["filters"].append(_make_slot_subfilter(MetaFilter.Slot.AMULET))
+	if %Slots/BodyArmor.button_pressed:
+		d["filters"].append(_make_slot_subfilter(MetaFilter.Slot.BODY_ARMOR))
+	if %Slots/Weapon.button_pressed:
+		d["filters"].append(_make_slot_subfilter(MetaFilter.Slot.MAIN_HAND))
+	if %Slots/Shield.button_pressed:
+		d["filters"].append(_make_slot_subfilter(MetaFilter.Slot.OFF_HAND))
+	if %Slots/Ring.button_pressed:
+		d["filters"].append(_make_slot_subfilter(MetaFilter.Slot.RING))
+	if %Slots/Belt.button_pressed:
+		d["filters"].append(_make_slot_subfilter(MetaFilter.Slot.BELT))
+	if %Slots/Boots.button_pressed:
+		d["filters"].append(_make_slot_subfilter(MetaFilter.Slot.BOOTS))
+	if %Slots/Gloves.button_pressed:
+		d["filters"].append(_make_slot_subfilter(MetaFilter.Slot.GLOVES))
+	
+	if d["filters"].is_empty():# Nothing selected, allow all
+		# filters == [] + predicate == ALL -> tautology
+		d["predicate"] = MetaFilter.Predicate.ALL
+	return d
+
 func _on_confirmed() -> void:
 	var valid := true
 	if %FilterName.text.is_empty():
@@ -114,10 +191,12 @@ func _on_confirmed() -> void:
 	metadata.name = %FilterName.text
 	var filters := {
 		"stat_filters": {"predicate": %StatGroupPredicate.selected, "filters": []},
-		"category_filters": {"predicate": 0, "filters": []},
-		"special_filters": {"predicate": 0, "filters": []},
+		"category_filters": {"predicate": MetaFilter.Predicate.ALL, "filters": []},
+		"special_filters": {"predicate": MetaFilter.Predicate.ALL, "filters": []},
 	}
 	filters["special_filters"]["filters"].append(_make_quality_filter())
+	filters["category_filters"]["filters"].append(_make_tier_filter())
+	filters["category_filters"]["filters"].append(_make_slot_filter())
 	for f in %AttributeFilters.get_children():
 		var s : Dictionary = f.get_selection()
 		s.merge(m_by_name_stat_data[s["stat_name"]])

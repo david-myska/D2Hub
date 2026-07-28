@@ -50,7 +50,7 @@ func _on_filter_profile_dialog_confirmed() -> void:
 		Backend.get_lootfilter_module().duplicate_selected_profile(%FilterProfileName.text)
 	else:
 		Backend.get_lootfilter_module().create_profile(%FilterProfileName.text)
-	%FilterProfileName.hide()
+	%FilterProfileDialog.hide()
 
 func _on_filter_profile_dialog_visibility_changed() -> void:
 	if %FilterProfileDialog.visible:
