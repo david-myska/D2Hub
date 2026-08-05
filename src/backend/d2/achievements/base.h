@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <unordered_set>
 
 #include "d2/utilities/data.h"
 #include "d2/utilities/utilities.h"
@@ -13,7 +14,7 @@ namespace D2
         std::string m_name;
         std::string m_description;
         std::string m_category;
-        std::string m_icon;
+        std::unordered_set<Data::Zone> m_autotrackZones;
     };
 
     template <typename CustomData = GE::None>

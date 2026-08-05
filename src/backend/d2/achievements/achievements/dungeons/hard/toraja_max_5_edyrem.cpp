@@ -26,7 +26,8 @@ namespace D2::Achi::Dungeons::Hard::Toraja::Max5Edyrem
         using PD = PDt<E>;
         return AB<PD>({.m_name = "Caring Leader",
                        .m_description = std::format("Kill Lilith, not more than {} Edyrem can die under your command.", E),
-                       .m_category = "Dungeons"},
+                       .m_category = "Dungeons",
+                       .m_autotrackZones = {Data::Zone::MXL_Toraja}},
                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                           aTrackers[GE::ConditionType::Activator].insert(&aPD.m_inZone);
                           aTrackers[GE::ConditionType::Completer].insert(&aPD.m_targetKilled);

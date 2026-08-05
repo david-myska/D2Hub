@@ -27,7 +27,8 @@ namespace D2::Achi::Dungeons::VeryHard::Xazax::StartAfter15KillBefore30Pentients
         return AB<PD>({.m_name = "Not Enough Penitence",
                        .m_description = "Let Xazax spawn 15 Pentients, at this stage Xazax needs to stay at or above 90% life. "
                                         "Kill Xazax before 30 Pentients get spawned.",
-                       .m_category = "Dungeons"},
+                       .m_category = "Dungeons",
+                       .m_autotrackZones = {Data::Zone::MXL_WretchedSands}},
                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                           aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inZone);
                           aTrackers[GE::ConditionType::Activator].insert(&aPD.m_targetFound);

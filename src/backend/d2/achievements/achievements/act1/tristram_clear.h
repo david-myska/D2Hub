@@ -26,7 +26,8 @@ namespace D2::Achi::TristramClear
         return AB<PD>({.m_name = "Tristram visit",
                        .m_description =
                            "Reminiscence about the good old days and while at it, clear Tristram of those pesky monsters.",
-                       .m_category = "Act 1"},
+                       .m_category = "Act 1",
+                       .m_autotrackZones = {Data::Zone::Act1_Tristram}},
                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                           aTrackers[GE::ConditionType::Activator].insert(&aPD.m_inLocation);
                           aTrackers[GE::ConditionType::Completer].insert({

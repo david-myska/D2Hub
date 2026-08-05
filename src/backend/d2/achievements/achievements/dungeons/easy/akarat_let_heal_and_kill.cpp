@@ -37,7 +37,8 @@ namespace D2::Achi::Dungeons::Easy::Akarat::LetHealAndKill
         return AB<PD>({.m_name = "Still Got Time to Spare",
                        .m_description = "Damage Akarat, let him heal to full health and then kill him. You can't kill any other "
                                         "monster from the moment you first damage Akarat.",
-                       .m_category = "Dungeons"},
+                       .m_category = "Dungeons",
+                       .m_autotrackZones = {Data::Zone::MXL_TorajanJungles}},
                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                           aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inZone);
                           aTrackers[GE::ConditionType::Activator].insert(&aPD.m_targetFound);

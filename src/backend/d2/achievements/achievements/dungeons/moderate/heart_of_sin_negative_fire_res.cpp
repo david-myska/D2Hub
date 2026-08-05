@@ -25,9 +25,13 @@ namespace D2::Achi::Dungeons::Moderate::HeartOfSin::NegativeFireRes
     {
         using PD = PDt<FR, FA>;
         return AB<PD>(
-                   {.m_name = "Playing with Fire",
-                    .m_description = std::format("Kill Azmodan while having at most {} fire resist and {} fire absorb.", FR, FA),
-                    .m_category = "Dungeons"},
+                   {
+                       .m_name = "Playing with Fire",
+                       .m_description = std::format("Kill Azmodan while having at most {} fire resist and {} fire absorb.", FR,
+                                                    FA),
+                       .m_category = "Dungeons",
+                       .m_autotrackZones = {Data::Zone::MXL_RealmOfSin, Data::Zone::MXL_HeartOfSin}
+        },
                    [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                        aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inZone);
                        aTrackers[GE::ConditionType::Activator].insert(&aPD.m_targetFound);

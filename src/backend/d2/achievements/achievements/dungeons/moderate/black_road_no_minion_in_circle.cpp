@@ -33,7 +33,8 @@ namespace D2::Achi::Dungeons::Moderate::BlackRoad::NoMinionInCircle
         return AB<PD>({.m_name = "Hot Wheel",
                        .m_description = std::format("Kill {} without any of his summoned minions entering the circle of flames.",
                                                     BuyardCholik),
-                       .m_category = "Dungeons"},
+                       .m_category = "Dungeons",
+                       .m_autotrackZones = {Data::Zone::MXL_ChurchOfDien_Ap_Sten}},
                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                           aTrackers[GE::ConditionType::Activator].insert(&aPD.m_inZone);
                           aTrackers[GE::ConditionType::Completer].insert(&aPD.m_targetKilled);

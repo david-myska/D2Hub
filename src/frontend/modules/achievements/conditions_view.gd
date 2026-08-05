@@ -2,19 +2,16 @@ extends MarginContainer
 
 @export var m_columns : int = 2
 
-var m_disconnect_callback : Callable = func(): pass
+var m_id2lbl := {}
 
 func from_achievement(achi : Achievement) -> void:
-	clear()
 	var by_category := achi.get_conditions().get_conditions_by_categories()
 	for c in range(Achievement.ALL_CONDITIONS):
 		if by_category[c].is_empty():
 			continue
 		add_name(to_str(c))
 		add_texts(by_category[c].values())
-	var update_callback = update_conditions.bind(achi)
-	achi.progress_made.connect(update_callback)
-	m_disconnect_callback = achi.progress_made.disconnect.bind(update_callback)
+	achi.progress_made.connect(update_conditions.bind(achi))
 
 func add_name(cond_name : String) -> void:
 	var hbox := HBoxContainer.new()
@@ -39,24 +36,18 @@ func add_texts(cond_data : Array) -> void:
 		var lbl := Label.new()
 		lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		grid.add_child(lbl)
-		d["label"] = lbl
+		m_id2lbl[d["id"]] = lbl
 		_update_condition(d)
 	$VBoxContainer.add_child(grid)
 
-func clear():
-	m_disconnect_callback.call()
-	m_disconnect_callback = func(): pass
-	for c in $VBoxContainer.get_children():
-		c.queue_free()
-
 func _update_condition(d : Dictionary) -> void:
-	d["label"].text = d["text"]
+	m_id2lbl[d["id"]].text = d["text"]
 	var color := Color.WHITE
 	if d["completed"]:
 		color = Color.GREEN
 		if d["type"] == Achievement.Condition.FAILER:
 			color = Color.RED
-	d["label"].modulate = color
+	m_id2lbl[d["id"]].modulate = color
 
 func update_conditions(ids : Array, achi : Achievement):
 	var by_ids = achi.get_conditions().get_conditions_by_ids()

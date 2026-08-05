@@ -16,7 +16,6 @@ Dictionary CreateMetadataFromAchievement(const D2::D2Achi& aAchi)
     Dictionary metadata;
     metadata["name"] = String(aAchi->GetMetadata().m_name.c_str());
     metadata["description"] = String(aAchi->GetMetadata().m_description.c_str());
-    metadata["icon"] = String(aAchi->GetMetadata().m_icon.c_str());
     metadata["category"] = String(aAchi->GetMetadata().m_category.c_str());
     return metadata;
 }
@@ -37,8 +36,8 @@ Ref<AchievementConditions> AchievementConditions::FromAchievement(const D2::D2Ac
         Dictionary category;
         for (const auto* pt : progressTrackers)
         {
-            // Frontend stores some additional data in the relatedData dictionary on initialization
             Dictionary relatedData;
+            relatedData["id"] = pt->GetId();
             relatedData["text"] = String(pt->GetMessage().c_str());
             relatedData["completed"] = pt->IsCompleted();
             relatedData["type"] = i;
@@ -135,6 +134,35 @@ void AchievementsModule::UpdateInternal(const D2::Data::DataAccess& aDataAccess,
         return;
     }
     m_achievementManager->Update(aDataAccess, aSharedData);
+
+    // AutoTracking
+    // TODO - I HATE THIS IMPLEMENTATION
+    auto& activeAchis = m_achievementManager->GetActiveAchievements();
+    auto playerZone = aDataAccess.GetMisc().GetZone();
+    Array trackIds;
+    for (auto& [id, achi] : activeAchis)
+    {
+        if (id > 1000)
+        {
+            continue;
+        }
+        if (achi->GetMetadata().m_autotrackZones.contains(playerZone))
+        {
+            for (auto achiId : {id, 1000 + id, 2000 + id})
+            {
+                if (activeAchis.contains(achiId))
+                {
+                    auto& subAchi = activeAchis.at(achiId);
+                    if (subAchi->GetStatus() != GE::Status::Completed && subAchi->GetStatus() != GE::Status::Failed)
+                    {
+                        trackIds.push_back(m_achievementsById[achiId]);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    call_deferred("emit_signal", "autotrack", trackIds);
 }
 
 void AchievementsModule::InitializeInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData)
@@ -160,6 +188,7 @@ void AchievementsModule::SetIfDependency(Module* aModule)
 void AchievementsModule::LoadAchievements(std::optional<std::string> aId, bool aActivate)
 {
     m_achievements.clear();
+    m_achievementsById.clear();
     auto loadedAchievements = m_achievementManager->Load(std::move(aId));
     for (const auto& [id, achi] : loadedAchievements)
     {
@@ -169,13 +198,16 @@ void AchievementsModule::LoadAchievements(std::optional<std::string> aId, bool a
         }
         Array res;
         res.push_back(Achievement::FromAchievement(achi));
+        m_achievementsById[id] = res.back();
         if (loadedAchievements.contains(1000 + id))
         {
             res.push_back(Achievement::FromAchievement(loadedAchievements[1000 + id]));
+            m_achievementsById[1000 + id] = res.back();
         }
         if (loadedAchievements.contains(2000 + id))
         {
             res.push_back(Achievement::FromAchievement(loadedAchievements[2000 + id]));
+            m_achievementsById[2000 + id] = res.back();
         }
         m_achievements.push_back(std::move(res));
     }
@@ -201,6 +233,7 @@ void AchievementsModule::_bind_methods()
     ClassDB::bind_method(D_METHOD("get_achievements"), &AchievementsModule::get_achievements);
 
     ADD_SIGNAL(MethodInfo("new_achievements_loaded"));
+    ADD_SIGNAL(MethodInfo("autotrack", PropertyInfo(Variant::ARRAY, "ids")));
 }
 
 Ref<AchievementsModule> AchievementsModule::Create(std::shared_ptr<spdlog::logger> aLogger, Ref<Notifier> aNotifier,

@@ -66,6 +66,24 @@ toggle_mode = true
 button_group = SubResource("ButtonGroup_8weyf")
 text = "Failed"
 
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TMP"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="AutoTrackingBtn" type="CheckButton" parent="VBoxContainer/TMP/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+button_pressed = true
+text = "AutoTracking"
+
+[node name="ClearTrackingBtn" type="Button" parent="VBoxContainer/TMP/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "Clear All Tracking"
+
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
@@ -109,3 +127,5 @@ layout_mode = 2
 [connection signal="pressed" from="VBoxContainer/TMP/Filters/StatusFilters/FilterActiveBtn" to="." method="_on_filter_active_btn_pressed"]
 [connection signal="pressed" from="VBoxContainer/TMP/Filters/StatusFilters/FilterInactiveBtn" to="." method="_on_filter_inactive_btn_pressed"]
 [connection signal="pressed" from="VBoxContainer/TMP/Filters/StatusFilters/FilterFailedBtn" to="." method="_on_filter_failed_btn_pressed"]
+[connection signal="toggled" from="VBoxContainer/TMP/HBoxContainer/AutoTrackingBtn" to="." method="_on_auto_tracking_btn_toggled"]
+[connection signal="pressed" from="VBoxContainer/TMP/HBoxContainer/ClearTrackingBtn" to="." method="_on_clear_tracking_btn_pressed"]

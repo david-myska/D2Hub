@@ -14,12 +14,12 @@
 
 namespace
 {
-    constexpr auto c_statIdsFile = "stat_ids.txt";
-    constexpr auto c_customStatIdsFile = "custom_stat_ids.txt";
-    constexpr auto c_itemIdsFile = "item_ids.txt";
-    constexpr auto c_customItemIdsFile = "custom_item_ids.txt";
-    constexpr auto c_minionIdsFile = "minion_ids.txt";
-    constexpr auto c_customMinionIdsFile = "custom_minion_ids.txt";
+    constexpr auto c_statIdsFile = "stat_ids.csv";
+    constexpr auto c_customStatIdsFile = "custom_stat_ids.csv";
+    constexpr auto c_itemIdsFile = "item_ids.csv";
+    constexpr auto c_customItemIdsFile = "custom_item_ids.csv";
+    constexpr auto c_minionIdsFile = "minion_ids.csv";
+    constexpr auto c_customMinionIdsFile = "custom_minion_ids.csv";
 
     constexpr auto c_unknownName = "{[( Unknown )]}";
 

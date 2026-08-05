@@ -21,7 +21,8 @@ namespace D2::Achi::Dungeons::Moderate::BullPrinceRodeo::HighRollCharm
     {
         return AB<PD>({.m_name = "10% Luck, 20% Skill, 15% Concentrated Power of Will, 5% Pleasure, 50% Pain",
                        .m_description = "Find the Fool's Gold charm rolled with 35 or more to all attributes.",
-                       .m_category = "Dungeons"},
+                       .m_category = "Dungeons",
+                       .m_autotrackZones = {Data::Zone::MXL_CorralOfCorruption}},
                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                           aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inZone);
                           aTrackers[GE::ConditionType::Activator].insert(&aPD.m_targetFound);

@@ -18,7 +18,8 @@ namespace D2::Achi::Rifts::Easy::TheSecretCowLevel::PeacefulGathering
     {
         return AB<PD>({.m_name = "Peaceful Gathering",
                        .m_description = std::format("Herd {} cows into the view. Nothing can die.", c_requiredCows),
-                       .m_category = "Rifts"},
+                       .m_category = "Rifts",
+                       .m_autotrackZones = {Data::Zone::SecretCowLevel}},
                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                           aTrackers[GE::ConditionType::Activator].insert(&aPD.m_inZone);
                           aTrackers[GE::ConditionType::Completer].insert(&aPD.m_cowsGathered);

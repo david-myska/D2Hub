@@ -23,17 +23,21 @@ namespace D2::Achi::CountessGoldSteal
     D2Achi CreateImpl()
     {
         using PD = PDt<G, T>;
-        return AB<PD>({.m_name = "Fort Boyard",
+        return AB<PD>(
+                   {
+                       .m_name = "Fort Boyard",
                        .m_description = std::format(
                            "Kill The Countess in {}s after entering the Bloodthrone while looting {} gold.", T, G),
-                       .m_category = "Act 1"},
-                      [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
-                          aTrackers[GE::ConditionType::Activator].insert(&aPD.m_inLocation);
-                          aTrackers[GE::ConditionType::Completer].insert(&aPD.m_countessKilled);
-                          aTrackers[GE::ConditionType::Validator].insert(&aPD.m_goldCollected);
-                          aTrackers[GE::ConditionType::Failer].insert(&aPD.m_notInLocation);
-                          aTrackers[GE::ConditionType::Failer].insert(&aPD.m_timer);
-                      })
+                       .m_category = "Act 1",
+                       .m_autotrackZones = {Data::Zone::Act1_TowerCellarLevel4, Data::Zone::Act1_Bloodthrone}
+        },
+                   [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
+                       aTrackers[GE::ConditionType::Activator].insert(&aPD.m_inLocation);
+                       aTrackers[GE::ConditionType::Completer].insert(&aPD.m_countessKilled);
+                       aTrackers[GE::ConditionType::Validator].insert(&aPD.m_goldCollected);
+                       aTrackers[GE::ConditionType::Failer].insert(&aPD.m_notInLocation);
+                       aTrackers[GE::ConditionType::Failer].insert(&aPD.m_timer);
+                   })
             .Update(GE::Status::Inactive,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
                         aPD.m_inLocation = aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_Bloodthrone;

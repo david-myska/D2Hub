@@ -35,7 +35,8 @@ namespace D2::Achi::Rifts::Moderate::TranAthulua::KillAllPriestessesSimultaneous
         using PD = PDt<S>;
         return AB<PD>({.m_name = "United We Phalanx, United We Fall",
                        .m_description = std::format("Kill all 3 priestesses in a span of {} seconds.", S),
-                       .m_category = "Rifts"},
+                       .m_category = "Rifts",
+                       .m_autotrackZones = {Data::Zone::MXL_TranAthulua}},
                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                           aTrackers[GE::ConditionType::Activator].insert(&aPD.m_inZone);
                           aTrackers[GE::ConditionType::Completer].insert(&aPD.m_fireKilled);

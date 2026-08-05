@@ -24,7 +24,8 @@ namespace D2::Achi::Dungeons::Easy::InfernalMachine::StayInRange
     {
         return AB<PD>({.m_name = "Close Proximity",
                        .m_description = "Kill the Infernal Machine while staying within specified distance.",
-                       .m_category = "Dungeons"},
+                       .m_category = "Dungeons",
+                       .m_autotrackZones = {Data::Zone::MXL_InfernalCave}},
                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                           aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inZone);
                           aTrackers[GE::ConditionType::Activator].insert(&aPD.m_withinRange);

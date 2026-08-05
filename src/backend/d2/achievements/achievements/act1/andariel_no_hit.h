@@ -17,14 +17,16 @@ namespace D2::Achi::AndarielNoHit
 
     auto Create()
     {
-        return AB<PD>(
-                   {.m_name = "Andariel no hit", .m_description = "Kill Andariel without losing any life", .m_category = "Act 1"},
-                   [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
-                       aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inLocation);
-                       aTrackers[GE::ConditionType::Activator].insert(&aPD.m_andarielMet);
-                       aTrackers[GE::ConditionType::Completer].insert(&aPD.m_andarielKilled);
-                       aTrackers[GE::ConditionType::Failer].insert(&aPD.m_gotHit);
-                   })
+        return AB<PD>({.m_name = "Andariel no hit",
+                       .m_description = "Kill Andariel without losing any life",
+                       .m_category = "Act 1",
+                       .m_autotrackZones = {Data::Zone::Act1_CatacombsLevel4}},
+                      [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
+                          aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inLocation);
+                          aTrackers[GE::ConditionType::Activator].insert(&aPD.m_andarielMet);
+                          aTrackers[GE::ConditionType::Completer].insert(&aPD.m_andarielKilled);
+                          aTrackers[GE::ConditionType::Failer].insert(&aPD.m_gotHit);
+                      })
             .Update(GE::Status::All,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
                         aPD.m_inLocation = aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_CatacombsLevel4;

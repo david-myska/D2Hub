@@ -20,7 +20,10 @@ namespace D2::Achi::Dungeons::VeryHard::LordOfLies::KillOnlyTheRealOne
 
     D2Achi Create()
     {
-        return AB<PD>({.m_name = "Lies, Greed, Misery", .m_description = "Kill only the real Belial.", .m_category = "Dungeons"},
+        return AB<PD>({.m_name = "Lies, Greed, Misery",
+                       .m_description = "Kill only the real Belial.",
+                       .m_category = "Dungeons",
+                       .m_autotrackZones = {Data::Zone::MXL_RealmOfLies}},
                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                           aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inZone);
                           aTrackers[GE::ConditionType::Activator].insert(&aPD.m_targetFound);

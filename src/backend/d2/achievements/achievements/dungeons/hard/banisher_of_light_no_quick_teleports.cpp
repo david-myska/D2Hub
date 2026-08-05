@@ -29,7 +29,8 @@ namespace D2::Achi::Dungeons::Hard::BanisherOfLight::NoQuickTeleports
                    {.m_name = "I Know What I am Doing",
                     .m_description = std::format("Kill Kabraxis. Do not let him pounce on you more than {} time per {} seconds",
                                                  c_pounceLimit, c_seconds),
-                    .m_category = "Dungeons"},
+                    .m_category = "Dungeons",
+                    .m_autotrackZones = {Data::Zone::MXL_PathToEnlightenment}},
                    [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                        aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inZone);
                        aTrackers[GE::ConditionType::Activator].insert(&aPD.m_targetFound);

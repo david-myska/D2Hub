@@ -22,6 +22,15 @@ func _ready() -> void:
 	achi_module.new_achievements_loaded.connect(fill_achievements)
 	m_categories.get_child(0).button_pressed = true
 	m_statuses.get_child(0).button_pressed = true
+	
+	achi_module.autotrack.connect(func(achis):
+		if not m_achi_overlay:
+			return
+		m_achi_overlay.clear() # THIS IS TERRIBLE
+		for a in achis:
+			m_achi_overlay.track_achievement(a)
+	)
+	_on_auto_tracking_btn_toggled(true)
 
 func status_to_str(s : Achievement.Status) -> String:
 	match s:
@@ -76,6 +85,8 @@ func reset() -> void:
 		m_cat2views[cat] = []
 	for c in m_categories.get_children():
 		c.queue_free()
+	if m_achi_overlay:
+		m_achi_overlay.clear()
 
 func fill_achievements() -> void:
 	reset()
@@ -127,3 +138,16 @@ func create_overlay_content():
 	var content := preload("res://modules/achievements/achievement_overlay.tscn").instantiate()
 	m_achi_overlay = content
 	return content
+
+
+func _on_clear_tracking_btn_pressed() -> void:
+	if m_achi_overlay:
+		m_achi_overlay.clear()
+
+
+func _on_auto_tracking_btn_toggled(toggled_on: bool) -> void:
+	%ClearTrackingBtn.disabled = toggled_on
+	for achi_view in m_achis.get_children():
+		achi_view.enable_manual_tracking(not toggled_on)
+	if toggled_on:
+		_on_clear_tracking_btn_pressed()

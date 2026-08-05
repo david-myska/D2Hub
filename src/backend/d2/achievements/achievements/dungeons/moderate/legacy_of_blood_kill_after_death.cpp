@@ -22,14 +22,15 @@ namespace D2::Achi::Dungeons::Moderate::LegacyOfBlood::KillAfterDeath
         return AB<PD>(
                    {.m_name = "I'll be back",
                     .m_description = "Die after entering the Chamber of Blood, resurrect, return before lockdown and kill Bartuc",
-                    .m_category = "Dungeons"},
+                    .m_category = "Dungeons",
+                    .m_autotrackZones = {Data::Zone::MXL_ChamberOfBlood}},
                    [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                        aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inZone);
                        aTrackers[GE::ConditionType::Activator].insert(&aPD.m_targetFound);
                        aTrackers[GE::ConditionType::Completer].insert(&aPD.m_targetKilled);
                        aTrackers[GE::ConditionType::Completer].insert(&aPD.m_playerDied);
                    })
-            .Update(GE::Status::All, Utils::InZone(Data::Zone::MXL_CorralOfCorruption, &PD::m_inZone))
+            .Update(GE::Status::All, Utils::InZone(Data::Zone::MXL_ChamberOfBlood, &PD::m_inZone))
             .Update(GE::Status::Inactive, Utils::BossNearby(BartucUpper, &PD::m_targetFound, &PD::m_targetId))
             .Update(GE::Status::Active,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {

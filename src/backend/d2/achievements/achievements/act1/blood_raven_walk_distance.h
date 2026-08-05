@@ -22,7 +22,8 @@ namespace D2::Achi::BloodRavenWalkDistance
         using PD = PDt<M>;
         return AB<PD>({.m_name = "I just felt like running",
                        .m_description = std::format("Kill Blood Raven travelling {}x longer distance than her", M),
-                       .m_category = "Act 1"},
+                       .m_category = "Act 1",
+                       .m_autotrackZones = {Data::Zone::Act1_BurialGrounds}},
                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                           aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inLocation);
                           aTrackers[GE::ConditionType::Activator].insert(&aPD.m_bloodRavenMet);

@@ -18,7 +18,8 @@ namespace D2::Achi::SmithHighHealth
     {
         return AB<PD>({.m_name = "Smith High Health",
                        .m_description = "Kill Smith while staying above 80% life",
-                       .m_category = "Act 1"},
+                       .m_category = "Act 1",
+                       .m_autotrackZones = {Data::Zone::Act1_Barracks}},
                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                           aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inLocation);
                           aTrackers[GE::ConditionType::Activator].insert(&aPD.m_smithMet);

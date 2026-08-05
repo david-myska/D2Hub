@@ -29,7 +29,8 @@ namespace D2::Achi::Rifts::Moderate::Kurast3000BA::KillAllTotemsTimed
         return AB<PD>({.m_name = "Totemless",
                        .m_description = std::format(
                            "Kill {} totems in the Kurast 3000 BA. At least 1 totem has to die every {} seconds.", T, S),
-                       .m_category = "Rifts"},
+                       .m_category = "Rifts",
+                       .m_autotrackZones = {Data::Zone::MXL_Kurast3000BA}},
                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                           aTrackers[GE::ConditionType::Activator].insert(&aPD.m_inZone);
                           aTrackers[GE::ConditionType::Completer].insert(&aPD.m_totemsKilled);

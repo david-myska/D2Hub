@@ -25,7 +25,8 @@ namespace D2::Achi::Dungeons::VeryEasy::DeathProjector::HighHealth
         using PD = PDt<P>;
         return AB<PD>({.m_name = "Healthy Projection",
                        .m_description = std::format("Kill Death Projector while staying at or above {}% of life.", P),
-                       .m_category = "Dungeons"},
+                       .m_category = "Dungeons",
+                       .m_autotrackZones = {Data::Zone::MXL_ProvingGrounds}},
                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                           aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inZone);
                           aTrackers[GE::ConditionType::Activator].insert(&aPD.m_targetFound);

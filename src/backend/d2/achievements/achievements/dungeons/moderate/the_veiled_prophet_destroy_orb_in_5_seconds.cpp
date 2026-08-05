@@ -27,7 +27,8 @@ namespace D2::Achi::Dungeons::Moderate::TheVeiledProphet::DestroyOrbBeforeFirstL
         return AB<PD>({.m_name = "Shattering Prophecy",
                        .m_description =
                            "Destroy the Crystal Ball before its first lightning stops, then proceed to kill The Prophet.",
-                       .m_category = "Dungeons"},
+                       .m_category = "Dungeons",
+                       .m_autotrackZones = {Data::Zone::MXL_CathedralOfVanity}},
                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                           aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inZone);
                           aTrackers[GE::ConditionType::Activator].insert(&aPD.m_orbFound);

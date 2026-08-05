@@ -18,7 +18,8 @@ namespace D2::Achi::Rifts::Easy::IslandOfTheSunlessSea::GoldFarm
         using PD = PDt<G>;
         return AB<PD>({.m_name = "Gold Farmer",
                        .m_description = std::format("Collect {} gold. You can leave the rift to empty your pockets.", G),
-                       .m_category = "Rifts"},
+                       .m_category = "Rifts",
+                       .m_autotrackZones = {Data::Zone::MXL_IslandOfTheSunlessSea}},
                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                           aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inZone);
                           aTrackers[GE::ConditionType::Completer].insert(&aPD.m_goldCollected);

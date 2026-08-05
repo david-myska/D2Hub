@@ -5,6 +5,9 @@ signal tracking_changed(achi : Achievement, track : bool)
 var m_achis := []
 var m_collective_status : Achievement.Status = Achievement.Status.INACTIVE
 
+# TODO TMP
+var m_tracker_btns := []
+
 func add_subachievement(achievement : Achievement, detail_opener : Callable):
 	if m_achis.is_empty():
 		%Title.text = achievement.get_metadata()["name"]
@@ -20,6 +23,7 @@ func add_subachievement(achievement : Achievement, detail_opener : Callable):
 	tracker.text = "Track"
 	tracker.toggled.connect(func (b): tracking_changed.emit(achievement, b))
 	vb.add_child(tracker)
+	m_tracker_btns.append(tracker)
 	%SubAchiIcons.add_child(vb)
 
 func _ready() -> void:
@@ -46,3 +50,7 @@ func _recolor(_status : Achievement.Status) -> void:
 		Achievement.Status.COMPLETED: %Title.modulate = Color.DARK_GOLDENROD
 		Achievement.Status.FAILED: %Title.modulate = Color.DARK_RED
 		_: %Title.modulate = Color.WHITE
+
+func enable_manual_tracking(enable_tracking : bool) -> void:
+	for t in m_tracker_btns:
+		t.disabled = not enable_tracking

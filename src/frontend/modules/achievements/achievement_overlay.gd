@@ -12,3 +12,8 @@ func stop_tracking_achievement(achi : Achievement):
 	if m_tracked_achis.has(achi):
 		m_tracked_achis[achi].queue_free()
 		m_tracked_achis.erase(achi)
+
+func clear():
+	for c in get_children():
+		c.queue_free()
+	m_tracked_achis.clear()

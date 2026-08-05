@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://c03h1n25y5611"
+
+[deps]
+
+files=["res://item_ids.Angel Star (1).translation", "res://item_ids.1H Weapon;Mace;Paladin.translation"]
+
+source_file="res://item_ids.csv"
+dest_files=["res://item_ids.Angel Star (1).translation", "res://item_ids.1H Weapon;Mace;Paladin.translation"]
+
+[params]
+
+compress=true
+delimiter=0

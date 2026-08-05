@@ -16,7 +16,8 @@ namespace D2::Achi::Dungeons::Easy::HorrorUnderTristram::KillWithOnlyMagicItems
         GE::ProgressTrackerBool m_targetFound = {this, Utils::FindStr(Butcher), true};
         GE::ProgressTrackerBool m_targetKilled = {this, Utils::KillStr(Butcher), true};
 
-        GE::ProgressTrackerBool m_forbiddenItemWorn = {this, std::format("Wear item of better quality than {}", ToString(Q)), true};
+        GE::ProgressTrackerBool m_forbiddenItemWorn = {this, std::format("Wear item of better quality than {}", ToString(Q)),
+                                                       true};
     };
 
     template <Data::ItemQuality Q>
@@ -25,7 +26,8 @@ namespace D2::Achi::Dungeons::Easy::HorrorUnderTristram::KillWithOnlyMagicItems
         using PD = PDt<Q>;
         return AB<PD>({.m_name = "Magical Experience",
                        .m_description = std::format("Kill The Butcher wearing only {} items (or worse).", ToString(Q)),
-                       .m_category = "Dungeons"},
+                       .m_category = "Dungeons",
+                       .m_autotrackZones = {Data::Zone::MXL_ButchersLair}},
                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                           aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inZone);
                           aTrackers[GE::ConditionType::Activator].insert(&aPD.m_targetFound);
@@ -39,13 +41,14 @@ namespace D2::Achi::Dungeons::Easy::HorrorUnderTristram::KillWithOnlyMagicItems
                         aPD.m_targetKilled = aS.GetDeadNpcs().contains(aPD.m_targetId);
                         aPD.m_forbiddenItemWorn = std::ranges::any_of(
                             aDataAccess.GetItems().GetAt(D2::Data::ItemLocation::Equipped), [](auto& p) {
-                                return static_cast<uint32_t>(p.second->m_quality) > static_cast<uint32_t>(Q) ;
+                                return static_cast<uint32_t>(p.second->m_quality) > static_cast<uint32_t>(Q);
                             });
                     })
             .Build();
     }
 
-    D2AchiVec Create() {
+    D2AchiVec Create()
+    {
         D2AchiVec r;
         r.emplace_back(CreateImpl<Data::ItemQuality::Magic>());
         r.emplace_back(CreateImpl<Data::ItemQuality::Normal>());

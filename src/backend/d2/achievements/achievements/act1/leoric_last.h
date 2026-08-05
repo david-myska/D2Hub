@@ -20,15 +20,19 @@ namespace D2::Achi::LeoricLast
     D2Achi CreateImpl()
     {
         using PD = PDt<I>;
-        return AB<PD>({.m_name = "He likes to watch",
+        return AB<PD>(
+                   {
+                       .m_name = "He likes to watch",
                        .m_description = std::format("Kill {} of Leoric's servants in front of him", I),
-                       .m_category = "Act 1"},
-                      [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
-                          aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inLocation);
-                          aTrackers[GE::ConditionType::Activator].insert(&aPD.m_leoricMet);
-                          aTrackers[GE::ConditionType::Completer].insert(&aPD.m_leoricKilled);
-                          aTrackers[GE::ConditionType::Validator].insert(&aPD.m_killedNearLeoric);
-                      })
+                       .m_category = "Act 1",
+                       .m_autotrackZones = {Data::Zone::Act1_InnerCloister, Data::Zone::Act1_Cathedral}
+        },
+                   [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
+                       aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inLocation);
+                       aTrackers[GE::ConditionType::Activator].insert(&aPD.m_leoricMet);
+                       aTrackers[GE::ConditionType::Completer].insert(&aPD.m_leoricKilled);
+                       aTrackers[GE::ConditionType::Validator].insert(&aPD.m_killedNearLeoric);
+                   })
             .Update(GE::Status::All,
                     [](const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aS, PD& aPD) {
                         aPD.m_inLocation = aDataAccess.GetMisc().GetZone() == Data::Zone::Act1_InnerCloister ||
@@ -48,7 +52,7 @@ namespace D2::Achi::LeoricLast
                     })
             .Build();
     }
-    
+
     D2AchiVec Create()
     {
         D2AchiVec r;

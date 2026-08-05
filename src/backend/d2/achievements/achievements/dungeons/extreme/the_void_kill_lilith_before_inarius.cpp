@@ -24,15 +24,17 @@ namespace D2::Achi::Dungeons::Extreme::TheVoid::KillLilithBeforeInarius
 
     D2Achi Create()
     {
-        return AB<PD>(
-                   {.m_name = "Ladies first", .m_description = "Kill Inarius after Lilith's demise.", .m_category = "Dungeons"},
-                   [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
-                       aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inZone);
-                       aTrackers[GE::ConditionType::Activator].insert(&aPD.m_targetsSummoned);
-                       aTrackers[GE::ConditionType::Completer].insert(&aPD.m_lilithKilled);
-                       aTrackers[GE::ConditionType::Completer].insert(&aPD.m_inariusKilled);
-                       aTrackers[GE::ConditionType::Failer].insert(&aPD.m_inariusDiedFirst);
-                   })
+        return AB<PD>({.m_name = "Ladies first",
+                       .m_description = "Kill Inarius after Lilith's demise.",
+                       .m_category = "Dungeons",
+                       .m_autotrackZones = {Data::Zone::MXL_TheVoid}},
+                      [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
+                          aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inZone);
+                          aTrackers[GE::ConditionType::Activator].insert(&aPD.m_targetsSummoned);
+                          aTrackers[GE::ConditionType::Completer].insert(&aPD.m_lilithKilled);
+                          aTrackers[GE::ConditionType::Completer].insert(&aPD.m_inariusKilled);
+                          aTrackers[GE::ConditionType::Failer].insert(&aPD.m_inariusDiedFirst);
+                      })
             .Update(GE::Status::All, Utils::InZone(Data::Zone::MXL_TheVoid, &PD::m_inZone))
             .Update(GE::Status::Inactive,
                     [](const D2::Data::DataAccess& aD, const D2::Data::SharedData& aS, PD& aPD) {

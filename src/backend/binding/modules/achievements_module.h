@@ -61,6 +61,7 @@ namespace godot
 
         std::unique_ptr<GE::AchievementManager<D2::D2Achi::element_type>> m_achievementManager;
         Array m_achievements;
+        std::unordered_map<uint32_t, Ref<Achievement>> m_achievementsById;
 
         void UpdateInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData) override;
         void InitializeInternal(const D2::Data::DataAccess& aDataAccess, const D2::Data::SharedData& aSharedData) override;

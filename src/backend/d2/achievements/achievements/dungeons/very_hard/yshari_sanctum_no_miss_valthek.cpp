@@ -23,7 +23,8 @@ namespace D2::Achi::Dungeons::VeryHard::YshariSanctum::NoMissValthek
         return AB<PD>({.m_name = "Near Miss Accident",
                        .m_description = "Valthek's life has to get lower every 15 seconds.\n\n"
                                         "(basically you cannot miss any purify)",
-                       .m_category = "Dungeons"},
+                       .m_category = "Dungeons",
+                       .m_autotrackZones = {Data::Zone::MXL_YshariSanctum}},
                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                           aTrackers[GE::ConditionType::Precondition].insert(&aPD.m_inZone);
                           aTrackers[GE::ConditionType::Activator].insert(&aPD.m_targetFound);

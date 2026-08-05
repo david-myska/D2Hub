@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://2ktahmxsaawt"
+
+[deps]
+
+files=["res://stat_ids.Strength.translation"]
+
+source_file="res://stat_ids.csv"
+dest_files=["res://stat_ids.Strength.translation"]
+
+[params]
+
+compress=true
+delimiter=0

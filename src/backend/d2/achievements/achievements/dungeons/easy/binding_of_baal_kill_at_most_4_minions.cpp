@@ -26,7 +26,8 @@ namespace D2::Achi::Dungeons::Easy::BindingOfBaal::KillAtMostFourMinions
         using PD = PDt<M>;
         return AB<PD>({.m_name = "Friendly Company",
                        .m_description = std::format("Kill Tal Rasha. Do not kill more than {} of his minions.", M),
-                       .m_category = "Dungeons"},
+                       .m_category = "Dungeons",
+                       .m_autotrackZones = {Data::Zone::MXL_CanyonOfTheMagi}},
                       [](PD& aPD, std::unordered_map<GE::ConditionType, std::unordered_set<GE::ProgressTracker*>>& aTrackers) {
                           aTrackers[GE::ConditionType::Activator].insert(&aPD.m_inZone);
                           aTrackers[GE::ConditionType::Completer].insert(&aPD.m_targetKilled);
