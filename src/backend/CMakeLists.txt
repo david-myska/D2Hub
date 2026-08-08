@@ -24,7 +24,7 @@ FetchContent_MakeAvailable(spdlog)
 FetchContent_Declare(
   game_ext_suite
   GIT_REPOSITORY https://github.com/david-myska/GameExtSuite.git
-  GIT_TAG        v1.0.0
+  GIT_TAG        master
 )
 FetchContent_MakeAvailable(game_ext_suite)
 
